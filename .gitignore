@@ -1,0 +1,4 @@
+.idea/*
+build/*
+*.iml
+lago_python_client.egg-info/*
