@@ -1,4 +1,6 @@
 from .base_client import BaseClient
+from lago_python_client.models.subscription import Subscription
+from typing import Dict
 
 
 class SubscriptionClient(BaseClient):
@@ -7,3 +9,6 @@ class SubscriptionClient(BaseClient):
 
     def root_name(self):
         return 'subscription'
+
+    def prepare_response(self, data: Dict):
+        return data

@@ -1,6 +1,7 @@
 from lago_python_client.clients.subscription_client import SubscriptionClient
 from lago_python_client.clients.customer_client import CustomerClient
 from lago_python_client.clients.event_client import EventClient
+from urllib.parse import urljoin
 
 
 class Client:
@@ -13,9 +14,9 @@ class Client:
 
     def base_api_url(self):
         if self.api_url is None:
-            return Client.BASE_URL + Client.API_PATH
+            return urljoin(Client.BASE_URL, Client.API_PATH)
         else:
-            return self.api_url + Client.API_PATH
+            return urljoin(self.api_url, Client.API_PATH)
 
     def events(self):
         return EventClient(self.base_api_url(), self.api_key)

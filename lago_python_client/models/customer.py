@@ -22,7 +22,6 @@ class Customer(BaseModel):
         self.vat_rate = vat_rate
         self.zipcode = zipcode
 
-
     def to_dict(self):
         result = {
             'customer_id': self.customer_id,
