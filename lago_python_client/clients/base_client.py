@@ -1,7 +1,7 @@
 import requests
 import json
 
-from lago_python_client.models.base_model import BaseModel
+from pydantic import BaseModel
 from requests import Response
 from typing import Dict
 from urllib.parse import urljoin
@@ -28,23 +28,23 @@ class BaseClient:
         self.api_key = api_key
 
     def create(self, input_object: BaseModel):
-        _query_url = urljoin(self.base_url, self.api_resource())
-        _query_parameters = {
-            self.root_name(): input_object.to_dict()
+        query_url = urljoin(self.base_url, self.api_resource())
+        query_parameters = {
+            self.root_name(): input_object.dict()
         }
-        data = json.dumps(_query_parameters)
-        api_response = requests.post(_query_url, data=data, headers=self.headers())
+        data = json.dumps(query_parameters)
+        api_response = requests.post(query_url, data=data, headers=self.headers())
         data = handle_response(api_response)
 
         if data is None:
             return True
         else:
-            return self.prepare_response(data.get(self.root_name()))  # Customer.parse_obj(data) / Customer.dict()
+            return self.prepare_response(data.get(self.root_name()))
 
     def delete(self, params: Dict):
-        _query_url = urljoin(self.base_url, self.api_resource())
+        query_url = urljoin(self.base_url, self.api_resource())
         data = json.dumps(params)
-        api_response = requests.delete(_query_url, data=data, headers=self.headers())
+        api_response = requests.delete(query_url, data=data, headers=self.headers())
         data = handle_response(api_response).get(self.root_name())
 
         return self.prepare_response(data)

@@ -1,15 +1,19 @@
-from lago_python_client.models.base_model import BaseModel
+from pydantic import BaseModel, Field
+from typing import Optional
 
 
 class Subscription(BaseModel):
+    plan_code: str
+    customer_id: str
 
-    def __init__(self, customer_id=None, plan_code=None):
-        self.plan_code = plan_code
-        self.customer_id = customer_id
 
-    def to_dict(self):
-        result = {
-            'plan_code': self.plan_code,
-            'customer_id': self.customer_id
-        }
-        return result
+class ResponseSubscription(BaseModel):
+    lago_id: str
+    lago_customer_id: Optional[str]
+    customer_id: Optional[str]
+    canceled_at: Optional[str]
+    created_at: Optional[str]
+    plan_code: Optional[str]
+    started_at: Optional[str]
+    status: Optional[str]
+    terminated_at: Optional[str]
