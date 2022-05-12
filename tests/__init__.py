@@ -1,0 +1,3 @@
+from tests.test_event_client import TestEventClient
+from tests.test_subscription_client import TestSubscriptionClient
+from tests.test_customer_client import TestCustomerClient
