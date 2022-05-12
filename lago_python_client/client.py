@@ -5,7 +5,7 @@ from urllib.parse import urljoin
 
 
 class Client:
-    BASE_URL = 'http://api.lago.dev/'
+    BASE_URL = 'https://api.getlago.com/'
     API_PATH = 'api/v1/'
 
     def __init__(self, api_key: str = None, api_url: str = None):

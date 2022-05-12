@@ -24,7 +24,7 @@ class TestCustomerClient(unittest.TestCase):
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
-            m.register_uri('POST', '/api/v1/customers', text=mock_response())
+            m.register_uri('POST', 'https://api.getlago.com/api/v1/customers', text=mock_response())
             response = client.customers().create(create_customer())
 
         self.assertEqual(response.customer_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
@@ -35,10 +35,10 @@ class TestCustomerClient(unittest.TestCase):
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:
-            m.register_uri('POST', '/api/v1/customers', status_code=401, text='')
+            m.register_uri('POST', 'https://api.getlago.com/api/v1/customers', status_code=401, text='')
 
-        with self.assertRaises(LagoApiError):
-            client.customers().create(create_customer())
+            with self.assertRaises(LagoApiError):
+                client.customers().create(create_customer())
 
 
 if __name__ == '__main__':

@@ -15,7 +15,7 @@ class TestEventClient(unittest.TestCase):
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
-            m.register_uri('POST', '/api/v1/events', text='')
+            m.register_uri('POST', 'https://api.getlago.com/api/v1/events', text='')
             response = client.events().create(create_event())
 
         self.assertEqual(response, True)
@@ -24,10 +24,10 @@ class TestEventClient(unittest.TestCase):
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:
-            m.register_uri('POST', '/api/v1/events', status_code=401, text='')
+            m.register_uri('POST', 'https://api.getlago.com/api/v1/events', status_code=401, text='')
 
-        with self.assertRaises(LagoApiError):
-            client.events().create(create_event())
+            with self.assertRaises(LagoApiError):
+                client.events().create(create_event())
 
 
 if __name__ == '__main__':

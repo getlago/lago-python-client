@@ -24,7 +24,7 @@ class TestSubscriptionClient(unittest.TestCase):
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
-            m.register_uri('POST', '/api/v1/subscriptions', text=mock_response())
+            m.register_uri('POST', 'https://api.getlago.com/api/v1/subscriptions', text=mock_response())
             response = client.subscriptions().create(create_subscription())
 
         self.assertEqual(response.customer_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
@@ -35,10 +35,10 @@ class TestSubscriptionClient(unittest.TestCase):
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:
-            m.register_uri('POST', '/api/v1/subscriptions', status_code=401, text='')
+            m.register_uri('POST', 'https://api.getlago.com/api/v1/subscriptions', status_code=401, text='')
 
-        with self.assertRaises(LagoApiError):
-            client.subscriptions().create(create_subscription())
+            with self.assertRaises(LagoApiError):
+                client.subscriptions().create(create_subscription())
 
     def test_valid_delete_subscriptions_request(self):
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
@@ -47,7 +47,7 @@ class TestSubscriptionClient(unittest.TestCase):
         }
 
         with requests_mock.Mocker() as m:
-            m.register_uri('DELETE', '/api/v1/subscriptions', text=mock_response())
+            m.register_uri('DELETE', 'https://api.getlago.com/api/v1/subscriptions', text=mock_response())
             response = client.subscriptions().delete(params)
 
         self.assertEqual(response.customer_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
@@ -61,10 +61,10 @@ class TestSubscriptionClient(unittest.TestCase):
         }
 
         with requests_mock.Mocker() as m:
-            m.register_uri('DELETE', '/api/v1/subscriptions', status_code=422, text='')
+            m.register_uri('DELETE', 'https://api.getlago.com/api/v1/subscriptions', status_code=422, text='')
 
-        with self.assertRaises(LagoApiError):
-            client.subscriptions().delete(params)
+            with self.assertRaises(LagoApiError):
+                client.subscriptions().delete(params)
 
 
 if __name__ == '__main__':
