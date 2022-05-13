@@ -20,7 +20,7 @@ class Customer(BaseModel):
     zipcode: Optional[str]
 
 
-class ResponseCustomer(BaseModel):
+class CustomerResponse(BaseModel):
     lago_id: str
     customer_id: str
     address_line1: Optional[str]

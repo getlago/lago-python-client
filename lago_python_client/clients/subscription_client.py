@@ -1,5 +1,5 @@
 from .base_client import BaseClient
-from lago_python_client.models.subscription import ResponseSubscription
+from lago_python_client.models.subscription import SubscriptionResponse
 from typing import Dict
 
 
@@ -11,4 +11,4 @@ class SubscriptionClient(BaseClient):
         return 'subscription'
 
     def prepare_response(self, data: Dict):
-        return ResponseSubscription.parse_obj(data)
+        return SubscriptionResponse.parse_obj(data)

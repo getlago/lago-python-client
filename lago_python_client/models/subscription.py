@@ -7,7 +7,7 @@ class Subscription(BaseModel):
     customer_id: str
 
 
-class ResponseSubscription(BaseModel):
+class SubscriptionResponse(BaseModel):
     lago_id: str
     lago_customer_id: Optional[str]
     customer_id: Optional[str]
