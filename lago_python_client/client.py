@@ -1,6 +1,7 @@
 from lago_python_client.clients.subscription_client import SubscriptionClient
 from lago_python_client.clients.customer_client import CustomerClient
 from lago_python_client.clients.event_client import EventClient
+from lago_python_client.clients.webhook_client import WebhookClient
 from urllib.parse import urljoin
 
 
@@ -26,3 +27,6 @@ class Client:
 
     def customers(self):
         return CustomerClient(self.base_api_url(), self.api_key)
+
+    def webhooks(self):
+        return WebhookClient(self.base_api_url(), self.api_key)

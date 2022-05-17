@@ -1,4 +1,5 @@
 from tests.test_event_client import TestEventClient
 from tests.test_subscription_client import TestSubscriptionClient
 from tests.test_customer_client import TestCustomerClient
+from tests.test_webhook_client import TestWebhookClient
 from tests.test_client import TestClient
