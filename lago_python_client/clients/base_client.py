@@ -7,19 +7,6 @@ from typing import Dict
 from urllib.parse import urljoin
 
 
-def handle_response(response: Response):
-    if response.status_code in BaseClient.RESPONSE_SUCCESS_CODES:
-        if response.text:
-            return response.json()
-        else:
-            return None
-    else:
-        raise LagoApiError(
-            "URI: %s. Status code: %s. Response: %s." % (
-                response.request.url, response.status_code, response.text)
-        )
-
-
 class BaseClient:
     RESPONSE_SUCCESS_CODES = [200, 201, 202, 204]
 
@@ -34,18 +21,18 @@ class BaseClient:
         }
         data = json.dumps(query_parameters)
         api_response = requests.post(query_url, data=data, headers=self.headers())
-        data = handle_response(api_response)
+        data = self.handle_response(api_response)
 
         if data is None:
             return True
         else:
-            return self.prepare_response(data.get(self.root_name()))
+            return self.prepare_response(data.json().get(self.root_name()))
 
     def delete(self, params: Dict):
         query_url = urljoin(self.base_url, self.api_resource())
         data = json.dumps(params)
         api_response = requests.delete(query_url, data=data, headers=self.headers())
-        data = handle_response(api_response).get(self.root_name())
+        data = self.handle_response(api_response).json().get(self.root_name())
 
         return self.prepare_response(data)
 
@@ -54,6 +41,18 @@ class BaseClient:
         headers = {'Content-type': 'application/json', 'Authorization': bearer}
 
         return headers
+
+    def handle_response(self, response: Response):
+        if response.status_code in BaseClient.RESPONSE_SUCCESS_CODES:
+            if response.text:
+                return response
+            else:
+                return None
+        else:
+            raise LagoApiError(
+                "URI: %s. Status code: %s. Response: %s." % (
+                    response.request.url, response.status_code, response.text)
+            )
 
 
 class LagoApiError(Exception):
