@@ -77,3 +77,17 @@ params_delete = {
 }
 client.subscriptions().delete(params_delete)
 ```
+
+## Development
+
+### Install the dependencies
+
+```bash
+pip install .
+```
+
+### Run tests
+
+```bash
+python3 -m unittest tests
+```
