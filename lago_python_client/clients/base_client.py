@@ -38,7 +38,11 @@ class BaseClient:
 
     def headers(self):
         bearer = "Bearer " + self.api_key
-        headers = {'Content-type': 'application/json', 'Authorization': bearer}
+        headers = {
+            'Content-type': 'application/json',
+            'Authorization': bearer,
+            'User-agent': 'Lago Python v0.1.1'
+        }
 
         return headers
 
