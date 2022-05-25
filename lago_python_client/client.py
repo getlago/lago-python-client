@@ -1,3 +1,4 @@
+from lago_python_client.clients.applied_coupon_client import AppliedCouponClient
 from lago_python_client.clients.subscription_client import SubscriptionClient
 from lago_python_client.clients.customer_client import CustomerClient
 from lago_python_client.clients.event_client import EventClient
@@ -27,6 +28,9 @@ class Client:
 
     def customers(self):
         return CustomerClient(self.base_api_url(), self.api_key)
+
+    def applied_coupons(self):
+        return AppliedCouponClient(self.base_api_url(), self.api_key)
 
     def webhooks(self):
         return WebhookClient(self.base_api_url(), self.api_key)
