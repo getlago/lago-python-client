@@ -41,7 +41,7 @@ class BaseClient:
         headers = {
             'Content-type': 'application/json',
             'Authorization': bearer,
-            'User-agent': 'Lago Python v0.1.1'
+            'User-agent': 'Lago Python v0.1.2'
         }
 
         return headers
