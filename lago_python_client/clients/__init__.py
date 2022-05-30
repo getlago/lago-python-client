@@ -1,3 +1,4 @@
+from lago_python_client.clients.applied_add_on_client import AppliedAddOnClient
 from lago_python_client.clients.applied_coupon_client import AppliedCouponClient
 from lago_python_client.clients.event_client import EventClient
 from lago_python_client.clients.subscription_client import SubscriptionClient

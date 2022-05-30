@@ -2,6 +2,7 @@ from .base_client import BaseClient
 from lago_python_client.models.applied_coupon import AppliedCouponResponse
 from typing import Dict
 
+
 class AppliedCouponClient(BaseClient):
     def api_resource(self):
         return 'applied_coupons'
