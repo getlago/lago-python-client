@@ -2,21 +2,19 @@ from pydantic import BaseModel, Field
 from typing import Optional
 
 
-class AppliedCoupon(BaseModel):
+class AppliedAddOn(BaseModel):
     customer_id: str
-    coupon_code: str
+    add_on_code: str
     amount_cents: Optional[int]
     amount_currency: Optional[str]
 
 
-class AppliedCouponResponse(BaseModel):
+class AppliedAddOnResponse(BaseModel):
     lago_id: str
-    lago_coupon_id: str
-    coupon_code: str
+    lago_add_on_id: str
+    add_on_code: str
     customer_id: str
     lago_customer_id: str
     amount_cents: str
     amount_currency: str
-    expiration_date: Optional[str]
     created_at: str
-    terminated_at: Optional[str]

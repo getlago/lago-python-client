@@ -6,11 +6,13 @@ from lago_python_client.client import Client
 from lago_python_client.models import AppliedCoupon
 from lago_python_client.clients.base_client import LagoApiError
 
+
 def create_applied_coupon():
     return AppliedCoupon(
         customer_id='5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba',
         coupon_code='Free-Lemon-Juice'
     )
+
 
 def mock_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
