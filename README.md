@@ -131,7 +131,7 @@ The Lago documentation is available at [doc.getlago.com](https://doc.getlago.com
 
 ## Contributing
 
-The contribution documentation is available [here](https://github.com/getlago/lago-front/blob/main/CONTRIBUTING.md)
+The contribution documentation is available [here](https://github.com/getlago/lago-python-client/blob/main/CONTRIBUTING.md)
 
 ## License
 
