@@ -2,6 +2,8 @@
 
 This is a python wrapper for Lago API
 
+[![PyPI version](https://badge.fury.io/py/lago-python-client.svg)](https://badge.fury.io/py/lago-python-client)
+
 ## Installation
 
 Install the lago-python-client via pip from PyPI:
