@@ -1,0 +1,18 @@
+{
+  "invoice": {
+    "lago_id": "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
+    "sequential_id": 15,
+    "from_date": "2022-06-02",
+    "to_date": "2022-06-02",
+    "charges_from_date": "2022-06-02",
+    "issuing_date": "2022-06-02",
+    "invoice_type": "type1",
+    "status": "failed",
+    "amount_cents": 100,
+    "amount_currency": "EUR",
+    "vat_amount_cents": 20,
+    "vat_amount_currency": "EUR",
+    "total_amount_cents": 120,
+    "total_amount_currency": "EUR"
+  }
+}

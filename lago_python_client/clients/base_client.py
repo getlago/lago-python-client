@@ -5,6 +5,7 @@ from pydantic import BaseModel
 from requests import Response
 from typing import Dict
 from urllib.parse import urljoin
+from lago_python_client.version import LAGO_VERSION
 
 
 class BaseClient:
@@ -36,12 +37,29 @@ class BaseClient:
 
         return self.prepare_response(data)
 
+    def update(self, input_object: BaseModel):
+        api_resource = self.api_resource() + '/' + input_object.lago_id
+        query_url = urljoin(self.base_url, api_resource)
+
+        payload = input_object.dict()
+        payload.pop('lago_id', None)
+
+        query_parameters = {
+            self.root_name(): payload
+        }
+        data = json.dumps(query_parameters)
+        api_response = requests.put(query_url, data=data, headers=self.headers())
+        data = self.handle_response(api_response).json().get(self.root_name())
+
+        return self.prepare_response(data)
+
     def headers(self):
         bearer = "Bearer " + self.api_key
+        user_agent = 'Lago Python v' + LAGO_VERSION
         headers = {
             'Content-type': 'application/json',
             'Authorization': bearer,
-            'User-agent': 'Lago Python v0.1.3'
+            'User-agent': user_agent
         }
 
         return headers

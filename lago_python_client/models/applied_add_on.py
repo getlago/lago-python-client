@@ -15,6 +15,6 @@ class AppliedAddOnResponse(BaseModel):
     add_on_code: str
     customer_id: str
     lago_customer_id: str
-    amount_cents: str
+    amount_cents: int
     amount_currency: str
     created_at: str
