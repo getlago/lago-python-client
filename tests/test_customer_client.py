@@ -15,8 +15,8 @@ def mock_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     my_data_path = os.path.join(this_dir, 'fixtures/customer.json')
 
-    with open(my_data_path, 'r') as subscription_response:
-        return subscription_response.read()
+    with open(my_data_path, 'r') as customer_response:
+        return customer_response.read()
 
 
 class TestCustomerClient(unittest.TestCase):
