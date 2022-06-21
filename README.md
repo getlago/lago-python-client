@@ -40,7 +40,7 @@ client.events().create(event)
 [Api reference](https://doc.getlago.com/docs/api/customers/customer-object)
 
 ``` python
-from lago_python_client.models import Customer
+from lago_python_client.models import Customer, BillingConfiguration
 
 customer = Customer(
     customer_id="5eb02857-a71e-4ea2-bcf9-57d8885990ba",
@@ -57,7 +57,11 @@ customer = Customer(
     state=None,
     url=None,
     vat_rate=None,
-    zipcode=None
+    zipcode=None,
+    billing_configuration=BillingConfiguration(
+      payment_provider=None,
+      provider_customer_id=None
+    )
 )
 client.customers().create(customer)
 ```

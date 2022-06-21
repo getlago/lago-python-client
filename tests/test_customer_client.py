@@ -3,12 +3,19 @@ import requests_mock
 import os
 
 from lago_python_client.client import Client
-from lago_python_client.models import Customer
+from lago_python_client.models import Customer, BillingConfiguration
 from lago_python_client.clients.base_client import LagoApiError
 
 
 def create_customer():
-    return Customer(customer_id='5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba', name='Gavin Belson')
+    return Customer(
+        customer_id='5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba',
+        name='Gavin Belson',
+        billing_configuration=BillingConfiguration(
+            payment_provider='stripe',
+            provider_customer_id='cus_12345'
+        )
+    )
 
 
 def mock_response():
@@ -30,6 +37,8 @@ class TestCustomerClient(unittest.TestCase):
         self.assertEqual(response.customer_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
         self.assertEqual(response.name, 'Gavin Belson')
         self.assertEqual(response.email, 'dinesh@piedpiper.test')
+        self.assertEqual(response.billing_configuration.payment_provider, 'stripe')
+        self.assertEqual(response.billing_configuration.provider_customer_id, 'cus_12345')
 
     def test_invalid_create_customers_request(self):
         client = Client(api_key='invalid')

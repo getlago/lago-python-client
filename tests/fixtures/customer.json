@@ -16,6 +16,10 @@
     "state": "CA",
     "url": "http://hooli.com",
     "vat_rate": 12.5,
-    "zipcode": "91364"
+    "zipcode": "91364",
+    "billing_configuration": {
+      "payment_provider": "stripe",
+      "provider_customer_id": "cus_12345"
+    }
   }
 }
