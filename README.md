@@ -28,7 +28,6 @@ event = Event(
     customer_id="5eb02857-a71e-4ea2-bcf9-57d8885990ba",
     transaction_id="__UNIQUE_ID__",
     code="123",
-    transaction_id="123",
     timestamp=1650893379,
     properties={"custom_field": "custom"}
 )
