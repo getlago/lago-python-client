@@ -42,7 +42,7 @@ class TestEventClient(unittest.TestCase):
 
         with requests_mock.Mocker() as m:
             m.register_uri('GET', 'https://api.getlago.com/api/v1/events/' + event_id, text=mock_response())
-            response = client.events().find(event_id, None)
+            response = client.events().find(event_id)
 
         self.assertEqual(response.lago_id, event_id)
 
@@ -55,7 +55,7 @@ class TestEventClient(unittest.TestCase):
             m.register_uri('GET', 'https://api.getlago.com/api/v1/events/' + event_id, status_code=404, text='')
 
             with self.assertRaises(LagoApiError):
-                client.events().find(event_id, None)
+                client.events().find(event_id)
 
 if __name__ == '__main__':
     unittest.main()

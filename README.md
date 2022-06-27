@@ -36,6 +36,11 @@ event = Event(
 client.events().create(event)
 ```
 
+``` python
+transaction_id = "6afadc2a-f28c-40a4-a868-35636f229765"
+event = client.events().find(transaction_id)
+```
+
 ### Customers
 [Api reference](https://doc.getlago.com/docs/api/customers/customer-object)
 

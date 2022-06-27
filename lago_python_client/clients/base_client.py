@@ -15,7 +15,7 @@ class BaseClient:
         self.base_url = base_url
         self.api_key = api_key
 
-    def find(self, resource_id: str, params: Dict):
+    def find(self, resource_id: str, params: Dict=None):
         api_resource = self.api_resource() + '/' + resource_id
         query_url = urljoin(self.base_url, api_resource)
 
