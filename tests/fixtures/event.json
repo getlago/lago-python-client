@@ -1,0 +1,13 @@
+{
+  "event": {
+    "lago_id": "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
+    "transaction_id": "1a2d9c8d-5875-4688-9854-5ccfd414bc5e",
+    "customer_id": "24691b9a-7330-409d-9dfd-d80582593297",
+    "code": "test",
+    "timestamp": "2022-04-29T08:59:51Z",
+    "properties": {
+      "custom_field": "custom"
+    },
+    "created_at": "2022-04-29T08:59:51Z"
+  }
+}
