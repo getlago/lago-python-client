@@ -15,6 +15,19 @@ class BaseClient:
         self.base_url = base_url
         self.api_key = api_key
 
+    def find(self, resource_id: str, params: Dict=None):
+        api_resource = self.api_resource() + '/' + resource_id
+        query_url = urljoin(self.base_url, api_resource)
+
+        data=None
+        if params is not None:
+            data = json.dumps(params)
+
+        api_response = requests.get(query_url, data=data, headers=self.headers())
+        data = self.handle_response(api_response).json().get(self.root_name())
+
+        return self.prepare_response(data)
+
     def create(self, input_object: BaseModel):
         query_url = urljoin(self.base_url, self.api_resource())
         query_parameters = {
