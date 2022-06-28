@@ -59,7 +59,8 @@ customer = Customer(
     zipcode=None,
     billing_configuration=BillingConfiguration(
       payment_provider=None,
-      provider_customer_id=None
+      provider_customer_id=None,
+      sync=None
     )
 )
 client.customers().create(customer)
