@@ -188,6 +188,33 @@ client.coupons().destroy('code')
 client.coupons().find_all({'per_page': 2, 'page': 1})
 ```
 
+### Add-ons
+[Api reference](https://doc.getlago.com/docs/api/add_ons/add-on-object)
+
+```python
+from lago_python_client.models import AddOn
+
+add_on = AddOn(
+    name='name',
+    code='code_first',
+    amount_cents=1000,
+    amount_currency='EUR',
+    description='desc'
+)
+client.add_ons().create(add_on)
+
+update_params = AddOn(
+    name='new name'
+)
+client.add_ons().update(update_params)
+
+client.add_ons().find('code')
+
+client.add_ons().destroy('code')
+
+client.add_ons().find_all({'per_page': 2, 'page': 1})
+```
+
 
 ## Development
 
