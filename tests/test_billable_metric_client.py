@@ -55,41 +55,44 @@ class TestBillableMetricClient(unittest.TestCase):
 
     def test_valid_update_billable_metric_request(self):
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+        code = 'bm_code'
 
         with requests_mock.Mocker() as m:
             m.register_uri('PUT',
-                           'https://api.getlago.com/api/v1/billable_metrics/bm_code',
+                           'https://api.getlago.com/api/v1/billable_metrics/' + code,
                            text=mock_response())
-            response = client.billable_metrics().update(billable_metric_object(), 'bm_code')
+            response = client.billable_metrics().update(billable_metric_object(), code)
 
         self.assertEqual(response.lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac129b')
-        self.assertEqual(response.code, 'bm_code')
+        self.assertEqual(response.code, code)
 
     def test_invalid_update_billable_metric_request(self):
         client = Client(api_key='invalid')
+        code = 'invalid'
 
         with requests_mock.Mocker() as m:
             m.register_uri('PUT',
-                           'https://api.getlago.com/api/v1/billable_metrics/bm_code',
+                           'https://api.getlago.com/api/v1/billable_metrics/' + code,
                            status_code=401,
                            text='')
 
             with self.assertRaises(LagoApiError):
-                client.billable_metrics().update(billable_metric_object(), 'bm_code')
+                client.billable_metrics().update(billable_metric_object(), code)
 
     def test_valid_find_billable_metric_request(self):
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+        code = 'bm_code'
 
         with requests_mock.Mocker() as m:
-            m.register_uri('GET', 'https://api.getlago.com/api/v1/billable_metrics/bm_code', text=mock_response())
-            response = client.billable_metrics().find('bm_code')
+            m.register_uri('GET', 'https://api.getlago.com/api/v1/billable_metrics/' + code, text=mock_response())
+            response = client.billable_metrics().find(code)
 
         self.assertEqual(response.lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac129b')
-        self.assertEqual(response.code, 'bm_code')
+        self.assertEqual(response.code, code)
 
     def test_invalid_find_billable_metric_request(self):
         client = Client(api_key='invalid')
-        code = 'INVALID_CODE'
+        code = 'invalid'
 
         with requests_mock.Mocker() as m:
             m.register_uri('GET', 'https://api.getlago.com/api/v1/billable_metrics/' + code, status_code=404, text='')
@@ -99,24 +102,24 @@ class TestBillableMetricClient(unittest.TestCase):
 
     def test_valid_destroy_billable_metric_request(self):
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+        code = 'bm_code'
 
         with requests_mock.Mocker() as m:
-            m.register_uri('DELETE', 'https://api.getlago.com/api/v1/billable_metrics/bm_code', text=mock_response())
-            response = client.billable_metrics().destroy('bm_code')
+            m.register_uri('DELETE', 'https://api.getlago.com/api/v1/billable_metrics/' + code, text=mock_response())
+            response = client.billable_metrics().destroy(code)
 
         self.assertEqual(response.lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac129b')
-        self.assertEqual(response.code, 'bm_code')
+        self.assertEqual(response.code, code)
 
     def test_invalid_destroy_billable_metric_request(self):
         client = Client(api_key='invalid')
-        code = 'INVALID_CODE'
+        code = 'invalid'
 
         with requests_mock.Mocker() as m:
             m.register_uri('DELETE', 'https://api.getlago.com/api/v1/billable_metrics/' + code, status_code=404, text='')
 
             with self.assertRaises(LagoApiError):
                 client.billable_metrics().destroy(code)
-
 
     def test_valid_find_all_billable_metric_request(self):
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')

@@ -133,6 +133,33 @@ applied_add_on = AppliedAddOn(
 client.applied_add_ons().create(applied_add_on)
 ```
 
+### Billable metrics
+[Api reference](https://doc.getlago.com/docs/api/billable_metrics/billable-metric-object)
+
+```python
+from lago_python_client.models import BillableMetric
+
+billable_metric = BillableMetric(
+    name='name',
+    code='code_first',
+    description='desc',
+    aggregation_type='sum_agg',
+    field_name='amount_sum'
+)
+client.billable_metrics().create(billable_metric)
+
+update_params = BillableMetric(
+    name='new name'
+)
+client.billable_metrics().update(update_params)
+
+client.billable_metrics().find('code')
+
+client.billable_metrics().destroy('code')
+
+client.billable_metrics().find_all({'per_page': 2, 'page': 1})
+```
+
 
 ## Development
 

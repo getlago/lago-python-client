@@ -3,8 +3,8 @@ from typing import Optional
 
 
 class BillableMetric(BaseModel):
-    name: str
-    code: str
+    name: Optional[str]
+    code: Optional[str]
     description: Optional[str]
     aggregation_type: Optional[str]
     field_name: Optional[str]
