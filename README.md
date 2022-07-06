@@ -78,10 +78,9 @@ client.customers().create(customer)
 from lago_python_client.models import InvoiceStatusChange
 
 status_change = InvoiceStatusChange(
-    lago_id="5eb02857-a71e-4ea2-bcf9-57d8885990ba",
     status="succeeded"
 )
-client.invoices().update(status_change)
+client.invoices().update(status_change, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
 ```
 
 ### Subscriptions

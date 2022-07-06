@@ -3,6 +3,7 @@ from tests.test_subscription_client import TestSubscriptionClient
 from tests.test_customer_client import TestCustomerClient
 from tests.test_applied_coupon_client import TestAppliedCouponClient
 from tests.test_applied_add_on_client import TestAppliedAddOnClient
+from tests.test_billable_metric_client import TestBillableMetricClient
 from tests.test_invoice_client import TestInvoiceClient
 from tests.test_webhook_client import TestWebhookClient
 from tests.test_client import TestClient

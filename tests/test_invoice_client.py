@@ -8,7 +8,7 @@ from lago_python_client.clients.base_client import LagoApiError
 
 
 def update_invoice_object():
-    return InvoiceStatusChange(lago_id='5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba', status='failed')
+    return InvoiceStatusChange(status='failed')
 
 
 def mock_response():
@@ -27,7 +27,7 @@ class TestInvoiceClient(unittest.TestCase):
             m.register_uri('PUT',
                            'https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba',
                            text=mock_response())
-            response = client.invoices().update(update_invoice_object())
+            response = client.invoices().update(update_invoice_object(), '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
 
         self.assertEqual(response.lago_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
         self.assertEqual(response.status, 'failed')
@@ -42,7 +42,7 @@ class TestInvoiceClient(unittest.TestCase):
                            text='')
 
             with self.assertRaises(LagoApiError):
-                client.invoices().update(update_invoice_object())
+                client.invoices().update(update_invoice_object(), '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
 
 
 if __name__ == '__main__':

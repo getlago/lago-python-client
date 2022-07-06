@@ -4,7 +4,7 @@ import json
 from pydantic import BaseModel
 from requests import Response
 from typing import Dict
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlencode
 from lago_python_client.version import LAGO_VERSION
 
 
@@ -15,15 +15,37 @@ class BaseClient:
         self.base_url = base_url
         self.api_key = api_key
 
-    def find(self, resource_id: str, params: Dict=None):
+    def find(self, resource_id: str, params: Dict = None):
         api_resource = self.api_resource() + '/' + resource_id
         query_url = urljoin(self.base_url, api_resource)
 
-        data=None
+        data = None
         if params is not None:
             data = json.dumps(params)
 
         api_response = requests.get(query_url, data=data, headers=self.headers())
+        data = self.handle_response(api_response).json().get(self.root_name())
+
+        return self.prepare_response(data)
+
+    def find_all(self, options: Dict = None):
+        if options:
+            api_resource = self.api_resource() + '?' + urlencode(options)
+        else:
+            api_resource = self.api_resource()
+
+        query_url = urljoin(self.base_url, api_resource)
+
+        api_response = requests.get(query_url, headers=self.headers())
+        data = self.handle_response(api_response).json()
+
+        return self.prepare_index_response(data)
+
+    def destroy(self, resource_id: str):
+        api_resource = self.api_resource() + '/' + resource_id
+        query_url = urljoin(self.base_url, api_resource)
+
+        api_response = requests.delete(query_url, headers=self.headers())
         data = self.handle_response(api_response).json().get(self.root_name())
 
         return self.prepare_response(data)
@@ -50,15 +72,15 @@ class BaseClient:
 
         return self.prepare_response(data)
 
-    def update(self, input_object: BaseModel):
-        api_resource = self.api_resource() + '/' + input_object.lago_id
+    def update(self, input_object: BaseModel, identifier: str = None):
+        api_resource = self.api_resource()
+
+        if identifier is not None:
+            api_resource = api_resource + '/' + identifier
+
         query_url = urljoin(self.base_url, api_resource)
-
-        payload = input_object.dict()
-        payload.pop('lago_id', None)
-
         query_parameters = {
-            self.root_name(): payload
+            self.root_name(): input_object.dict()
         }
         data = json.dumps(query_parameters)
         api_response = requests.put(query_url, data=data, headers=self.headers())
@@ -88,6 +110,19 @@ class BaseClient:
                 "URI: %s. Status code: %s. Response: %s." % (
                     response.request.url, response.status_code, response.text)
             )
+
+    def prepare_index_response(self, data: Dict):
+        collection = []
+
+        for el in data[self.api_resource()]:
+            collection.append(self.prepare_response(el))
+
+        response = {
+            self.api_resource(): collection,
+            'meta': data['meta']
+        }
+
+        return response
 
 
 class LagoApiError(Exception):
