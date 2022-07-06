@@ -160,6 +160,34 @@ client.billable_metrics().destroy('code')
 client.billable_metrics().find_all({'per_page': 2, 'page': 1})
 ```
 
+### Coupons
+[Api reference](https://doc.getlago.com/docs/api/coupons/coupon-object)
+
+```python
+from lago_python_client.models import Coupon
+
+coupon = Coupon(
+    name='name',
+    code='code_first',
+    amount_cents=1000,
+    amount_currency='EUR',
+    expiration='no_expiration',
+    expiration_duration=10
+)
+client.coupons().create(coupon)
+
+update_params = Coupon(
+    name='new name'
+)
+client.coupons().update(update_params)
+
+client.coupons().find('code')
+
+client.coupons().destroy('code')
+
+client.coupons().find_all({'per_page': 2, 'page': 1})
+```
+
 
 ## Development
 

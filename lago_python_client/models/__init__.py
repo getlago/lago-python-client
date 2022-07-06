@@ -1,6 +1,7 @@
 from lago_python_client.models.applied_add_on import AppliedAddOn
 from lago_python_client.models.applied_coupon import AppliedCoupon
 from lago_python_client.models.billable_metric import BillableMetric
+from lago_python_client.models.coupon import Coupon
 from lago_python_client.models.event import Event
 from lago_python_client.models.customer import Customer, BillingConfiguration
 from lago_python_client.models.invoice import InvoiceStatusChange
