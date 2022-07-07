@@ -81,6 +81,10 @@ status_change = InvoiceStatusChange(
     status="succeeded"
 )
 client.invoices().update(status_change, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
+
+client.invoices().find('5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
+
+client.invoices().find_all({'per_page': 2, 'page': 1})
 ```
 
 ### Subscriptions
