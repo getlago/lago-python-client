@@ -87,6 +87,19 @@ client.invoices().find('5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
 client.invoices().find_all({'per_page': 2, 'page': 1})
 ```
 
+### Organizations
+[Api reference](https://doc.getlago.com/docs/api/organizations/organization-object)
+
+``` python
+from lago_python_client.models import Organization
+
+params = Organization(
+    webhook_url="https://new.url",
+    vat_rate=14.2
+)
+client.organizations().update(params)
+```
+
 ### Subscriptions
 [Api reference](https://doc.getlago.com/docs/api/subscriptions/subscription-object)
 

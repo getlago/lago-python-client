@@ -14,7 +14,7 @@ class BillableMetricResponse(BaseModel):
     lago_id: str
     name: str
     code: str
-    description: str
-    aggregation_type: str
-    field_name: str
+    description: Optional[str]
+    aggregation_type: Optional[str]
+    field_name: Optional[str]
     created_at: str

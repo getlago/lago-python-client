@@ -3,6 +3,7 @@ from lago_python_client.clients.applied_coupon_client import AppliedCouponClient
 from lago_python_client.clients.billable_metric_client import BillableMetricClient
 from lago_python_client.clients.coupon_client import CouponClient
 from lago_python_client.clients.add_on_client import AddOnClient
+from lago_python_client.clients.organization_client import OrganizationClient
 from lago_python_client.clients.subscription_client import SubscriptionClient
 from lago_python_client.clients.customer_client import CustomerClient
 from lago_python_client.clients.invoice_client import InvoiceClient
@@ -51,6 +52,9 @@ class Client:
 
     def add_ons(self):
         return AddOnClient(self.base_api_url(), self.api_key)
+
+    def organizations(self):
+        return OrganizationClient(self.base_api_url(), self.api_key)
 
     def webhooks(self):
         return WebhookClient(self.base_api_url(), self.api_key)

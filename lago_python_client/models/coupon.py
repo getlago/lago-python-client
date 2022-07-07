@@ -19,4 +19,4 @@ class CouponResponse(BaseModel):
     amount_currency: str
     created_at: str
     expiration: str
-    expiration_duration: int
+    expiration_duration: Optional[int]

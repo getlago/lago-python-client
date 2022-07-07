@@ -17,4 +17,4 @@ class AddOnResponse(BaseModel):
     amount_cents: int
     amount_currency: str
     created_at: str
-    description: str
+    description: Optional[str]
