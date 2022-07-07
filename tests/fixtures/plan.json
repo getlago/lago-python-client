@@ -1,0 +1,27 @@
+{
+  "plan": {
+    "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac129b",
+    "name": "test1",
+    "created_at": "2022-07-01T14:47:14Z",
+    "code": "plan_code",
+    "interval": "weekly",
+    "description": "hello_this_is_desc333",
+    "amount_cents": 900,
+    "amount_currency": "EUR",
+    "trial_period": 3.0,
+    "pay_in_advance": true,
+    "bill_charges_monthly": null,
+    "charges": [
+      {
+        "lago_id": "51c1e851-5be6-4343-a0ee-39a81d8b4ee1",
+        "lago_billable_metric_id": "a6947936-628f-4945-8857-db6858ee7941",
+        "created_at": "2022-07-01T14:47:14Z",
+        "amount_currency": "EUR",
+        "charge_model": "standard",
+        "properties": {
+          "amount": "0.22"
+        }
+      }
+    ]
+  }
+}

@@ -168,7 +168,7 @@ client.billable_metrics().create(billable_metric)
 update_params = BillableMetric(
     name='new name'
 )
-client.billable_metrics().update(update_params)
+client.billable_metrics().update(update_params, 'code')
 
 client.billable_metrics().find('code')
 
@@ -196,7 +196,7 @@ client.coupons().create(coupon)
 update_params = Coupon(
     name='new name'
 )
-client.coupons().update(update_params)
+client.coupons().update(update_params, 'code')
 
 client.coupons().find('code')
 
@@ -223,7 +223,7 @@ client.add_ons().create(add_on)
 update_params = AddOn(
     name='new name'
 )
-client.add_ons().update(update_params)
+client.add_ons().update(update_params, 'code')
 
 client.add_ons().find('code')
 
@@ -232,6 +232,45 @@ client.add_ons().destroy('code')
 client.add_ons().find_all({'per_page': 2, 'page': 1})
 ```
 
+### Plans
+[Api reference](https://doc.getlago.com/docs/api/plans/plan-object)
+
+```python
+from lago_python_client.models import Plan, Charges, Charge
+
+charge = Charge(
+    billable_metric_id='id',
+    charge_model='standard',
+    amount_currency='EUR',
+    properties={
+        'amount': '0.22'
+    }
+)
+charges = Charges(__root__=[charge])
+
+plan = Plan(
+    name='name',
+    code='code_first',
+    amount_cents=1000,
+    amount_currency='EUR',
+    description='desc',
+    interval='weekly',
+    pay_in_advance=True,
+    charges=charges
+)
+client.plans().create(plan)
+
+update_params = Plan(
+    name='new name'
+)
+client.plans().update(update_params, 'code')
+
+client.plans().find('code')
+
+client.plans().destroy('code')
+
+client.plans().find_all({'per_page': 2, 'page': 1})
+```
 
 ## Development
 
