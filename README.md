@@ -84,6 +84,12 @@ status_change = InvoiceStatusChange(
 client.invoices().update(status_change)
 ```
 
+#### Invoice Download
+
+``` python
+invoice = client.invoices().download('5eb02857-a71e-4ea2-bcf9-57d8885990ba')
+```
+
 ### Subscriptions
 [Api reference](https://doc.getlago.com/docs/api/subscriptions/subscription-object)
 
