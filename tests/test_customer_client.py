@@ -17,14 +17,12 @@ def create_customer():
         )
     )
 
-
-def mock_response():
+def mock_response(mock='customer'):
     this_dir = os.path.dirname(os.path.abspath(__file__))
-    my_data_path = os.path.join(this_dir, 'fixtures/customer.json')
+    my_data_path = os.path.join(this_dir, 'fixtures/' + mock + '.json')
 
     with open(my_data_path, 'r') as customer_response:
         return customer_response.read()
-
 
 class TestCustomerClient(unittest.TestCase):
     def test_valid_create_customers_request(self):
@@ -49,6 +47,26 @@ class TestCustomerClient(unittest.TestCase):
             with self.assertRaises(LagoApiError):
                 client.customers().create(create_customer())
 
+
+    def test_valid_current_usage(self):
+        client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+
+        with requests_mock.Mocker() as m:
+            m.register_uri('GET', 'https://api.getlago.com/api/v1/customers/customer_id/current_usage', text=mock_response('customer_usage'))
+            response = client.customers().current_usage('customer_id')
+
+        self.assertEqual(response.from_date, '2022-07-01')
+        self.assertEqual(len(response.charges_usage), 1)
+        self.assertEqual(response.charges_usage[0].units, 1.0)
+
+    def test_invalid_current_usage(self):
+        client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+
+        with requests_mock.Mocker() as m:
+            m.register_uri('GET', 'https://api.getlago.com/api/v1/customers/invalid_customer/current_usage', status_code=404, text='')
+
+            with self.assertRaises(LagoApiError):
+                client.customers().current_usage('invalid_customer')
 
 if __name__ == '__main__':
     unittest.main()
