@@ -22,3 +22,4 @@ class InvoiceResponse(BaseModel):
     vat_amount_currency: str
     total_amount_cents: int
     total_amount_currency: str
+    file_url: Optional[str]
