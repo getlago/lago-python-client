@@ -3,6 +3,7 @@ from typing import Optional, List
 
 
 class Charge(BaseModel):
+    id: Optional[str]
     billable_metric_id: Optional[str]
     amount_currency: Optional[str]
     charge_model: Optional[str]

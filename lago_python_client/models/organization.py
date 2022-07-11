@@ -21,7 +21,7 @@ class OrganizationResponse(BaseModel):
     name: str
     created_at: str
     webhook_url: Optional[str]
-    vat_rate: float
+    vat_rate: Optional[float]
     country: Optional[str]
     address_line1: Optional[str]
     address_line2: Optional[str]

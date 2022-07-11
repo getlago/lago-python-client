@@ -80,7 +80,7 @@ class BaseClient:
 
         query_url = urljoin(self.base_url, api_resource)
         query_parameters = {
-            self.root_name(): input_object.dict()
+            self.root_name(): input_object.dict(exclude_none=True)
         }
         data = json.dumps(query_parameters)
         api_response = requests.put(query_url, data=data, headers=self.headers())
