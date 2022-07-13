@@ -1,0 +1,31 @@
+{
+  "coupons": [
+    {
+      "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac1111",
+      "name": "coupon_name",
+      "code": "coupon_code",
+      "amount_cents": 5000,
+      "amount_currency": "USD",
+      "expiration": "no_expiration",
+      "expiration_duration": 10,
+      "created_at": "2022-04-29T08:59:51Z"
+    },
+    {
+      "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac1222",
+      "name": "coupon_name2",
+      "code": "coupon_code2",
+      "amount_cents": 7000,
+      "amount_currency": "USD",
+      "expiration": "no_expiration",
+      "expiration_duration": 15,
+      "created_at": "2022-04-29T08:59:51Z"
+    }
+  ],
+  "meta": {
+    "current_page": 1,
+    "next_page": 2,
+    "prev_page": null,
+    "total_pages": 8,
+    "total_count": 73
+  }
+}

@@ -3,7 +3,6 @@ from typing import Optional
 
 
 class InvoiceStatusChange(BaseModel):
-    lago_id: str
     status: str
 
 

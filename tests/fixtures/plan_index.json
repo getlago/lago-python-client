@@ -1,0 +1,75 @@
+{
+  "plans": [
+    {
+      "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac1111",
+      "name": "test1",
+      "created_at": "2022-07-01T14:47:14Z",
+      "code": "plan_api4",
+      "interval": "weekly",
+      "description": "hello_this_is_desc333",
+      "amount_cents": 900,
+      "amount_currency": "EUR",
+      "trial_period": 3.0,
+      "pay_in_advance": true,
+      "bill_charges_monthly": null,
+      "charges": [
+        {
+          "lago_id": "51c1e851-5be6-4343-a0ee-39a81d8b4ee1",
+          "lago_billable_metric_id": "a6947936-628f-4945-8857-db6858ee7941",
+          "created_at": "2022-07-01T14:47:14Z",
+          "amount_currency": "EUR",
+          "charge_model": "standard",
+          "properties": {
+            "amount": "0.22"
+          }
+        }
+      ]
+    },
+    {
+      "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac1222",
+      "name": "test2",
+      "created_at": "2022-07-01T12:45:33Z",
+      "code": "plan_api2",
+      "interval": "weekly",
+      "description": "hello_this_is_desc222",
+      "amount_cents": 700,
+      "amount_currency": "EUR",
+      "trial_period": 2.0,
+      "pay_in_advance": true,
+      "bill_charges_monthly": null,
+      "charges": [
+        {
+          "lago_id": "dfdc725d-6341-4d61-831e-4ac9ccd509c0",
+          "lago_billable_metric_id": "a6947936-628f-4945-8857-db6858ee7941",
+          "created_at": "2022-07-01T12:45:33Z",
+          "amount_currency": "EUR",
+          "charge_model": "standard",
+          "properties": {
+            "amount": "0.7"
+          }
+        }
+      ]
+    },
+    {
+      "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac1333",
+      "name": "test3",
+      "created_at": "2022-06-23T07:52:26Z",
+      "code": "nj_",
+      "interval": "weekly",
+      "description": "",
+      "amount_cents": 10000,
+      "amount_currency": "USD",
+      "trial_period": 0.0,
+      "pay_in_advance": true,
+      "bill_charges_monthly": null,
+      "charges": []
+    }
+  ],
+  "meta": {
+    "current_page": 1,
+    "next_page": 2,
+    "prev_page": null,
+    "total_pages": 3,
+    "total_count": 27
+  }
+}
