@@ -101,6 +101,17 @@ class TestInvoiceClient(unittest.TestCase):
             with self.assertRaises(LagoApiError):
                 client.invoices().find_all()
 
+    def test_valid_download_invoice_request(self):
+        client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+
+        with requests_mock.Mocker() as m:
+            m.register_uri('POST',
+                            'https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba/download',
+                            text=mock_response())
+            response = client.invoices().download('5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
+
+        self.assertEqual(response.lago_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
+
 
 if __name__ == '__main__':
     unittest.main()
