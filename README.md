@@ -71,6 +71,10 @@ customer = Customer(
 client.customers().create(customer)
 ```
 
+```python
+customer_usage = client.customers().current_usage('customer_id')
+```
+
 ### Invoices
 [Api reference](https://doc.getlago.com/docs/api/invoices/invoice-object)
 
