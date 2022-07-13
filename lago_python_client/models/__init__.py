@@ -9,4 +9,4 @@ from lago_python_client.models.event import Event
 from lago_python_client.models.customer import Customer, BillingConfiguration
 from lago_python_client.models.invoice import InvoiceStatusChange
 from lago_python_client.models.subscription import Subscription
-from lago_python_client.models.customer_usage import BillableMetric, Charge, ChargeUsage, CustomerUsageResponse
+from lago_python_client.models.customer_usage import Metric, ChargeObject, ChargeUsage, CustomerUsageResponse

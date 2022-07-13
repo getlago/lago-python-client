@@ -1,22 +1,26 @@
 from typing import List
 from pydantic import BaseModel, Field
 
-class BillableMetric(BaseModel):
+
+class Metric(BaseModel):
   lago_id: str
   name: str
   code: str
   aggregation_type: str
 
-class Charge(BaseModel):
+
+class ChargeObject(BaseModel):
   lago_id: str
   charge_model: str
+
 
 class ChargeUsage(BaseModel):
   units: float
   amount_cents: int
   amount_currency: str
-  charge: Charge
-  billable_metric: BillableMetric
+  charge: ChargeObject
+  billable_metric: Metric
+
 
 class CustomerUsageResponse(BaseModel):
   from_date: str
