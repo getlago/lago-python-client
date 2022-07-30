@@ -64,14 +64,6 @@ class BaseClient:
         else:
             return self.prepare_response(data.json().get(self.root_name()))
 
-    def delete(self, params: Dict):
-        query_url = urljoin(self.base_url, self.api_resource())
-        data = json.dumps(params)
-        api_response = requests.delete(query_url, data=data, headers=self.headers())
-        data = self.handle_response(api_response).json().get(self.root_name())
-
-        return self.prepare_response(data)
-
     def update(self, input_object: BaseModel, identifier: str = None):
         api_resource = self.api_resource()
 

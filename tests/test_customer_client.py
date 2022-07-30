@@ -52,8 +52,10 @@ class TestCustomerClient(unittest.TestCase):
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
-            m.register_uri('GET', 'https://api.getlago.com/api/v1/customers/customer_id/current_usage', text=mock_response('customer_usage'))
-            response = client.customers().current_usage('customer_id')
+            m.register_uri('GET',
+                           'https://api.getlago.com/api/v1/customers/customer_id/current_usage?subscription_id=123',
+                           text=mock_response('customer_usage'))
+            response = client.customers().current_usage('customer_id', '123')
 
         self.assertEqual(response.from_date, '2022-07-01')
         self.assertEqual(len(response.charges_usage), 1)
@@ -63,10 +65,13 @@ class TestCustomerClient(unittest.TestCase):
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
-            m.register_uri('GET', 'https://api.getlago.com/api/v1/customers/invalid_customer/current_usage', status_code=404, text='')
+            m.register_uri('GET',
+                           'https://api.getlago.com/api/v1/customers/invalid_customer/current_usage?subscription_id=123',
+                           status_code=404, text='')
 
             with self.assertRaises(LagoApiError):
-                client.customers().current_usage('invalid_customer')
+                client.customers().current_usage('invalid_customer', '123')
+
 
 if __name__ == '__main__':
     unittest.main()
