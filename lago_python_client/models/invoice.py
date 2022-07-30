@@ -9,9 +9,6 @@ class InvoiceStatusChange(BaseModel):
 class InvoiceResponse(BaseModel):
     lago_id: str
     sequential_id: int
-    from_date: Optional[str]
-    to_date: Optional[str]
-    charges_from_date: Optional[str]
     issuing_date: Optional[str]
     invoice_type: str
     status: str

@@ -5,7 +5,7 @@ from lago_python_client.models.coupon import Coupon
 from lago_python_client.models.plan import Plan, Charges, Charge
 from lago_python_client.models.add_on import AddOn
 from lago_python_client.models.organization import Organization
-from lago_python_client.models.event import Event
+from lago_python_client.models.event import Event, BatchEvent
 from lago_python_client.models.customer import Customer, BillingConfiguration
 from lago_python_client.models.invoice import InvoiceStatusChange
 from lago_python_client.models.subscription import Subscription

@@ -17,8 +17,8 @@ class CustomerClient(BaseClient):
     def prepare_response(self, data: Dict):
         return CustomerResponse.parse_obj(data)
 
-    def current_usage(self, resource_id: str):
-        api_resource = self.api_resource() + '/' + resource_id + '/current_usage'
+    def current_usage(self, resource_id: str, subscription_id: str):
+        api_resource = self.api_resource() + '/' + resource_id + '/current_usage?subscription_id=' + subscription_id
         query_url = urljoin(self.base_url, api_resource)
 
         api_response = requests.get(query_url, headers=self.headers())
