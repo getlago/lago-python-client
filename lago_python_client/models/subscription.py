@@ -5,6 +5,7 @@ from typing import Optional
 class Subscription(BaseModel):
     plan_code: str
     customer_id: str
+    billing_time: str
 
 
 class SubscriptionResponse(BaseModel):
@@ -16,4 +17,5 @@ class SubscriptionResponse(BaseModel):
     plan_code: Optional[str]
     started_at: Optional[str]
     status: Optional[str]
+    billing_time: Optional[str]
     terminated_at: Optional[str]

@@ -118,7 +118,8 @@ from lago_python_client.models import Subscription
 
 subscription = Subscription(
     customer_id="5eb02857-a71e-4ea2-bcf9-57d8885990ba",
-    plan_code="code"
+    plan_code="code",
+    billing_time="anniversary"
 )
 client.subscriptions().create(subscription)
 
