@@ -1,18 +1,15 @@
 from pydantic import BaseModel, Field
-from typing import Optional, List
-
+from typing import Optional, List, Union
 
 class Charge(BaseModel):
     id: Optional[str]
     billable_metric_id: Optional[str]
     amount_currency: Optional[str]
     charge_model: Optional[str]
-    properties: Optional[dict]
-
+    properties: Optional[Union[dict, list]]
 
 class Charges(BaseModel):
     __root__: List[Charge]
-
 
 class Plan(BaseModel):
     name: Optional[str]
