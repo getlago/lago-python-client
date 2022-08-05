@@ -29,10 +29,49 @@ def plan_object():
         charges=charges
     )
 
+def graduated_plan_object():
+    charge = Charge(
+        billable_metric_id='id',
+        charge_model='graduated',
+        amount_currency='EUR',
+        properties = [
+            {
+                'to_value': 1,
+                'from_value': 0,
+                'flat_amount': "0",
+                'per_unit_amount': "0"
+            },
+            {
+                'to_value': None,
+                'from_value': 2,
+                'flat_amount': "0",
+                'per_unit_amount': "3200"
+            }
+        ]
+    )
+    charges = Charges(__root__=[charge])
+
+    return Plan(
+        name='name',
+        code='code_first',
+        amount_cents=1000,
+        amount_currency='EUR',
+        description='desc',
+        interval='weekly',
+        pay_in_advance=True,
+        charges = charges,
+    )
 
 def mock_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(this_dir, 'fixtures/plan.json')
+
+    with open(data_path, 'r') as plan_response:
+        return plan_response.read()
+
+def mock_graduated_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(this_dir, 'fixtures/graduated_plan.json')
 
     with open(data_path, 'r') as plan_response:
         return plan_response.read()
@@ -54,6 +93,16 @@ class TestPlanClient(unittest.TestCase):
             m.register_uri('POST', 'https://api.getlago.com/api/v1/plans', text=mock_response())
             response = client.plans().create(plan_object())
 
+        self.assertEqual(response.lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac129b')
+        self.assertEqual(response.code, 'plan_code')
+
+    def test_valid_create_graduated_plan_request(self):
+        client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+
+        with requests_mock.Mocker() as m:
+            m.register_uri('POST', 'https://api.getlago.com/api/v1/plans', text=mock_graduated_response())
+            response = client.plans().create(graduated_plan_object())
+        
         self.assertEqual(response.lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac129b')
         self.assertEqual(response.code, 'plan_code')
 
