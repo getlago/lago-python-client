@@ -3,8 +3,11 @@ from typing import Optional
 
 
 class Subscription(BaseModel):
-    plan_code: str
-    customer_id: str
+    plan_code: Optional[str]
+    customer_id: Optional[str]
+    name: Optional[str]
+    subscription_id: Optional[str]
+    unique_id: Optional[str]
 
 
 class SubscriptionResponse(BaseModel):
@@ -16,4 +19,6 @@ class SubscriptionResponse(BaseModel):
     plan_code: Optional[str]
     started_at: Optional[str]
     status: Optional[str]
+    name: Optional[str]
+    unique_id: Optional[str]
     terminated_at: Optional[str]

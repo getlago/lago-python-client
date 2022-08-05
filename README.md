@@ -22,7 +22,7 @@ client = Client(api_key = 'key')
 [Api reference](https://doc.getlago.com/docs/api/events)
 
 ``` python
-from lago_python_client.models import Event
+from lago_python_client.models import Event, BatchEvent
 
 event = Event(
     customer_id="5eb02857-a71e-4ea2-bcf9-57d8885990ba",
@@ -33,6 +33,17 @@ event = Event(
 )
 
 client.events().create(event)
+
+event = BatchEvent(
+    subscription_ids=[
+      "5eb02857-a71e-4ea2-bcf9-57d8885990ba", "8ztrg2857-a71e-4ea2-bcf9-57d8885990ba"],
+    transaction_id="__UNIQUE_ID__",
+    code="123",
+    timestamp=1650893379,
+    properties={"custom_field": "custom"}
+)
+
+client.events().batch_create(event)
 ```
 
 ``` python
@@ -72,7 +83,7 @@ client.customers().create(customer)
 ```
 
 ```python
-customer_usage = client.customers().current_usage('customer_id')
+customer_usage = client.customers().current_usage('customer_id', 'subscription_id')
 ```
 
 ### Invoices
@@ -118,14 +129,20 @@ from lago_python_client.models import Subscription
 
 subscription = Subscription(
     customer_id="5eb02857-a71e-4ea2-bcf9-57d8885990ba",
-    plan_code="code"
+    plan_code="code",
+    unique_id="12345",
+    name="display name"
 )
 client.subscriptions().create(subscription)
 
-params_delete = {
-    "customer_id": "5eb02857-a71e-4ea2-bcf9-57d8885990ba"
-}
-client.subscriptions().delete(params_delete)
+update_params = Subscription(
+    name='new name'
+)
+client.subscriptions().update(update_params, 'id')
+
+client.subscriptions().destroy('id')
+
+client.subscriptions().find_all({'customer_id': '123'})
 ```
 
 ### Applied coupons
