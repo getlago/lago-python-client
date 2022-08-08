@@ -1,1 +1,1 @@
-LAGO_VERSION = '0.3.1'
+LAGO_VERSION = '0.4.0'
