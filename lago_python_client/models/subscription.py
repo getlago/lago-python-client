@@ -24,3 +24,4 @@ class SubscriptionResponse(BaseModel):
     unique_id: Optional[str]
     billing_time: Optional[str]
     terminated_at: Optional[str]
+    subscription_date: Optional[str]

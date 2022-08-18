@@ -9,6 +9,7 @@
     "started_at": "2022-04-29T08:59:51Z",
     "status": "active",
     "billing_time": "anniversary",
-    "terminated_at": null
+    "terminated_at": null,
+    "subscription_date": "2022-04-29"
   }
 }
