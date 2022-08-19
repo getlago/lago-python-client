@@ -268,7 +268,6 @@ from lago_python_client.models import Plan, Charges, Charge
 charge = Charge(
     billable_metric_id='id',
     charge_model='standard',
-    amount_currency='EUR',
     properties={
         'amount': '0.22'
     }
