@@ -8,6 +8,8 @@
     "plan_code": "eartha lynch",
     "started_at": "2022-04-29T08:59:51Z",
     "status": "active",
-    "terminated_at": null
+    "billing_time": "anniversary",
+    "terminated_at": null,
+    "subscription_date": "2022-04-29"
   }
 }

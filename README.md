@@ -132,6 +132,7 @@ subscription = Subscription(
     plan_code="code",
     unique_id="12345",
     name="display name"
+    billing_time="anniversary"
 )
 client.subscriptions().create(subscription)
 
