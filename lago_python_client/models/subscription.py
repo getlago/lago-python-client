@@ -8,6 +8,7 @@ class Subscription(BaseModel):
     name: Optional[str]
     subscription_id: Optional[str]
     unique_id: Optional[str]
+    billing_time: Optional[str]
 
 
 class SubscriptionResponse(BaseModel):
@@ -21,4 +22,6 @@ class SubscriptionResponse(BaseModel):
     status: Optional[str]
     name: Optional[str]
     unique_id: Optional[str]
+    billing_time: Optional[str]
     terminated_at: Optional[str]
+    subscription_date: Optional[str]

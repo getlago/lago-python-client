@@ -9,7 +9,7 @@ from lago_python_client.clients.base_client import LagoApiError
 
 def create_subscription():
     return Subscription(customer_id='5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba', plan_code='eartha lynch',
-                        unique_id='code')
+                        unique_id='code', billing_time='anniversary')
 
 
 def mock_response():
@@ -39,6 +39,7 @@ class TestSubscriptionClient(unittest.TestCase):
         self.assertEqual(response.customer_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
         self.assertEqual(response.status, 'active')
         self.assertEqual(response.plan_code, 'eartha lynch')
+        self.assertEqual(response.billing_time, 'anniversary')
 
     def test_invalid_create_subscriptions_request(self):
         client = Client(api_key='invalid')
@@ -62,6 +63,7 @@ class TestSubscriptionClient(unittest.TestCase):
         self.assertEqual(response.customer_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
         self.assertEqual(response.status, 'active')
         self.assertEqual(response.plan_code, 'eartha lynch')
+        self.assertEqual(response.billing_time, 'anniversary')
 
     def test_invalid_update_subscription_request(self):
         client = Client(api_key='invalid')
