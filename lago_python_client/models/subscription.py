@@ -7,7 +7,6 @@ class Subscription(BaseModel):
     customer_id: Optional[str]
     name: Optional[str]
     subscription_id: Optional[str]
-    unique_id: Optional[str]
     billing_time: Optional[str]
 
 
@@ -21,7 +20,7 @@ class SubscriptionResponse(BaseModel):
     started_at: Optional[str]
     status: Optional[str]
     name: Optional[str]
-    unique_id: Optional[str]
+    subscription_id: Optional[str]
     billing_time: Optional[str]
     terminated_at: Optional[str]
     subscription_date: Optional[str]

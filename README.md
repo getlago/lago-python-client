@@ -130,9 +130,8 @@ from lago_python_client.models import Subscription
 subscription = Subscription(
     customer_id="5eb02857-a71e-4ea2-bcf9-57d8885990ba",
     plan_code="code",
-    unique_id="12345",
-    name="display name"
-    billing_time="anniversary"
+    name="display name",
+    subscription_id="673c2243-873b-4d55-b3eb-5e98c4677980"
 )
 client.subscriptions().create(subscription)
 
@@ -153,10 +152,10 @@ client.subscriptions().find_all({'customer_id': '123'})
 from lago_python_client.models import AppliedCoupon
 
 applied_coupon = AppliedCoupon(
-  customer_id="5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
-  coupon_code="code",
-  amount_cents=123,
-  amount_currency="EUR"
+    customer_id="5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
+    coupon_code="code",
+    amount_cents=123,
+    amount_currency="EUR"
 )
 
 client.applied_coupons().create(applied_coupon)
