@@ -53,7 +53,7 @@ class TestCustomerClient(unittest.TestCase):
 
         with requests_mock.Mocker() as m:
             m.register_uri('GET',
-                           'https://api.getlago.com/api/v1/customers/external_customer_id/current_usage?subscription_id=123',
+                           'https://api.getlago.com/api/v1/customers/external_customer_id/current_usage?external_subscription_id=123',
                            text=mock_response('customer_usage'))
             response = client.customers().current_usage('external_customer_id', '123')
 
@@ -66,7 +66,7 @@ class TestCustomerClient(unittest.TestCase):
 
         with requests_mock.Mocker() as m:
             m.register_uri('GET',
-                           'https://api.getlago.com/api/v1/customers/invalid_customer/current_usage?subscription_id=123',
+                           'https://api.getlago.com/api/v1/customers/invalid_customer/current_usage?external_subscription_id=123',
                            status_code=404, text='')
 
             with self.assertRaises(LagoApiError):
