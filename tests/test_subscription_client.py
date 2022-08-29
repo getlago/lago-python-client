@@ -9,7 +9,7 @@ from lago_python_client.clients.base_client import LagoApiError
 
 def create_subscription():
     return Subscription(external_customer_id='5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba', plan_code='eartha lynch',
-                        unique_id='code', billing_time='anniversary')
+                        external_id='code', billing_time='anniversary')
 
 
 def mock_response():

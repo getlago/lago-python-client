@@ -35,7 +35,7 @@ event = Event(
 client.events().create(event)
 
 event = BatchEvent(
-    subscription_ids=[
+    external_subscription_ids=[
       "5eb02857-a71e-4ea2-bcf9-57d8885990ba", "8ztrg2857-a71e-4ea2-bcf9-57d8885990ba"],
     transaction_id="__UNIQUE_ID__",
     code="123",
@@ -130,7 +130,7 @@ from lago_python_client.models import Subscription
 subscription = Subscription(
     external_customer_id="5eb02857-a71e-4ea2-bcf9-57d8885990ba",
     plan_code="code",
-    unique_id="12345",
+    external_id="12345",
     name="display name"
     billing_time="anniversary"
 )
