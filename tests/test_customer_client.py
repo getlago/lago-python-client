@@ -9,7 +9,7 @@ from lago_python_client.clients.base_client import LagoApiError
 
 def create_customer():
     return Customer(
-        customer_id='5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba',
+        external_id='5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba',
         name='Gavin Belson',
         billing_configuration=BillingConfiguration(
             payment_provider='stripe',
@@ -32,7 +32,7 @@ class TestCustomerClient(unittest.TestCase):
             m.register_uri('POST', 'https://api.getlago.com/api/v1/customers', text=mock_response())
             response = client.customers().create(create_customer())
 
-        self.assertEqual(response.customer_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
+        self.assertEqual(response.external_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
         self.assertEqual(response.name, 'Gavin Belson')
         self.assertEqual(response.email, 'dinesh@piedpiper.test')
         self.assertEqual(response.billing_configuration.payment_provider, 'stripe')
@@ -53,9 +53,9 @@ class TestCustomerClient(unittest.TestCase):
 
         with requests_mock.Mocker() as m:
             m.register_uri('GET',
-                           'https://api.getlago.com/api/v1/customers/customer_id/current_usage?subscription_id=123',
+                           'https://api.getlago.com/api/v1/customers/external_customer_id/current_usage?subscription_id=123',
                            text=mock_response('customer_usage'))
-            response = client.customers().current_usage('customer_id', '123')
+            response = client.customers().current_usage('external_customer_id', '123')
 
         self.assertEqual(response.from_date, '2022-07-01')
         self.assertEqual(len(response.charges_usage), 1)

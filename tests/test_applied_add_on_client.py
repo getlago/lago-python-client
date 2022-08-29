@@ -9,7 +9,7 @@ from lago_python_client.clients.base_client import LagoApiError
 
 def create_applied_add_on():
     return AppliedAddOn(
-        customer_id='5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba',
+        external_customer_id='5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba',
         add_on_code='Free-Lemon-Juice'
     )
 
@@ -30,7 +30,7 @@ class TestAppliedAddOnClient(unittest.TestCase):
             m.register_uri('POST', 'https://api.getlago.com/api/v1/applied_add_ons', text=mock_response())
             response = client.applied_add_ons().create(create_applied_add_on())
 
-        self.assertEqual(response.customer_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
+        self.assertEqual(response.external_customer_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
 
     def test_invalid_create_applied_add_on_request(self):
         client = Client(api_key='invalid')
