@@ -9,7 +9,7 @@ from lago_python_client.clients.base_client import LagoApiError
 
 
 def create_event():
-    return Event(customer_id='5eb02857-a71e-4ea2-bcf9-57d8885990ba', code='123', transaction_id='123')
+    return Event(external_customer_id='5eb02857-a71e-4ea2-bcf9-57d8885990ba', code='123', transaction_id='123')
 
 def create_batch_event():
     return BatchEvent(subscription_ids=['88u02857-a71e-4ea2-bcf9-57d8885990ba'], code='123', transaction_id='123')

@@ -8,7 +8,7 @@ from lago_python_client.clients.base_client import LagoApiError
 
 
 def create_subscription():
-    return Subscription(customer_id='5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba', plan_code='eartha lynch',
+    return Subscription(external_customer_id='5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba', plan_code='eartha lynch',
                         unique_id='code', billing_time='anniversary')
 
 
@@ -36,7 +36,7 @@ class TestSubscriptionClient(unittest.TestCase):
             m.register_uri('POST', 'https://api.getlago.com/api/v1/subscriptions', text=mock_response())
             response = client.subscriptions().create(create_subscription())
 
-        self.assertEqual(response.customer_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
+        self.assertEqual(response.external_customer_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
         self.assertEqual(response.status, 'active')
         self.assertEqual(response.plan_code, 'eartha lynch')
         self.assertEqual(response.billing_time, 'anniversary')
@@ -60,7 +60,7 @@ class TestSubscriptionClient(unittest.TestCase):
                            text=mock_response())
             response = client.subscriptions().update(Subscription(name='name'), identifier)
 
-        self.assertEqual(response.customer_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
+        self.assertEqual(response.external_customer_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
         self.assertEqual(response.status, 'active')
         self.assertEqual(response.plan_code, 'eartha lynch')
         self.assertEqual(response.billing_time, 'anniversary')
@@ -86,7 +86,7 @@ class TestSubscriptionClient(unittest.TestCase):
             m.register_uri('DELETE', 'https://api.getlago.com/api/v1/subscriptions/' + identifier, text=mock_response())
             response = client.subscriptions().destroy(identifier)
 
-        self.assertEqual(response.customer_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
+        self.assertEqual(response.external_customer_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
         self.assertEqual(response.status, 'active')
         self.assertEqual(response.plan_code, 'eartha lynch')
 
@@ -105,9 +105,9 @@ class TestSubscriptionClient(unittest.TestCase):
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
-            m.register_uri('GET', 'https://api.getlago.com/api/v1/subscriptions?customer_id=123',
+            m.register_uri('GET', 'https://api.getlago.com/api/v1/subscriptions?external_customer_id=123',
                            text=mock_collection_response())
-            response = client.subscriptions().find_all({'customer_id': '123'})
+            response = client.subscriptions().find_all({'external_customer_id': '123'})
 
         self.assertEqual(response['subscriptions'][0].lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac129b')
         self.assertEqual(response['meta']['current_page'], 1)
