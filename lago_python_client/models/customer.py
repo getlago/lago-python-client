@@ -9,7 +9,7 @@ class BillingConfiguration(BaseModel):
 
 
 class Customer(BaseModel):
-    customer_id: str
+    external_id: str
     address_line1: Optional[str]
     address_line2: Optional[str]
     city: Optional[str]
@@ -29,7 +29,7 @@ class Customer(BaseModel):
 
 class CustomerResponse(BaseModel):
     lago_id: str
-    customer_id: str
+    external_id: str
     address_line1: Optional[str]
     address_line2: Optional[str]
     city: Optional[str]

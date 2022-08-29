@@ -25,7 +25,7 @@ client = Client(api_key = 'key')
 from lago_python_client.models import Event, BatchEvent
 
 event = Event(
-    customer_id="5eb02857-a71e-4ea2-bcf9-57d8885990ba",
+    external_customer_id="5eb02857-a71e-4ea2-bcf9-57d8885990ba",
     transaction_id="__UNIQUE_ID__",
     code="123",
     timestamp=1650893379,
@@ -58,7 +58,7 @@ event = client.events().find(transaction_id)
 from lago_python_client.models import Customer, BillingConfiguration
 
 customer = Customer(
-    customer_id="5eb02857-a71e-4ea2-bcf9-57d8885990ba",
+    external_id="5eb02857-a71e-4ea2-bcf9-57d8885990ba",
     address_line1=None,
     address_line2=None,
     city=None,
@@ -83,7 +83,7 @@ client.customers().create(customer)
 ```
 
 ```python
-customer_usage = client.customers().current_usage('customer_id', 'subscription_id')
+customer_usage = client.customers().current_usage('external_customer_id', 'subscription_id')
 ```
 
 ### Invoices
@@ -128,7 +128,7 @@ invoice = client.invoices().download('5eb02857-a71e-4ea2-bcf9-57d8885990ba')
 from lago_python_client.models import Subscription
 
 subscription = Subscription(
-    customer_id="5eb02857-a71e-4ea2-bcf9-57d8885990ba",
+    external_customer_id="5eb02857-a71e-4ea2-bcf9-57d8885990ba",
     plan_code="code",
     unique_id="12345",
     name="display name"
@@ -143,7 +143,7 @@ client.subscriptions().update(update_params, 'id')
 
 client.subscriptions().destroy('id')
 
-client.subscriptions().find_all({'customer_id': '123'})
+client.subscriptions().find_all({'external_customer_id': '123'})
 ```
 
 ### Applied coupons
@@ -153,7 +153,7 @@ client.subscriptions().find_all({'customer_id': '123'})
 from lago_python_client.models import AppliedCoupon
 
 applied_coupon = AppliedCoupon(
-  customer_id="5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
+  external_customer_id="5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
   coupon_code="code",
   amount_cents=123,
   amount_currency="EUR"
@@ -169,7 +169,7 @@ client.applied_coupons().create(applied_coupon)
 from lago_python_client.models import AppliedAddOn
 
 applied_add_on = AppliedAddOn(
-  customer_id="5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
+  external_customer_id="5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
   add_on_code="code",
   amount_cents=123,
   amount_currency="EUR"
