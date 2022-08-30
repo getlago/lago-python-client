@@ -131,8 +131,8 @@ class TestWalletClient(unittest.TestCase):
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
-            m.register_uri('GET', 'https://api.getlago.com/api/v1/wallets?per_page=2&page=1', text=mock_collection_response())
-            response = client.wallets().find_all({'customer_id: 123, per_page': 2, 'page': 1})
+            m.register_uri('GET', 'https://api.getlago.com/api/v1/wallets?customer_id=123&per_page=2&page=1', text=mock_collection_response())
+            response = client.wallets().find_all({'customer_id': 123, 'per_page': 2, 'page': 1})
 
         self.assertEqual(response['wallets'][1].lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac1111')
         self.assertEqual(response['meta']['current_page'], 1)
