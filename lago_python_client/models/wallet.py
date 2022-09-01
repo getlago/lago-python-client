@@ -4,10 +4,10 @@ from typing import Optional
 
 class Wallet(BaseModel):
     external_customer_id: Optional[str]
-    rate_amount: Optional[float]
+    rate_amount: Optional[str]
     name: Optional[str]
-    paid_credits: Optional[float]
-    granted_credits: Optional[float]
+    paid_credits: Optional[str]
+    granted_credits: Optional[str]
     expiration_date: Optional[str]
 
 
@@ -18,10 +18,10 @@ class WalletResponse(BaseModel):
     status: str
     currency: str
     name: Optional[str]
-    rate_amount: float
-    credits_balance: float
-    balance: float
-    consumed_credits: float
+    rate_amount: str
+    credits_balance: str
+    balance: str
+    consumed_credits: str
     created_at: str
     expiration_date: Optional[str]
     last_balance_sync_at: Optional[str]
