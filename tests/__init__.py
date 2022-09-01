@@ -11,3 +11,5 @@ from tests.test_organization_client import TestOrganizationClient
 from tests.test_invoice_client import TestInvoiceClient
 from tests.test_webhook_client import TestWebhookClient
 from tests.test_client import TestClient
+from tests.test_wallet_client import TestWalletClient
+from tests.test_wallet_transaction_client import TestWalletTransactionClient
