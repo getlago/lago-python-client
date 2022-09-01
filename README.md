@@ -307,7 +307,7 @@ client.plans().find_all({'per_page': 2, 'page': 1})
 from lago_python_client.models import Wallet
 
 wallet = Wallet(
-    customer_id='123',
+    external_customer_id='123',
     name='name1',
     rate_amount=1,
     paid_credits=10,
@@ -324,7 +324,7 @@ client.wallets().find('id')
 
 client.wallets().destroy('id')
 
-client.wallets().find_all({'customer_id': 123, 'per_page': 2, 'page': 1})
+client.wallets().find_all({'external_customer_id': 123, 'per_page': 2, 'page': 1})
 ```
 
 ### Wallet transactions

@@ -3,7 +3,7 @@ from typing import Optional
 
 
 class Wallet(BaseModel):
-    customer_id: Optional[str]
+    external_customer_id: Optional[str]
     rate_amount: Optional[float]
     name: Optional[str]
     paid_credits: Optional[float]
