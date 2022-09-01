@@ -10,3 +10,5 @@ from lago_python_client.models.customer import Customer, BillingConfiguration
 from lago_python_client.models.invoice import InvoiceStatusChange
 from lago_python_client.models.subscription import Subscription
 from lago_python_client.models.customer_usage import Metric, ChargeObject, ChargeUsage, CustomerUsageResponse
+from lago_python_client.models.wallet import Wallet
+from lago_python_client.models.wallet_transaction import WalletTransaction

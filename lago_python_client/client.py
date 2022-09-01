@@ -10,6 +10,8 @@ from lago_python_client.clients.customer_client import CustomerClient
 from lago_python_client.clients.invoice_client import InvoiceClient
 from lago_python_client.clients.event_client import EventClient
 from lago_python_client.clients.webhook_client import WebhookClient
+from lago_python_client.clients.wallet_client import WalletClient
+from lago_python_client.clients.wallet_transaction_client import WalletTransactionClient
 from urllib.parse import urljoin
 
 
@@ -62,3 +64,9 @@ class Client:
 
     def webhooks(self):
         return WebhookClient(self.base_api_url(), self.api_key)
+
+    def wallets(self):
+        return WalletClient(self.base_api_url(), self.api_key)
+
+    def wallet_transactions(self):
+        return WalletTransactionClient(self.base_api_url(), self.api_key)
