@@ -10,8 +10,8 @@ from lago_python_client.clients.base_client import LagoApiError
 def wallet_transaction_object():
     return WalletTransaction(
         wallet_id='123',
-        paid_credits=10,
-        granted_credits=10
+        paid_credits='10',
+        granted_credits='10'
     )
 
 
