@@ -309,9 +309,9 @@ from lago_python_client.models import Wallet
 wallet = Wallet(
     external_customer_id='123',
     name='name1',
-    rate_amount=1,
-    paid_credits=10,
-    granted_credits=10
+    rate_amount='1',
+    paid_credits='10',
+    granted_credits='10'
 )
 client.wallets().create(wallet)
 
@@ -335,8 +335,8 @@ from lago_python_client.models import WalletTransaction
 
 wallet_transaction = WalletTransaction(
     wallet_id='123',
-    paid_credits=10,
-    granted_credits=10
+    paid_credits='10',
+    granted_credits='10'
 )
 client.wallet_transactions().create(wallet_transaction)
 ```

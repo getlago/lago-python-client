@@ -4,8 +4,8 @@ from typing import Optional
 
 class WalletTransaction(BaseModel):
     wallet_id: Optional[str]
-    paid_credits: Optional[float]
-    granted_credits: Optional[float]
+    paid_credits: Optional[str]
+    granted_credits: Optional[str]
 
 
 class WalletTransactionResponse(BaseModel):
@@ -13,7 +13,7 @@ class WalletTransactionResponse(BaseModel):
     lago_wallet_id: str
     status: str
     transaction_type: str
-    amount: float
-    credit_amount: float
+    amount: str
+    credit_amount: str
     settled_at: Optional[str]
     created_at: str

@@ -11,9 +11,9 @@ def wallet_object():
     return Wallet(
         name='name',
         external_customer_id='12345',
-        rate_amount=1,
-        paid_credits=10,
-        granted_credits=10
+        rate_amount='1',
+        paid_credits='10',
+        granted_credits='10'
     )
 
 
