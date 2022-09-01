@@ -3,6 +3,7 @@
     {
       "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac129b",
       "lago_customer_id": "12345",
+      "external_customer_id": "external-12345",
       "status": "active",
       "currency": "EUR",
       "name": "name1",
@@ -18,6 +19,7 @@
     {
       "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac1111",
       "lago_customer_id": "12345",
+      "external_customer_id": "external-54321",
       "status": "active",
       "currency": "EUR",
       "name": "name2",

@@ -14,6 +14,7 @@ class Wallet(BaseModel):
 class WalletResponse(BaseModel):
     lago_id: str
     lago_customer_id: str
+    external_customer_id: str
     status: str
     currency: str
     name: Optional[str]
