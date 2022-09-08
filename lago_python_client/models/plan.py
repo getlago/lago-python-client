@@ -4,7 +4,6 @@ from typing import Optional, List, Union
 class Charge(BaseModel):
     id: Optional[str]
     billable_metric_id: Optional[str]
-    amount_currency: Optional[str]
     charge_model: Optional[str]
     properties: Optional[Union[dict, list]]
 
