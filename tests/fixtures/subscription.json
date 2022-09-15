@@ -10,6 +10,9 @@
     "status": "active",
     "billing_time": "anniversary",
     "terminated_at": null,
-    "subscription_date": "2022-04-29"
+    "subscription_date": "2022-04-29",
+    "previous_plan_code": null,
+    "next_plan_code": null,
+    "downgrade_plan_date": null
   }
 }
