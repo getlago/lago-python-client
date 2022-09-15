@@ -24,3 +24,6 @@ class SubscriptionResponse(BaseModel):
     billing_time: Optional[str]
     terminated_at: Optional[str]
     subscription_date: Optional[str]
+    previous_plan_code: Optional[str]
+    next_plan_code: Optional[str]
+    downgrade_plan_date: Optional[str]
