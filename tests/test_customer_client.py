@@ -11,6 +11,7 @@ def create_customer():
     return Customer(
         external_id='5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba',
         name='Gavin Belson',
+        currency='EUR',
         billing_configuration=BillingConfiguration(
             payment_provider='stripe',
             provider_customer_id='cus_12345'
@@ -35,6 +36,7 @@ class TestCustomerClient(unittest.TestCase):
         self.assertEqual(response.external_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
         self.assertEqual(response.name, 'Gavin Belson')
         self.assertEqual(response.email, 'dinesh@piedpiper.test')
+        self.assertEqual(response.currency, 'EUR')
         self.assertEqual(response.billing_configuration.payment_provider, 'stripe')
         self.assertEqual(response.billing_configuration.provider_customer_id, 'cus_12345')
 
