@@ -14,6 +14,7 @@ class Customer(BaseModel):
     address_line2: Optional[str]
     city: Optional[str]
     country: Optional[str]
+    currency: Optional[str]
     email: Optional[str]
     legal_name: Optional[str]
     legal_number: Optional[str]
@@ -34,6 +35,7 @@ class CustomerResponse(BaseModel):
     address_line2: Optional[str]
     city: Optional[str]
     country: Optional[str]
+    currency: Optional[str]
     email: Optional[str]
     created_at: str
     legal_name: Optional[str]
