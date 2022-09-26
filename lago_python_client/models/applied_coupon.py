@@ -7,6 +7,9 @@ class AppliedCoupon(BaseModel):
     coupon_code: str
     amount_cents: Optional[int]
     amount_currency: Optional[str]
+    percentage_rate: Optional[float]
+    frequency: Optional[str]
+    frequency_duration: Optional[int]
 
 
 class AppliedCouponResponse(BaseModel):
@@ -20,3 +23,6 @@ class AppliedCouponResponse(BaseModel):
     expiration_date: Optional[str]
     created_at: str
     terminated_at: Optional[str]
+    percentage_rate: Optional[float]
+    frequency: Optional[str]
+    frequency_duration: Optional[int]
