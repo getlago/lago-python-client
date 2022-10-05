@@ -3,7 +3,7 @@ import requests_mock
 import os
 
 from lago_python_client.client import Client
-from lago_python_client.models import BillableMetric
+from lago_python_client.models import BillableMetric, BillableMetricGroup
 from lago_python_client.clients.base_client import LagoApiError
 
 
@@ -13,9 +13,12 @@ def billable_metric_object():
         code='code_first',
         description='desc',
         aggregation_type='sum_agg',
-        field_name='amount_sum'
+        field_name='amount_sum',
+        group=group()
     )
 
+def group():
+    return BillableMetricGroup(key='country', values=['france', 'italy', 'spain'])
 
 def mock_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
@@ -43,6 +46,7 @@ class TestBillableMetricClient(unittest.TestCase):
 
         self.assertEqual(response.lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac129b')
         self.assertEqual(response.code, 'bm_code')
+        self.assertEqual(response.group, group())
 
     def test_invalid_create_billable_metric_request(self):
         client = Client(api_key='invalid')
