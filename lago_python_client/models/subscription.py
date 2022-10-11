@@ -7,6 +7,7 @@ class Subscription(BaseModel):
     external_customer_id: Optional[str]
     name: Optional[str]
     external_id: Optional[str]
+    subscription_date: Optional[str]
     billing_time: Optional[str]
 
 
