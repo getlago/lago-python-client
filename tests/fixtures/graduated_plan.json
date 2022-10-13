@@ -18,20 +18,22 @@
         "created_at": "2022-07-01T14:47:14Z",
         "amount_currency": "EUR",
         "charge_model": "standard",
-        "properties": [
-          {
-              "to_value": 1,
-              "from_value": 0,
-              "flat_amount": "0",
-              "per_unit_amount": "0"
-          },
-          {
-              "to_value": null,
-              "from_value": 2,
-              "flat_amount": "0",
-              "per_unit_amount": "3200"
-          }
-        ]
+        "properties": {
+          "graduated_ranges": [
+            {
+                "to_value": 1,
+                "from_value": 0,
+                "flat_amount": "0",
+                "per_unit_amount": "0"
+            },
+            {
+                "to_value": null,
+                "from_value": 2,
+                "flat_amount": "0",
+                "per_unit_amount": "3200"
+            }
+          ]
+        }
       }
     ]
   }

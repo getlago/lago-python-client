@@ -34,20 +34,22 @@ def graduated_plan_object():
         billable_metric_id='id',
         charge_model='graduated',
         amount_currency='EUR',
-        properties = [
-            {
-                'to_value': 1,
-                'from_value': 0,
-                'flat_amount': "0",
-                'per_unit_amount': "0"
-            },
-            {
-                'to_value': None,
-                'from_value': 2,
-                'flat_amount': "0",
-                'per_unit_amount': "3200"
-            }
-        ]
+        properties = {
+            'graduated_ranges': [
+                {
+                    'to_value': 1,
+                    'from_value': 0,
+                    'flat_amount': "0",
+                    'per_unit_amount': "0"
+                },
+                {
+                    'to_value': None,
+                    'from_value': 2,
+                    'flat_amount': "0",
+                    'per_unit_amount': "3200"
+                }
+            ]
+        }
     )
     charges = Charges(__root__=[charge])
 
@@ -102,7 +104,7 @@ class TestPlanClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('POST', 'https://api.getlago.com/api/v1/plans', text=mock_graduated_response())
             response = client.plans().create(graduated_plan_object())
-        
+
         self.assertEqual(response.lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac129b')
         self.assertEqual(response.code, 'plan_code')
 

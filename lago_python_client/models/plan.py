@@ -5,7 +5,7 @@ class Charge(BaseModel):
     id: Optional[str]
     billable_metric_id: Optional[str]
     charge_model: Optional[str]
-    properties: Optional[Union[dict, list]]
+    properties: Optional[dict]
 
 class Charges(BaseModel):
     __root__: List[Charge]
