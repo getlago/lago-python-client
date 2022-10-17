@@ -5,6 +5,7 @@ from tests.test_applied_coupon_client import TestAppliedCouponClient
 from tests.test_applied_add_on_client import TestAppliedAddOnClient
 from tests.test_billable_metric_client import TestBillableMetricClient
 from tests.test_coupon_client import TestCouponClient
+from tests.test_group_client import TestGroupClient
 from tests.test_plan_client import TestPlanClient
 from tests.test_add_on_client import TestAddOnClient
 from tests.test_organization_client import TestOrganizationClient
