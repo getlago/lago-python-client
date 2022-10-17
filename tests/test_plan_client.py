@@ -12,9 +12,14 @@ def plan_object():
         billable_metric_id='id',
         charge_model='standard',
         amount_currency='EUR',
-        properties={
-            'amount': '0.22'
-        }
+        group_properties = [
+            {
+                'group_id': 'id',
+                'values': {
+                    'amount': '0.22'
+                }
+            }
+        ]
     )
     charges = Charges(__root__=[charge])
 
