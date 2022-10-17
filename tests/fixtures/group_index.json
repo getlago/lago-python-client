@@ -1,0 +1,26 @@
+{
+  "groups": [
+    {
+      "lago_id": "12345678-1de8-4428-9bcd-779314ac1111",
+      "key": "aws",
+      "value": "europe"
+    },
+    {
+      "lago_id": "87654321-1de8-4428-9bcd-779314ac1111",
+      "key": "google",
+      "value": "usa"
+    },
+    {
+      "lago_id": "12435687-1de8-4428-9bcd-779314ac1111",
+      "key": "google",
+      "value": "europe"
+    }
+  ],
+  "meta": {
+    "current_page": 1,
+    "next_page": 2,
+    "prev_page": null,
+    "total_pages": 8,
+    "total_count": 73
+  }
+}
