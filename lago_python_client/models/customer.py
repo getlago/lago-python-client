@@ -6,6 +6,7 @@ class BillingConfiguration(BaseModel):
     payment_provider: Optional[str]
     provider_customer_id: Optional[str]
     sync: Optional[bool]
+    sync_with_provider: Optional[bool]
 
 
 class Customer(BaseModel):

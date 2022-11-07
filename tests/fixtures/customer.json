@@ -20,7 +20,8 @@
     "currency": "EUR",
     "billing_configuration": {
       "payment_provider": "stripe",
-      "provider_customer_id": "cus_12345"
+      "provider_customer_id": "cus_12345",
+      "sync_with_provider": true
     }
   }
 }
