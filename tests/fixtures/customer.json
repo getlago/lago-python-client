@@ -15,12 +15,12 @@
     "phone": "1-171-883-3711 x245",
     "state": "CA",
     "url": "http://hooli.com",
-    "vat_rate": 12.5,
     "zipcode": "91364",
     "currency": "EUR",
     "billing_configuration": {
       "payment_provider": "stripe",
-      "provider_customer_id": "cus_12345"
+      "provider_customer_id": "cus_12345",
+      "vat_rate": 12.5
     }
   }
 }

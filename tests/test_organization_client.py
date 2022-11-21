@@ -3,14 +3,17 @@ import requests_mock
 import os
 
 from lago_python_client.client import Client
-from lago_python_client.models import Organization
+from lago_python_client.models import Organization, OrganizationBillingConfiguration
 from lago_python_client.clients.base_client import LagoApiError
 
 
 def organization_object():
     return Organization(
         webhook_url="https://test-example.example",
-        vat_rate=15.0,
+        billing_configuration=OrganizationBillingConfiguration(
+            invoice_footer='footer',
+            vat_rate=20
+        )
     )
 
 
