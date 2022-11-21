@@ -2,10 +2,11 @@ from pydantic import BaseModel, Field
 from typing import Optional
 
 
-class BillingConfiguration(BaseModel):
+class CustomerBillingConfiguration(BaseModel):
     payment_provider: Optional[str]
     provider_customer_id: Optional[str]
     sync: Optional[bool]
+    vat_rate: Optional[float]
 
 
 class Customer(BaseModel):
@@ -23,9 +24,8 @@ class Customer(BaseModel):
     phone: Optional[str]
     state: Optional[str]
     url: Optional[str]
-    vat_rate: Optional[float]
     zipcode: Optional[str]
-    billing_configuration: Optional[BillingConfiguration]
+    billing_configuration: Optional[CustomerBillingConfiguration]
 
 
 class CustomerResponse(BaseModel):
@@ -45,6 +45,5 @@ class CustomerResponse(BaseModel):
     phone: Optional[str]
     state: Optional[str]
     url: Optional[str]
-    vat_rate: Optional[float]
     zipcode: Optional[str]
-    billing_configuration: Optional[BillingConfiguration]
+    billing_configuration: Optional[CustomerBillingConfiguration]

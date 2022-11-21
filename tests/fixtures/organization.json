@@ -3,7 +3,6 @@
     "name": "Hooli",
     "created_at": "2022-05-02T13:04:09Z",
     "webhook_url": "https://test-example.example",
-    "vat_rate": 15.0,
     "country": null,
     "address_line1": null,
     "address_line2": null,
@@ -13,6 +12,9 @@
     "city": "city125",
     "legal_name": null,
     "legal_number": null,
-    "invoice_footer": null
+    "billing_configuration": {
+      "invoice_footer": null,
+      "vat_rate": 15.0
+    }
   }
 }
