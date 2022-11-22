@@ -7,6 +7,7 @@ class CustomerBillingConfiguration(BaseModel):
     provider_customer_id: Optional[str]
     sync: Optional[bool]
     vat_rate: Optional[float]
+    sync_with_provider: Optional[bool]
 
 
 class Customer(BaseModel):

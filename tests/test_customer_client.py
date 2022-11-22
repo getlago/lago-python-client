@@ -15,7 +15,8 @@ def create_customer():
         billing_configuration=CustomerBillingConfiguration(
             payment_provider='stripe',
             provider_customer_id='cus_12345',
-            vat_rate=12.5
+            vat_rate=12.5,
+            sync_with_provider=True
         )
     )
 
@@ -41,6 +42,7 @@ class TestCustomerClient(unittest.TestCase):
         self.assertEqual(response.billing_configuration.payment_provider, 'stripe')
         self.assertEqual(response.billing_configuration.provider_customer_id, 'cus_12345')
         self.assertEqual(response.billing_configuration.vat_rate, 12.5)
+        self.assertEqual(response.billing_configuration.sync_with_provider, True)
 
     def test_invalid_create_customers_request(self):
         client = Client(api_key='invalid')
