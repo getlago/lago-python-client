@@ -1,0 +1,47 @@
+{
+  "applied_coupons": [
+    {
+      "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac129b",
+      "lago_coupon_id": "b7ab2926-1de8-4428-9bcd-779314ac129b",
+      "coupon_code": "code",
+      "status": "active",
+      "external_customer_id": "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
+      "lago_customer_id": "99a6094e-199b-4101-896a-54e927ce7bd7",
+      "amount_cents": 123,
+      "amount_cents_remaining": 12,
+      "amount_currency": "EUR",
+      "expiration_date": "2022-04-29",
+      "created_at": "2022-04-29T08:59:51Z",
+      "terminated_at": "2022-04-29T08:59:51Z",
+      "percentage_rate": null,
+      "frequency": "once",
+      "frequency_duration": null,
+      "frequency_duration_remaining": null
+    },
+    {
+      "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac2222",
+      "lago_coupon_id": "b7ab2926-1de8-4428-9bcd-779314ac2222",
+      "coupon_code": "code",
+      "status": "active",
+      "external_customer_id": "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
+      "lago_customer_id": "99a6094e-199b-4101-896a-54e927ce7bd7",
+      "amount_cents": 123,
+      "amount_cents_remaining": 12,
+      "amount_currency": "EUR",
+      "expiration_date": "2022-04-29",
+      "created_at": "2022-04-29T08:59:51Z",
+      "terminated_at": "2022-04-29T08:59:51Z",
+      "percentage_rate": null,
+      "frequency": "once",
+      "frequency_duration": null,
+      "frequency_duration_remaining": null
+    }
+  ],
+  "meta": {
+    "current_page": 1,
+    "next_page": 2,
+    "prev_page": null,
+    "total_pages": 8,
+    "total_count": 73
+  }
+}
