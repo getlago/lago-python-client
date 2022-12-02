@@ -7,7 +7,7 @@
     "charges_from_date": "2022-06-02",
     "issuing_date": "2022-06-02",
     "invoice_type": "type1",
-    "status": "failed",
+    "payment_status": "failed",
     "amount_cents": 100,
     "amount_currency": "EUR",
     "vat_amount_cents": 20,
