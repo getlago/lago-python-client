@@ -24,6 +24,7 @@ class Customer(BaseModel):
     name: str
     phone: Optional[str]
     state: Optional[str]
+    timezone: Optional[str]
     url: Optional[str]
     zipcode: Optional[str]
     billing_configuration: Optional[CustomerBillingConfiguration]
@@ -45,6 +46,8 @@ class CustomerResponse(BaseModel):
     name: str
     phone: Optional[str]
     state: Optional[str]
+    timezone: Optional[str]
+    applicable_timezone: str
     url: Optional[str]
     zipcode: Optional[str]
     billing_configuration: Optional[CustomerBillingConfiguration]

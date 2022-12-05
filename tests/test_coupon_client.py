@@ -14,7 +14,7 @@ def coupon_object():
         amount_cents=1000,
         amount_currency='EUR',
         expiration='no_expiration',
-        expiration_date="2022-08-08",
+        expiration_at="2022-08-08T23:59:59Z",
         coupon_type="fixed_amount",
         reusable=False,
         frequency="once"

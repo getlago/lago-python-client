@@ -8,7 +8,7 @@ class Wallet(BaseModel):
     name: Optional[str]
     paid_credits: Optional[str]
     granted_credits: Optional[str]
-    expiration_date: Optional[str]
+    expiration_at: Optional[str]
 
 
 class WalletResponse(BaseModel):
@@ -23,7 +23,7 @@ class WalletResponse(BaseModel):
     balance: str
     consumed_credits: str
     created_at: str
-    expiration_date: Optional[str]
+    expiration_at: Optional[str]
     last_balance_sync_at: Optional[str]
     last_consumed_credit_at: Optional[str]
     terminated_at: Optional[str]
