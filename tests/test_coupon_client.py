@@ -16,6 +16,7 @@ def coupon_object():
         expiration='no_expiration',
         expiration_date="2022-08-08",
         coupon_type="fixed_amount",
+        reusable=False,
         frequency="once"
     )
 
