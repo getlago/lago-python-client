@@ -3,12 +3,12 @@ import requests_mock
 import os
 
 from lago_python_client.client import Client
-from lago_python_client.models import InvoiceStatusChange
+from lago_python_client.models import InvoicePaymentStatusChange
 from lago_python_client.clients.base_client import LagoApiError
 
 
 def update_invoice_object():
-    return InvoiceStatusChange(status='failed')
+    return InvoicePaymentStatusChange(payment_status='failed')
 
 
 def mock_response():
@@ -38,7 +38,7 @@ class TestInvoiceClient(unittest.TestCase):
             response = client.invoices().update(update_invoice_object(), '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
 
         self.assertEqual(response.lago_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
-        self.assertEqual(response.status, 'failed')
+        self.assertEqual(response.payment_status, 'failed')
 
     def test_invalid_update_invoice_request(self):
         client = Client(api_key='invalid')
