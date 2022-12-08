@@ -14,3 +14,4 @@ from tests.test_webhook_client import TestWebhookClient
 from tests.test_client import TestClient
 from tests.test_wallet_client import TestWalletClient
 from tests.test_wallet_transaction_client import TestWalletTransactionClient
+from tests.test_credit_note_client import TestCreditNoteClient

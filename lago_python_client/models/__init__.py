@@ -2,6 +2,7 @@ from lago_python_client.models.applied_add_on import AppliedAddOn
 from lago_python_client.models.applied_coupon import AppliedCoupon
 from lago_python_client.models.billable_metric import BillableMetric, BillableMetricGroup
 from lago_python_client.models.coupon import Coupon
+from lago_python_client.models.credit_note import Item, Items, CreditNote, CreditNoteUpdate
 from lago_python_client.models.plan import Plan, Charges, Charge
 from lago_python_client.models.add_on import AddOn
 from lago_python_client.models.organization import Organization, OrganizationBillingConfiguration
