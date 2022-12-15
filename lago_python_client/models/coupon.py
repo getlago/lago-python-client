@@ -11,6 +11,7 @@ class Coupon(BaseModel):
     expiration_date: Optional[str]
     percentage_rate: Optional[float]
     coupon_type: Optional[str]
+    reusable: Optional[bool]
     frequency: Optional[str]
     frequency_duration: Optional[int]
 
@@ -26,5 +27,6 @@ class CouponResponse(BaseModel):
     expiration_date: Optional[str]
     percentage_rate: Optional[float]
     coupon_type: Optional[str]
+    reusable: Optional[bool]
     frequency: Optional[str]
     frequency_duration: Optional[int]
