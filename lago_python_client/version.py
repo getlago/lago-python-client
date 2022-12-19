@@ -1,1 +1,1 @@
-LAGO_VERSION = '0.18.0-alpha'
+LAGO_VERSION = '0.19.0-alpha'
