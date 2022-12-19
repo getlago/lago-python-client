@@ -33,6 +33,8 @@
       "vat_rate": 12.5,
       "zipcode": "91364",
       "currency": "EUR",
+      "timezone": "Europe/Paris",
+      "applicable_timezone": "Europe/Paris",
       "billing_configuration": {
         "payment_provider": "stripe",
         "provider_customer_id": "cus_12345"
