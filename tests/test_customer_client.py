@@ -63,7 +63,7 @@ class TestCustomerClient(unittest.TestCase):
                            text=mock_response('customer_usage'))
             response = client.customers().current_usage('external_customer_id', '123')
 
-        self.assertEqual(response.from_date, '2022-07-01')
+        self.assertEqual(response.from_datetime, '2022-07-01T00:00:00Z')
         self.assertEqual(len(response.charges_usage), 1)
         self.assertEqual(response.charges_usage[0].units, 1.0)
 

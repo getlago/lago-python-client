@@ -12,6 +12,7 @@
     "city": "city125",
     "legal_name": null,
     "legal_number": null,
+    "timezone": "America/New_York",
     "billing_configuration": {
       "invoice_footer": null,
       "vat_rate": 15.0

@@ -23,8 +23,8 @@ class ChargeUsage(BaseModel):
 
 
 class CustomerUsageResponse(BaseModel):
-  from_date: str
-  to_date: str
+  from_datetime: str
+  to_datetime: str
   issuing_date: str
   amount_cents: int
   amount_currency: str

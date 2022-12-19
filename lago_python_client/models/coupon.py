@@ -8,7 +8,7 @@ class Coupon(BaseModel):
     amount_cents: Optional[int]
     amount_currency: Optional[str]
     expiration: Optional[str]
-    expiration_date: Optional[str]
+    expiration_at: Optional[str]
     percentage_rate: Optional[float]
     coupon_type: Optional[str]
     reusable: Optional[bool]
@@ -24,7 +24,7 @@ class CouponResponse(BaseModel):
     amount_currency: str
     created_at: str
     expiration: str
-    expiration_date: Optional[str]
+    expiration_at: Optional[str]
     percentage_rate: Optional[float]
     coupon_type: Optional[str]
     reusable: Optional[bool]

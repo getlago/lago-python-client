@@ -17,6 +17,8 @@
     "url": "http://hooli.com",
     "zipcode": "91364",
     "currency": "EUR",
+    "timezone": "Europe/Paris",
+    "applicable_timezone": "Europe/Paris",
     "billing_configuration": {
       "payment_provider": "stripe",
       "provider_customer_id": "cus_12345",

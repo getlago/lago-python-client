@@ -6,7 +6,7 @@
     "amount_cents": 5000,
     "amount_currency": "USD",
     "expiration": "no_expiration",
-    "expiration_date": "2022-08-08",
+    "expiration_at": "2022-08-08T23:59:59Z",
     "percentage_rate": null,
     "frequency": "once",
     "frequency_duration": null,
