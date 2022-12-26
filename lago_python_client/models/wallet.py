@@ -9,6 +9,7 @@ class Wallet(BaseModel):
     paid_credits: Optional[str]
     granted_credits: Optional[str]
     expiration_at: Optional[str]
+    currency: Optional[str]
 
 
 class WalletResponse(BaseModel):
