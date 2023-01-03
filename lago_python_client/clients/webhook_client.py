@@ -10,7 +10,7 @@ class WebhookClient(BaseClient):
         return 'webhook'
 
     def public_key(self):
-        query_url = urljoin(self.base_url, 'webhooks/public_key')
+        query_url = urljoin(self.base_url, 'webhooks/json_public_key')
 
         api_response = requests.get(query_url, headers=self.headers())
         data = self.handle_response(api_response).json().get(self.root_name())

@@ -19,7 +19,7 @@ class TestWebhookClient(unittest.TestCase):
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
-            m.register_uri('GET', 'https://api.getlago.com/api/v1/webhooks/public_key', text=mock_response())
+            m.register_uri('GET', 'https://api.getlago.com/api/v1/webhooks/json_public_key', text=mock_response())
             response = client.webhooks().public_key()
 
         self.assertEqual(response, b'key')
@@ -28,7 +28,7 @@ class TestWebhookClient(unittest.TestCase):
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:
-            m.register_uri('GET', 'https://api.getlago.com/api/v1/webhooks/public_key', status_code=401, text='')
+            m.register_uri('GET', 'https://api.getlago.com/api/v1/webhooks/json_public_key', status_code=401, text='')
 
             with self.assertRaises(LagoApiError):
                 client.webhooks().public_key()
