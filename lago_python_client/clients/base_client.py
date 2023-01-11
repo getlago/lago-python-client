@@ -1,7 +1,7 @@
 from collections.abc import MutableMapping
 import json
 from http import HTTPStatus
-from typing import Any
+from typing import Any, Optional
 from urllib.parse import urljoin, urlencode
 
 import orjson
@@ -19,7 +19,7 @@ class BaseClient:
         self.base_url = base_url
         self.api_key = api_key
 
-    def find(self, resource_id: str, params: dict | None = None):
+    def find(self, resource_id: str, params: Optional[dict] = None):
         api_resource = self.api_resource() + '/' + resource_id
         query_url = urljoin(self.base_url, api_resource)
 
@@ -32,7 +32,7 @@ class BaseClient:
 
         return self.prepare_response(data)
 
-    def find_all(self, options: dict | None = None):
+    def find_all(self, options: Optional[dict] = None):
         if options:
             api_resource = self.api_resource() + '?' + urlencode(options)
         else:
@@ -68,7 +68,7 @@ class BaseClient:
         else:
             return self.prepare_response(data.json().get(self.root_name()))
 
-    def update(self, input_object: BaseModel, identifier: str | None = None):
+    def update(self, input_object: BaseModel, identifier: Optional[str] = None):
         api_resource = self.api_resource()
 
         if identifier is not None:
@@ -104,7 +104,7 @@ class BaseClient:
         else:
             if response.text:
                 response_data: Any = orjson.loads(response.text)
-                detail: str | None = getattr(response_data, 'error', None)
+                detail: Optional[str] = getattr(response_data, 'error', None)
             else:
                 response_data = None
                 detail = None
@@ -134,10 +134,10 @@ class LagoApiError(Exception):
     def __init__(
         self,
         status_code: int,
-        url: str | None,
+        url: Optional[str],
         response: Any,
-        detail: str | None = None,
-        headers: MutableMapping[str, str] | None = None,
+        detail: Optional[str] = None,
+        headers: Optional[MutableMapping[str, str]] = None,
     ) -> None:
         if detail is None:
             detail = HTTPStatus(status_code).phrase
