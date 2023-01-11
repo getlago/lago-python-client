@@ -95,7 +95,7 @@ class BaseClient:
 
         return headers
 
-    def handle_response(self, response: Response) -> Response | None:
+    def handle_response(self, response: Response) -> Optional[Response]:
         if response.status_code in BaseClient.RESPONSE_SUCCESS_CODES:
             if response.text:
                 return response
