@@ -1,6 +1,6 @@
-from collections.abc import MutableMapping
 import json
 from http import HTTPStatus
+import sys
 from typing import Any, Optional
 from urllib.parse import urljoin, urlencode
 
@@ -10,6 +10,11 @@ import requests
 from requests import Response
 
 from lago_python_client.version import LAGO_VERSION
+
+if sys.version_info < (3, 9):
+    from typing import MutableMapping
+else:
+    from collections.abc import MutableMapping
 
 
 class BaseClient:
