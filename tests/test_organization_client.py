@@ -12,6 +12,7 @@ def organization_object():
         webhook_url="https://test-example.example",
         billing_configuration=OrganizationBillingConfiguration(
             invoice_footer='footer',
+            invoice_grace_period=3,
             vat_rate=20
         )
     )
