@@ -38,6 +38,7 @@ class TestInvoiceClient(unittest.TestCase):
             response = client.invoices().update(update_invoice_object(), '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
 
         self.assertEqual(response.lago_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
+        self.assertEqual(response.status, 'finalized')
         self.assertEqual(response.payment_status, 'failed')
 
     def test_invalid_update_invoice_request(self):

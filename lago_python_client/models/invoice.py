@@ -37,6 +37,7 @@ class InvoiceResponse(BaseModel):
     sequential_id: int
     issuing_date: Optional[str]
     invoice_type: str
+    status: str
     payment_status: str
     amount_cents: int
     amount_currency: str
