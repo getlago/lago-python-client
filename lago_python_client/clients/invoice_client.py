@@ -32,3 +32,11 @@ class InvoiceClient(BaseClient):
         data = self.handle_response(api_response).json().get(self.root_name())
 
         return self.prepare_response(data)
+
+    def finalize(self, resource_id: str):
+        api_resource = self.api_resource() + '/' + resource_id + '/finalize'
+        query_url = urljoin(self.base_url, api_resource)
+        api_response = requests.put(query_url, headers=self.headers())
+        data = self.handle_response(api_response).json().get(self.root_name())
+
+        return self.prepare_response(data)
