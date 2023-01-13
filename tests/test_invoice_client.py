@@ -123,6 +123,17 @@ class TestInvoiceClient(unittest.TestCase):
 
         self.assertEqual(response.lago_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
 
+    def test_valid_finalize_invoice_request(self):
+        client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+
+        with requests_mock.Mocker() as m:
+            m.register_uri('PUT',
+                            'https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba/finalize',
+                            text=mock_response())
+            response = client.invoices().finalize('5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
+
+        self.assertEqual(response.lago_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
+
 
 if __name__ == '__main__':
     unittest.main()
