@@ -20,10 +20,11 @@
     "timezone": "Europe/Paris",
     "applicable_timezone": "Europe/Paris",
     "billing_configuration": {
+      "invoice_grace_period": 3,
       "payment_provider": "stripe",
       "provider_customer_id": "cus_12345",
-      "vat_rate": 12.5,
-      "sync_with_provider": true
+      "sync_with_provider": true,
+      "vat_rate": 12.5
     }
   }
 }
