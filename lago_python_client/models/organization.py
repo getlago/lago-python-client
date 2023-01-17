@@ -4,6 +4,7 @@ from typing import Optional
 
 class OrganizationBillingConfiguration(BaseModel):
     invoice_footer: Optional[str]
+    invoice_grace_period: Optional[int]
     vat_rate: Optional[float]
 
 

@@ -15,6 +15,7 @@
     "timezone": "America/New_York",
     "billing_configuration": {
       "invoice_footer": null,
+      "invoice_grace_period": 3,
       "vat_rate": 15.0
     }
   }

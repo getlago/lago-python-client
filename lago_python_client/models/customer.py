@@ -3,10 +3,11 @@ from typing import Optional
 
 
 class CustomerBillingConfiguration(BaseModel):
+    invoice_grace_period: Optional[int]
     payment_provider: Optional[str]
     provider_customer_id: Optional[str]
-    sync: Optional[bool]
     vat_rate: Optional[float]
+    sync: Optional[bool]
     sync_with_provider: Optional[bool]
 
 

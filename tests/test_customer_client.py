@@ -13,10 +13,11 @@ def create_customer():
         name='Gavin Belson',
         currency='EUR',
         billing_configuration=CustomerBillingConfiguration(
+            invoice_grace_period=3,
             payment_provider='stripe',
             provider_customer_id='cus_12345',
-            vat_rate=12.5,
-            sync_with_provider=True
+            sync_with_provider=True,
+            vat_rate=12.5
         )
     )
 
@@ -39,10 +40,11 @@ class TestCustomerClient(unittest.TestCase):
         self.assertEqual(response.name, 'Gavin Belson')
         self.assertEqual(response.email, 'dinesh@piedpiper.test')
         self.assertEqual(response.currency, 'EUR')
+        self.assertEqual(response.billing_configuration.invoice_grace_period, 3)
         self.assertEqual(response.billing_configuration.payment_provider, 'stripe')
         self.assertEqual(response.billing_configuration.provider_customer_id, 'cus_12345')
-        self.assertEqual(response.billing_configuration.vat_rate, 12.5)
         self.assertEqual(response.billing_configuration.sync_with_provider, True)
+        self.assertEqual(response.billing_configuration.vat_rate, 12.5)
 
     def test_invalid_create_customers_request(self):
         client = Client(api_key='invalid')
