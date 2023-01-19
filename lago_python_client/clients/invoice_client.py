@@ -21,9 +21,12 @@ class InvoiceClient(BaseClient):
         api_resource = self.api_resource() + '/' + resource_id + '/download'
         query_url = urljoin(self.base_url, api_resource)
         api_response = requests.post(query_url, headers=self.headers())
-        data = self.handle_response(api_response).json().get(self.root_name())
+        data = self.handle_response(api_response)
 
-        return self.prepare_response(data)
+        if data is None:
+            return True
+        else:
+            return self.prepare_response(data.json().get(self.root_name()))
 
     def retry_payment(self, resource_id: str):
         api_resource = self.api_resource() + '/' + resource_id + '/retry_payment'
