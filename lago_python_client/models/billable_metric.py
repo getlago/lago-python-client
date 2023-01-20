@@ -22,3 +22,5 @@ class BillableMetricResponse(BaseModel):
     field_name: Optional[str]
     created_at: str
     group: BillableMetricGroup
+    active_subscriptions_count: int
+    draft_invoices_count: int
