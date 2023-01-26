@@ -12,6 +12,8 @@
       "trial_period": 3.0,
       "pay_in_advance": true,
       "bill_charges_monthly": null,
+      "active_subscriptions_count": 0,
+      "draft_invoices_count": 0,
       "charges": [
         {
           "lago_id": "51c1e851-5be6-4343-a0ee-39a81d8b4ee1",
@@ -40,6 +42,8 @@
       "trial_period": 2.0,
       "pay_in_advance": true,
       "bill_charges_monthly": null,
+      "active_subscriptions_count": 0,
+      "draft_invoices_count": 0,
       "charges": [
         {
           "lago_id": "dfdc725d-6341-4d61-831e-4ac9ccd509c0",
@@ -65,6 +69,8 @@
       "trial_period": 0.0,
       "pay_in_advance": true,
       "bill_charges_monthly": null,
+      "active_subscriptions_count": 0,
+      "draft_invoices_count": 0,
       "charges": []
     }
   ],

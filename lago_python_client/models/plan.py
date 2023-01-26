@@ -41,3 +41,5 @@ class PlanResponse(BaseModel):
     pay_in_advance: Optional[bool]
     bill_charges_monthly: Optional[bool]
     charges: Optional[Charges]
+    active_subscriptions_count: int
+    draft_invoices_count: int

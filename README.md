@@ -3,6 +3,7 @@
 This is a python wrapper for Lago API
 
 [![PyPI version](https://badge.fury.io/py/lago-python-client.svg)](https://badge.fury.io/py/lago-python-client)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://spdx.org/licenses/MIT.html)
 
 ## Installation
 
@@ -37,7 +38,7 @@ The Lago documentation is available at [doc.getlago.com](https://doc.getlago.com
 * [#55](https://github.com/getlago/lago-python-client/pull/55) -- Error handling (`LagoApiError`)
 
 
-Example, creating wallet: 
+Example, creating wallet:
 
 ```
 try:
@@ -74,4 +75,4 @@ The contribution documentation is available [here](https://github.com/getlago/la
 
 ## License
 
-Lago Python client is distributed under [AGPL-3.0](LICENSE).
+Lago Python client is distributed under [MIT license](LICENSE).
