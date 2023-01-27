@@ -27,6 +27,18 @@ class WalletTransactionClient(BaseClient):
 
         return self.prepare_response(data.json().get(self.root_name()))
 
+    def find_all(self, wallet_id: str, options: Dict = None):
+        if options:
+            api_resource = 'wallets/' + wallet_id + '/wallet_transactions?' + urlencode(options)
+        else:
+            api_resource = 'wallets/' + wallet_id + '/wallet_transactions'
+
+        query_url = urljoin(self.base_url, api_resource)
+        api_response = requests.get(query_url, headers=self.headers())
+        data = self.handle_response(api_response).json()
+
+        return self.prepare_index_response(data)
+
     def prepare_object_response(self, data: Dict):
         return WalletTransactionResponse.parse_obj(data)
 
@@ -38,6 +50,19 @@ class WalletTransactionClient(BaseClient):
 
         response = {
             self.api_resource(): collection
+        }
+
+        return response
+
+    def prepare_index_response(self, data: dict):
+        collection = []
+
+        for el in data[self.api_resource()]:
+            collection.append(self.prepare_object_response(el))
+
+        response = {
+            self.api_resource(): collection,
+            'meta': data['meta']
         }
 
         return response
