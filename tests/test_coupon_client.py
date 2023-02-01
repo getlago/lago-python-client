@@ -3,7 +3,7 @@ import requests_mock
 import os
 
 from lago_python_client.client import Client
-from lago_python_client.models import Coupon
+from lago_python_client.models import Coupon, LimitationConfiguration
 from lago_python_client.clients.base_client import LagoApiError
 
 
@@ -17,7 +17,8 @@ def coupon_object():
         expiration_at="2022-08-08T23:59:59Z",
         coupon_type="fixed_amount",
         reusable=False,
-        frequency="once"
+        frequency="once",
+        applies_to=LimitationConfiguration(plan_codes=['plan1'])
     )
 
 

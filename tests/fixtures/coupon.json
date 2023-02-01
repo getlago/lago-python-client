@@ -12,6 +12,8 @@
     "frequency_duration": null,
     "coupon_type": "fixed_amount",
     "reusable": false,
+    "limited_plans": true,
+    "plan_codes": ["plan1"],
     "created_at": "2022-04-29T08:59:51Z"
   }
 }
