@@ -24,20 +24,18 @@ class BaseClient:
         self.base_url = base_url
         self.api_key = api_key
 
-    def find(self, resource_id: str, params: Optional[dict] = None):
+    def find(self, resource_id: str, params: dict = {}):
         api_resource = self.api_resource() + '/' + resource_id
         query_url = urljoin(self.base_url, api_resource)
 
-        data = None
-        if params is not None:
-            data = json.dumps(params)
+        data = json.dumps(params) if params else None
 
         api_response = requests.get(query_url, data=data, headers=self.headers())
         data = self.handle_response(api_response).json().get(self.root_name())
 
         return self.prepare_response(data)
 
-    def find_all(self, options: Optional[dict] = None):
+    def find_all(self, options: dict = {}):
         if options:
             api_resource = self.api_resource() + '?' + urlencode(options)
         else:
