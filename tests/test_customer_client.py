@@ -80,6 +80,26 @@ class TestCustomerClient(unittest.TestCase):
             with self.assertRaises(LagoApiError):
                 client.customers().current_usage('invalid_customer', '123')
 
+    def test_valid_destroy_customer_request(self):
+        client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+        external_id = '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
+
+        with requests_mock.Mocker() as m:
+            m.register_uri('DELETE', 'https://api.getlago.com/api/v1/customers/' + external_id, text=mock_response())
+            response = client.customers().destroy(external_id)
+
+        self.assertEqual(response.lago_id, '99a6094e-199b-4101-896a-54e927ce7bd7')
+        self.assertEqual(response.external_id, external_id)
+
+    def test_invalid_destroy_customer_request(self):
+        client = Client(api_key='invalid')
+        external_id = 'external_id'
+
+        with requests_mock.Mocker() as m:
+            m.register_uri('DELETE', 'https://api.getlago.com/api/v1/customers/' + external_id, status_code=404, text='')
+
+            with self.assertRaises(LagoApiError):
+                client.customers().destroy(external_id)
 
 if __name__ == '__main__':
     unittest.main()
