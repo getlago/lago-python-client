@@ -78,6 +78,35 @@ class TestAppliedCouponClient(unittest.TestCase):
             with self.assertRaises(LagoApiError):
                 client.applied_coupons().find_all()
 
+    def test_valid_destroy_applied_coupon_request(self):
+        client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+        external_customer_id = 'external_customer_id'
+        coupon_code = 'coupon_code'
+
+        with requests_mock.Mocker() as m:
+            m.register_uri(
+                'DELETE',
+                'https://api.getlago.com/api/v1/customers/' + external_customer_id + '/coupons/' + coupon_code,
+                text=mock_response()
+            )
+            response = client.applied_coupons().destroy(external_customer_id, coupon_code)
+
+        self.assertEqual(response.lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac129b')
+
+    def test_invalid_destroy_applied_coupon_request(self):
+        client = Client(api_key='invalid')
+        external_customer_id = 'external_customer_id'
+        coupon_code = 'coupon_code'
+
+        with requests_mock.Mocker() as m:
+            m.register_uri(
+                'DELETE',
+                'https://api.getlago.com/api/v1/customers/' + external_customer_id + '/coupons/' + coupon_code,
+                status_code=404,
+                text=''
+            )
+            with self.assertRaises(LagoApiError):
+                client.applied_coupons().destroy(external_customer_id, coupon_code)
 
 if __name__ == '__main__':
     unittest.main()

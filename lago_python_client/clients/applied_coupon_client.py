@@ -1,7 +1,10 @@
+import requests
+
 from .base_client import BaseClient
 from lago_python_client.models.applied_coupon import AppliedCouponResponse
 from typing import Dict
-
+from urllib.parse import urljoin
+from requests import Response
 
 class AppliedCouponClient(BaseClient):
     def api_resource(self):
@@ -12,3 +15,12 @@ class AppliedCouponClient(BaseClient):
 
     def prepare_response(self, data: Dict):
         return AppliedCouponResponse.parse_obj(data)
+
+    def destroy(self, external_customer_id: str, coupon_code: str):
+        api_resource = 'customers/' + external_customer_id + '/coupons/' + coupon_code
+        query_url = urljoin(self.base_url, api_resource)
+
+        api_response = requests.delete(query_url, headers=self.headers())
+        data = self.handle_response(api_response).json().get(self.root_name())
+
+        return self.prepare_response(data)
