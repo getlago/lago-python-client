@@ -21,15 +21,15 @@ class Client:
     BASE_URL = 'https://api.getlago.com/'
     API_PATH = 'api/v1/'
 
-    def __init__(self, api_key: str = None, api_url: str = None):
+    def __init__(self, api_key: str = '', api_url: str = ''):
         self.api_key = api_key
         self.api_url = api_url
 
     def base_api_url(self):
-        if self.api_url is None:
-            return urljoin(Client.BASE_URL, Client.API_PATH)
-        else:
+        if self.api_url:
             return urljoin(self.api_url, Client.API_PATH)
+        else:
+            return urljoin(Client.BASE_URL, Client.API_PATH)
 
     def events(self):
         return EventClient(self.base_api_url(), self.api_key)

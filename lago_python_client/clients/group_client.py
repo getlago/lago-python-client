@@ -2,7 +2,6 @@ import requests
 
 from .base_client import BaseClient
 from lago_python_client.models.group import GroupResponse
-from typing import Dict
 from urllib.parse import urljoin, urlencode
 from requests import Response
 
@@ -13,10 +12,10 @@ class GroupClient(BaseClient):
     def root_name(self):
         return 'group'
 
-    def prepare_response(self, data: Dict):
+    def prepare_response(self, data: dict):
         return GroupResponse.parse_obj(data)
 
-    def find_all(self, metric_code: str, options: Dict = None):
+    def find_all(self, metric_code: str, options: dict = {}):
         if options:
             api_resource = 'billable_metrics/' + metric_code + '/groups?' + urlencode(options)
         else:

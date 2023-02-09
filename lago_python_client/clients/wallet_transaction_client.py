@@ -5,7 +5,6 @@ from .base_client import BaseClient
 from pydantic import BaseModel
 from requests import Response
 from lago_python_client.models.wallet_transaction import WalletTransactionResponse
-from typing import Dict
 from urllib.parse import urljoin, urlencode
 
 
@@ -27,7 +26,7 @@ class WalletTransactionClient(BaseClient):
 
         return self.prepare_response(data.json().get(self.root_name()))
 
-    def find_all(self, wallet_id: str, options: Dict = None):
+    def find_all(self, wallet_id: str, options: dict = {}):
         if options:
             api_resource = 'wallets/' + wallet_id + '/wallet_transactions?' + urlencode(options)
         else:
@@ -39,7 +38,7 @@ class WalletTransactionClient(BaseClient):
 
         return self.prepare_index_response(data)
 
-    def prepare_object_response(self, data: Dict):
+    def prepare_object_response(self, data: dict):
         return WalletTransactionResponse.parse_obj(data)
 
     def prepare_response(self, data):
