@@ -9,6 +9,7 @@ class CustomerBillingConfiguration(BaseModel):
     vat_rate: Optional[float]
     sync: Optional[bool]
     sync_with_provider: Optional[bool]
+    document_locale: Optional[str]
 
 
 class Customer(BaseModel):

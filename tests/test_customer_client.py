@@ -17,7 +17,8 @@ def create_customer():
             payment_provider='stripe',
             provider_customer_id='cus_12345',
             sync_with_provider=True,
-            vat_rate=12.5
+            vat_rate=12.5,
+            document_locale="fr"
         )
     )
 
@@ -45,6 +46,7 @@ class TestCustomerClient(unittest.TestCase):
         self.assertEqual(response.billing_configuration.provider_customer_id, 'cus_12345')
         self.assertEqual(response.billing_configuration.sync_with_provider, True)
         self.assertEqual(response.billing_configuration.vat_rate, 12.5)
+        self.assertEqual(response.billing_configuration.document_locale, "fr")
 
     def test_invalid_create_customers_request(self):
         client = Client(api_key='invalid')
