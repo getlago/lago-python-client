@@ -81,32 +81,32 @@ class TestAppliedCouponClient(unittest.TestCase):
     def test_valid_destroy_applied_coupon_request(self):
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
         external_customer_id = 'external_customer_id'
-        coupon_code = 'coupon_code'
+        applied_coupon_id = '_ID_'
 
         with requests_mock.Mocker() as m:
             m.register_uri(
                 'DELETE',
-                'https://api.getlago.com/api/v1/customers/' + external_customer_id + '/coupons/' + coupon_code,
+                'https://api.getlago.com/api/v1/customers/' + external_customer_id + '/applied_coupons/' + applied_coupon_id,
                 text=mock_response()
             )
-            response = client.applied_coupons().destroy(external_customer_id, coupon_code)
+            response = client.applied_coupons().destroy(external_customer_id, applied_coupon_id)
 
         self.assertEqual(response.lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac129b')
 
     def test_invalid_destroy_applied_coupon_request(self):
         client = Client(api_key='invalid')
         external_customer_id = 'external_customer_id'
-        coupon_code = 'coupon_code'
+        applied_coupon_id = '_ID_'
 
         with requests_mock.Mocker() as m:
             m.register_uri(
                 'DELETE',
-                'https://api.getlago.com/api/v1/customers/' + external_customer_id + '/coupons/' + coupon_code,
+                'https://api.getlago.com/api/v1/customers/' + external_customer_id + '/applied_coupons/' + applied_coupon_id,
                 status_code=404,
                 text=''
             )
             with self.assertRaises(LagoApiError):
-                client.applied_coupons().destroy(external_customer_id, coupon_code)
+                client.applied_coupons().destroy(external_customer_id, applied_coupon_id)
 
 if __name__ == '__main__':
     unittest.main()
