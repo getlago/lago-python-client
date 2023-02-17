@@ -24,7 +24,8 @@
       "payment_provider": "stripe",
       "provider_customer_id": "cus_12345",
       "sync_with_provider": true,
-      "vat_rate": 12.5
+      "vat_rate": 12.5,
+      "document_locale": "fr"
     }
   }
 }
