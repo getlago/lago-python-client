@@ -13,7 +13,8 @@ def organization_object():
         billing_configuration=OrganizationBillingConfiguration(
             invoice_footer='footer',
             invoice_grace_period=3,
-            vat_rate=20
+            vat_rate=20,
+            document_locale="fr"
         )
     )
 
