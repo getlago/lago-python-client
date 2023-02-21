@@ -16,8 +16,8 @@ class AppliedCouponClient(BaseClient):
     def prepare_response(self, data: Dict):
         return AppliedCouponResponse.parse_obj(data)
 
-    def destroy(self, external_customer_id: str, coupon_code: str):
-        api_resource = 'customers/' + external_customer_id + '/coupons/' + coupon_code
+    def destroy(self, external_customer_id: str, applied_coupon_id: str):
+        api_resource = 'customers/' + external_customer_id + '/applied_coupons/' + applied_coupon_id
         query_url = urljoin(self.base_url, api_resource)
 
         api_response = requests.delete(query_url, headers=self.headers())
