@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from requests import Response
 from lago_python_client.models.wallet_transaction import WalletTransactionResponse
 from urllib.parse import urljoin, urlencode
+from ..services.json import from_json
 
 
 class WalletTransactionClient(BaseClient):
@@ -24,7 +25,7 @@ class WalletTransactionClient(BaseClient):
         api_response = requests.post(query_url, data=data, headers=self.headers())
         data = self.handle_response(api_response)
 
-        return self.prepare_response(data.json().get(self.root_name()))
+        return self.prepare_response(from_json(data).get(self.root_name()))
 
     def find_all(self, wallet_id: str, options: dict = {}):
         if options:
@@ -34,7 +35,7 @@ class WalletTransactionClient(BaseClient):
 
         query_url = urljoin(self.base_url, api_resource)
         api_response = requests.get(query_url, headers=self.headers())
-        data = self.handle_response(api_response).json()
+        data = from_json(self.handle_response(api_response))
 
         return self.prepare_index_response(data)
 

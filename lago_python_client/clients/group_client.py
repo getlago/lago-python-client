@@ -4,6 +4,7 @@ from .base_client import BaseClient
 from lago_python_client.models.group import GroupResponse
 from urllib.parse import urljoin, urlencode
 from requests import Response
+from ..services.json import from_json
 
 class GroupClient(BaseClient):
     def api_resource(self):
@@ -23,6 +24,6 @@ class GroupClient(BaseClient):
 
         query_url = urljoin(self.base_url, api_resource)
         api_response = requests.get(query_url, headers=self.headers())
-        data = self.handle_response(api_response).json()
+        data = from_json(self.handle_response(api_response))
 
         return self.prepare_index_response(data)

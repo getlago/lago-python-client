@@ -10,6 +10,7 @@ import requests
 from requests import Response
 
 from lago_python_client.version import LAGO_VERSION
+from ..services.json import from_json
 
 if sys.version_info < (3, 9):
     from typing import MutableMapping
@@ -31,7 +32,7 @@ class BaseClient:
         data = json.dumps(params) if params else None
 
         api_response = requests.get(query_url, data=data, headers=self.headers())
-        data = self.handle_response(api_response).json().get(self.root_name())
+        data = from_json(self.handle_response(api_response)).get(self.root_name())
 
         return self.prepare_response(data)
 
@@ -44,7 +45,7 @@ class BaseClient:
         query_url = urljoin(self.base_url, api_resource)
 
         api_response = requests.get(query_url, headers=self.headers())
-        data = self.handle_response(api_response).json()
+        data = from_json(self.handle_response(api_response))
 
         return self.prepare_index_response(data)
 
@@ -53,7 +54,7 @@ class BaseClient:
         query_url = urljoin(self.base_url, api_resource)
 
         api_response = requests.delete(query_url, headers=self.headers())
-        data = self.handle_response(api_response).json().get(self.root_name())
+        data = from_json(self.handle_response(api_response)).get(self.root_name())
 
         return self.prepare_response(data)
 
@@ -69,7 +70,7 @@ class BaseClient:
         if data is None:
             return True
         else:
-            return self.prepare_response(data.json().get(self.root_name()))
+            return self.prepare_response(from_json(data).get(self.root_name()))
 
     def update(self, input_object: BaseModel, identifier: Optional[str] = None):
         api_resource = self.api_resource()
@@ -83,7 +84,7 @@ class BaseClient:
         }
         data = json.dumps(query_parameters)
         api_response = requests.put(query_url, data=data, headers=self.headers())
-        data = self.handle_response(api_response).json().get(self.root_name())
+        data = from_json(self.handle_response(api_response)).get(self.root_name())
 
         return self.prepare_response(data)
 
