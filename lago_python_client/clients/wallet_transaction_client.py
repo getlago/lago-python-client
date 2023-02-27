@@ -1,12 +1,11 @@
 import requests
-import json
 
 from .base_client import BaseClient
 from pydantic import BaseModel
 from requests import Response
 from lago_python_client.models.wallet_transaction import WalletTransactionResponse
 from urllib.parse import urljoin, urlencode
-from ..services.json import from_json
+from ..services.json import from_json, to_json
 
 
 class WalletTransactionClient(BaseClient):
@@ -21,7 +20,7 @@ class WalletTransactionClient(BaseClient):
         query_parameters = {
             'wallet_transaction': input_object.dict()
         }
-        data = json.dumps(query_parameters)
+        data = to_json(query_parameters)
         api_response = requests.post(query_url, data=data, headers=self.headers())
         data = self.handle_response(api_response)
 

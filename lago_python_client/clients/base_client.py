@@ -1,4 +1,3 @@
-import json
 from http import HTTPStatus
 import sys
 from typing import Any, Optional
@@ -9,7 +8,7 @@ import requests
 from requests import Response
 
 from lago_python_client.version import LAGO_VERSION
-from ..services.json import from_json
+from ..services.json import from_json, to_json
 
 if sys.version_info < (3, 9):
     from typing import MutableMapping
@@ -28,7 +27,7 @@ class BaseClient:
         api_resource = self.api_resource() + '/' + resource_id
         query_url = urljoin(self.base_url, api_resource)
 
-        data = json.dumps(params) if params else None
+        data = to_json(params) if params else None
 
         api_response = requests.get(query_url, data=data, headers=self.headers())
         data = from_json(self.handle_response(api_response)).get(self.root_name())
@@ -62,7 +61,7 @@ class BaseClient:
         query_parameters = {
             self.root_name(): input_object.dict()
         }
-        data = json.dumps(query_parameters)
+        data = to_json(query_parameters)
         api_response = requests.post(query_url, data=data, headers=self.headers())
         data = self.handle_response(api_response)
 
@@ -81,7 +80,7 @@ class BaseClient:
         query_parameters = {
             self.root_name(): input_object.dict(exclude_none=True)
         }
-        data = json.dumps(query_parameters)
+        data = to_json(query_parameters)
         api_response = requests.put(query_url, data=data, headers=self.headers())
         data = from_json(self.handle_response(api_response)).get(self.root_name())
 
