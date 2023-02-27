@@ -3,6 +3,8 @@ from typing import Optional, List
 from .credit import CreditsResponse, InvoiceItemResponse
 from .customer import CustomerResponse
 from .subscription import SubscriptionsResponse
+from .fee import FeeResponse, FeesResponse
+from .invoice_item import InvoiceItemResponse
 
 
 # Deprecated: Will be removed in the future
@@ -23,21 +25,6 @@ class InvoiceMetadataList(BaseModel):
 class Invoice(BaseModel):
     payment_status: Optional[str]
     metadata: Optional[InvoiceMetadataList]
-
-
-class FeeResponse(BaseModel):
-    lago_id: Optional[str]
-    item: Optional[InvoiceItemResponse]
-    amount_cents: Optional[int]
-    amount_currency: Optional[str]
-    vat_amount_cents: Optional[int]
-    vat_amount_currency: Optional[str]
-    units: Optional[float]
-    events_count: Optional[int]
-
-
-class FeesResponse(BaseModel):
-    __root__: List[FeeResponse]
 
 
 class InvoiceResponse(BaseModel):

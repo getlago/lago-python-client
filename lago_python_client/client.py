@@ -13,6 +13,7 @@ from .clients.subscription_client import SubscriptionClient
 from .clients.customer_client import CustomerClient
 from .clients.invoice_client import InvoiceClient
 from .clients.event_client import EventClient
+from .clients.fee_client import FeeClient
 from .clients.webhook_client import WebhookClient
 from .clients.wallet_client import WalletClient
 from .clients.wallet_transaction_client import WalletTransactionClient
@@ -39,6 +40,10 @@ class Client:
     @callable_cached_property
     def events(self) -> EventClient:
         return EventClient(self.base_api_url, self.api_key)
+
+    @callable_cached_property
+    def fees(self) -> FeeClient:
+        return FeeClient(self.base_api_url, self.api_key)
 
     @callable_cached_property
     def groups(self) -> GroupClient:
