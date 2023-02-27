@@ -4,7 +4,6 @@ import sys
 from typing import Any, Optional
 from urllib.parse import urljoin, urlencode
 
-import orjson
 from pydantic import BaseModel
 import requests
 from requests import Response
@@ -101,13 +100,13 @@ class BaseClient:
 
     def handle_response(self, response: Response) -> Optional[Response]:
         if response.status_code in BaseClient.RESPONSE_SUCCESS_CODES:
-            if response.text:
+            if response.content:
                 return response
             else:
                 return None
         else:
-            if response.text:
-                response_data: Any = orjson.loads(response.text)
+            if response.content:
+                response_data: Any = from_json(response)
                 detail: Optional[str] = getattr(response_data, 'error', None)
             else:
                 response_data = None
