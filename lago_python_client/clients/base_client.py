@@ -1,15 +1,14 @@
-import json
 from http import HTTPStatus
 import sys
 from typing import Any, Optional
 from urllib.parse import urljoin, urlencode
 
-import orjson
 from pydantic import BaseModel
 import requests
 from requests import Response
 
 from lago_python_client.version import LAGO_VERSION
+from ..services.json import from_json, to_json
 
 if sys.version_info < (3, 9):
     from typing import MutableMapping
@@ -28,10 +27,10 @@ class BaseClient:
         api_resource = self.api_resource() + '/' + resource_id
         query_url = urljoin(self.base_url, api_resource)
 
-        data = json.dumps(params) if params else None
+        data = to_json(params) if params else None
 
         api_response = requests.get(query_url, data=data, headers=self.headers())
-        data = self.handle_response(api_response).json().get(self.root_name())
+        data = from_json(self.handle_response(api_response)).get(self.root_name())
 
         return self.prepare_response(data)
 
@@ -44,7 +43,7 @@ class BaseClient:
         query_url = urljoin(self.base_url, api_resource)
 
         api_response = requests.get(query_url, headers=self.headers())
-        data = self.handle_response(api_response).json()
+        data = from_json(self.handle_response(api_response))
 
         return self.prepare_index_response(data)
 
@@ -53,7 +52,7 @@ class BaseClient:
         query_url = urljoin(self.base_url, api_resource)
 
         api_response = requests.delete(query_url, headers=self.headers())
-        data = self.handle_response(api_response).json().get(self.root_name())
+        data = from_json(self.handle_response(api_response)).get(self.root_name())
 
         return self.prepare_response(data)
 
@@ -62,14 +61,14 @@ class BaseClient:
         query_parameters = {
             self.root_name(): input_object.dict()
         }
-        data = json.dumps(query_parameters)
+        data = to_json(query_parameters)
         api_response = requests.post(query_url, data=data, headers=self.headers())
         data = self.handle_response(api_response)
 
         if data is None:
             return True
         else:
-            return self.prepare_response(data.json().get(self.root_name()))
+            return self.prepare_response(from_json(data).get(self.root_name()))
 
     def update(self, input_object: BaseModel, identifier: Optional[str] = None):
         api_resource = self.api_resource()
@@ -81,9 +80,9 @@ class BaseClient:
         query_parameters = {
             self.root_name(): input_object.dict(exclude_none=True)
         }
-        data = json.dumps(query_parameters)
+        data = to_json(query_parameters)
         api_response = requests.put(query_url, data=data, headers=self.headers())
-        data = self.handle_response(api_response).json().get(self.root_name())
+        data = from_json(self.handle_response(api_response)).get(self.root_name())
 
         return self.prepare_response(data)
 
@@ -100,13 +99,13 @@ class BaseClient:
 
     def handle_response(self, response: Response) -> Optional[Response]:
         if response.status_code in BaseClient.RESPONSE_SUCCESS_CODES:
-            if response.text:
+            if response.content:
                 return response
             else:
                 return None
         else:
-            if response.text:
-                response_data: Any = orjson.loads(response.text)
+            if response.content:
+                response_data: Any = from_json(response)
                 detail: Optional[str] = getattr(response_data, 'error', None)
             else:
                 response_data = None

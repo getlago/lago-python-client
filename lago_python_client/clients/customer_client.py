@@ -5,6 +5,7 @@ from lago_python_client.models.customer import CustomerResponse
 from lago_python_client.models.customer_usage import CustomerUsageResponse
 from typing import Dict
 from urllib.parse import urljoin
+from ..services.json import from_json
 
 
 class CustomerClient(BaseClient):
@@ -22,6 +23,6 @@ class CustomerClient(BaseClient):
         query_url = urljoin(self.base_url, api_resource)
 
         api_response = requests.get(query_url, headers=self.headers())
-        data = self.handle_response(api_response).json().get('customer_usage')
+        data = from_json(self.handle_response(api_response)).get('customer_usage')
 
         return CustomerUsageResponse.parse_obj(data)

@@ -1,8 +1,8 @@
 from datetime import datetime, date, time
-from functools import singledispatch
 from typing import Any, Dict, List, Tuple, Union
 from uuid import UUID
 
+from classes import typeclass
 import orjson
 from requests import Response
 
@@ -16,19 +16,22 @@ def to_json(data_container: Serializable) -> str:
     return orjson.dumps(data_container, option=orjson.OPT_NON_STR_KEYS).decode('utf-8')
 
 
-@singledispatch
+@typeclass
 def from_json(json_container) -> DeserializedData:
     """Deserialize data from json format."""
     raise TypeError('Type {0} is not supported'.format(type(json_container)))
 
 
-@from_json.register
+@from_json.instance(bytes)
+@from_json.instance(bytearray)
+@from_json.instance(memoryview)
+@from_json.instance(str)
 def _from_json_default(json_container: Deserializable) -> DeserializedData:
     """Deserialize json string."""
     return orjson.loads(json_container)
 
 
-@from_json.register
+@from_json.instance(Response)
 def _from_json_requests_response_bytes(json_container: Response) -> DeserializedData:
     """Deserialize json from ``requests.Response`` class instances (from content bytes)."""
     return from_json(json_container.content)

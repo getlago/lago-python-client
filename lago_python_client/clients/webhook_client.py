@@ -3,6 +3,7 @@ import requests
 
 from urllib.parse import urljoin
 from .base_client import BaseClient
+from ..services.json import from_json
 
 
 class WebhookClient(BaseClient):
@@ -13,6 +14,6 @@ class WebhookClient(BaseClient):
         query_url = urljoin(self.base_url, 'webhooks/json_public_key')
 
         api_response = requests.get(query_url, headers=self.headers())
-        data = self.handle_response(api_response).json().get(self.root_name())
+        data = from_json(self.handle_response(api_response)).get(self.root_name())
 
         return base64.b64decode(data['public_key'])
