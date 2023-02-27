@@ -3,8 +3,8 @@ import requests_mock
 import os
 
 from lago_python_client.client import Client
+from lago_python_client.exceptions import LagoApiError
 from lago_python_client.models import BillableMetric, BillableMetricGroup
-from lago_python_client.clients.base_client import LagoApiError
 
 
 def billable_metric_object():

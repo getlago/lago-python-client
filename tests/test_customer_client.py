@@ -3,8 +3,8 @@ import requests_mock
 import os
 
 from lago_python_client.client import Client
+from lago_python_client.exceptions import LagoApiError
 from lago_python_client.models import Customer, CustomerBillingConfiguration
-from lago_python_client.clients.base_client import LagoApiError
 
 
 def create_customer():

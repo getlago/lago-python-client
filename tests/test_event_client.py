@@ -3,9 +3,8 @@ import requests_mock
 import os
 
 from lago_python_client.client import Client
-from lago_python_client.models import Event
-from lago_python_client.models import BatchEvent
-from lago_python_client.clients.base_client import LagoApiError
+from lago_python_client.exceptions import LagoApiError
+from lago_python_client.models.event import BatchEvent, Event
 
 
 def create_event():
