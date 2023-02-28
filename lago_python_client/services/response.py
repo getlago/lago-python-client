@@ -1,5 +1,9 @@
 from http import HTTPStatus
-from typing import Any, Final, Optional, Set
+from typing import Any, Optional, Set
+try:
+    from typing import Final
+except ImportError:  # Python 3.7
+    from typing_extensions import Final
 
 from requests import Response
 
