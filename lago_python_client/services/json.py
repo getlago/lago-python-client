@@ -1,10 +1,13 @@
 from datetime import datetime, date, time
-from typing import Any, Dict, List, Tuple, Union
+from http import HTTPStatus
+from typing import Any, Dict, List, NoReturn, Tuple, Union
 from uuid import UUID
 
 from classes import typeclass
 import orjson
 from requests import Response
+
+from ..exceptions import LagoApiError
 
 Serializable = Union[str, Dict[Any, Any], List[Any], Tuple[Any], int, float, bool, datetime, date, time, UUID, None]  # And dataclass, TypedDict and ndarray
 Deserializable = Union[bytes, bytearray, memoryview, str]
@@ -28,7 +31,28 @@ def from_json(json_container) -> DeserializedData:
 @from_json.instance(str)
 def _from_json_default(json_container: Deserializable) -> DeserializedData:
     """Deserialize json string."""
-    return orjson.loads(json_container)
+    try:
+        return orjson.loads(json_container)
+    except orjson.JSONDecodeError as exc:
+        raise LagoApiError(
+            status_code=HTTPStatus.INTERNAL_SERVER_ERROR,  # 500
+            url=None,
+            response=None,
+            detail=exc.msg,
+            headers=None,
+        )
+
+
+@from_json.instance(None)
+def _from_json_none(json_container: None) -> NoReturn:
+    """Deserialize json from ``None``."""
+    raise LagoApiError(
+        status_code=HTTPStatus.INTERNAL_SERVER_ERROR,  # 500
+        url=None,
+        response=None,
+        detail='Input must be bytes, bytearray, memoryview, or str',
+        headers=None,
+    )
 
 
 @from_json.instance(Response)

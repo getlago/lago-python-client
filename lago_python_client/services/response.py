@@ -1,31 +1,42 @@
-from typing import Any, Final, Optional, Sequence
+from http import HTTPStatus
+from typing import Any, Final, Optional, Set
 
 from requests import Response
 
 from ..exceptions import LagoApiError
 from ..services.json import from_json
 
-RESPONSE_SUCCESS_CODES: Final[Sequence[int]] = [200, 201, 202, 204]
+RESPONSE_SUCCESS_CODES: Final[Set[int]] = {
+    HTTPStatus.OK,  # 200
+    HTTPStatus.CREATED,  # 201
+    HTTPStatus.ACCEPTED,  # 202
+    HTTPStatus.NO_CONTENT,  # 204
+}
+
+
+def _is_status_code_successful(response: Response) -> bool:
+    """Check status code."""
+    return response.status_code in RESPONSE_SUCCESS_CODES
+
+
+def _is_content_exists(response: Response) -> bool:
+    """Check content is not empty."""
+    return bool(response.content)
 
 
 def verify_response(response: Response) -> Optional[Response]:
-    """Verify response. Return response on success. Raise exception otherwise."""
-    if response.status_code in RESPONSE_SUCCESS_CODES:
-        if response.content:
-            return response
-        else:
-            return None
-    else:
-        if response.content:
-            response_data: Any = from_json(response)
-            detail: Optional[str] = getattr(response_data, 'error', None)
-        else:
-            response_data = None
-            detail = None
+    """Verify response."""
+    if not _is_status_code_successful(response):
+        response_data: Any
         raise LagoApiError(
             status_code=response.status_code,
             url=response.request.url,
-            response=response_data,
-            detail=detail,
+            response=(response_data := from_json(response)),
+            detail=getattr(response_data, 'error', None),
             headers=response.headers,
         )
+
+    if not _is_content_exists(response):
+        return None
+
+    return response
