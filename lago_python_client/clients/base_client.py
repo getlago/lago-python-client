@@ -5,13 +5,12 @@ from pydantic import BaseModel
 import requests
 from requests import Response
 
-from ..exceptions import LagoApiError
 from ..services.json import from_json, to_json
+from ..services.response import verify_response
 from ..version import LAGO_VERSION
 
 
 class BaseClient:
-    RESPONSE_SUCCESS_CODES = [200, 201, 202, 204]
 
     def __init__(self, base_url: str, api_key: str):
         self.base_url = base_url
@@ -24,7 +23,7 @@ class BaseClient:
         data = to_json(params) if params else None
 
         api_response = requests.get(query_url, data=data, headers=self.headers())
-        data = from_json(self.handle_response(api_response)).get(self.root_name())
+        data = from_json(verify_response(api_response)).get(self.root_name())
 
         return self.prepare_response(data)
 
@@ -37,7 +36,7 @@ class BaseClient:
         query_url = urljoin(self.base_url, api_resource)
 
         api_response = requests.get(query_url, headers=self.headers())
-        data = from_json(self.handle_response(api_response))
+        data = from_json(verify_response(api_response))
 
         return self.prepare_index_response(data)
 
@@ -46,7 +45,7 @@ class BaseClient:
         query_url = urljoin(self.base_url, api_resource)
 
         api_response = requests.delete(query_url, headers=self.headers())
-        data = from_json(self.handle_response(api_response)).get(self.root_name())
+        data = from_json(verify_response(api_response)).get(self.root_name())
 
         return self.prepare_response(data)
 
@@ -57,7 +56,7 @@ class BaseClient:
         }
         data = to_json(query_parameters)
         api_response = requests.post(query_url, data=data, headers=self.headers())
-        data = self.handle_response(api_response)
+        data = verify_response(api_response)
 
         if data is None:
             return True
@@ -76,7 +75,7 @@ class BaseClient:
         }
         data = to_json(query_parameters)
         api_response = requests.put(query_url, data=data, headers=self.headers())
-        data = from_json(self.handle_response(api_response)).get(self.root_name())
+        data = from_json(verify_response(api_response)).get(self.root_name())
 
         return self.prepare_response(data)
 
@@ -90,27 +89,6 @@ class BaseClient:
         }
 
         return headers
-
-    def handle_response(self, response: Response) -> Optional[Response]:
-        if response.status_code in BaseClient.RESPONSE_SUCCESS_CODES:
-            if response.content:
-                return response
-            else:
-                return None
-        else:
-            if response.content:
-                response_data: Any = from_json(response)
-                detail: Optional[str] = getattr(response_data, 'error', None)
-            else:
-                response_data = None
-                detail = None
-            raise LagoApiError(
-                status_code=response.status_code,
-                url=response.request.url,
-                response=response_data,
-                detail=detail,
-                headers=response.headers,
-            )
 
     def prepare_index_response(self, data: dict):
         collection = []

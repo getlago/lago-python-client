@@ -6,6 +6,7 @@ from typing import Dict
 from urllib.parse import urljoin
 from requests import Response
 from ..services.json import from_json
+from ..services.response import verify_response
 
 
 class InvoiceClient(BaseClient):
@@ -22,7 +23,7 @@ class InvoiceClient(BaseClient):
         api_resource = self.api_resource() + '/' + resource_id + '/download'
         query_url = urljoin(self.base_url, api_resource)
         api_response = requests.post(query_url, headers=self.headers())
-        data = self.handle_response(api_response)
+        data = verify_response(api_response)
 
         if data is None:
             return True
@@ -33,7 +34,7 @@ class InvoiceClient(BaseClient):
         api_resource = self.api_resource() + '/' + resource_id + '/retry_payment'
         query_url = urljoin(self.base_url, api_resource)
         api_response = requests.post(query_url, headers=self.headers())
-        data = from_json(self.handle_response(api_response)).get(self.root_name())
+        data = from_json(verify_response(api_response)).get(self.root_name())
 
         return self.prepare_response(data)
 
@@ -41,7 +42,7 @@ class InvoiceClient(BaseClient):
         api_resource = self.api_resource() + '/' + resource_id + '/refresh'
         query_url = urljoin(self.base_url, api_resource)
         api_response = requests.put(query_url, headers=self.headers())
-        data = from_json(self.handle_response(api_response)).get(self.root_name())
+        data = from_json(verify_response(api_response)).get(self.root_name())
 
         return self.prepare_response(data)
 
@@ -49,6 +50,6 @@ class InvoiceClient(BaseClient):
         api_resource = self.api_resource() + '/' + resource_id + '/finalize'
         query_url = urljoin(self.base_url, api_resource)
         api_response = requests.put(query_url, headers=self.headers())
-        data = from_json(self.handle_response(api_response)).get(self.root_name())
+        data = from_json(verify_response(api_response)).get(self.root_name())
 
         return self.prepare_response(data)
