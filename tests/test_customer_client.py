@@ -3,11 +3,18 @@ import requests_mock
 import os
 
 from lago_python_client.client import Client
-from lago_python_client.models import Customer, CustomerBillingConfiguration
+from lago_python_client.models import Customer, CustomerBillingConfiguration, Metadata, MetadataList
 from lago_python_client.clients.base_client import LagoApiError
 
 
 def create_customer():
+    metadata = Metadata(
+        display_in_invoice=True,
+        key='key',
+        value='value'
+    )
+    metadata_list = MetadataList(__root__=[metadata])
+
     return Customer(
         external_id='5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba',
         name='Gavin Belson',
@@ -19,7 +26,8 @@ def create_customer():
             sync_with_provider=True,
             vat_rate=12.5,
             document_locale="fr"
-        )
+        ),
+        metadata=metadata_list
     )
 
 def mock_response(mock='customer'):
@@ -47,6 +55,8 @@ class TestCustomerClient(unittest.TestCase):
         self.assertEqual(response.billing_configuration.sync_with_provider, True)
         self.assertEqual(response.billing_configuration.vat_rate, 12.5)
         self.assertEqual(response.billing_configuration.document_locale, "fr")
+        self.assertEqual(response.metadata.__root__[0].key, 'key')
+        self.assertEqual(response.metadata.__root__[0].value, 'value')
 
     def test_invalid_create_customers_request(self):
         client = Client(api_key='invalid')

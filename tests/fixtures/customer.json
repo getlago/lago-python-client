@@ -26,6 +26,13 @@
       "sync_with_provider": true,
       "vat_rate": 12.5,
       "document_locale": "fr"
-    }
+    },
+    "metadata": [
+      {
+        "key": "key",
+        "value": "value",
+        "display_in_invoice": true
+      }
+    ]
   }
 }
