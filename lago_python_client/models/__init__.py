@@ -7,7 +7,7 @@ from lago_python_client.models.plan import Plan, Charges, Charge
 from lago_python_client.models.add_on import AddOn
 from lago_python_client.models.organization import Organization, OrganizationBillingConfiguration
 from lago_python_client.models.event import Event, BatchEvent
-from lago_python_client.models.customer import Customer, CustomerBillingConfiguration
+from lago_python_client.models.customer import Customer, CustomerBillingConfiguration, Metadata, MetadataList
 from lago_python_client.models.invoice import InvoicePaymentStatusChange
 from lago_python_client.models.subscription import Subscription
 from lago_python_client.models.customer_usage import Metric, ChargeObject, ChargeUsage, CustomerUsageResponse
