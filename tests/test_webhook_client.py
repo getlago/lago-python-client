@@ -3,7 +3,7 @@ import unittest
 import requests_mock
 
 from lago_python_client.client import Client
-from lago_python_client.clients.base_client import LagoApiError
+from lago_python_client.exceptions import LagoApiError
 
 
 def mock_response():

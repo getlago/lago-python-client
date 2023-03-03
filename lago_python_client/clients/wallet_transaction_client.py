@@ -6,6 +6,7 @@ from requests import Response
 from lago_python_client.models.wallet_transaction import WalletTransactionResponse
 from urllib.parse import urljoin, urlencode
 from ..services.json import from_json, to_json
+from ..services.response import verify_response
 
 
 class WalletTransactionClient(BaseClient):
@@ -22,7 +23,7 @@ class WalletTransactionClient(BaseClient):
         }
         data = to_json(query_parameters)
         api_response = requests.post(query_url, data=data, headers=self.headers())
-        data = self.handle_response(api_response)
+        data = verify_response(api_response)
 
         return self.prepare_response(from_json(data).get(self.root_name()))
 
@@ -34,7 +35,7 @@ class WalletTransactionClient(BaseClient):
 
         query_url = urljoin(self.base_url, api_resource)
         api_response = requests.get(query_url, headers=self.headers())
-        data = from_json(self.handle_response(api_response))
+        data = from_json(verify_response(api_response))
 
         return self.prepare_index_response(data)
 

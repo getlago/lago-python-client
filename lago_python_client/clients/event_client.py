@@ -7,6 +7,7 @@ from typing import Dict
 from pydantic import BaseModel
 from urllib.parse import urljoin
 from ..services.json import to_json
+from ..services.response import verify_response
 
 
 class EventClient(BaseClient):
@@ -24,7 +25,7 @@ class EventClient(BaseClient):
         }
         data = to_json(query_parameters)
         api_response = requests.post(query_url, data=data, headers=self.headers())
-        self.handle_response(api_response)
+        verify_response(api_response)
 
         return True
 

@@ -6,6 +6,8 @@ from typing import Dict
 from urllib.parse import urljoin
 from requests import Response
 from ..services.json import from_json
+from ..services.response import verify_response
+
 
 class AppliedCouponClient(BaseClient):
     def api_resource(self):
@@ -22,6 +24,6 @@ class AppliedCouponClient(BaseClient):
         query_url = urljoin(self.base_url, api_resource)
 
         api_response = requests.delete(query_url, headers=self.headers())
-        data = from_json(self.handle_response(api_response)).get(self.root_name())
+        data = from_json(verify_response(api_response)).get(self.root_name())
 
         return self.prepare_response(data)
