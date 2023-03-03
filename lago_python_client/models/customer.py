@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
 
 
 class CustomerBillingConfiguration(BaseModel):
@@ -11,6 +11,14 @@ class CustomerBillingConfiguration(BaseModel):
     sync_with_provider: Optional[bool]
     document_locale: Optional[str]
 
+class Metadata(BaseModel):
+    id: Optional[str]
+    key: Optional[str]
+    value: Optional[str]
+    display_in_invoice: Optional[bool]
+
+class MetadataList(BaseModel):
+    __root__: List[Metadata]
 
 class Customer(BaseModel):
     external_id: str
@@ -29,6 +37,7 @@ class Customer(BaseModel):
     timezone: Optional[str]
     url: Optional[str]
     zipcode: Optional[str]
+    metadata: Optional[MetadataList]
     billing_configuration: Optional[CustomerBillingConfiguration]
 
 
@@ -52,4 +61,5 @@ class CustomerResponse(BaseModel):
     applicable_timezone: str
     url: Optional[str]
     zipcode: Optional[str]
+    metadata: Optional[MetadataList]
     billing_configuration: Optional[CustomerBillingConfiguration]
