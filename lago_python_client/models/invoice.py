@@ -5,8 +5,17 @@ from .customer import CustomerResponse
 from .subscription import SubscriptionsResponse
 
 
-class InvoicePaymentStatusChange(BaseModel):
+class InvoiceMetadata(BaseModel):
+    id: Optional[str]
+    key: Optional[str]
+    value: Optional[str]
+
+class InvoiceMetadataList(BaseModel):
+    __root__: List[InvoiceMetadata]
+
+class Invoice(BaseModel):
     payment_status: str
+    metadata: Optional[InvoiceMetadataList]
 
 
 class FeeResponse(BaseModel):
@@ -42,3 +51,4 @@ class InvoiceResponse(BaseModel):
     subscriptions: Optional[SubscriptionsResponse]
     fees: Optional[FeesResponse]
     credits: Optional[CreditsResponse]
+    metadata: Optional[InvoiceMetadataList]

@@ -15,6 +15,13 @@
     "vat_amount_currency": "EUR",
     "total_amount_cents": 120,
     "total_amount_currency": "EUR",
+    "metadata": [
+      {
+        "key": "key",
+        "value": "value",
+        "display_in_invoice": true
+      }
+    ],
     "customer": {
       "lago_id": "99a6094e-199b-4101-896a-54e927ce7bd7",
       "external_id": "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",

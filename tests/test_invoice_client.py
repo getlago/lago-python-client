@@ -4,11 +4,14 @@ import os
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
-from lago_python_client.models import InvoicePaymentStatusChange
+from lago_python_client.models import Invoice, InvoiceMetadata, InvoiceMetadataList
 
 
 def update_invoice_object():
-    return InvoicePaymentStatusChange(payment_status='failed')
+    metadata = InvoiceMetadata(key='key', value='value')
+    metadata_list = InvoiceMetadataList(__root__=[metadata])
+
+    return Invoice(payment_status='failed', metadata=metadata_list)
 
 
 def mock_response():
@@ -40,6 +43,8 @@ class TestInvoiceClient(unittest.TestCase):
         self.assertEqual(response.lago_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
         self.assertEqual(response.status, 'finalized')
         self.assertEqual(response.payment_status, 'failed')
+        self.assertEqual(response.metadata.__root__[0].key, 'key')
+        self.assertEqual(response.metadata.__root__[0].value, 'value')
 
     def test_invalid_update_invoice_request(self):
         client = Client(api_key='invalid')
