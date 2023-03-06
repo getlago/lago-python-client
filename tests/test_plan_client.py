@@ -13,6 +13,7 @@ def plan_object():
         billable_metric_id='id',
         charge_model='standard',
         amount_currency='EUR',
+        instant=True,
         group_properties = [
             {
                 'group_id': 'id',

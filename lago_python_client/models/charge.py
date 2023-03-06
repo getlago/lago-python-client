@@ -12,6 +12,7 @@ class Charge(BaseModel):
     id: Optional[str]
     billable_metric_id: Optional[str]
     charge_model: Optional[str]
+    instant: Optional[bool]
     properties: Optional[Dict[str, Any]]
     group_properties: Optional[GroupProperties]
 
