@@ -1,6 +1,5 @@
-from collections.abc import Sequence
 import requests
-from typing import Any, ClassVar, Dict, Type
+from typing import Any, ClassVar, Dict, Sequence, Type
 
 from pydantic import BaseModel
 from .base_client import BaseClient
