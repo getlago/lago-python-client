@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Optional
+from typing import Any, Optional, Type
 from urllib.parse import urljoin, urlencode
 
 from pydantic import BaseModel
@@ -23,6 +23,13 @@ class BaseClient(ABC):
     @abstractmethod
     def API_RESOURCE(cls) -> str:
         """Collection name (required class property) used to build query urls."""
+        raise NotImplementedError
+
+    @property  # type: ignore
+    @classmethod
+    @abstractmethod
+    def RESPONSE_MODEL(cls) -> Type[BaseModel]:
+        """Response model (required class property) used to prepare response."""
         raise NotImplementedError
 
     @property  # type: ignore

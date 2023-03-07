@@ -1,6 +1,7 @@
 import requests
-from typing import ClassVar, Dict
+from typing import ClassVar, Dict, Type
 
+from pydantic import BaseModel
 from .base_client import BaseClient
 from lago_python_client.models.applied_coupon import AppliedCouponResponse
 from urllib.parse import urljoin
@@ -11,10 +12,11 @@ from ..services.response import verify_response
 
 class AppliedCouponClient(BaseClient):
     API_RESOURCE: ClassVar[str] = 'applied_coupons'
+    RESPONSE_MODEL: ClassVar[Type[BaseModel]] = AppliedCouponResponse
     ROOT_NAME: ClassVar[str] = 'applied_coupon'
 
     def prepare_response(self, data: Dict):
-        return AppliedCouponResponse.parse_obj(data)
+        return self.RESPONSE_MODEL.parse_obj(data)
 
     def destroy(self, external_customer_id: str, applied_coupon_id: str):
         uri: str = '/'.join(('customers', external_customer_id, self.API_RESOURCE, applied_coupon_id))

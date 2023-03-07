@@ -1,6 +1,7 @@
 import requests
-from typing import ClassVar, Dict
+from typing import ClassVar, Dict, Type
 
+from pydantic import BaseModel
 from .base_client import BaseClient
 from lago_python_client.models.credit_note import CreditNoteResponse
 from urllib.parse import urljoin
@@ -11,10 +12,11 @@ from ..services.response import verify_response
 
 class CreditNoteClient(BaseClient):
     API_RESOURCE: ClassVar[str] = 'credit_notes'
+    RESPONSE_MODEL: ClassVar[Type[BaseModel]] = CreditNoteResponse
     ROOT_NAME: ClassVar[str] = 'credit_note'
 
     def prepare_response(self, data: Dict):
-        return CreditNoteResponse.parse_obj(data)
+        return self.RESPONSE_MODEL.parse_obj(data)
 
     def download(self, resource_id: str):
         uri: str = '/'.join((self.API_RESOURCE, resource_id, 'download'))

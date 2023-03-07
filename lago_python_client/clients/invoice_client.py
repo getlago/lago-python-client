@@ -1,6 +1,7 @@
 import requests
-from typing import ClassVar, Dict
+from typing import ClassVar, Dict, Type
 
+from pydantic import BaseModel
 from .base_client import BaseClient
 from lago_python_client.models.invoice import InvoiceResponse
 from urllib.parse import urljoin
@@ -11,10 +12,11 @@ from ..services.response import verify_response
 
 class InvoiceClient(BaseClient):
     API_RESOURCE: ClassVar[str] = 'invoices'
+    RESPONSE_MODEL: ClassVar[Type[BaseModel]] = InvoiceResponse
     ROOT_NAME: ClassVar[str] = 'invoice'
 
     def prepare_response(self, data: Dict):
-        return InvoiceResponse.parse_obj(data)
+        return self.RESPONSE_MODEL.parse_obj(data)
 
     def download(self, resource_id: str):
         uri: str = '/'.join((self.API_RESOURCE, resource_id, 'download'))

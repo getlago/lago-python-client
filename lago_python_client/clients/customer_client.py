@@ -1,6 +1,7 @@
 import requests
-from typing import Any, ClassVar, Dict
+from typing import Any, ClassVar, Dict, Type
 
+from pydantic import BaseModel
 from .base_client import BaseClient
 from lago_python_client.models.customer import CustomerResponse
 from lago_python_client.models.customer_usage import CustomerUsageResponse
@@ -11,10 +12,11 @@ from ..services.response import verify_response
 
 class CustomerClient(BaseClient):
     API_RESOURCE: ClassVar[str] = 'customers'
+    RESPONSE_MODEL: ClassVar[Type[BaseModel]] = CustomerResponse
     ROOT_NAME: ClassVar[str] = 'customer'
 
     def prepare_response(self, data: Dict):
-        return CustomerResponse.parse_obj(data)
+        return self.RESPONSE_MODEL.parse_obj(data)
 
     def current_usage(self, resource_id: str, external_subscription_id: str):
         options: Dict[str, Any] = {

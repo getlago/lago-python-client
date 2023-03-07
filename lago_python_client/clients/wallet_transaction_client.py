@@ -1,8 +1,8 @@
 import requests
-from typing import ClassVar
+from typing import ClassVar, Type
 
-from .base_client import BaseClient
 from pydantic import BaseModel
+from .base_client import BaseClient
 from requests import Response
 from lago_python_client.models.wallet_transaction import WalletTransactionResponse
 from urllib.parse import urljoin, urlencode
@@ -12,6 +12,7 @@ from ..services.response import verify_response
 
 class WalletTransactionClient(BaseClient):
     API_RESOURCE: ClassVar[str] = 'wallet_transactions'
+    RESPONSE_MODEL: ClassVar[Type[BaseModel]] = WalletTransactionResponse
     ROOT_NAME: ClassVar[str] = 'wallet_transactions'
 
     def create(self, input_object: BaseModel):
@@ -39,7 +40,7 @@ class WalletTransactionClient(BaseClient):
         return self.prepare_index_response(data)
 
     def prepare_object_response(self, data: dict):
-        return WalletTransactionResponse.parse_obj(data)
+        return self.RESPONSE_MODEL.parse_obj(data)
 
     def prepare_response(self, data):
         collection = []

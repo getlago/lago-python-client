@@ -1,7 +1,8 @@
 import base64
 import requests
-from typing import ClassVar
+from typing import ClassVar, Type
 
+from pydantic import BaseModel
 from urllib.parse import urljoin
 from .base_client import BaseClient
 from ..services.json import from_json
@@ -10,6 +11,7 @@ from ..services.response import verify_response
 
 class WebhookClient(BaseClient):
     API_RESOURCE: ClassVar[str] = 'webhooks'
+    RESPONSE_MODEL: ClassVar[Type[BaseModel]] = NotImplemented
     ROOT_NAME: ClassVar[str] = 'webhook'
 
     def public_key(self):

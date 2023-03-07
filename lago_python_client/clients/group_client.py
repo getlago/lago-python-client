@@ -1,6 +1,7 @@
 import requests
-from typing import ClassVar
+from typing import ClassVar, Type
 
+from pydantic import BaseModel
 from .base_client import BaseClient
 from lago_python_client.models.group import GroupResponse
 from urllib.parse import urljoin, urlencode
@@ -11,10 +12,11 @@ from ..services.response import verify_response
 
 class GroupClient(BaseClient):
     API_RESOURCE: ClassVar[str] = 'groups'
+    RESPONSE_MODEL: ClassVar[Type[BaseModel]] = GroupResponse
     ROOT_NAME: ClassVar[str] = 'group'
 
     def prepare_response(self, data: dict):
-        return GroupResponse.parse_obj(data)
+        return self.RESPONSE_MODEL.parse_obj(data)
 
     def find_all(self, metric_code: str, options: dict = {}):
         uri: str = '{uri_path}{uri_query}'.format(
