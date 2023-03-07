@@ -48,7 +48,7 @@ class BaseClient(ABC):
         api_response = requests.get(query_url, data=data, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
-        return self.prepare_response(data)
+        return self.prepare_object_response(data)
 
     def find_all(self, options: dict = {}):
         uri: str = '{uri_path}{uri_query}'.format(
@@ -69,7 +69,7 @@ class BaseClient(ABC):
         api_response = requests.delete(query_url, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
-        return self.prepare_response(data)
+        return self.prepare_object_response(data)
 
     def create(self, input_object: BaseModel):
         query_url: str = urljoin(self.base_url, self.API_RESOURCE)
@@ -84,7 +84,7 @@ class BaseClient(ABC):
         if data is None:
             return True
         else:
-            return self.prepare_response(from_json(data).get(self.ROOT_NAME))
+            return self.prepare_object_response(from_json(data).get(self.ROOT_NAME))
 
     def update(self, input_object: BaseModel, identifier: Optional[str] = None):
         uri: str = '/'.join((self.API_RESOURCE, identifier)) if identifier else self.API_RESOURCE
@@ -97,7 +97,7 @@ class BaseClient(ABC):
         api_response = requests.put(query_url, data=data, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
-        return self.prepare_response(data)
+        return self.prepare_object_response(data)
 
     def headers(self):
         bearer = "Bearer " + self.api_key
@@ -113,6 +113,6 @@ class BaseClient(ABC):
     @classmethod
     def prepare_index_response(cls, data: Dict[str, Any]) -> Dict[str, Any]:
         return {
-            cls.API_RESOURCE: [cls.prepare_response(el) for el in data[cls.API_RESOURCE]],
+            cls.API_RESOURCE: [cls.prepare_object_response(el) for el in data[cls.API_RESOURCE]],
             'meta': data['meta'],
         }

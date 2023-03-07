@@ -16,7 +16,7 @@ class CustomerClient(BaseClient):
     ROOT_NAME: ClassVar[str] = 'customer'
 
     @classmethod
-    def prepare_response(cls, data: Dict[Any, Any]) -> BaseModel:
+    def prepare_object_response(cls, data: Dict[Any, Any]) -> BaseModel:
         return cls.RESPONSE_MODEL.parse_obj(data)
 
     def current_usage(self, resource_id: str, external_subscription_id: str):

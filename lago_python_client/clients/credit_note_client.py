@@ -16,7 +16,7 @@ class CreditNoteClient(BaseClient):
     ROOT_NAME: ClassVar[str] = 'credit_note'
 
     @classmethod
-    def prepare_response(cls, data: Dict[Any, Any]) -> BaseModel:
+    def prepare_object_response(cls, data: Dict[Any, Any]) -> BaseModel:
         return cls.RESPONSE_MODEL.parse_obj(data)
 
     def download(self, resource_id: str):
@@ -29,7 +29,7 @@ class CreditNoteClient(BaseClient):
         if data is None:
             return True
         else:
-            return self.prepare_response(from_json(data).get(self.ROOT_NAME))
+            return self.prepare_object_response(from_json(data).get(self.ROOT_NAME))
 
     def void(self, resource_id: str):
         uri: str = '/'.join((self.API_RESOURCE, resource_id, 'void'))
@@ -38,4 +38,4 @@ class CreditNoteClient(BaseClient):
         api_response = requests.put(query_url, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
-        return self.prepare_response(data)
+        return self.prepare_object_response(data)

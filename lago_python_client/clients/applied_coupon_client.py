@@ -16,7 +16,7 @@ class AppliedCouponClient(BaseClient):
     ROOT_NAME: ClassVar[str] = 'applied_coupon'
 
     @classmethod
-    def prepare_response(cls, data: Dict[Any, Any]) -> BaseModel:
+    def prepare_object_response(cls, data: Dict[Any, Any]) -> BaseModel:
         return cls.RESPONSE_MODEL.parse_obj(data)
 
     def destroy(self, external_customer_id: str, applied_coupon_id: str):
@@ -26,4 +26,4 @@ class AppliedCouponClient(BaseClient):
         api_response = requests.delete(query_url, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
-        return self.prepare_response(data)
+        return self.prepare_object_response(data)
