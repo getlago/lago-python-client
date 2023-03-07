@@ -10,5 +10,6 @@ class SubscriptionClient(BaseClient):
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = SubscriptionResponse
     ROOT_NAME: ClassVar[str] = 'subscription'
 
-    def prepare_response(self, data: Dict[Any, Any]) -> BaseModel:
-        return self.RESPONSE_MODEL.parse_obj(data)
+    @classmethod
+    def prepare_response(cls, data: Dict[Any, Any]) -> BaseModel:
+        return cls.RESPONSE_MODEL.parse_obj(data)

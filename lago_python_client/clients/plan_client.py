@@ -10,5 +10,6 @@ class PlanClient(BaseClient):
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = PlanResponse
     ROOT_NAME: ClassVar[str] = 'plan'
 
-    def prepare_response(self, data: Dict[Any, Any]) -> BaseModel:
-        return self.RESPONSE_MODEL.parse_obj(data)
+    @classmethod
+    def prepare_response(cls, data: Dict[Any, Any]) -> BaseModel:
+        return cls.RESPONSE_MODEL.parse_obj(data)

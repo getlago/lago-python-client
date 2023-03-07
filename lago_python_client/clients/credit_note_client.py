@@ -15,8 +15,9 @@ class CreditNoteClient(BaseClient):
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = CreditNoteResponse
     ROOT_NAME: ClassVar[str] = 'credit_note'
 
-    def prepare_response(self, data: Dict[Any, Any]) -> BaseModel:
-        return self.RESPONSE_MODEL.parse_obj(data)
+    @classmethod
+    def prepare_response(cls, data: Dict[Any, Any]) -> BaseModel:
+        return cls.RESPONSE_MODEL.parse_obj(data)
 
     def download(self, resource_id: str):
         uri: str = '/'.join((self.API_RESOURCE, resource_id, 'download'))

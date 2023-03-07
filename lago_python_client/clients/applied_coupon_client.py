@@ -15,8 +15,9 @@ class AppliedCouponClient(BaseClient):
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = AppliedCouponResponse
     ROOT_NAME: ClassVar[str] = 'applied_coupon'
 
-    def prepare_response(self, data: Dict[Any, Any]) -> BaseModel:
-        return self.RESPONSE_MODEL.parse_obj(data)
+    @classmethod
+    def prepare_response(cls, data: Dict[Any, Any]) -> BaseModel:
+        return cls.RESPONSE_MODEL.parse_obj(data)
 
     def destroy(self, external_customer_id: str, applied_coupon_id: str):
         uri: str = '/'.join(('customers', external_customer_id, self.API_RESOURCE, applied_coupon_id))

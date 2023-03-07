@@ -39,8 +39,9 @@ class WalletTransactionClient(BaseClient):
 
         return self.prepare_index_response(data)
 
-    def prepare_object_response(self, data: Dict[Any, Any]) -> BaseModel:
-        return self.RESPONSE_MODEL.parse_obj(data)
+    @classmethod
+    def prepare_object_response(cls, data: Dict[Any, Any]) -> BaseModel:
+        return cls.RESPONSE_MODEL.parse_obj(data)
 
     def prepare_response(self, data):
         collection = []
