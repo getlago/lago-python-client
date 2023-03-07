@@ -45,10 +45,3 @@ class WalletTransactionClient(BaseClient):
         return {
             cls.API_RESOURCE: [cls.prepare_object_response(el) for el in data],
         }
-
-    @classmethod
-    def prepare_index_response(cls, data: Dict[str, Any]) -> Dict[str, Any]:
-        return {
-            cls.API_RESOURCE: [cls.prepare_object_response(el) for el in data[cls.API_RESOURCE]],
-            'meta': data['meta'],
-        }
