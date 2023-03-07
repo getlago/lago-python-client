@@ -9,7 +9,3 @@ class AddOnClient(BaseClient):
     API_RESOURCE: ClassVar[str] = 'add_ons'
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = AddOnResponse
     ROOT_NAME: ClassVar[str] = 'add_on'
-
-    @classmethod
-    def prepare_object_response(cls, data: Dict[Any, Any]) -> BaseModel:
-        return cls.RESPONSE_MODEL.parse_obj(data)

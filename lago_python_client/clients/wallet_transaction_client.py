@@ -41,10 +41,6 @@ class WalletTransactionClient(BaseClient):
         return self.prepare_index_response(data)
 
     @classmethod
-    def prepare_object_response(cls, data: Dict[Any, Any]) -> BaseModel:
-        return cls.RESPONSE_MODEL.parse_obj(data)
-
-    @classmethod
     def prepare_response(cls, data: Sequence[Dict[Any, Any]]) -> Dict[str, Any]:
         return {
             cls.API_RESOURCE: [cls.prepare_object_response(el) for el in data],

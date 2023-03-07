@@ -9,7 +9,3 @@ class CouponClient(BaseClient):
     API_RESOURCE: ClassVar[str] = 'coupons'
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = CouponResponse
     ROOT_NAME: ClassVar[str] = 'coupon'
-
-    @classmethod
-    def prepare_object_response(cls, data: Dict[Any, Any]) -> BaseModel:
-        return cls.RESPONSE_MODEL.parse_obj(data)

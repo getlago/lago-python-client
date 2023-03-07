@@ -15,10 +15,6 @@ class GroupClient(BaseClient):
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = GroupResponse
     ROOT_NAME: ClassVar[str] = 'group'
 
-    @classmethod
-    def prepare_object_response(cls, data: Dict[Any, Any]) -> BaseModel:
-        return cls.RESPONSE_MODEL.parse_obj(data)
-
     def find_all(self, metric_code: str, options: dict = {}):
         uri: str = '{uri_path}{uri_query}'.format(
             uri_path='/'.join(('billable_metrics', metric_code, self.API_RESOURCE)),
