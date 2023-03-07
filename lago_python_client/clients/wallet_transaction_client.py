@@ -1,5 +1,5 @@
 import requests
-from typing import ClassVar, Type
+from typing import Any, ClassVar, Dict, Type
 
 from pydantic import BaseModel
 from .base_client import BaseClient
@@ -39,7 +39,7 @@ class WalletTransactionClient(BaseClient):
 
         return self.prepare_index_response(data)
 
-    def prepare_object_response(self, data: dict):
+    def prepare_object_response(self, data: Dict[Any, Any]) -> BaseModel:
         return self.RESPONSE_MODEL.parse_obj(data)
 
     def prepare_response(self, data):

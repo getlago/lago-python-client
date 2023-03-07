@@ -1,5 +1,5 @@
 import requests
-from typing import ClassVar, Dict, Type
+from typing import Any, ClassVar, Dict, Type
 
 from pydantic import BaseModel
 from .base_client import BaseClient
@@ -15,7 +15,7 @@ class InvoiceClient(BaseClient):
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = InvoiceResponse
     ROOT_NAME: ClassVar[str] = 'invoice'
 
-    def prepare_response(self, data: Dict):
+    def prepare_response(self, data: Dict[Any, Any]) -> BaseModel:
         return self.RESPONSE_MODEL.parse_obj(data)
 
     def download(self, resource_id: str):
