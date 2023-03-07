@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Optional, Type
+from typing import Any, Dict, Optional, Type
 from urllib.parse import urljoin, urlencode
 
 from pydantic import BaseModel
@@ -110,15 +110,9 @@ class BaseClient(ABC):
 
         return headers
 
-    def prepare_index_response(self, data: dict):
-        collection = []
-
-        for el in data[self.API_RESOURCE]:
-            collection.append(self.prepare_response(el))
-
-        response = {
-            self.API_RESOURCE: collection,
-            'meta': data['meta']
+    @classmethod
+    def prepare_index_response(cls, data: Dict[str, Any]) -> Dict[str, Any]:
+        return {
+            cls.API_RESOURCE: [cls.prepare_response(el) for el in data[cls.API_RESOURCE]],
+            'meta': data['meta'],
         }
-
-        return response

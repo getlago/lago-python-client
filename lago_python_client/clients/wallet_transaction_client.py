@@ -1,3 +1,4 @@
+from collections.abc import Sequence
 import requests
 from typing import Any, ClassVar, Dict, Type
 
@@ -43,27 +44,15 @@ class WalletTransactionClient(BaseClient):
     def prepare_object_response(cls, data: Dict[Any, Any]) -> BaseModel:
         return cls.RESPONSE_MODEL.parse_obj(data)
 
-    def prepare_response(self, data):
-        collection = []
-
-        for el in data:
-            collection.append(self.prepare_object_response(el))
-
-        response = {
-            self.API_RESOURCE: collection
+    @classmethod
+    def prepare_response(cls, data: Sequence[Dict[Any, Any]]) -> Dict[str, Any]:
+        return {
+            cls.API_RESOURCE: [cls.prepare_object_response(el) for el in data],
         }
 
-        return response
-
-    def prepare_index_response(self, data: dict):
-        collection = []
-
-        for el in data[self.API_RESOURCE]:
-            collection.append(self.prepare_object_response(el))
-
-        response = {
-            self.API_RESOURCE: collection,
-            'meta': data['meta']
+    @classmethod
+    def prepare_index_response(cls, data: Dict[str, Any]) -> Dict[str, Any]:
+        return {
+            cls.API_RESOURCE: [cls.prepare_object_response(el) for el in data[cls.API_RESOURCE]],
+            'meta': data['meta'],
         }
-
-        return response
