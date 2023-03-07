@@ -1,4 +1,5 @@
 import requests
+from typing import ClassVar
 
 from .base_client import BaseClient
 from pydantic import BaseModel
@@ -10,14 +11,12 @@ from ..services.response import verify_response
 
 
 class WalletTransactionClient(BaseClient):
-    def api_resource(self):
-        return 'wallet_transactions'
-
-    def root_name(self):
-        return 'wallet_transactions'
+    API_RESOURCE: ClassVar[str] = 'wallet_transactions'
+    ROOT_NAME: ClassVar[str] = 'wallet_transactions'
 
     def create(self, input_object: BaseModel):
-        query_url = urljoin(self.base_url, self.api_resource())
+        query_url: str = urljoin(self.base_url, self.API_RESOURCE)
+
         query_parameters = {
             'wallet_transaction': input_object.dict()
         }
@@ -25,15 +24,15 @@ class WalletTransactionClient(BaseClient):
         api_response = requests.post(query_url, data=data, headers=self.headers())
         data = verify_response(api_response)
 
-        return self.prepare_response(from_json(data).get(self.root_name()))
+        return self.prepare_response(from_json(data).get(self.ROOT_NAME))
 
     def find_all(self, wallet_id: str, options: dict = {}):
-        if options:
-            api_resource = 'wallets/' + wallet_id + '/wallet_transactions?' + urlencode(options)
-        else:
-            api_resource = 'wallets/' + wallet_id + '/wallet_transactions'
+        uri: str = '{uri_path}{uri_query}'.format(
+            uri_path='/'.join(('wallets', wallet_id, self.API_RESOURCE)),
+            uri_query=f'?{urlencode(options)}' if options else '',
+        )
+        query_url: str = urljoin(self.base_url, uri)
 
-        query_url = urljoin(self.base_url, api_resource)
         api_response = requests.get(query_url, headers=self.headers())
         data = from_json(verify_response(api_response))
 
@@ -49,7 +48,7 @@ class WalletTransactionClient(BaseClient):
             collection.append(self.prepare_object_response(el))
 
         response = {
-            self.api_resource(): collection
+            self.API_RESOURCE: collection
         }
 
         return response
@@ -57,11 +56,11 @@ class WalletTransactionClient(BaseClient):
     def prepare_index_response(self, data: dict):
         collection = []
 
-        for el in data[self.api_resource()]:
+        for el in data[self.API_RESOURCE]:
             collection.append(self.prepare_object_response(el))
 
         response = {
-            self.api_resource(): collection,
+            self.API_RESOURCE: collection,
             'meta': data['meta']
         }
 

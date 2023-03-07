@@ -1,8 +1,8 @@
 import requests
+from typing import ClassVar, Dict
 
 from .base_client import BaseClient
 from lago_python_client.models.credit_note import CreditNoteResponse
-from typing import Dict
 from urllib.parse import urljoin
 from requests import Response
 from ..services.json import from_json
@@ -10,30 +10,29 @@ from ..services.response import verify_response
 
 
 class CreditNoteClient(BaseClient):
-    def api_resource(self):
-        return 'credit_notes'
-
-    def root_name(self):
-        return 'credit_note'
+    API_RESOURCE: ClassVar[str] = 'credit_notes'
+    ROOT_NAME: ClassVar[str] = 'credit_note'
 
     def prepare_response(self, data: Dict):
         return CreditNoteResponse.parse_obj(data)
 
     def download(self, resource_id: str):
-        api_resource = self.api_resource() + '/' + resource_id + '/download'
-        query_url = urljoin(self.base_url, api_resource)
+        uri: str = '/'.join((self.API_RESOURCE, resource_id, 'download'))
+        query_url: str = urljoin(self.base_url, uri)
+
         api_response = requests.post(query_url, headers=self.headers())
         data = verify_response(api_response)
 
         if data is None:
             return True
         else:
-            return self.prepare_response(from_json(data).get(self.root_name()))
+            return self.prepare_response(from_json(data).get(self.ROOT_NAME))
 
     def void(self, resource_id: str):
-        api_resource = self.api_resource() + '/' + resource_id + '/void'
-        query_url = urljoin(self.base_url, api_resource)
+        uri: str = '/'.join((self.API_RESOURCE, resource_id, 'void'))
+        query_url: str = urljoin(self.base_url, uri)
+
         api_response = requests.put(query_url, headers=self.headers())
-        data = from_json(verify_response(api_response)).get(self.root_name())
+        data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
         return self.prepare_response(data)
