@@ -1,12 +1,12 @@
 from abc import ABC, abstractmethod
 from typing import Any, Dict, Optional, Type
-from urllib.parse import urljoin, urlencode
 
 from pydantic import BaseModel
 import requests
 from requests import Response
 
 from ..services.json import from_json, to_json
+from ..services.request import make_url
 from ..services.response import verify_response
 from ..version import LAGO_VERSION
 
@@ -40,9 +40,10 @@ class BaseClient(ABC):
         raise NotImplementedError
 
     def find(self, resource_id: str, params: dict = {}):
-        uri: str = '/'.join((self.API_RESOURCE, resource_id))
-        query_url: str = urljoin(self.base_url, uri)
-
+        query_url: str = make_url(
+            scheme_plus_authority=self.base_url,
+            path_parts=(self.API_RESOURCE, resource_id),
+        )
         data = to_json(params) if params else None
 
         api_response = requests.get(query_url, data=data, headers=self.headers())
@@ -51,29 +52,31 @@ class BaseClient(ABC):
         return self.prepare_object_response(data)
 
     def find_all(self, options: dict = {}):
-        uri: str = '{uri_path}{uri_query}'.format(
-            uri_path=self.API_RESOURCE,
-            uri_query=f'?{urlencode(options)}' if options else '',
+        query_url: str = make_url(
+            scheme_plus_authority=self.base_url,
+            path_parts=(self.API_RESOURCE, ),
+            query_pairs=options,
         )
-        query_url: str = urljoin(self.base_url, uri)
-
         api_response = requests.get(query_url, headers=self.headers())
         data = from_json(verify_response(api_response))
 
         return self.prepare_index_response(data)
 
     def destroy(self, resource_id: str):
-        uri: str = '/'.join((self.API_RESOURCE, resource_id))
-        query_url: str = urljoin(self.base_url, uri)
-
+        query_url: str = make_url(
+            scheme_plus_authority=self.base_url,
+            path_parts=(self.API_RESOURCE, resource_id),
+        )
         api_response = requests.delete(query_url, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
         return self.prepare_object_response(data)
 
     def create(self, input_object: BaseModel):
-        query_url: str = urljoin(self.base_url, self.API_RESOURCE)
-
+        query_url: str = make_url(
+            scheme_plus_authority=self.base_url,
+            path_parts=(self.API_RESOURCE, ),
+        )
         query_parameters = {
             self.ROOT_NAME: input_object.dict()
         }
@@ -87,9 +90,10 @@ class BaseClient(ABC):
             return self.prepare_object_response(from_json(data).get(self.ROOT_NAME))
 
     def update(self, input_object: BaseModel, identifier: Optional[str] = None):
-        uri: str = '/'.join((self.API_RESOURCE, identifier)) if identifier else self.API_RESOURCE
-        query_url: str = urljoin(self.base_url, uri)
-
+        query_url: str = make_url(
+            scheme_plus_authority=self.base_url,
+            path_parts=(self.API_RESOURCE, identifier) if identifier else (self.API_RESOURCE, ),
+        )
         query_parameters = {
             self.ROOT_NAME: input_object.dict(exclude_none=True)
         }

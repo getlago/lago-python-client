@@ -24,7 +24,7 @@ class TestRequestServices(unittest.TestCase):
         )
 
     def test_make_url_no_query(self):
-        """Make url."""
+        """Make url without query name-value pairs."""
         # Given
         api_url = 'https://api.getlago.com/api/v1/'
         some_path_parts = ('hello', )

@@ -3,9 +3,9 @@ import requests
 from typing import ClassVar, Type
 
 from pydantic import BaseModel
-from urllib.parse import urljoin
 from .base_client import BaseClient
 from ..services.json import from_json
+from ..services.request import make_url
 from ..services.response import verify_response
 
 
@@ -15,9 +15,10 @@ class WebhookClient(BaseClient):
     ROOT_NAME: ClassVar[str] = 'webhook'
 
     def public_key(self):
-        uri: str = '/'.join((self.API_RESOURCE, 'json_public_key'))
-        query_url: str = urljoin(self.base_url, uri)
-
+        query_url: str = make_url(
+            scheme_plus_authority=self.base_url,
+            path_parts=(self.API_RESOURCE, 'json_public_key'),
+        )
         api_response = requests.get(query_url, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
