@@ -1,0 +1,26 @@
+from pydantic import BaseModel, Field
+from typing import Optional, List
+
+
+class InvoiceItemResponse(BaseModel):
+    lago_id: Optional[str]
+    type: Optional[str]
+    code: Optional[str]
+    name: Optional[str]
+
+
+class InvoiceShortDetails(BaseModel):
+    lago_id: Optional[str]
+    payment_status: Optional[str]
+
+
+class CreditResponse(BaseModel):
+    lago_id: Optional[str]
+    amount_cents: Optional[int]
+    amount_currency: Optional[str]
+    item: Optional[InvoiceItemResponse]
+    invoice: Optional[InvoiceShortDetails]
+
+
+class CreditsResponse(BaseModel):
+    __root__: List[CreditResponse]

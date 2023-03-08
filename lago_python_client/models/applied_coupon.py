@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import Optional
+from .credit import CreditsResponse
 
 
 class AppliedCoupon(BaseModel):
@@ -29,3 +30,4 @@ class AppliedCouponResponse(BaseModel):
     frequency: Optional[str]
     frequency_duration: Optional[int]
     frequency_duration_remaining: Optional[int]
+    credits: Optional[CreditsResponse]
