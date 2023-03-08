@@ -1,5 +1,9 @@
-from typing import Dict, Final, Sequence
+from typing import Dict, Sequence
 from urllib.parse import urljoin, urlencode
+try:
+    from typing import Final
+except ImportError:  # Python 3.7
+    from typing_extensions import Final
 
 URI_TEMPLATE: Final[str] = '{uri_path}{uri_query}'
 QUERY_TEMPLATE: Final[str] = '?{query}'
