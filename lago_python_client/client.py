@@ -15,66 +15,70 @@ from lago_python_client.clients.webhook_client import WebhookClient
 from lago_python_client.clients.wallet_client import WalletClient
 from lago_python_client.clients.wallet_transaction_client import WalletTransactionClient
 from urllib.parse import urljoin
+try:
+    from typing import Final
+except ImportError:  # Python 3.7
+    from typing_extensions import Final  # type: ignore
 
 
 class Client:
-    BASE_URL = 'https://api.getlago.com/'
-    API_PATH = 'api/v1/'
+    BASE_URL: Final[str] = 'https://api.getlago.com/'
+    API_PATH: Final[str] = 'api/v1/'
 
-    def __init__(self, api_key: str = '', api_url: str = ''):
-        self.api_key = api_key
-        self.api_url = api_url
+    def __init__(self, api_key: str = '', api_url: str = '') -> None:
+        self.api_key: str = api_key
+        self.api_url: str = api_url
 
-    def base_api_url(self):
+    def base_api_url(self) -> str:
         if self.api_url:
             return urljoin(self.api_url, Client.API_PATH)
         else:
             return urljoin(Client.BASE_URL, Client.API_PATH)
 
-    def events(self):
+    def events(self) -> EventClient:
         return EventClient(self.base_api_url(), self.api_key)
 
-    def groups(self):
+    def groups(self) -> GroupClient:
         return GroupClient(self.base_api_url(), self.api_key)
 
-    def subscriptions(self):
+    def subscriptions(self) -> SubscriptionClient:
         return SubscriptionClient(self.base_api_url(), self.api_key)
 
-    def credit_notes(self):
+    def credit_notes(self) -> CreditNoteClient:
         return CreditNoteClient(self.base_api_url(), self.api_key)
 
-    def customers(self):
+    def customers(self) -> CustomerClient:
         return CustomerClient(self.base_api_url(), self.api_key)
 
-    def invoices(self):
+    def invoices(self) -> InvoiceClient:
         return InvoiceClient(self.base_api_url(), self.api_key)
 
-    def applied_coupons(self):
+    def applied_coupons(self) -> AppliedCouponClient:
         return AppliedCouponClient(self.base_api_url(), self.api_key)
 
-    def applied_add_ons(self):
+    def applied_add_ons(self) -> AppliedAddOnClient:
         return AppliedAddOnClient(self.base_api_url(), self.api_key)
 
-    def billable_metrics(self):
+    def billable_metrics(self) -> BillableMetricClient:
         return BillableMetricClient(self.base_api_url(), self.api_key)
 
-    def coupons(self):
+    def coupons(self) -> CouponClient:
         return CouponClient(self.base_api_url(), self.api_key)
 
-    def plans(self):
+    def plans(self) -> PlanClient:
         return PlanClient(self.base_api_url(), self.api_key)
 
-    def add_ons(self):
+    def add_ons(self) -> AddOnClient:
         return AddOnClient(self.base_api_url(), self.api_key)
 
-    def organizations(self):
+    def organizations(self) -> OrganizationClient:
         return OrganizationClient(self.base_api_url(), self.api_key)
 
-    def webhooks(self):
+    def webhooks(self) -> WebhookClient:
         return WebhookClient(self.base_api_url(), self.api_key)
 
-    def wallets(self):
+    def wallets(self) -> WalletClient:
         return WalletClient(self.base_api_url(), self.api_key)
 
-    def wallet_transactions(self):
+    def wallet_transactions(self) -> WalletTransactionClient:
         return WalletTransactionClient(self.base_api_url(), self.api_key)
