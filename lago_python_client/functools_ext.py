@@ -1,6 +1,9 @@
-from functools import cached_property
 import sys
 from typing import Any, TypeVar
+try:
+    from functools import cached_property
+except ImportError:
+    cached_property = property
 try:
     from typing import ParamSpec
 except ImportError:  # Python 3.7, Python 3.8, Python 3.9
