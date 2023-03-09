@@ -1,15 +1,13 @@
 from pydantic import BaseModel, Field
 from typing import Optional, List
+from .credit import CreditsResponse, InvoiceItemResponse
 from .customer import CustomerResponse
 from .subscription import SubscriptionsResponse
+
 
 class InvoicePaymentStatusChange(BaseModel):
     payment_status: str
 
-class InvoiceItemResponse(BaseModel):
-    type: Optional[str]
-    code: Optional[str]
-    name: Optional[str]
 
 class FeeResponse(BaseModel):
     lago_id: Optional[str]
@@ -21,16 +19,10 @@ class FeeResponse(BaseModel):
     units: Optional[float]
     events_count: Optional[int]
 
+
 class FeesResponse(BaseModel):
     __root__: List[FeeResponse]
 
-class CreditResponse(BaseModel):
-    amount_cents: Optional[int]
-    amount_currency: Optional[str]
-    item: Optional[InvoiceItemResponse]
-
-class CreditsResponse(BaseModel):
-    __root__: List[CreditResponse]
 
 class InvoiceResponse(BaseModel):
     lago_id: str
