@@ -1,6 +1,10 @@
 from functools import cached_property
 import sys
-from typing import Any, ParamSpec, TypeVar
+from typing import Any, TypeVar
+try:
+    from typing import ParamSpec
+except ImportError:  # Python 3.7, Python 3.8, Python 3.9
+    from typing_extensions import ParamSpec  # type: ignore
 if sys.version_info >= (3, 9):
     from collections.abc import Callable
 else:  # Python 3.7, Python 3.8
