@@ -10,8 +10,6 @@ except ImportError:  # Python 3.7, Python 3.8, Python 3.9
     from typing_extensions import ParamSpec  # type: ignore
 if sys.version_info >= (3, 9):
     from collections.abc import Callable
-else:  # Python 3.7, Python 3.8
-    from typing import Callable
 
 T = TypeVar("T")
 P = ParamSpec("P")
@@ -44,6 +42,9 @@ class Proxy(object):
     def __hash__(self) -> int:
         return hash(self._obj)
 
-
-def callable_cached_property(func: Callable[P, T]) -> cached_property[T]:
-    return cached_property(lambda s: Proxy(func(s)))  # type: ignore
+if sys.version_info >= (3, 9):
+    def callable_cached_property(func: Callable[P, T]) -> cached_property[T]:
+        return cached_property(lambda s: Proxy(func(s)))  # type: ignore
+else:
+    def callable_cached_property(func):  # type: ignore
+        return cached_property(lambda s: Proxy(func(s)))  # type: ignore
