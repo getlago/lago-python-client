@@ -5,16 +5,23 @@ from .customer import CustomerResponse
 from .subscription import SubscriptionsResponse
 
 
+# Deprecated: Will be removed in the future
+class InvoicePaymentStatusChange(BaseModel):
+    payment_status: str
+
+
 class InvoiceMetadata(BaseModel):
     id: Optional[str]
     key: Optional[str]
     value: Optional[str]
 
+
 class InvoiceMetadataList(BaseModel):
     __root__: List[InvoiceMetadata]
 
+
 class Invoice(BaseModel):
-    payment_status: str
+    payment_status: Optional[str]
     metadata: Optional[InvoiceMetadataList]
 
 
