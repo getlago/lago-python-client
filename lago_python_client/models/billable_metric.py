@@ -24,3 +24,4 @@ class BillableMetricResponse(BaseModel):
     group: BillableMetricGroup
     active_subscriptions_count: int
     draft_invoices_count: int
+    plans_count: int
