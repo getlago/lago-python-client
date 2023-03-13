@@ -10,6 +10,7 @@ from tests.test_plan_client import TestPlanClient
 from tests.test_add_on_client import TestAddOnClient
 from tests.test_organization_client import TestOrganizationClient
 from tests.test_invoice_client import TestInvoiceClient
+from tests.test_fee_client import TestFeeClient
 from tests.test_webhook_client import TestWebhookClient
 from tests.test_client import TestClient
 from tests.test_wallet_client import TestWalletClient
