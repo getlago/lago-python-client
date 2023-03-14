@@ -20,12 +20,12 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
-          pip install .
+          python -m pip install .[test]
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
       - name: Run tests
         run: |
-          python3 -m unittest tests
+          python -m pytest "tests"
 
   publish:
     needs: build
