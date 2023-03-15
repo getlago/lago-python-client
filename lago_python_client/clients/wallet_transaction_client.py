@@ -17,7 +17,7 @@ class WalletTransactionClient(BaseClient):
 
     def create(self, input_object: BaseModel):
         query_url: str = make_url(
-            scheme_plus_authority=self.base_url,
+            origin=self.base_url,
             path_parts=(self.API_RESOURCE, ),
         )
         query_parameters = {
@@ -31,7 +31,7 @@ class WalletTransactionClient(BaseClient):
 
     def find_all(self, wallet_id: str, options: dict = {}):
         query_url: str = make_url(
-            scheme_plus_authority=self.base_url,
+            origin=self.base_url,
             path_parts=('wallets', wallet_id, self.API_RESOURCE),
             query_pairs=options,
         )

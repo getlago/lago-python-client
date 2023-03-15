@@ -17,7 +17,7 @@ class CreditNoteClient(BaseClient):
 
     def download(self, resource_id: str):
         query_url: str = make_url(
-            scheme_plus_authority=self.base_url,
+            origin=self.base_url,
             path_parts=(self.API_RESOURCE, resource_id, 'download'),
         )
         api_response = requests.post(query_url, headers=self.headers())
@@ -30,7 +30,7 @@ class CreditNoteClient(BaseClient):
 
     def void(self, resource_id: str):
         query_url: str = make_url(
-            scheme_plus_authority=self.base_url,
+            origin=self.base_url,
             path_parts=(self.API_RESOURCE, resource_id, 'void'),
         )
         api_response = requests.put(query_url, headers=self.headers())

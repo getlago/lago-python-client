@@ -17,7 +17,7 @@ class GroupClient(BaseClient):
 
     def find_all(self, metric_code: str, options: dict = {}):
         query_url: str = make_url(
-            scheme_plus_authority=self.base_url,
+            origin=self.base_url,
             path_parts=('billable_metrics', metric_code, self.API_RESOURCE),
             query_pairs=options,
         )

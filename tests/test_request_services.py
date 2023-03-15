@@ -19,7 +19,7 @@ class TestRequestServices(unittest.TestCase):
         # When service is applied
         # Then
         self.assertEqual(
-            make_url(scheme_plus_authority=api_url, path_parts=some_path_parts, query_pairs=query_name_value), 
+            make_url(origin=api_url, path_parts=some_path_parts, query_pairs=query_name_value), 
             'https://api.getlago.com/api/v1/team/anhtho/congratulate?message=The+future+belongs+to+those+who+believe+in+the+beauty+of+their+dreams.+Happy+International+Women%27s+Day%21&date=08.03.2023',
         )
 
@@ -32,7 +32,7 @@ class TestRequestServices(unittest.TestCase):
         # When service is applied
         # Then
         self.assertEqual(
-            make_url(scheme_plus_authority=api_url, path_parts=some_path_parts), 
+            make_url(origin=api_url, path_parts=some_path_parts), 
             'https://api.getlago.com/api/v1/hello',
         )
 

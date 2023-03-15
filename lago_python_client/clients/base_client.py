@@ -41,7 +41,7 @@ class BaseClient(ABC):
 
     def find(self, resource_id: str, params: dict = {}):
         query_url: str = make_url(
-            scheme_plus_authority=self.base_url,
+            origin=self.base_url,
             path_parts=(self.API_RESOURCE, resource_id),
         )
         data = to_json(params) if params else None
@@ -53,7 +53,7 @@ class BaseClient(ABC):
 
     def find_all(self, options: dict = {}):
         query_url: str = make_url(
-            scheme_plus_authority=self.base_url,
+            origin=self.base_url,
             path_parts=(self.API_RESOURCE, ),
             query_pairs=options,
         )
@@ -64,7 +64,7 @@ class BaseClient(ABC):
 
     def destroy(self, resource_id: str):
         query_url: str = make_url(
-            scheme_plus_authority=self.base_url,
+            origin=self.base_url,
             path_parts=(self.API_RESOURCE, resource_id),
         )
         api_response = requests.delete(query_url, headers=self.headers())
@@ -74,7 +74,7 @@ class BaseClient(ABC):
 
     def create(self, input_object: BaseModel):
         query_url: str = make_url(
-            scheme_plus_authority=self.base_url,
+            origin=self.base_url,
             path_parts=(self.API_RESOURCE, ),
         )
         query_parameters = {
@@ -91,7 +91,7 @@ class BaseClient(ABC):
 
     def update(self, input_object: BaseModel, identifier: Optional[str] = None):
         query_url: str = make_url(
-            scheme_plus_authority=self.base_url,
+            origin=self.base_url,
             path_parts=(self.API_RESOURCE, identifier) if identifier else (self.API_RESOURCE, ),
         )
         query_parameters = {

@@ -17,7 +17,7 @@ class EventClient(BaseClient):
 
     def batch_create(self, input_object: BaseModel):
         query_url: str = make_url(
-            scheme_plus_authority=self.base_url,
+            origin=self.base_url,
             path_parts=(self.API_RESOURCE, 'batch'),
         )
         query_parameters = {

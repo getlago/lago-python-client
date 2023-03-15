@@ -17,7 +17,7 @@ class AppliedCouponClient(BaseClient):
 
     def destroy(self, external_customer_id: str, applied_coupon_id: str):
         query_url: str = make_url(
-            scheme_plus_authority=self.base_url,
+            origin=self.base_url,
             path_parts=('customers', external_customer_id, self.API_RESOURCE, applied_coupon_id),
         )
         api_response = requests.delete(query_url, headers=self.headers())

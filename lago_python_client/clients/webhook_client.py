@@ -16,7 +16,7 @@ class WebhookClient(BaseClient):
 
     def public_key(self):
         query_url: str = make_url(
-            scheme_plus_authority=self.base_url,
+            origin=self.base_url,
             path_parts=(self.API_RESOURCE, 'json_public_key'),
         )
         api_response = requests.get(query_url, headers=self.headers())

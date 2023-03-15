@@ -17,7 +17,7 @@ class CustomerClient(BaseClient):
 
     def current_usage(self, resource_id: str, external_subscription_id: str):
         query_url: str = make_url(
-            scheme_plus_authority=self.base_url,
+            origin=self.base_url,
             path_parts=(self.API_RESOURCE, resource_id, 'current_usage'),
             query_pairs={
                 'external_subscription_id': external_subscription_id,
