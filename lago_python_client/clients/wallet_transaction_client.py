@@ -5,8 +5,8 @@ from pydantic import BaseModel
 from .base_client import BaseClient
 from requests import Response
 from lago_python_client.models.wallet_transaction import WalletTransactionResponse
-from urllib.parse import urljoin, urlencode
 from ..services.json import from_json, to_json
+from ..services.request import make_url
 from ..services.response import verify_response
 
 
@@ -16,8 +16,10 @@ class WalletTransactionClient(BaseClient):
     ROOT_NAME: ClassVar[str] = 'wallet_transactions'
 
     def create(self, input_object: BaseModel):
-        query_url: str = urljoin(self.base_url, self.API_RESOURCE)
-
+        query_url: str = make_url(
+            origin=self.base_url,
+            path_parts=(self.API_RESOURCE, ),
+        )
         query_parameters = {
             'wallet_transaction': input_object.dict()
         }
@@ -28,12 +30,11 @@ class WalletTransactionClient(BaseClient):
         return self.prepare_response(from_json(data).get(self.ROOT_NAME))
 
     def find_all(self, wallet_id: str, options: dict = {}):
-        uri: str = '{uri_path}{uri_query}'.format(
-            uri_path='/'.join(('wallets', wallet_id, self.API_RESOURCE)),
-            uri_query=f'?{urlencode(options)}' if options else '',
+        query_url: str = make_url(
+            origin=self.base_url,
+            path_parts=('wallets', wallet_id, self.API_RESOURCE),
+            query_pairs=options,
         )
-        query_url: str = urljoin(self.base_url, uri)
-
         api_response = requests.get(query_url, headers=self.headers())
         data = from_json(verify_response(api_response))
 

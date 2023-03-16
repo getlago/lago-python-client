@@ -1,12 +1,12 @@
 import requests
-from typing import Any, ClassVar, Dict, Type
+from typing import ClassVar, Type
 
 from pydantic import BaseModel
 from .base_client import BaseClient
 from lago_python_client.models.credit_note import CreditNoteResponse
-from urllib.parse import urljoin
 from requests import Response
 from ..services.json import from_json
+from ..services.request import make_url
 from ..services.response import verify_response
 
 
@@ -16,9 +16,10 @@ class CreditNoteClient(BaseClient):
     ROOT_NAME: ClassVar[str] = 'credit_note'
 
     def download(self, resource_id: str):
-        uri: str = '/'.join((self.API_RESOURCE, resource_id, 'download'))
-        query_url: str = urljoin(self.base_url, uri)
-
+        query_url: str = make_url(
+            origin=self.base_url,
+            path_parts=(self.API_RESOURCE, resource_id, 'download'),
+        )
         api_response = requests.post(query_url, headers=self.headers())
         data = verify_response(api_response)
 
@@ -28,9 +29,10 @@ class CreditNoteClient(BaseClient):
             return self.prepare_object_response(from_json(data).get(self.ROOT_NAME))
 
     def void(self, resource_id: str):
-        uri: str = '/'.join((self.API_RESOURCE, resource_id, 'void'))
-        query_url: str = urljoin(self.base_url, uri)
-
+        query_url: str = make_url(
+            origin=self.base_url,
+            path_parts=(self.API_RESOURCE, resource_id, 'void'),
+        )
         api_response = requests.put(query_url, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
