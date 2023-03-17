@@ -43,5 +43,5 @@ class WalletTransactionClient(BaseClient):
     @classmethod
     def prepare_response(cls, data: Sequence[Dict[Any, Any]]) -> Dict[str, Any]:
         return {
-            cls.API_RESOURCE: [cls.prepare_object_response(el) for el in data],
+            cls.API_RESOURCE: [cls.prepare_object_response(response_model=cls.RESPONSE_MODEL, data=el) for el in data],
         }

@@ -26,7 +26,7 @@ class CreditNoteClient(BaseClient):
         if data is None:
             return True
         else:
-            return self.prepare_object_response(from_json(data).get(self.ROOT_NAME))
+            return self.prepare_object_response(response_model=self.RESPONSE_MODEL, data=from_json(data).get(self.ROOT_NAME))
 
     def void(self, resource_id: str):
         query_url: str = make_url(
@@ -36,4 +36,4 @@ class CreditNoteClient(BaseClient):
         api_response = requests.put(query_url, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
-        return self.prepare_object_response(data)
+        return self.prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)

@@ -49,7 +49,7 @@ class BaseClient(ABC):
         api_response = requests.get(query_url, data=data, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
-        return self.prepare_object_response(data)
+        return self.prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)
 
     def find_all(self, options: dict = {}):
         query_url: str = make_url(
@@ -70,7 +70,7 @@ class BaseClient(ABC):
         api_response = requests.delete(query_url, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
-        return self.prepare_object_response(data)
+        return self.prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)
 
     def create(self, input_object: BaseModel):
         query_url: str = make_url(
@@ -87,7 +87,7 @@ class BaseClient(ABC):
         if data is None:
             return True
         else:
-            return self.prepare_object_response(from_json(data).get(self.ROOT_NAME))
+            return self.prepare_object_response(response_model=self.RESPONSE_MODEL, data=from_json(data).get(self.ROOT_NAME))
 
     def update(self, input_object: BaseModel, identifier: Optional[str] = None):
         query_url: str = make_url(
@@ -101,7 +101,7 @@ class BaseClient(ABC):
         api_response = requests.put(query_url, data=data, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
-        return self.prepare_object_response(data)
+        return self.prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)
 
     def headers(self):
         bearer = "Bearer " + self.api_key
@@ -114,13 +114,13 @@ class BaseClient(ABC):
 
         return headers
 
-    @classmethod
-    def prepare_object_response(cls, data: Dict[Any, Any]) -> BaseModel:
-        return cls.RESPONSE_MODEL.parse_obj(data)
+    @staticmethod
+    def prepare_object_response(response_model: Type[BaseModel], data: Dict[Any, Any]) -> BaseModel:
+        return response_model.parse_obj(data)
 
     @classmethod
     def prepare_index_response(cls, data: Dict[str, Any]) -> Dict[str, Any]:
         return {
-            cls.API_RESOURCE: [cls.prepare_object_response(el) for el in data[cls.API_RESOURCE]],
+            cls.API_RESOURCE: [cls.prepare_object_response(response_model=cls.RESPONSE_MODEL, data=el) for el in data[cls.API_RESOURCE]],
             'meta': data['meta'],
         }
