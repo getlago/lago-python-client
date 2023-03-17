@@ -7,7 +7,7 @@ from lago_python_client.models.credit_note import CreditNoteResponse
 from requests import Response
 from ..services.json import from_json
 from ..services.request import make_url
-from ..services.response import verify_response
+from ..services.response import prepare_object_response, verify_response
 
 
 class CreditNoteClient(BaseClient):
@@ -26,7 +26,7 @@ class CreditNoteClient(BaseClient):
         if data is None:
             return True
         else:
-            return self.prepare_object_response(response_model=self.RESPONSE_MODEL, data=from_json(data).get(self.ROOT_NAME))
+            return prepare_object_response(response_model=self.RESPONSE_MODEL, data=from_json(data).get(self.ROOT_NAME))
 
     def void(self, resource_id: str):
         query_url: str = make_url(
@@ -36,4 +36,4 @@ class CreditNoteClient(BaseClient):
         api_response = requests.put(query_url, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
-        return self.prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)
+        return prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)

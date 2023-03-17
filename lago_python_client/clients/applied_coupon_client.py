@@ -7,7 +7,7 @@ from lago_python_client.models.applied_coupon import AppliedCouponResponse
 from requests import Response
 from ..services.json import from_json
 from ..services.request import make_url
-from ..services.response import verify_response
+from ..services.response import prepare_object_response, verify_response
 
 
 class AppliedCouponClient(BaseClient):
@@ -23,4 +23,4 @@ class AppliedCouponClient(BaseClient):
         api_response = requests.delete(query_url, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
-        return self.prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)
+        return prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)

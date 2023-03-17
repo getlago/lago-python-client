@@ -1,14 +1,21 @@
 from http import HTTPStatus
-from typing import Any, Optional, Set
+import sys
+from typing import Any, Optional, Set, Type
 try:
     from typing import Final
 except ImportError:  # Python 3.7
     from typing_extensions import Final
 
+from pydantic import BaseModel
 from requests import Response
 
 from ..exceptions import LagoApiError
 from ..services.json import from_json
+
+if sys.version_info >= (3, 9):
+    from collections.abc import Mapping, Sequence
+else:
+    from typing import Mapping, Sequence
 
 RESPONSE_SUCCESS_CODES: Final[Set[int]] = {
     HTTPStatus.OK,  # 200
@@ -44,3 +51,30 @@ def verify_response(response: Response) -> Optional[Response]:
         return None
 
     return response
+
+
+def prepare_object_response(response_model: Type[BaseModel], data: Mapping[Any, Any]) -> BaseModel:
+    """Return single object response - Pydantic model instance with provided data."""
+    return response_model.parse_obj(data)
+
+
+def prepare_index_response(api_resourse: str, response_model: Type[BaseModel], data: Mapping[str, Any]) -> Mapping[str, Any]:
+    """Return index response with meta based on mapping data object."""
+    return {
+        api_resourse: [
+            prepare_object_response(response_model=response_model, data=el)
+            for el in data[api_resourse]
+        ],
+        'meta': data['meta'],
+    }
+
+
+def prepare_create_response(api_resource: str, response_model: Type[BaseModel], data: Sequence[Mapping[Any, Any]]) -> Mapping[str, Any]:
+    """Return response based on sequence of data objects."""
+    # The only usage - ``WalletTransactionClient.create``
+    return {
+        api_resource: [
+            prepare_object_response(response_model=response_model, data=el)
+            for el in data
+        ],
+    }

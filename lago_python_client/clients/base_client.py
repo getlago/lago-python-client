@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Optional, Type
+from typing import Optional, Type
 
 from pydantic import BaseModel
 import requests
@@ -7,7 +7,7 @@ from requests import Response
 
 from ..services.json import from_json, to_json
 from ..services.request import make_url
-from ..services.response import verify_response
+from ..services.response import prepare_index_response, prepare_object_response, verify_response
 from ..version import LAGO_VERSION
 
 
@@ -49,7 +49,7 @@ class BaseClient(ABC):
         api_response = requests.get(query_url, data=data, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
-        return self.prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)
+        return prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)
 
     def find_all(self, options: dict = {}):
         query_url: str = make_url(
@@ -60,7 +60,7 @@ class BaseClient(ABC):
         api_response = requests.get(query_url, headers=self.headers())
         data = from_json(verify_response(api_response))
 
-        return BaseClient.prepare_index_response(api_resourse=self.API_RESOURCE, response_model=self.RESPONSE_MODEL, data=data)
+        return prepare_index_response(api_resourse=self.API_RESOURCE, response_model=self.RESPONSE_MODEL, data=data)
 
     def destroy(self, resource_id: str):
         query_url: str = make_url(
@@ -70,7 +70,7 @@ class BaseClient(ABC):
         api_response = requests.delete(query_url, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
-        return self.prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)
+        return prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)
 
     def create(self, input_object: BaseModel):
         query_url: str = make_url(
@@ -87,7 +87,7 @@ class BaseClient(ABC):
         if data is None:
             return True
         else:
-            return self.prepare_object_response(response_model=self.RESPONSE_MODEL, data=from_json(data).get(self.ROOT_NAME))
+            return prepare_object_response(response_model=self.RESPONSE_MODEL, data=from_json(data).get(self.ROOT_NAME))
 
     def update(self, input_object: BaseModel, identifier: Optional[str] = None):
         query_url: str = make_url(
@@ -101,7 +101,7 @@ class BaseClient(ABC):
         api_response = requests.put(query_url, data=data, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
-        return self.prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)
+        return prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)
 
     def headers(self):
         bearer = "Bearer " + self.api_key
@@ -113,14 +113,3 @@ class BaseClient(ABC):
         }
 
         return headers
-
-    @staticmethod
-    def prepare_object_response(response_model: Type[BaseModel], data: Dict[Any, Any]) -> BaseModel:
-        return response_model.parse_obj(data)
-
-    @staticmethod
-    def prepare_index_response(api_resourse: str, response_model: Type[BaseModel], data: Dict[str, Any]) -> Dict[str, Any]:
-        return {
-            api_resourse: [BaseClient.prepare_object_response(response_model=response_model, data=el) for el in data[api_resourse]],
-            'meta': data['meta'],
-        }

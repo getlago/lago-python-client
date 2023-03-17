@@ -1,5 +1,5 @@
 import requests
-from typing import Any, ClassVar, Dict, Sequence, Type
+from typing import ClassVar, Type
 
 from pydantic import BaseModel
 from .base_client import BaseClient
@@ -7,7 +7,7 @@ from requests import Response
 from lago_python_client.models.wallet_transaction import WalletTransactionResponse
 from ..services.json import from_json, to_json
 from ..services.request import make_url
-from ..services.response import verify_response
+from ..services.response import prepare_create_response, prepare_index_response, verify_response
 
 
 class WalletTransactionClient(BaseClient):
@@ -27,7 +27,7 @@ class WalletTransactionClient(BaseClient):
         api_response = requests.post(query_url, data=data, headers=self.headers())
         data = verify_response(api_response)
 
-        return self.prepare_response(api_resource=self.API_RESOURCE, response_model=self.RESPONSE_MODEL, data=from_json(data).get(self.ROOT_NAME))
+        return prepare_create_response(api_resource=self.API_RESOURCE, response_model=self.RESPONSE_MODEL, data=from_json(data).get(self.ROOT_NAME))
 
     def find_all(self, wallet_id: str, options: dict = {}):
         query_url: str = make_url(
@@ -38,10 +38,4 @@ class WalletTransactionClient(BaseClient):
         api_response = requests.get(query_url, headers=self.headers())
         data = from_json(verify_response(api_response))
 
-        return BaseClient.prepare_index_response(api_resourse=self.API_RESOURCE, response_model=self.RESPONSE_MODEL, data=data)
-
-    @staticmethod
-    def prepare_response(api_resource: str, response_model: Type[BaseModel], data: Sequence[Dict[Any, Any]]) -> Dict[str, Any]:
-        return {
-            api_resource: [BaseClient.prepare_object_response(response_model=response_model, data=el) for el in data],
-        }
+        return prepare_index_response(api_resourse=self.API_RESOURCE, response_model=self.RESPONSE_MODEL, data=data)
