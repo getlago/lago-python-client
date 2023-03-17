@@ -2,7 +2,7 @@ from typing import ClassVar, Type
 
 from pydantic import BaseModel
 from .base_client import BaseClient
-from lago_python_client.models.add_on import AddOnResponse
+from ..models.add_on import AddOnResponse
 
 
 class AddOnClient(BaseClient):

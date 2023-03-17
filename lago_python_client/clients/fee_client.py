@@ -3,7 +3,7 @@ from typing import Any, ClassVar, Type
 
 from pydantic import BaseModel
 from .base_client import BaseClient
-from lago_python_client.models.fee import FeeResponse
+from ..models.fee import FeeResponse
 
 class FeeClient(BaseClient):
     API_RESOURCE: ClassVar[str] = 'fees'

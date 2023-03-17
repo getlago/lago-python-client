@@ -3,8 +3,8 @@ from typing import ClassVar, Type
 
 from pydantic import BaseModel
 from .base_client import BaseClient
-from lago_python_client.models.customer import CustomerResponse
-from lago_python_client.models.customer_usage import CustomerUsageResponse
+from ..models.customer import CustomerResponse
+from ..models.customer_usage import CustomerUsageResponse
 from ..services.json import from_json
 from ..services.request import make_url
 from ..services.response import verify_response

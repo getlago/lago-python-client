@@ -4,7 +4,7 @@ from typing import ClassVar, Type
 from pydantic import BaseModel
 from .base_client import BaseClient
 from requests import Response
-from lago_python_client.models.wallet_transaction import WalletTransactionResponse
+from ..models.wallet_transaction import WalletTransactionResponse
 from ..services.json import from_json, to_json
 from ..services.request import make_url
 from ..services.response import prepare_create_response, prepare_index_response, verify_response

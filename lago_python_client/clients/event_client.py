@@ -3,7 +3,7 @@ from typing import ClassVar, Type
 
 from pydantic import BaseModel
 from .base_client import BaseClient
-from lago_python_client.models.event import EventResponse
+from ..models.event import EventResponse
 from urllib.parse import urljoin
 from ..services.json import to_json
 from ..services.request import make_url

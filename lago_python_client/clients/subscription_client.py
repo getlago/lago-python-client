@@ -2,7 +2,7 @@ from typing import ClassVar, Type
 
 from pydantic import BaseModel
 from .base_client import BaseClient
-from lago_python_client.models.subscription import SubscriptionResponse
+from ..models.subscription import SubscriptionResponse
 
 
 class SubscriptionClient(BaseClient):

@@ -3,7 +3,7 @@ from typing import ClassVar, Type
 
 from pydantic import BaseModel
 from .base_client import BaseClient
-from lago_python_client.models.invoice import InvoiceResponse
+from ..models.invoice import InvoiceResponse
 from requests import Response
 from ..services.json import from_json
 from ..services.request import make_url
