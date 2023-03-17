@@ -2,6 +2,7 @@ import requests
 from typing import ClassVar, Type
 
 from pydantic import BaseModel
+
 from .base_client import BaseClient
 from ..models.customer import CustomerResponse
 from ..models.customer_usage import CustomerUsageResponse

@@ -2,8 +2,9 @@ import requests
 from typing import ClassVar, Type
 
 from pydantic import BaseModel
-from .base_client import BaseClient
 from requests import Response
+
+from .base_client import BaseClient
 from ..models.wallet_transaction import WalletTransactionResponse
 from ..services.json import from_json, to_json
 from ..services.request import make_url

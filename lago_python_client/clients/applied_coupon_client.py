@@ -2,9 +2,10 @@ import requests
 from typing import ClassVar, Type
 
 from pydantic import BaseModel
+from requests import Response
+
 from .base_client import BaseClient
 from ..models.applied_coupon import AppliedCouponResponse
-from requests import Response
 from ..services.json import from_json
 from ..services.request import make_url
 from ..services.response import prepare_object_response, verify_response
