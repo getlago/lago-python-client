@@ -9,6 +9,8 @@ class FeeResponse(BaseModel):
     amount_currency: Optional[str]
     vat_amount_cents: Optional[int]
     vat_amount_currency: Optional[str]
+    total_amount_cents: Optional[int]
+    total_amount_currency: Optional[str]
     units: Optional[float]
     events_count: Optional[int]
 
