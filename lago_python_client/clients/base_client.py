@@ -46,7 +46,7 @@ class BaseClient(ABC):
         )
         data = to_json(params) if params else None
 
-        api_response = requests.get(query_url, data=data, headers=self.headers())
+        api_response: Response = requests.get(query_url, data=data, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
         return prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)
@@ -57,7 +57,7 @@ class BaseClient(ABC):
             path_parts=(self.API_RESOURCE, ),
             query_pairs=options,
         )
-        api_response = requests.get(query_url, headers=self.headers())
+        api_response: Response = requests.get(query_url, headers=self.headers())
         data = from_json(verify_response(api_response))
 
         return prepare_index_response(api_resourse=self.API_RESOURCE, response_model=self.RESPONSE_MODEL, data=data)
@@ -67,7 +67,7 @@ class BaseClient(ABC):
             origin=self.base_url,
             path_parts=(self.API_RESOURCE, resource_id),
         )
-        api_response = requests.delete(query_url, headers=self.headers())
+        api_response: Response = requests.delete(query_url, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
         return prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)
@@ -81,7 +81,7 @@ class BaseClient(ABC):
             self.ROOT_NAME: input_object.dict()
         }
         data = to_json(query_parameters)
-        api_response = requests.post(query_url, data=data, headers=self.headers())
+        api_response: Response = requests.post(query_url, data=data, headers=self.headers())
         data = verify_response(api_response)
 
         if data is None:
@@ -98,7 +98,7 @@ class BaseClient(ABC):
             self.ROOT_NAME: input_object.dict(exclude_none=True)
         }
         data = to_json(query_parameters)
-        api_response = requests.put(query_url, data=data, headers=self.headers())
+        api_response: Response = requests.put(query_url, data=data, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
         return prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)

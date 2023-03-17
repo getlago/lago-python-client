@@ -2,6 +2,7 @@ import requests
 from typing import ClassVar, Type
 
 from pydantic import BaseModel
+from requests import Response
 
 from .base_client import BaseClient
 from ..models.event import EventResponse
@@ -24,7 +25,7 @@ class EventClient(BaseClient):
             self.ROOT_NAME: input_object.dict()
         }
         data = to_json(query_parameters)
-        api_response = requests.post(query_url, data=data, headers=self.headers())
+        api_response: Response = requests.post(query_url, data=data, headers=self.headers())
         verify_response(api_response)
 
         return True

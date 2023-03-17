@@ -21,7 +21,7 @@ class CreditNoteClient(BaseClient):
             origin=self.base_url,
             path_parts=(self.API_RESOURCE, resource_id, 'download'),
         )
-        api_response = requests.post(query_url, headers=self.headers())
+        api_response: Response = requests.post(query_url, headers=self.headers())
         data = verify_response(api_response)
 
         if data is None:
@@ -34,7 +34,7 @@ class CreditNoteClient(BaseClient):
             origin=self.base_url,
             path_parts=(self.API_RESOURCE, resource_id, 'void'),
         )
-        api_response = requests.put(query_url, headers=self.headers())
+        api_response: Response = requests.put(query_url, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
         return prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)

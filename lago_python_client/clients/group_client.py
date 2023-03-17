@@ -22,7 +22,7 @@ class GroupClient(BaseClient):
             path_parts=('billable_metrics', metric_code, self.API_RESOURCE),
             query_pairs=options,
         )
-        api_response = requests.get(query_url, headers=self.headers())
+        api_response: Response = requests.get(query_url, headers=self.headers())
         data = from_json(verify_response(api_response))
 
         return prepare_index_response(api_resourse=self.API_RESOURCE, response_model=self.RESPONSE_MODEL, data=data)

@@ -3,6 +3,7 @@ import requests
 from typing import ClassVar, Type
 
 from pydantic import BaseModel
+from requests import Response
 
 from .base_client import BaseClient
 from ..services.json import from_json
@@ -20,7 +21,7 @@ class WebhookClient(BaseClient):
             origin=self.base_url,
             path_parts=(self.API_RESOURCE, 'json_public_key'),
         )
-        api_response = requests.get(query_url, headers=self.headers())
+        api_response: Response = requests.get(query_url, headers=self.headers())
         data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
         return base64.b64decode(data['public_key'])

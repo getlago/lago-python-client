@@ -2,6 +2,7 @@ import requests
 from typing import ClassVar, Type
 
 from pydantic import BaseModel
+from requests import Response
 
 from .base_client import BaseClient
 from ..models.customer import CustomerResponse
@@ -24,7 +25,7 @@ class CustomerClient(BaseClient):
                 'external_subscription_id': external_subscription_id,
             },
         )
-        api_response = requests.get(query_url, headers=self.headers())
+        api_response: Response = requests.get(query_url, headers=self.headers())
         data = from_json(verify_response(api_response)).get('customer_usage')
 
         return CustomerUsageResponse.parse_obj(data)

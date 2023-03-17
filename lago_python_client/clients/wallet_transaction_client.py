@@ -25,7 +25,7 @@ class WalletTransactionClient(BaseClient):
             'wallet_transaction': input_object.dict()
         }
         data = to_json(query_parameters)
-        api_response = requests.post(query_url, data=data, headers=self.headers())
+        api_response: Response = requests.post(query_url, data=data, headers=self.headers())
         data = verify_response(api_response)
 
         return prepare_create_response(api_resource=self.API_RESOURCE, response_model=self.RESPONSE_MODEL, data=from_json(data).get(self.ROOT_NAME))
@@ -36,7 +36,7 @@ class WalletTransactionClient(BaseClient):
             path_parts=('wallets', wallet_id, self.API_RESOURCE),
             query_pairs=options,
         )
-        api_response = requests.get(query_url, headers=self.headers())
+        api_response: Response = requests.get(query_url, headers=self.headers())
         data = from_json(verify_response(api_response))
 
         return prepare_index_response(api_resourse=self.API_RESOURCE, response_model=self.RESPONSE_MODEL, data=data)
