@@ -3,7 +3,7 @@ from typing import Any, TypeVar
 try:
     from functools import cached_property
 except ImportError:
-    cached_property = property
+    cached_property = property  # type: ignore
 try:
     from typing import ParamSpec
 except ImportError:  # Python 3.7, Python 3.8, Python 3.9
@@ -46,5 +46,5 @@ if sys.version_info >= (3, 9):
     def callable_cached_property(func: Callable[P, T]) -> cached_property[T]:
         return cached_property(lambda s: Proxy(func(s)))  # type: ignore
 else:
-    def callable_cached_property(func):  # type: ignore
-        return cached_property(lambda s: Proxy(func(s)))  # type: ignore
+    def callable_cached_property(func):
+        return cached_property(lambda s: Proxy(func(s)))

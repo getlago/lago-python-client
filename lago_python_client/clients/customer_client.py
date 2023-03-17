@@ -17,7 +17,7 @@ class CustomerClient(BaseClient):
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = CustomerResponse
     ROOT_NAME: ClassVar[str] = 'customer'
 
-    def current_usage(self, resource_id: str, external_subscription_id: str):
+    def current_usage(self, resource_id: str, external_subscription_id: str) -> BaseModel:
         query_url: str = make_url(
             origin=self.base_url,
             path_parts=(self.API_RESOURCE, resource_id, 'current_usage'),

@@ -16,7 +16,7 @@ class WebhookClient(BaseClient):
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = NotImplemented
     ROOT_NAME: ClassVar[str] = 'webhook'
 
-    def public_key(self):
+    def public_key(self) -> bytes:
         query_url: str = make_url(
             origin=self.base_url,
             path_parts=(self.API_RESOURCE, 'json_public_key'),

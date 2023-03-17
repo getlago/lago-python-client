@@ -16,7 +16,7 @@ class EventClient(BaseClient):
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = EventResponse
     ROOT_NAME: ClassVar[str] = 'event'
 
-    def batch_create(self, input_object: BaseModel):
+    def batch_create(self, input_object: BaseModel) -> bool:
         query_url: str = make_url(
             origin=self.base_url,
             path_parts=(self.API_RESOURCE, 'batch'),

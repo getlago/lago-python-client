@@ -1,5 +1,6 @@
 import requests
-from typing import ClassVar, Type
+import sys
+from typing import ClassVar, Type, Union
 
 from pydantic import BaseModel
 from requests import Response
@@ -16,7 +17,7 @@ class CreditNoteClient(BaseClient):
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = CreditNoteResponse
     ROOT_NAME: ClassVar[str] = 'credit_note'
 
-    def download(self, resource_id: str):
+    def download(self, resource_id: str) -> Union[BaseModel, bool]:
         query_url: str = make_url(
             origin=self.base_url,
             path_parts=(self.API_RESOURCE, resource_id, 'download'),
@@ -32,7 +33,7 @@ class CreditNoteClient(BaseClient):
             data=from_json(data).get(self.ROOT_NAME),
         )
 
-    def void(self, resource_id: str):
+    def void(self, resource_id: str) -> BaseModel:
         query_url: str = make_url(
             origin=self.base_url,
             path_parts=(self.API_RESOURCE, resource_id, 'void'),

@@ -16,7 +16,7 @@ class AppliedCouponClient(BaseClient):
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = AppliedCouponResponse
     ROOT_NAME: ClassVar[str] = 'applied_coupon'
 
-    def destroy(self, external_customer_id: str, applied_coupon_id: str):
+    def destroy(self, external_customer_id: str, applied_coupon_id: str) -> BaseModel:
         query_url: str = make_url(
             origin=self.base_url,
             path_parts=('customers', external_customer_id, self.API_RESOURCE, applied_coupon_id),

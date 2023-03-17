@@ -4,7 +4,7 @@ from typing import Any, Optional, Set, Type
 try:
     from typing import Final
 except ImportError:  # Python 3.7
-    from typing_extensions import Final
+    from typing_extensions import Final  # type: ignore
 
 from pydantic import BaseModel
 from requests import Response
