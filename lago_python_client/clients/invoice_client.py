@@ -26,8 +26,11 @@ class InvoiceClient(BaseClient):
 
         if data is None:
             return True
-        else:
-            return prepare_object_response(response_model=self.RESPONSE_MODEL, data=from_json(data).get(self.ROOT_NAME))
+
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=from_json(data).get(self.ROOT_NAME),
+        )
 
     def retry_payment(self, resource_id: str):
         query_url: str = make_url(
@@ -35,9 +38,11 @@ class InvoiceClient(BaseClient):
             path_parts=(self.API_RESOURCE, resource_id, 'retry_payment'),
         )
         api_response: Response = requests.post(query_url, headers=self.headers())
-        data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
-        return prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=from_json(verify_response(api_response)).get(self.ROOT_NAME),
+        )
 
     def refresh(self, resource_id: str):
         query_url: str = make_url(
@@ -45,9 +50,11 @@ class InvoiceClient(BaseClient):
             path_parts=(self.API_RESOURCE, resource_id, 'refresh'),
         )
         api_response: Response = requests.put(query_url, headers=self.headers())
-        data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
-        return prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=from_json(verify_response(api_response)).get(self.ROOT_NAME),
+        )
 
     def finalize(self, resource_id: str):
         query_url: str = make_url(
@@ -55,6 +62,8 @@ class InvoiceClient(BaseClient):
             path_parts=(self.API_RESOURCE, resource_id, 'finalize'),
         )
         api_response: Response = requests.put(query_url, headers=self.headers())
-        data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
-        return prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=from_json(verify_response(api_response)).get(self.ROOT_NAME),
+        )

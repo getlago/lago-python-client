@@ -22,6 +22,8 @@ class AppliedCouponClient(BaseClient):
             path_parts=('customers', external_customer_id, self.API_RESOURCE, applied_coupon_id),
         )
         api_response: Response = requests.delete(query_url, headers=self.headers())
-        data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
-        return prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=from_json(verify_response(api_response)).get(self.ROOT_NAME),
+        )

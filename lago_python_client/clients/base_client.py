@@ -47,9 +47,11 @@ class BaseClient(ABC):
         data = to_json(params) if params else None
 
         api_response: Response = requests.get(query_url, data=data, headers=self.headers())
-        data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
-        return prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=from_json(verify_response(api_response)).get(self.ROOT_NAME),
+        )
 
     def find_all(self, options: dict = {}):
         query_url: str = make_url(
@@ -58,9 +60,12 @@ class BaseClient(ABC):
             query_pairs=options,
         )
         api_response: Response = requests.get(query_url, headers=self.headers())
-        data = from_json(verify_response(api_response))
 
-        return prepare_index_response(api_resourse=self.API_RESOURCE, response_model=self.RESPONSE_MODEL, data=data)
+        return prepare_index_response(
+            api_resourse=self.API_RESOURCE,
+            response_model=self.RESPONSE_MODEL,
+            data=from_json(verify_response(api_response)),
+        )
 
     def destroy(self, resource_id: str):
         query_url: str = make_url(
@@ -68,9 +73,11 @@ class BaseClient(ABC):
             path_parts=(self.API_RESOURCE, resource_id),
         )
         api_response: Response = requests.delete(query_url, headers=self.headers())
-        data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
-        return prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=from_json(verify_response(api_response)).get(self.ROOT_NAME),
+        )
 
     def create(self, input_object: BaseModel):
         query_url: str = make_url(
@@ -86,8 +93,11 @@ class BaseClient(ABC):
 
         if data is None:
             return True
-        else:
-            return prepare_object_response(response_model=self.RESPONSE_MODEL, data=from_json(data).get(self.ROOT_NAME))
+
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=from_json(data).get(self.ROOT_NAME),
+        )
 
     def update(self, input_object: BaseModel, identifier: Optional[str] = None):
         query_url: str = make_url(
@@ -99,9 +109,11 @@ class BaseClient(ABC):
         }
         data = to_json(query_parameters)
         api_response: Response = requests.put(query_url, data=data, headers=self.headers())
-        data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
 
-        return prepare_object_response(response_model=self.RESPONSE_MODEL, data=data)
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=from_json(verify_response(api_response)).get(self.ROOT_NAME),
+        )
 
     def headers(self):
         bearer = "Bearer " + self.api_key

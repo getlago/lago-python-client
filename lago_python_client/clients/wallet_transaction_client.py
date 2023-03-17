@@ -26,9 +26,12 @@ class WalletTransactionClient(BaseClient):
         }
         data = to_json(query_parameters)
         api_response: Response = requests.post(query_url, data=data, headers=self.headers())
-        data = verify_response(api_response)
 
-        return prepare_create_response(api_resource=self.API_RESOURCE, response_model=self.RESPONSE_MODEL, data=from_json(data).get(self.ROOT_NAME))
+        return prepare_create_response(
+            api_resource=self.API_RESOURCE,
+            response_model=self.RESPONSE_MODEL,
+            data=from_json(verify_response(api_response)).get(self.ROOT_NAME),
+        )
 
     def find_all(self, wallet_id: str, options: dict = {}):
         query_url: str = make_url(
@@ -37,6 +40,9 @@ class WalletTransactionClient(BaseClient):
             query_pairs=options,
         )
         api_response: Response = requests.get(query_url, headers=self.headers())
-        data = from_json(verify_response(api_response))
 
-        return prepare_index_response(api_resourse=self.API_RESOURCE, response_model=self.RESPONSE_MODEL, data=data)
+        return prepare_index_response(
+            api_resourse=self.API_RESOURCE,
+            response_model=self.RESPONSE_MODEL,
+            data=from_json(verify_response(api_response)),
+        )
