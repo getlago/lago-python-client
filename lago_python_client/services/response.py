@@ -58,12 +58,12 @@ def prepare_object_response(response_model: Type[BaseModel], data: Mapping[Any, 
     return response_model.parse_obj(data)
 
 
-def prepare_index_response(api_resourse: str, response_model: Type[BaseModel], data: Mapping[str, Any]) -> Mapping[str, Any]:
+def prepare_index_response(api_resource: str, response_model: Type[BaseModel], data: Mapping[str, Any]) -> Mapping[str, Any]:
     """Return index response with meta based on mapping data object."""
     return {
-        api_resourse: [
+        api_resource: [
             prepare_object_response(response_model=response_model, data=el)
-            for el in data[api_resourse]
+            for el in data[api_resource]
         ],
         'meta': data['meta'],
     }
