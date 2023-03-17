@@ -24,4 +24,4 @@ class GroupClient(BaseClient):
         api_response = requests.get(query_url, headers=self.headers())
         data = from_json(verify_response(api_response))
 
-        return self.prepare_index_response(data)
+        return BaseClient.prepare_index_response(api_resourse=self.API_RESOURCE, response_model=self.RESPONSE_MODEL, data=data)

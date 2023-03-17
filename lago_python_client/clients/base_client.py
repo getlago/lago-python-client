@@ -60,7 +60,7 @@ class BaseClient(ABC):
         api_response = requests.get(query_url, headers=self.headers())
         data = from_json(verify_response(api_response))
 
-        return self.prepare_index_response(data)
+        return BaseClient.prepare_index_response(api_resourse=self.API_RESOURCE, response_model=self.RESPONSE_MODEL, data=data)
 
     def destroy(self, resource_id: str):
         query_url: str = make_url(
@@ -118,9 +118,9 @@ class BaseClient(ABC):
     def prepare_object_response(response_model: Type[BaseModel], data: Dict[Any, Any]) -> BaseModel:
         return response_model.parse_obj(data)
 
-    @classmethod
-    def prepare_index_response(cls, data: Dict[str, Any]) -> Dict[str, Any]:
+    @staticmethod
+    def prepare_index_response(api_resourse: str, response_model: Type[BaseModel], data: Dict[str, Any]) -> Dict[str, Any]:
         return {
-            cls.API_RESOURCE: [cls.prepare_object_response(response_model=cls.RESPONSE_MODEL, data=el) for el in data[cls.API_RESOURCE]],
+            api_resourse: [BaseClient.prepare_object_response(response_model=response_model, data=el) for el in data[api_resourse]],
             'meta': data['meta'],
         }
