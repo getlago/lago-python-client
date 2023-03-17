@@ -27,7 +27,7 @@ class WalletTransactionClient(BaseClient):
         api_response = requests.post(query_url, data=data, headers=self.headers())
         data = verify_response(api_response)
 
-        return self.prepare_response(from_json(data).get(self.ROOT_NAME))
+        return self.prepare_response(api_resource=self.API_RESOURCE, response_model=self.RESPONSE_MODEL, data=from_json(data).get(self.ROOT_NAME))
 
     def find_all(self, wallet_id: str, options: dict = {}):
         query_url: str = make_url(
@@ -40,8 +40,8 @@ class WalletTransactionClient(BaseClient):
 
         return BaseClient.prepare_index_response(api_resourse=self.API_RESOURCE, response_model=self.RESPONSE_MODEL, data=data)
 
-    @classmethod
-    def prepare_response(cls, data: Sequence[Dict[Any, Any]]) -> Dict[str, Any]:
+    @staticmethod
+    def prepare_response(api_resource: str, response_model: Type[BaseModel], data: Sequence[Dict[Any, Any]]) -> Dict[str, Any]:
         return {
-            cls.API_RESOURCE: [cls.prepare_object_response(response_model=cls.RESPONSE_MODEL, data=el) for el in data],
+            api_resource: [BaseClient.prepare_object_response(response_model=response_model, data=el) for el in data],
         }
