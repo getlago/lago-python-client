@@ -53,12 +53,12 @@ def verify_response(response: Response) -> Optional[Response]:
     return response
 
 
-def prepare_object_response(response_model: Type[BaseModel], data: Mapping[Any, Any]) -> BaseModel:
+def prepare_object_response(response_model: Type[BaseModel], data: Mapping[object, object]) -> BaseModel:
     """Return single object response - Pydantic model instance with provided data."""
     return response_model.parse_obj(data)
 
 
-def prepare_index_response(api_resource: str, response_model: Type[BaseModel], data: Mapping[str, Any]) -> Mapping[str, Any]:
+def prepare_index_response(api_resource: str, response_model: Type[BaseModel], data: Mapping[str, Sequence[Mapping[object, object]]]) -> Mapping[str, Any]:
     """Return index response with meta based on mapping data object."""
     return {
         api_resource: [
@@ -69,7 +69,7 @@ def prepare_index_response(api_resource: str, response_model: Type[BaseModel], d
     }
 
 
-def prepare_create_response(api_resource: str, response_model: Type[BaseModel], data: Sequence[Mapping[Any, Any]]) -> Mapping[str, Any]:
+def prepare_create_response(api_resource: str, response_model: Type[BaseModel], data: Sequence[Mapping[object, object]]) -> Mapping[str, Any]:
     """Return response based on sequence of data objects."""
     # The only usage - ``WalletTransactionClient.create``
     return {
