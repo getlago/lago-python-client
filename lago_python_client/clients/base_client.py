@@ -85,7 +85,7 @@ class BaseClient(ABC):
             data=from_json(verify_response(api_response)).get(self.ROOT_NAME),
         )
 
-    def create(self, input_object: BaseModel) -> Union[BaseModel, bool]:
+    def create(self, input_object: BaseModel) -> Union[Optional[BaseModel], bool]:
         query_url: str = make_url(
             origin=self.base_url,
             path_parts=(self.API_RESOURCE, ),
@@ -97,7 +97,7 @@ class BaseClient(ABC):
         data = verify_response(api_response)
 
         if data is None:
-            return True
+            return True  # TODO: should return None
 
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,

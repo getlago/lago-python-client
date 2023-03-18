@@ -1,5 +1,5 @@
 import requests
-from typing import ClassVar, Type, Union
+from typing import ClassVar, Optional, Type, Union
 
 from pydantic import BaseModel
 from requests import Response
@@ -16,7 +16,7 @@ class InvoiceClient(BaseClient):
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = InvoiceResponse
     ROOT_NAME: ClassVar[str] = 'invoice'
 
-    def download(self, resource_id: str) -> Union[BaseModel, bool]:
+    def download(self, resource_id: str) -> Union[Optional[BaseModel], bool]:
         query_url: str = make_url(
             origin=self.base_url,
             path_parts=(self.API_RESOURCE, resource_id, 'download'),
@@ -25,7 +25,7 @@ class InvoiceClient(BaseClient):
         data = verify_response(api_response)
 
         if data is None:
-            return True
+            return True  # TODO: should return None
 
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,
