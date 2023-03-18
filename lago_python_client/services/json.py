@@ -1,5 +1,6 @@
 from datetime import datetime, date, time
 from http import HTTPStatus
+import sys
 from typing import Any, Dict, List, NoReturn, Tuple, Union
 from uuid import UUID
 
@@ -9,9 +10,14 @@ from requests import Response
 
 from ..exceptions import LagoApiError
 
-Serializable = Union[str, Dict[Any, Any], List[Any], Tuple[Any], int, float, bool, datetime, date, time, UUID, None]  # And dataclass, TypedDict and ndarray
+if sys.version_info >= (3, 9):
+    from collections.abc import Mapping, Sequence
+else:
+    from typing import Mapping, Sequence
+
+Serializable = Union[str, Mapping[Any, Any], Sequence[Any], Tuple[Any], int, float, bool, datetime, date, time, UUID, None]  # And dataclass, TypedDict and ndarray
 Deserializable = Union[bytes, bytearray, memoryview, str]
-DeserializedData = Union[Dict[str, Any], List[Any], int, float, str, bool, None]
+DeserializedData = Union[Mapping[str, Any], Sequence[Any], int, float, str, bool, None]
 
 
 def to_json(data_container: Serializable) -> str:
