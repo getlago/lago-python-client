@@ -22,7 +22,7 @@ class GroupClient(BaseClient):
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = GroupResponse
     ROOT_NAME: ClassVar[str] = 'group'
 
-    def find_all(self, metric_code: str, options: dict = {}) -> Mapping[str, Any]:
+    def find_all(self, metric_code: str, options: Mapping[str, str] = {}) -> Mapping[str, Any]:
         query_url: str = make_url(
             origin=self.base_url,
             path_parts=('billable_metrics', metric_code, self.API_RESOURCE),

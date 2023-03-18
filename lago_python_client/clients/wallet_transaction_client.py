@@ -39,7 +39,7 @@ class WalletTransactionClient(BaseClient):
             data=from_json(verify_response(api_response)).get(self.ROOT_NAME),
         )
 
-    def find_all(self, wallet_id: str, options: dict = {}) -> Mapping[str, Any]:
+    def find_all(self, wallet_id: str, options: Mapping[str, str] = {}) -> Mapping[str, Any]:
         query_url: str = make_url(
             origin=self.base_url,
             path_parts=('wallets', wallet_id, self.API_RESOURCE),

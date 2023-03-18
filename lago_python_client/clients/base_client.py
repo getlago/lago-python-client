@@ -45,7 +45,7 @@ class BaseClient(ABC):
         """The resource key (required class property), used to access the response data."""
         raise NotImplementedError
 
-    def find(self, resource_id: str, params: dict = {}) -> BaseModel:
+    def find(self, resource_id: str, params: Mapping[str, str] = {}) -> BaseModel:
         query_url: str = make_url(
             origin=self.base_url,
             path_parts=(self.API_RESOURCE, resource_id),
@@ -59,7 +59,7 @@ class BaseClient(ABC):
             data=from_json(verify_response(api_response)).get(self.ROOT_NAME),
         )
 
-    def find_all(self, options: dict = {}) -> Mapping[str, Any]:
+    def find_all(self, options: Mapping[str, str] = {}) -> Mapping[str, Any]:
         query_url: str = make_url(
             origin=self.base_url,
             path_parts=(self.API_RESOURCE, ),
