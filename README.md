@@ -9,7 +9,11 @@ This is a python wrapper for Lago API
 
 Install the lago-python-client via pip from PyPI:
 
-    $ pip install lago-python-client
+    $ python -m pip install "lago-python-client"
+
+(Alternative) Install the lago-python-client via [poetry](https://python-poetry.org/) from PyPI:
+
+    $ poetry add "lago-python-client"
 
 ## Usage
 
@@ -20,13 +24,13 @@ Check the [lago API reference](https://doc.getlago.com/docs/api/intro)
 ### Install the dependencies
 
 ```bash
-pip install .
+python -m pip install .[test]
 ```
 
 ### Run tests
 
 ```bash
-python3 -m unittest tests
+pytest
 ```
 
 ## Documentation
