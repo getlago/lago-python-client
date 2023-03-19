@@ -113,7 +113,7 @@ def prepare_index_response(api_resource: str, response_model: Type[BaseModel], d
 
     try:
         response_data: Mapping[str, _MappingOrSequence] = typeguard.check_type(data, Mapping[str, _MappingOrSequence])
-    except TypeCheckError as exc:
+    except typeguard.TypeCheckError as exc:
         raise LagoApiError(
             status_code=HTTPStatus.INTERNAL_SERVER_ERROR,  # 500
             url=None,
