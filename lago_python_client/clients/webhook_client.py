@@ -14,6 +14,7 @@ import typeguard
 
 from .base_client import BaseClient
 from ..exceptions import LagoApiError
+from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..services.request import make_url
 from ..services.response import get_response_data
 
@@ -29,7 +30,7 @@ class _ResponseWithPublicKeyInside(TypedDict):
     public_key: str
 
 
-class WebhookClient(BaseClient):
+class WebhookClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin, BaseClient):
     API_RESOURCE: ClassVar[str] = 'webhooks'
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = NotImplemented
     ROOT_NAME: ClassVar[str] = 'webhook'
@@ -43,7 +44,7 @@ class WebhookClient(BaseClient):
         response_data: Optional[Union[Mapping[str, Any], Sequence[Any]]] = get_response_data(response=api_response, key=self.ROOT_NAME)
 
         try:
-            checked_response_data: _ResponseWithPublicKeyInside = typeguard.check_type(response_data, _ResponseWithPublicKeyInside)
+            checked_response_data: _ResponseWithPublicKeyInside = typeguard.check_type(response_data, _ResponseWithPublicKeyInside)  # type: ignore
         except typeguard.TypeCheckError:
             raise LagoApiError(
                 status_code=HTTPStatus.INTERNAL_SERVER_ERROR,  # 500

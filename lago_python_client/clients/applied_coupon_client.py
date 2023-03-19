@@ -5,12 +5,13 @@ from pydantic import BaseModel
 from requests import Response
 
 from .base_client import BaseClient
+from ..mixins import CreateCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.applied_coupon import AppliedCouponResponse
 from ..services.request import make_url
 from ..services.response import get_response_data, prepare_object_response
 
 
-class AppliedCouponClient(BaseClient):
+class AppliedCouponClient(CreateCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin, BaseClient):
     API_RESOURCE: ClassVar[str] = 'applied_coupons'
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = AppliedCouponResponse
     ROOT_NAME: ClassVar[str] = 'applied_coupon'
