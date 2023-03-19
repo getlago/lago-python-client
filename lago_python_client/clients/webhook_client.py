@@ -9,14 +9,13 @@ except ImportError:
 
 from pydantic import BaseModel
 import requests
-from requests import Response
 import typeguard
 
 from .base_client import BaseClient
 from ..exceptions import LagoApiError
 from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..services.request import make_url
-from ..services.response import get_response_data
+from ..services.response import get_response_data, Response
 
 if sys.version_info >= (3, 9):
     from collections.abc import Mapping, Sequence

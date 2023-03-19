@@ -2,14 +2,13 @@ import requests
 from typing import ClassVar, Optional, Type
 
 from pydantic import BaseModel
-from requests import Response
 
 from .base_client import BaseClient
 from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.event import EventResponse
 from ..services.json import to_json
 from ..services.request import make_url
-from ..services.response import verify_response
+from ..services.response import verify_response, Response
 
 
 class EventClient(

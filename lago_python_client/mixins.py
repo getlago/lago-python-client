@@ -7,11 +7,10 @@ except ImportError:  # Python 3.7
 
 from pydantic import BaseModel
 import requests
-from requests import Response
 
 from .services.json import to_json
 from .services.request import make_url
-from .services.response import get_response_data, prepare_index_response, prepare_object_response
+from .services.response import get_response_data, prepare_index_response, prepare_object_response, Response
 
 if sys.version_info >= (3, 9):
     from collections.abc import Mapping

@@ -1,13 +1,11 @@
 import requests
 from typing import ClassVar, Optional, Type, Union
 
-from requests import Response
-
 from .base_client import BaseClient
 from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.invoice import InvoiceResponse
 from ..services.request import make_url
-from ..services.response import get_response_data, prepare_object_response
+from ..services.response import get_response_data, prepare_object_response, Response
 
 
 class InvoiceClient(

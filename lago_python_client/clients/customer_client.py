@@ -1,14 +1,12 @@
 import requests
 from typing import ClassVar, Type
 
-from requests import Response
-
 from .base_client import BaseClient
 from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.customer import CustomerResponse
 from ..models.customer_usage import CustomerUsageResponse
 from ..services.request import make_url
-from ..services.response import get_response_data, prepare_object_response
+from ..services.response import get_response_data, prepare_object_response, Response
 
 
 class CustomerClient(
