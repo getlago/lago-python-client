@@ -9,7 +9,7 @@ from pydantic import BaseModel
 import requests
 
 from .services.json import to_json
-from .services.request import make_url
+from .services.request import make_url, send_delete_request, send_get_request, send_post_request, send_put_request
 from .services.response import get_response_data, prepare_index_response, prepare_object_response, Response
 
 if sys.version_info >= (3, 9):
@@ -41,7 +41,7 @@ class CreateCommandMixin(Generic[_M]):
     def create(self: _ClientMixin[_M], input_object: BaseModel) -> Union[Optional[_M], bool]:
         """Execute `create` command."""
         # Send request and save response
-        api_response: Response = requests.post(
+        api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, ),
@@ -69,7 +69,7 @@ class DestroyCommandMixin(Generic[_M]):
     def destroy(self: _ClientMixin[_M], resource_id: str) -> BaseModel:
         """Execute `destroy` command."""
         # Send request and save response
-        api_response: Response = requests.delete(
+        api_response: Response = send_delete_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, resource_id),
@@ -90,7 +90,7 @@ class FindAllCommandMixin(Generic[_M]):
     def find_all(self: _ClientMixin[_M], options: Mapping[str, str] = {}) -> Mapping[str, Any]:
         """Execute `find all` command."""
         # Send request and save response
-        api_response: Response = requests.get(
+        api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, ),
@@ -113,7 +113,7 @@ class FindCommandMixin(Generic[_M]):
     def find(self: _ClientMixin[_M], resource_id: str, params: Mapping[str, str] = {}) -> _M:
         """Execute `find` command."""
         # Send request and save response
-        api_response: Response = requests.get(
+        api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, resource_id),
@@ -135,7 +135,7 @@ class UpdateCommandMixin(Generic[_M]):
     def update(self: _ClientMixin[_M], input_object: BaseModel, identifier: Optional[str] = None) -> _M:
         """Execute `update` command."""
         # Send request and save response
-        api_response: Response = requests.put(
+        api_response: Response = send_put_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, identifier) if identifier else (self.API_RESOURCE, ),

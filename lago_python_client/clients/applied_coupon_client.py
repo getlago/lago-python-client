@@ -1,10 +1,9 @@
-import requests
 from typing import ClassVar, Type
 
 from .base_client import BaseClient
 from ..mixins import CreateCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.applied_coupon import AppliedCouponResponse
-from ..services.request import make_url
+from ..services.request import make_url, send_delete_request
 from ..services.response import get_response_data, prepare_object_response, Response
 
 
@@ -20,7 +19,7 @@ class AppliedCouponClient(
     ROOT_NAME: ClassVar[str] = 'applied_coupon'
 
     def destroy(self, external_customer_id: str, applied_coupon_id: str) -> AppliedCouponResponse:
-        api_response: Response = requests.delete(
+        api_response: Response = send_delete_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=('customers', external_customer_id, self.API_RESOURCE, applied_coupon_id),

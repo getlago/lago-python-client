@@ -1,11 +1,10 @@
-import requests
 from typing import ClassVar, Type
 
 from .base_client import BaseClient
 from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.customer import CustomerResponse
 from ..models.customer_usage import CustomerUsageResponse
-from ..services.request import make_url
+from ..services.request import make_url, send_get_request
 from ..services.response import get_response_data, prepare_object_response, Response
 
 
@@ -22,7 +21,7 @@ class CustomerClient(
     ROOT_NAME: ClassVar[str] = 'customer'
 
     def current_usage(self, resource_id: str, external_subscription_id: str) -> CustomerUsageResponse:
-        api_response: Response = requests.get(
+        api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, resource_id, 'current_usage'),

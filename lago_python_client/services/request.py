@@ -1,9 +1,9 @@
 import sys
-from urllib.parse import urljoin, urlencode
 try:
     from typing import Final
 except ImportError:  # Python 3.7
     from typing_extensions import Final  # type: ignore
+from urllib.parse import urljoin, urlencode
 
 import requests
 
@@ -32,5 +32,4 @@ def make_url(*, origin: str, path_parts: Sequence[str], query_pairs: Mapping[str
 send_get_request = requests.get
 send_post_request = requests.post
 send_put_request = requests.put
-send_patch_request = requests.patch
 send_delete_request = requests.delete

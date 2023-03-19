@@ -8,13 +8,12 @@ except ImportError:
     from typing_extensions import TypedDict
 
 from pydantic import BaseModel
-import requests
 import typeguard
 
 from .base_client import BaseClient
 from ..exceptions import LagoApiError
 from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
-from ..services.request import make_url
+from ..services.request import make_url, send_get_request
 from ..services.response import get_response_data, Response
 
 if sys.version_info >= (3, 9):
@@ -42,7 +41,7 @@ class WebhookClient(
     ROOT_NAME: ClassVar[str] = 'webhook'
 
     def public_key(self) -> bytes:
-        api_response: Response = requests.get(
+        api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, 'json_public_key'),

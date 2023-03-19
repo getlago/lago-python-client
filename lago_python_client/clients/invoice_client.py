@@ -1,10 +1,9 @@
-import requests
 from typing import ClassVar, Optional, Type, Union
 
 from .base_client import BaseClient
 from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.invoice import InvoiceResponse
-from ..services.request import make_url
+from ..services.request import make_url, send_post_request, send_put_request
 from ..services.response import get_response_data, prepare_object_response, Response
 
 
@@ -21,7 +20,7 @@ class InvoiceClient(
     ROOT_NAME: ClassVar[str] = 'invoice'
 
     def download(self, resource_id: str) -> Union[Optional[InvoiceResponse], bool]:
-        api_response: Response = requests.post(
+        api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, resource_id, 'download'),
@@ -39,7 +38,7 @@ class InvoiceClient(
         )
 
     def retry_payment(self, resource_id: str) -> InvoiceResponse:
-        api_response: Response = requests.post(
+        api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, resource_id, 'retry_payment'),
@@ -53,7 +52,7 @@ class InvoiceClient(
         )
 
     def refresh(self, resource_id: str) -> InvoiceResponse:
-        api_response: Response = requests.put(
+        api_response: Response = send_put_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, resource_id, 'refresh'),
@@ -67,7 +66,7 @@ class InvoiceClient(
         )
 
     def finalize(self, resource_id: str) -> InvoiceResponse:
-        api_response: Response = requests.put(
+        api_response: Response = send_put_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, resource_id, 'finalize'),

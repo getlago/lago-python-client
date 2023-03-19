@@ -1,4 +1,3 @@
-import requests
 import sys
 from typing import Any, ClassVar, Type
 
@@ -8,7 +7,7 @@ from .base_client import BaseClient
 from ..mixins import DestroyCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.wallet_transaction import WalletTransactionResponse
 from ..services.json import to_json
-from ..services.request import make_url
+from ..services.request import make_url, send_get_request, send_post_request
 from ..services.response import get_response_data, prepare_create_response, prepare_index_response, Response
 
 if sys.version_info >= (3, 9):
@@ -28,7 +27,7 @@ class WalletTransactionClient(
     ROOT_NAME: ClassVar[str] = 'wallet_transactions'
 
     def create(self, input_object: BaseModel) -> Mapping[str, Any]:
-        api_response: Response = requests.post(
+        api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, ),
@@ -46,7 +45,7 @@ class WalletTransactionClient(
         )
 
     def find_all(self, wallet_id: str, options: Mapping[str, str] = {}) -> Mapping[str, Any]:
-        api_response: Response = requests.get(
+        api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=('wallets', wallet_id, self.API_RESOURCE),
