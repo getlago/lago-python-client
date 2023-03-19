@@ -23,7 +23,8 @@ class InvoiceClient(BaseClient):
         )
         api_response: Response = requests.post(query_url, headers=self.headers())
 
-        if not (response_data := get_response_data(response=api_response, key=self.ROOT_NAME)):
+        response_data = get_response_data(response=api_response, key=self.ROOT_NAME)
+        if not response_data:
             return True  # TODO: should return None
 
         return prepare_object_response(
