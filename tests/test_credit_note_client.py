@@ -4,7 +4,7 @@ import os
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
-from lago_python_client.models.invoice import FeeResponse
+from lago_python_client.models.fee import FeeResponse
 from lago_python_client.models.credit_note import Item, Items, CreditNote, CreditNoteUpdate
 
 def credit_note_object():

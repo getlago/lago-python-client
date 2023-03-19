@@ -1,5 +1,6 @@
-from pydantic import BaseModel, Field
-from typing import Optional, List
+from typing import Any, Dict, List, Optional
+
+from pydantic import BaseModel
 
 
 class Event(BaseModel):
@@ -8,7 +9,7 @@ class Event(BaseModel):
     external_subscription_id: Optional[str]
     code: str
     timestamp: Optional[int]
-    properties: Optional[dict]
+    properties: Optional[Dict[str, Any]]
 
 
 class BatchEvent(BaseModel):
@@ -17,7 +18,7 @@ class BatchEvent(BaseModel):
     external_subscription_ids: List[str]
     code: str
     timestamp: Optional[int]
-    properties: Optional[dict]
+    properties: Optional[Dict[str, Any]]
 
 
 class EventResponse(BaseModel):
@@ -29,5 +30,5 @@ class EventResponse(BaseModel):
     external_subscription_id: Optional[str]
     code: str
     timestamp: str
-    properties: Optional[dict]
+    properties: Optional[Dict[str, Any]]
     created_at: str

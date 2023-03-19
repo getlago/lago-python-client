@@ -1,6 +1,9 @@
+from typing import List, Optional
+
 from pydantic import BaseModel
-from typing import Optional, List
-from .invoice import FeeResponse
+
+from .fee import FeeResponse
+
 
 class ItemResponse(BaseModel):
     lago_id: Optional[str]
@@ -10,8 +13,10 @@ class ItemResponse(BaseModel):
     refund_amount_currency: Optional[str]
     fee: Optional[FeeResponse]
 
+
 class ItemsResponse(BaseModel):
     __root__: List[ItemResponse]
+
 
 class CreditNoteResponse(BaseModel):
     lago_id: Optional[str]
@@ -39,17 +44,21 @@ class CreditNoteResponse(BaseModel):
     updated_at: Optional[str]
     items: Optional[ItemsResponse]
 
+
 class Item(BaseModel):
     credit_amount_cents: Optional[int]
     refund_amount_cents: Optional[int]
     fee_id: Optional[str]
 
+
 class Items(BaseModel):
     __root__: List[Item]
+
 
 class CreditNote(BaseModel):
     reason: Optional[str]
     items: Optional[Items]
+
 
 class CreditNoteUpdate(BaseModel):
     refund_status: Optional[str]

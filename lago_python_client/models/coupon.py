@@ -1,9 +1,10 @@
-from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Any, List, Optional
+
+from pydantic import BaseModel
 
 
 class LimitationConfiguration(BaseModel):
-    plan_codes: Optional[list]
+    plan_codes: Optional[List[Any]]
 
 
 class Coupon(BaseModel):
@@ -35,5 +36,5 @@ class CouponResponse(BaseModel):
     reusable: Optional[bool]
     frequency: Optional[str]
     frequency_duration: Optional[int]
-    plan_codes: Optional[list]
+    plan_codes: Optional[List[Any]]
     limited_plans: Optional[bool]

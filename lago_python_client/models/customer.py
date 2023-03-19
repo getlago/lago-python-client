@@ -1,5 +1,6 @@
-from pydantic import BaseModel, Field
-from typing import Optional, List
+from typing import List, Optional
+
+from pydantic import BaseModel
 
 
 class CustomerBillingConfiguration(BaseModel):
@@ -11,14 +12,17 @@ class CustomerBillingConfiguration(BaseModel):
     sync_with_provider: Optional[bool]
     document_locale: Optional[str]
 
+
 class Metadata(BaseModel):
     id: Optional[str]
     key: Optional[str]
     value: Optional[str]
     display_in_invoice: Optional[bool]
 
+
 class MetadataList(BaseModel):
     __root__: List[Metadata]
+
 
 class Customer(BaseModel):
     external_id: str

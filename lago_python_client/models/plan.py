@@ -1,5 +1,6 @@
-from pydantic import BaseModel, Field
-from typing import Optional, List, Union
+from typing import Optional
+
+from pydantic import BaseModel
 
 from .charge import Charges, ChargesResponse
 

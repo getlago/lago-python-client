@@ -1,6 +1,9 @@
-from pydantic import BaseModel, Field
-from typing import Optional, List
+from typing import List, Optional
+
+from pydantic import BaseModel
+
 from .invoice_item import InvoiceItemResponse
+
 
 class FeeResponse(BaseModel):
     lago_id: Optional[str]
@@ -13,6 +16,7 @@ class FeeResponse(BaseModel):
     total_amount_currency: Optional[str]
     units: Optional[float]
     events_count: Optional[int]
+
 
 class FeesResponse(BaseModel):
     __root__: List[FeeResponse]
