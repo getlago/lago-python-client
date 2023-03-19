@@ -1,6 +1,14 @@
 from http import HTTPStatus
 import sys
-from typing import Any, Optional, Set, Type
+from typing import Any, Optional, Set, Type, Union
+try:
+    from typing import TypedDict
+except ImportError:
+    from typing_extensions import TypedDict
+try:
+    from typing import assert_never
+except ImportError: # Python 3.7, 3.8, 3.9, 3.10
+    from typing_extensions import assert_never
 try:
     from typing import Final
 except ImportError:  # Python 3.7
@@ -8,14 +16,17 @@ except ImportError:  # Python 3.7
 
 from pydantic import BaseModel
 from requests import Response
+import typeguard
 
 from ..exceptions import LagoApiError
-from ..services.json import from_json
+from ..services.json import DeserializedData, from_json
 
 if sys.version_info >= (3, 9):
     from collections.abc import Mapping, Sequence
 else:
     from typing import Mapping, Sequence
+
+typeguard.config.collection_check_strategy = typeguard.CollectionCheckStrategy.ALL_ITEMS
 
 RESPONSE_SUCCESS_CODES: Final[Set[int]] = {
     HTTPStatus.OK,  # 200
@@ -23,6 +34,8 @@ RESPONSE_SUCCESS_CODES: Final[Set[int]] = {
     HTTPStatus.ACCEPTED,  # 202
     HTTPStatus.NO_CONTENT,  # 204
 }
+
+_MappingOrSequence = Union[Mapping[str, Any], Sequence[Any]]
 
 
 def _is_status_code_successful(response: Response) -> bool:
@@ -53,28 +66,93 @@ def verify_response(response: Response) -> Optional[Response]:
     return response
 
 
-def prepare_object_response(response_model: Type[BaseModel], data: Mapping[object, object]) -> BaseModel:
+def get_response_data(*, response: Response, key: str = '') -> Optional[_MappingOrSequence]:
+    """Return verified and unpacked response data."""
+    response_or_None: Optional[Response] = verify_response(response)
+    if not response_or_None:
+        return None
+    deserialized_data: DeserializedData = from_json(response_or_None)
+
+    # Ensure deserialized_data has correct type: sequence or mapping or raise LagoApiError
+    try:
+        mapping_or_sequence_data = typeguard.check_type(deserialized_data, _MappingOrSequence)
+    except typeguard.TypeCheckError as exc:
+        raise LagoApiError(
+            status_code=HTTPStatus.INTERNAL_SERVER_ERROR,  # 500
+            url=None,
+            response=None,
+            detail=str(exc),
+            headers=None,
+        )
+
+    if isinstance(mapping_or_sequence_data, Mapping):
+        return mapping_or_sequence_data.get(key, {}) if key else mapping_or_sequence_data
+    elif isinstance(mapping_or_sequence_data, Sequence):
+        return mapping_or_sequence_data
+    else:
+        assert_never(mapping_or_sequence_data)
+
+
+def prepare_object_response(response_model: Type[BaseModel], data: Optional[_MappingOrSequence]) -> BaseModel:
     """Return single object response - Pydantic model instance with provided data."""
+    if not data:
+        raise LagoApiError(
+            status_code=HTTPStatus.INTERNAL_SERVER_ERROR,  # 500
+            url=None,
+            response=None,
+            detail='Data is required to create instance of {model}'.format(model=response_model),
+            headers=None,
+        )
+
     return response_model.parse_obj(data)
 
 
-def prepare_index_response(api_resource: str, response_model: Type[BaseModel], data: Mapping[str, Sequence[Mapping[object, object]]]) -> Mapping[str, Any]:
+def prepare_index_response(api_resource: str, response_model: Type[BaseModel], data: Optional[_MappingOrSequence]) -> Mapping[str, Any]:
     """Return index response with meta based on mapping data object."""
+    # Ensure deserialized_data has correct type: mapping with mapping or sequence inside or raise LagoApiError
+
+    try:
+        response_data: Mapping[str, _MappingOrSequence] = typeguard.check_type(data, Mapping[str, _MappingOrSequence])
+    except TypeCheckError as exc:
+        raise LagoApiError(
+            status_code=HTTPStatus.INTERNAL_SERVER_ERROR,  # 500
+            url=None,
+            response=None,
+            detail=str(exc),
+            headers=None,
+        )
+
     return {
         api_resource: [
             prepare_object_response(response_model=response_model, data=el)
-            for el in data[api_resource]
+            for el in response_data[api_resource]
         ],
-        'meta': data['meta'],
+        'meta': response_data['meta'],
     }
 
 
-def prepare_create_response(api_resource: str, response_model: Type[BaseModel], data: Sequence[Mapping[object, object]]) -> Mapping[str, Any]:
+def prepare_create_response(
+        api_resource: str,
+        response_model: Type[BaseModel],
+        data: Optional[Union[Mapping[str, object], Sequence[object]]],
+) -> Mapping[str, Any]:
     """Return response based on sequence of data objects."""
     # The only usage - ``WalletTransactionClient.create``
+    # Ensure deserialized_data has correct type: sequence with mapping or sequence inside or raise LagoApiError
+    try:
+        response_data: Sequence[_MappingOrSequence] = typeguard.check_type(data, Sequence[_MappingOrSequence])
+    except typeguard.TypeCheckError as exc:
+        raise LagoApiError(
+            status_code=HTTPStatus.INTERNAL_SERVER_ERROR,  # 500
+            url=None,
+            response=None,
+            detail=str(exc),
+            headers=None,
+        )
+
     return {
         api_resource: [
             prepare_object_response(response_model=response_model, data=el)
-            for el in data
+            for el in response_data
         ],
     }

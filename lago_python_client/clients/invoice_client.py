@@ -1,4 +1,5 @@
 import requests
+import sys
 from typing import ClassVar, Optional, Type, Union
 
 from pydantic import BaseModel
@@ -6,9 +7,8 @@ from requests import Response
 
 from .base_client import BaseClient
 from ..models.invoice import InvoiceResponse
-from ..services.json import from_json
 from ..services.request import make_url
-from ..services.response import prepare_object_response, verify_response
+from ..services.response import get_response_data, prepare_object_response
 
 
 class InvoiceClient(BaseClient):
@@ -22,14 +22,13 @@ class InvoiceClient(BaseClient):
             path_parts=(self.API_RESOURCE, resource_id, 'download'),
         )
         api_response: Response = requests.post(query_url, headers=self.headers())
-        data = verify_response(api_response)
 
-        if data is None:
+        if not (response_data := get_response_data(response=api_response, key=self.ROOT_NAME)):
             return True  # TODO: should return None
 
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,
-            data=from_json(data).get(self.ROOT_NAME),
+            data=response_data,
         )
 
     def retry_payment(self, resource_id: str) -> BaseModel:
@@ -41,7 +40,7 @@ class InvoiceClient(BaseClient):
 
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,
-            data=from_json(verify_response(api_response)).get(self.ROOT_NAME),
+            data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
 
     def refresh(self, resource_id: str) -> BaseModel:
@@ -53,7 +52,7 @@ class InvoiceClient(BaseClient):
 
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,
-            data=from_json(verify_response(api_response)).get(self.ROOT_NAME),
+            data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
 
     def finalize(self, resource_id: str) -> BaseModel:
@@ -65,5 +64,5 @@ class InvoiceClient(BaseClient):
 
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,
-            data=from_json(verify_response(api_response)).get(self.ROOT_NAME),
+            data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )

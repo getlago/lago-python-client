@@ -7,9 +7,8 @@ from requests import Response
 from .base_client import BaseClient
 from ..models.customer import CustomerResponse
 from ..models.customer_usage import CustomerUsageResponse
-from ..services.json import from_json
 from ..services.request import make_url
-from ..services.response import prepare_object_response, verify_response
+from ..services.response import get_response_data, prepare_object_response
 
 
 class CustomerClient(BaseClient):
@@ -29,5 +28,5 @@ class CustomerClient(BaseClient):
 
         return prepare_object_response(
             response_model=CustomerUsageResponse,
-            data=from_json(verify_response(api_response)).get('customer_usage'),
+            data=get_response_data(response=api_response, key='customer_usage'),
         )

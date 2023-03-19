@@ -6,9 +6,9 @@ from pydantic import BaseModel
 import requests
 from requests import Response
 
-from ..services.json import from_json, to_json
+from ..services.json import to_json
 from ..services.request import make_url
-from ..services.response import prepare_index_response, prepare_object_response, verify_response
+from ..services.response import get_response_data, prepare_index_response, prepare_object_response
 from ..version import LAGO_VERSION
 
 if sys.version_info >= (3, 9):
@@ -24,21 +24,21 @@ class BaseClient(ABC):
         self.base_url = base_url
         self.api_key = api_key
 
-    @property  # type: ignore
+    @property
     @classmethod
     @abstractmethod
     def API_RESOURCE(cls) -> str:
         """Collection name (required class property) used to build query urls."""
         raise NotImplementedError
 
-    @property  # type: ignore
+    @property
     @classmethod
     @abstractmethod
     def RESPONSE_MODEL(cls) -> Type[BaseModel]:
         """Response model (required class property) used to prepare response."""
         raise NotImplementedError
 
-    @property  # type: ignore
+    @property
     @classmethod
     @abstractmethod
     def ROOT_NAME(cls) -> str:
@@ -56,7 +56,7 @@ class BaseClient(ABC):
 
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,
-            data=from_json(verify_response(api_response)).get(self.ROOT_NAME),
+            data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
 
     def find_all(self, options: Mapping[str, str] = {}) -> Mapping[str, Any]:
@@ -70,7 +70,7 @@ class BaseClient(ABC):
         return prepare_index_response(
             api_resource=self.API_RESOURCE,
             response_model=self.RESPONSE_MODEL,
-            data=from_json(verify_response(api_response)),
+            data=get_response_data(response=api_response),
         )
 
     def destroy(self, resource_id: str) -> BaseModel:
@@ -82,7 +82,7 @@ class BaseClient(ABC):
 
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,
-            data=from_json(verify_response(api_response)).get(self.ROOT_NAME),
+            data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
 
     def create(self, input_object: BaseModel) -> Union[Optional[BaseModel], bool]:
@@ -94,14 +94,13 @@ class BaseClient(ABC):
             self.ROOT_NAME: input_object.dict()
         }
         api_response: Response = requests.post(query_url, data=to_json(query_parameters), headers=self.headers())
-        data = verify_response(api_response)
 
-        if data is None:
+        if not (response_data := get_response_data(response=api_response, key=self.ROOT_NAME)):
             return True  # TODO: should return None
 
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,
-            data=from_json(data).get(self.ROOT_NAME),
+            data=response_data,
         )
 
     def update(self, input_object: BaseModel, identifier: Optional[str] = None) -> BaseModel:
@@ -117,7 +116,7 @@ class BaseClient(ABC):
 
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,
-            data=from_json(verify_response(api_response)).get(self.ROOT_NAME),
+            data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
 
     def headers(self) -> Mapping[str, str]:
