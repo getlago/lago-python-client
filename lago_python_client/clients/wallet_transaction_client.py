@@ -24,15 +24,16 @@ class WalletTransactionClient(DestroyCommandMixin, FindCommandMixin, UpdateComma
     ROOT_NAME: ClassVar[str] = 'wallet_transactions'
 
     def create(self, input_object: BaseModel) -> Mapping[str, Any]:
-        query_url: str = make_url(
-            origin=self.base_url,
-            path_parts=(self.API_RESOURCE, ),
+        api_response: Response = requests.post(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, ),
+            ),
+            data=to_json({
+                'wallet_transaction': input_object.dict()
+            }),
+            headers=self.headers(),
         )
-        query_parameters = {
-            'wallet_transaction': input_object.dict()
-        }
-        data = to_json(query_parameters)
-        api_response: Response = requests.post(query_url, data=data, headers=self.headers())
 
         return prepare_create_response(
             api_resource=self.API_RESOURCE,
@@ -41,12 +42,14 @@ class WalletTransactionClient(DestroyCommandMixin, FindCommandMixin, UpdateComma
         )
 
     def find_all(self, wallet_id: str, options: Mapping[str, str] = {}) -> Mapping[str, Any]:
-        query_url: str = make_url(
-            origin=self.base_url,
-            path_parts=('wallets', wallet_id, self.API_RESOURCE),
-            query_pairs=options,
+        api_response: Response = requests.get(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=('wallets', wallet_id, self.API_RESOURCE),
+                query_pairs=options,
+            ),
+            headers=self.headers(),
         )
-        api_response: Response = requests.get(query_url, headers=self.headers())
 
         return prepare_index_response(
             api_resource=self.API_RESOURCE,

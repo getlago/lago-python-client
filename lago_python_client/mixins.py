@@ -37,15 +37,20 @@ class CreateCommandMixin:
     """Client mixin with `create` command."""
 
     def create(self: _ClientMixin, input_object: BaseModel) -> Union[Optional[BaseModel], bool]:
-        query_url: str = make_url(
-            origin=self.base_url,
-            path_parts=(self.API_RESOURCE, ),
+        """Execute `create` command."""
+        # Send request and save response
+        api_response: Response = requests.post(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, ),
+            ),
+            data=to_json({
+                self.ROOT_NAME: input_object.dict(),
+            }),
+            headers=self.headers(),
         )
-        query_parameters = {
-            self.ROOT_NAME: input_object.dict()
-        }
-        api_response: Response = requests.post(query_url, data=to_json(query_parameters), headers=self.headers())
 
+        # Process response data
         response_data = get_response_data(response=api_response, key=self.ROOT_NAME)
         if not response_data:
             return True  # TODO: should return None
@@ -60,12 +65,17 @@ class DestroyCommandMixin:
     """Client mixin with `destroy` command."""
 
     def destroy(self: _ClientMixin, resource_id: str) -> BaseModel:
-        query_url: str = make_url(
-            origin=self.base_url,
-            path_parts=(self.API_RESOURCE, resource_id),
+        """Execute `destroy` command."""
+        # Send request and save response
+        api_response: Response = requests.delete(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id),
+            ),
+            headers=self.headers(),
         )
-        api_response: Response = requests.delete(query_url, headers=self.headers())
 
+        # Process response data
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,
             data=get_response_data(response=api_response, key=self.ROOT_NAME),
@@ -76,13 +86,18 @@ class FindAllCommandMixin:
     """Client mixin with `find_all` command."""
 
     def find_all(self: _ClientMixin, options: Mapping[str, str] = {}) -> Mapping[str, Any]:
-        query_url: str = make_url(
-            origin=self.base_url,
-            path_parts=(self.API_RESOURCE, ),
-            query_pairs=options,
+        """Execute `find all` command."""
+        # Send request and save response
+        api_response: Response = requests.get(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, ),
+                query_pairs=options,
+            ),
+            headers=self.headers(),
         )
-        api_response: Response = requests.get(query_url, headers=self.headers())
 
+        # Process response data
         return prepare_index_response(
             api_resource=self.API_RESOURCE,
             response_model=self.RESPONSE_MODEL,
@@ -94,14 +109,18 @@ class FindCommandMixin:
     """Client mixin with `find` command."""
 
     def find(self: _ClientMixin, resource_id: str, params: Mapping[str, str] = {}) -> BaseModel:
-        query_url: str = make_url(
-            origin=self.base_url,
-            path_parts=(self.API_RESOURCE, resource_id),
+        """Execute `find` command."""
+        # Send request and save response
+        api_response: Response = requests.get(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id),
+            ),
+            data=to_json(params) if params else None,
+            headers=self.headers(),
         )
-        data = to_json(params) if params else None
 
-        api_response: Response = requests.get(query_url, data=data, headers=self.headers())
-
+        # Process response data
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,
             data=get_response_data(response=api_response, key=self.ROOT_NAME),
@@ -112,16 +131,20 @@ class UpdateCommandMixin:
     """Client mixin with `update` command."""
 
     def update(self: _ClientMixin, input_object: BaseModel, identifier: Optional[str] = None) -> BaseModel:
-        query_url: str = make_url(
-            origin=self.base_url,
-            path_parts=(self.API_RESOURCE, identifier) if identifier else (self.API_RESOURCE, ),
+        """Execute `update` command."""
+        # Send request and save response
+        api_response: Response = requests.put(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, identifier) if identifier else (self.API_RESOURCE, ),
+            ),
+            data=to_json({
+                self.ROOT_NAME: input_object.dict(exclude_none=True),
+            }),
+            headers=self.headers(),
         )
-        query_parameters = {
-            self.ROOT_NAME: input_object.dict(exclude_none=True)
-        }
-        data = to_json(query_parameters)
-        api_response: Response = requests.put(query_url, data=data, headers=self.headers())
 
+        # Process response data
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,
             data=get_response_data(response=api_response, key=self.ROOT_NAME),

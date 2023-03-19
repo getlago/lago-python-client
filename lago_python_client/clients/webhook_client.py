@@ -36,11 +36,13 @@ class WebhookClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin
     ROOT_NAME: ClassVar[str] = 'webhook'
 
     def public_key(self) -> bytes:
-        query_url: str = make_url(
-            origin=self.base_url,
-            path_parts=(self.API_RESOURCE, 'json_public_key'),
+        api_response: Response = requests.get(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, 'json_public_key'),
+            ),
+            headers=self.headers(),
         )
-        api_response: Response = requests.get(query_url, headers=self.headers())
         response_data: Optional[Union[Mapping[str, Any], Sequence[Any]]] = get_response_data(response=api_response, key=self.ROOT_NAME)
 
         try:

@@ -18,14 +18,16 @@ class CustomerClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixi
     ROOT_NAME: ClassVar[str] = 'customer'
 
     def current_usage(self, resource_id: str, external_subscription_id: str) -> BaseModel:
-        query_url: str = make_url(
-            origin=self.base_url,
-            path_parts=(self.API_RESOURCE, resource_id, 'current_usage'),
-            query_pairs={
-                'external_subscription_id': external_subscription_id,
-            },
+        api_response: Response = requests.get(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, 'current_usage'),
+                query_pairs={
+                    'external_subscription_id': external_subscription_id,
+                },
+            ),
+            headers=self.headers(),
         )
-        api_response: Response = requests.get(query_url, headers=self.headers())
 
         return prepare_object_response(
             response_model=CustomerUsageResponse,

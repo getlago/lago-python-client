@@ -23,12 +23,14 @@ class GroupClient(CreateCommandMixin, DestroyCommandMixin, FindCommandMixin, Upd
     ROOT_NAME: ClassVar[str] = 'group'
 
     def find_all(self, metric_code: str, options: Mapping[str, str] = {}) -> Mapping[str, Any]:
-        query_url: str = make_url(
-            origin=self.base_url,
-            path_parts=('billable_metrics', metric_code, self.API_RESOURCE),
-            query_pairs=options,
+        api_response: Response = requests.get(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=('billable_metrics', metric_code, self.API_RESOURCE),
+                query_pairs=options,
+            ),
+            headers=self.headers(),
         )
-        api_response: Response = requests.get(query_url, headers=self.headers())
 
         return prepare_index_response(
             api_resource=self.API_RESOURCE,

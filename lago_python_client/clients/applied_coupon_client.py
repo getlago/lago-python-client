@@ -17,11 +17,13 @@ class AppliedCouponClient(CreateCommandMixin, FindAllCommandMixin, FindCommandMi
     ROOT_NAME: ClassVar[str] = 'applied_coupon'
 
     def destroy(self, external_customer_id: str, applied_coupon_id: str) -> BaseModel:
-        query_url: str = make_url(
-            origin=self.base_url,
-            path_parts=('customers', external_customer_id, self.API_RESOURCE, applied_coupon_id),
+        api_response: Response = requests.delete(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=('customers', external_customer_id, self.API_RESOURCE, applied_coupon_id),
+            ),
+            headers=self.headers(),
         )
-        api_response: Response = requests.delete(query_url, headers=self.headers())
 
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,

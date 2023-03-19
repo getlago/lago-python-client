@@ -18,11 +18,13 @@ class InvoiceClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin
     ROOT_NAME: ClassVar[str] = 'invoice'
 
     def download(self, resource_id: str) -> Union[Optional[BaseModel], bool]:
-        query_url: str = make_url(
-            origin=self.base_url,
-            path_parts=(self.API_RESOURCE, resource_id, 'download'),
+        api_response: Response = requests.post(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, 'download'),
+            ),
+            headers=self.headers(),
         )
-        api_response: Response = requests.post(query_url, headers=self.headers())
 
         response_data = get_response_data(response=api_response, key=self.ROOT_NAME)
         if not response_data:
@@ -34,11 +36,13 @@ class InvoiceClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin
         )
 
     def retry_payment(self, resource_id: str) -> BaseModel:
-        query_url: str = make_url(
-            origin=self.base_url,
-            path_parts=(self.API_RESOURCE, resource_id, 'retry_payment'),
+        api_response: Response = requests.post(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, 'retry_payment'),
+            ),
+            headers=self.headers(),
         )
-        api_response: Response = requests.post(query_url, headers=self.headers())
 
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,
@@ -46,11 +50,13 @@ class InvoiceClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin
         )
 
     def refresh(self, resource_id: str) -> BaseModel:
-        query_url: str = make_url(
-            origin=self.base_url,
-            path_parts=(self.API_RESOURCE, resource_id, 'refresh'),
+        api_response: Response = requests.put(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, 'refresh'),
+            ),
+            headers=self.headers(),
         )
-        api_response: Response = requests.put(query_url, headers=self.headers())
 
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,
@@ -58,11 +64,13 @@ class InvoiceClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin
         )
 
     def finalize(self, resource_id: str) -> BaseModel:
-        query_url: str = make_url(
-            origin=self.base_url,
-            path_parts=(self.API_RESOURCE, resource_id, 'finalize'),
+        api_response: Response = requests.put(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, 'finalize'),
+            ),
+            headers=self.headers(),
         )
-        api_response: Response = requests.put(query_url, headers=self.headers())
 
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,
