@@ -7,7 +7,7 @@ from .base_client import BaseClient
 from ..mixins import DestroyCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.wallet_transaction import WalletTransactionResponse
 from ..services.json import to_json
-from ..services.request import make_url, send_get_request, send_post_request
+from ..services.request import make_headers, make_url, send_get_request, send_post_request
 from ..services.response import get_response_data, prepare_create_response, prepare_index_response, Response
 
 if sys.version_info >= (3, 9):
@@ -35,7 +35,7 @@ class WalletTransactionClient(
             data=to_json({
                 'wallet_transaction': input_object.dict()
             }),
-            headers=self.headers(),
+            headers=make_headers(api_key=self.api_key),
         )
 
         return prepare_create_response(
@@ -51,7 +51,7 @@ class WalletTransactionClient(
                 path_parts=('wallets', wallet_id, self.API_RESOURCE),
                 query_pairs=options,
             ),
-            headers=self.headers(),
+            headers=make_headers(api_key=self.api_key),
         )
 
         return prepare_index_response(

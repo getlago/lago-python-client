@@ -6,10 +6,9 @@ except ImportError:  # Python 3.7
     from typing_extensions import Protocol  # type: ignore
 
 from pydantic import BaseModel
-import requests
 
 from .services.json import to_json
-from .services.request import make_url, send_delete_request, send_get_request, send_post_request, send_put_request
+from .services.request import make_headers, make_url, send_delete_request, send_get_request, send_post_request, send_put_request
 from .services.response import get_response_data, prepare_index_response, prepare_object_response, Response
 
 if sys.version_info >= (3, 9):
@@ -32,7 +31,6 @@ class _ClientMixin(Protocol[_PM]):
     def api_key(self) -> str: ...
     @property
     def base_url(self) -> str: ...
-    def headers(self) -> Mapping[str, str]: ...
 
 
 class CreateCommandMixin(Generic[_M]):
@@ -49,7 +47,7 @@ class CreateCommandMixin(Generic[_M]):
             data=to_json({
                 self.ROOT_NAME: input_object.dict(),
             }),
-            headers=self.headers(),
+            headers=make_headers(api_key=self.api_key),
         )
 
         # Process response data
@@ -74,7 +72,7 @@ class DestroyCommandMixin(Generic[_M]):
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, resource_id),
             ),
-            headers=self.headers(),
+            headers=make_headers(api_key=self.api_key),
         )
 
         # Process response data
@@ -96,7 +94,7 @@ class FindAllCommandMixin(Generic[_M]):
                 path_parts=(self.API_RESOURCE, ),
                 query_pairs=options,
             ),
-            headers=self.headers(),
+            headers=make_headers(api_key=self.api_key),
         )
 
         # Process response data
@@ -119,7 +117,7 @@ class FindCommandMixin(Generic[_M]):
                 path_parts=(self.API_RESOURCE, resource_id),
             ),
             data=to_json(params) if params else None,
-            headers=self.headers(),
+            headers=make_headers(api_key=self.api_key),
         )
 
         # Process response data
@@ -143,7 +141,7 @@ class UpdateCommandMixin(Generic[_M]):
             data=to_json({
                 self.ROOT_NAME: input_object.dict(exclude_none=True),
             }),
-            headers=self.headers(),
+            headers=make_headers(api_key=self.api_key),
         )
 
         # Process response data

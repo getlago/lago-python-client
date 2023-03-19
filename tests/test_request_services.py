@@ -1,7 +1,22 @@
 """Test request services."""
 import requests
 
-from lago_python_client.services.request import make_url, send_delete_request, send_get_request, send_post_request, send_put_request
+from lago_python_client.services.request import make_headers, make_url, send_delete_request, send_get_request, send_post_request, send_put_request
+from lago_python_client.version import LAGO_VERSION
+
+
+def test_make_headers():
+    """Make headers."""
+    # Give api_key
+    api_key: str = "test"
+    # When service is applied
+    result = make_headers(api_key=api_key)
+    # Then
+    assert result == {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer test",
+        'User-agent': 'Lago Python v{version}'.format(version=LAGO_VERSION),
+    }
 
 
 def test_make_url():

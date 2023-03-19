@@ -3,7 +3,7 @@ from typing import ClassVar, Type
 from .base_client import BaseClient
 from ..mixins import CreateCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.applied_coupon import AppliedCouponResponse
-from ..services.request import make_url, send_delete_request
+from ..services.request import make_headers, make_url, send_delete_request
 from ..services.response import get_response_data, prepare_object_response, Response
 
 
@@ -24,7 +24,7 @@ class AppliedCouponClient(
                 origin=self.base_url,
                 path_parts=('customers', external_customer_id, self.API_RESOURCE, applied_coupon_id),
             ),
-            headers=self.headers(),
+            headers=make_headers(api_key=self.api_key),
         )
 
         return prepare_object_response(

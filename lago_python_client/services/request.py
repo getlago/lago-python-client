@@ -7,6 +7,8 @@ from urllib.parse import urljoin, urlencode
 
 import requests
 
+from ..version import LAGO_VERSION
+
 if sys.version_info >= (3, 9):
     from collections.abc import Mapping, Sequence
 else:
@@ -27,6 +29,15 @@ def make_url(*, origin: str, path_parts: Sequence[str], query_pairs: Mapping[str
             ) if query_pairs else '',
         ),
     )
+
+
+def make_headers(*, api_key: str) -> Mapping[str, str]:
+    """Return headers."""
+    return {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer {api_key}".format(api_key=api_key),
+        'User-agent': 'Lago Python v{version}'.format(version=LAGO_VERSION),
+    }
 
 
 send_get_request = requests.get
