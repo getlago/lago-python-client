@@ -1,7 +1,6 @@
 import requests
 from typing import ClassVar, Type
 
-from pydantic import BaseModel
 from requests import Response
 
 from .base_client import BaseClient
@@ -11,12 +10,18 @@ from ..services.request import make_url
 from ..services.response import get_response_data, prepare_object_response
 
 
-class AppliedCouponClient(CreateCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin, BaseClient):
+class AppliedCouponClient(
+    CreateCommandMixin[AppliedCouponResponse],
+    FindAllCommandMixin[AppliedCouponResponse],
+    FindCommandMixin[AppliedCouponResponse],
+    UpdateCommandMixin[AppliedCouponResponse],
+    BaseClient,
+):
     API_RESOURCE: ClassVar[str] = 'applied_coupons'
-    RESPONSE_MODEL: ClassVar[Type[BaseModel]] = AppliedCouponResponse
+    RESPONSE_MODEL: ClassVar[Type[AppliedCouponResponse]] = AppliedCouponResponse
     ROOT_NAME: ClassVar[str] = 'applied_coupon'
 
-    def destroy(self, external_customer_id: str, applied_coupon_id: str) -> BaseModel:
+    def destroy(self, external_customer_id: str, applied_coupon_id: str) -> AppliedCouponResponse:
         api_response: Response = requests.delete(
             url=make_url(
                 origin=self.base_url,

@@ -2,7 +2,6 @@ import requests
 import sys
 from typing import Any, ClassVar, Type
 
-from pydantic import BaseModel
 from requests import Response
 
 from .base_client import BaseClient
@@ -17,9 +16,15 @@ else:
     from typing import Mapping
 
 
-class GroupClient(CreateCommandMixin, DestroyCommandMixin, FindCommandMixin, UpdateCommandMixin, BaseClient):
+class GroupClient(
+    CreateCommandMixin[GroupResponse],
+    DestroyCommandMixin[GroupResponse],
+    FindCommandMixin[GroupResponse],
+    UpdateCommandMixin[GroupResponse],
+    BaseClient,
+):
     API_RESOURCE: ClassVar[str] = 'groups'
-    RESPONSE_MODEL: ClassVar[Type[BaseModel]] = GroupResponse
+    RESPONSE_MODEL: ClassVar[Type[GroupResponse]] = GroupResponse
     ROOT_NAME: ClassVar[str] = 'group'
 
     def find_all(self, metric_code: str, options: Mapping[str, str] = {}) -> Mapping[str, Any]:

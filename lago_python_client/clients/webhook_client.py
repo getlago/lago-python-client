@@ -30,7 +30,14 @@ class _ResponseWithPublicKeyInside(TypedDict):
     public_key: str
 
 
-class WebhookClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin, BaseClient):
+class WebhookClient(
+    CreateCommandMixin[BaseModel],
+    DestroyCommandMixin[BaseModel],
+    FindAllCommandMixin[BaseModel],
+    FindCommandMixin[BaseModel],
+    UpdateCommandMixin[BaseModel],
+    BaseClient,
+):
     API_RESOURCE: ClassVar[str] = 'webhooks'
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = NotImplemented
     ROOT_NAME: ClassVar[str] = 'webhook'

@@ -1,8 +1,6 @@
 import requests
-import sys
 from typing import ClassVar, Optional, Type, Union
 
-from pydantic import BaseModel
 from requests import Response
 
 from .base_client import BaseClient
@@ -12,12 +10,19 @@ from ..services.request import make_url
 from ..services.response import get_response_data, prepare_object_response
 
 
-class InvoiceClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin, BaseClient):
+class InvoiceClient(
+    CreateCommandMixin[InvoiceResponse],
+    DestroyCommandMixin[InvoiceResponse],
+    FindAllCommandMixin[InvoiceResponse],
+    FindCommandMixin[InvoiceResponse],
+    UpdateCommandMixin[InvoiceResponse],
+    BaseClient,
+):
     API_RESOURCE: ClassVar[str] = 'invoices'
-    RESPONSE_MODEL: ClassVar[Type[BaseModel]] = InvoiceResponse
+    RESPONSE_MODEL: ClassVar[Type[InvoiceResponse]] = InvoiceResponse
     ROOT_NAME: ClassVar[str] = 'invoice'
 
-    def download(self, resource_id: str) -> Union[Optional[BaseModel], bool]:
+    def download(self, resource_id: str) -> Union[Optional[InvoiceResponse], bool]:
         api_response: Response = requests.post(
             url=make_url(
                 origin=self.base_url,
@@ -35,7 +40,7 @@ class InvoiceClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin
             data=response_data,
         )
 
-    def retry_payment(self, resource_id: str) -> BaseModel:
+    def retry_payment(self, resource_id: str) -> InvoiceResponse:
         api_response: Response = requests.post(
             url=make_url(
                 origin=self.base_url,
@@ -49,7 +54,7 @@ class InvoiceClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin
             data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
 
-    def refresh(self, resource_id: str) -> BaseModel:
+    def refresh(self, resource_id: str) -> InvoiceResponse:
         api_response: Response = requests.put(
             url=make_url(
                 origin=self.base_url,
@@ -63,7 +68,7 @@ class InvoiceClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin
             data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
 
-    def finalize(self, resource_id: str) -> BaseModel:
+    def finalize(self, resource_id: str) -> InvoiceResponse:
         api_response: Response = requests.put(
             url=make_url(
                 origin=self.base_url,

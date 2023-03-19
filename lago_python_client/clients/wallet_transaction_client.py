@@ -18,9 +18,14 @@ else:
     from typing import Mapping
 
 
-class WalletTransactionClient(DestroyCommandMixin, FindCommandMixin, UpdateCommandMixin, BaseClient):
+class WalletTransactionClient(
+    DestroyCommandMixin[WalletTransactionResponse],
+    FindCommandMixin[WalletTransactionResponse],
+    UpdateCommandMixin[WalletTransactionResponse],
+    BaseClient,
+):
     API_RESOURCE: ClassVar[str] = 'wallet_transactions'
-    RESPONSE_MODEL: ClassVar[Type[BaseModel]] = WalletTransactionResponse
+    RESPONSE_MODEL: ClassVar[Type[WalletTransactionResponse]] = WalletTransactionResponse
     ROOT_NAME: ClassVar[str] = 'wallet_transactions'
 
     def create(self, input_object: BaseModel) -> Mapping[str, Any]:

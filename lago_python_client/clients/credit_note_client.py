@@ -1,7 +1,6 @@
 import requests
 from typing import ClassVar, Optional, Type, Union
 
-from pydantic import BaseModel
 from requests import Response
 
 from .base_client import BaseClient
@@ -11,12 +10,19 @@ from ..services.request import make_url
 from ..services.response import get_response_data, prepare_object_response
 
 
-class CreditNoteClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin, BaseClient):
+class CreditNoteClient(
+    CreateCommandMixin[CreditNoteResponse],
+    DestroyCommandMixin[CreditNoteResponse],
+    FindAllCommandMixin[CreditNoteResponse],
+    FindCommandMixin[CreditNoteResponse],
+    UpdateCommandMixin[CreditNoteResponse],
+    BaseClient
+):
     API_RESOURCE: ClassVar[str] = 'credit_notes'
-    RESPONSE_MODEL: ClassVar[Type[BaseModel]] = CreditNoteResponse
+    RESPONSE_MODEL: ClassVar[Type[CreditNoteResponse]] = CreditNoteResponse
     ROOT_NAME: ClassVar[str] = 'credit_note'
 
-    def download(self, resource_id: str) -> Union[Optional[BaseModel], bool]:
+    def download(self, resource_id: str) -> Union[Optional[CreditNoteResponse], bool]:
         api_response: Response = requests.post(
             url=make_url(
                 origin=self.base_url,
@@ -34,7 +40,7 @@ class CreditNoteClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMi
             data=response_data,
         )
 
-    def void(self, resource_id: str) -> BaseModel:
+    def void(self, resource_id: str) -> CreditNoteResponse:
         api_response: Response = requests.put(
             url=make_url(
                 origin=self.base_url,

@@ -12,9 +12,16 @@ from ..services.request import make_url
 from ..services.response import verify_response
 
 
-class EventClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin, BaseClient):
+class EventClient(
+    CreateCommandMixin[EventResponse],
+    DestroyCommandMixin[EventResponse],
+    FindAllCommandMixin[EventResponse],
+    FindCommandMixin[EventResponse],
+    UpdateCommandMixin[EventResponse],
+    BaseClient
+):
     API_RESOURCE: ClassVar[str] = 'events'
-    RESPONSE_MODEL: ClassVar[Type[BaseModel]] = EventResponse
+    RESPONSE_MODEL: ClassVar[Type[EventResponse]] = EventResponse
     ROOT_NAME: ClassVar[str] = 'event'
 
     def batch_create(self, input_object: BaseModel) -> Optional[bool]:
