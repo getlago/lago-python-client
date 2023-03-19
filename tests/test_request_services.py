@@ -26,13 +26,13 @@ def test_make_url():
     some_path_parts = ('team', 'anhtho', 'congratulate')
     query_name_value = {
         'message': "The future belongs to those who believe in the beauty of their dreams. Happy International Women's Day!",
-        'date': '08.03.2023',
+        'day': 8,
     }
 
     # When service is applied
     result = make_url(origin=api_url, path_parts=some_path_parts, query_pairs=query_name_value)
     # Then
-    assert result == 'https://api.getlago.com/api/v1/team/anhtho/congratulate?message=The+future+belongs+to+those+who+believe+in+the+beauty+of+their+dreams.+Happy+International+Women%27s+Day%21&date=08.03.2023'
+    assert result == 'https://api.getlago.com/api/v1/team/anhtho/congratulate?message=The+future+belongs+to+those+who+believe+in+the+beauty+of+their+dreams.+Happy+International+Women%27s+Day%21&day=8'
 
 
 def test_make_url_no_query():

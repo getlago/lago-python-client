@@ -1,4 +1,5 @@
 import sys
+from typing import Union
 try:
     from typing import Final
 except ImportError:  # Python 3.7
@@ -18,7 +19,7 @@ URI_TEMPLATE: Final[str] = '{uri_path}{uri_query}'
 QUERY_TEMPLATE: Final[str] = '?{query}'
 
 
-def make_url(*, origin: str, path_parts: Sequence[str], query_pairs: Mapping[str, str] = {}) -> str:
+def make_url(*, origin: str, path_parts: Sequence[str], query_pairs: Mapping[str, Union[int, str]] = {}) -> str:
     """Return url."""
     return urljoin(
         origin,

@@ -85,7 +85,7 @@ class DestroyCommandMixin(Generic[_M]):
 class FindAllCommandMixin(Generic[_M]):
     """Client mixin with `find_all` command."""
 
-    def find_all(self: _ClientMixin[_M], options: Mapping[str, str] = {}) -> Mapping[str, Any]:
+    def find_all(self: _ClientMixin[_M], options: Mapping[str, Union[int, str]] = {}) -> Mapping[str, Any]:
         """Execute `find all` command."""
         # Send request and save response
         api_response: Response = send_get_request(

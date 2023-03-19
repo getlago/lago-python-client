@@ -1,5 +1,5 @@
 import sys
-from typing import Any, ClassVar, Type
+from typing import Any, ClassVar, Type, Union
 
 from pydantic import BaseModel
 
@@ -44,7 +44,7 @@ class WalletTransactionClient(
             data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
 
-    def find_all(self, wallet_id: str, options: Mapping[str, str] = {}) -> Mapping[str, Any]:
+    def find_all(self, wallet_id: str, options: Mapping[str, Union[int, str]] = {}) -> Mapping[str, Any]:
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
