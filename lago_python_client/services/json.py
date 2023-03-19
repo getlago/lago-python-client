@@ -25,13 +25,13 @@ def to_json(data_container: Serializable) -> str:
     return orjson.dumps(data_container, option=orjson.OPT_NON_STR_KEYS).decode('utf-8')
 
 
-@typeclass
+@typeclass  # type: ignore
 def from_json(json_container) -> DeserializedData:
     """Deserialize data from json format."""
     raise TypeError('Type {0} is not supported'.format(type(json_container)))
 
 
-@from_json.instance(bytes)
+@from_json.instance(bytes)  # type: ignore
 @from_json.instance(bytearray)
 @from_json.instance(memoryview)
 @from_json.instance(str)
@@ -49,7 +49,7 @@ def _from_json_default(json_container: Deserializable) -> DeserializedData:
         )
 
 
-@from_json.instance(None)
+@from_json.instance(None)  # type: ignore
 def _from_json_none(json_container: None) -> NoReturn:
     """Deserialize json from ``None``."""
     raise LagoApiError(
@@ -61,7 +61,7 @@ def _from_json_none(json_container: None) -> NoReturn:
     )
 
 
-@from_json.instance(Response)
+@from_json.instance(Response)  # type: ignore
 def _from_json_requests_response_bytes(json_container: Response) -> DeserializedData:
     """Deserialize json from ``requests.Response`` class instances (from content bytes)."""
-    return from_json(json_container.content)
+    return from_json(json_container.content)  # type: ignore

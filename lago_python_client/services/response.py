@@ -51,7 +51,7 @@ def _is_content_exists(response: Response) -> bool:
 def verify_response(response: Response) -> Optional[Response]:
     """Verify response."""
     if not _is_status_code_successful(response):
-        response_data: Any = from_json(response)
+        response_data: Any = from_json(response)  # type: ignore
         raise LagoApiError(
             status_code=response.status_code,
             url=response.request.url,
@@ -71,7 +71,7 @@ def get_response_data(*, response: Response, key: str = '') -> Optional[_Mapping
     response_or_None: Optional[Response] = verify_response(response)
     if not response_or_None:
         return None
-    deserialized_data: DeserializedData = from_json(response_or_None)
+    deserialized_data: DeserializedData = from_json(response_or_None)  # type: ignore
 
     # Ensure deserialized_data has correct type: sequence or mapping or raise LagoApiError
     try:
