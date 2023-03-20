@@ -27,11 +27,11 @@ class TestFunctoolsExt(unittest.TestCase):
         property_result = client.collection.method()
 
         # Then both results are equal
-        self.assertEqual(property_result, method_result)
+        assert property_result == method_result
         if sys.version_info >= (3, 8):
             # And collection objects are stored in cache during first request
-            self.assertEqual(client.collection(), client.collection())
-            self.assertEqual(client.collection, client.collection)
+            assert client.collection() == client.collection()
+            assert client.collection == client.collection
             # ... but only for same `Client` instance
-            self.assertNotEqual(Client().collection(), Client().collection())
-            self.assertNotEqual(Client().collection, Client().collection)
+            assert Client().collection() != Client().collection()
+            assert Client().collection != Client().collection

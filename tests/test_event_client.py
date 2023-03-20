@@ -30,7 +30,7 @@ class TestEventClient(unittest.TestCase):
             m.register_uri('POST', 'https://api.getlago.com/api/v1/events', text='')
             response = client.events().create(create_event())
 
-        self.assertEqual(response, True)
+        assert response == True
 
     def test_invalid_create_events_request(self):
         client = Client(api_key='invalid')
@@ -48,7 +48,7 @@ class TestEventClient(unittest.TestCase):
             m.register_uri('POST', 'https://api.getlago.com/api/v1/events/batch', text='')
             response = client.events().batch_create(create_batch_event())
 
-        self.assertEqual(response, True)
+        assert response == True
 
     def test_invalid_create_batch_events_request(self):
         client = Client(api_key='invalid')
@@ -67,7 +67,7 @@ class TestEventClient(unittest.TestCase):
             m.register_uri('GET', 'https://api.getlago.com/api/v1/events/' + event_id, text=mock_response())
             response = client.events().find(event_id)
 
-        self.assertEqual(response.lago_id, event_id)
+        assert response.lago_id == event_id
 
     def test_invalid_find_events_request(self):
         client = Client(api_key='invalid')

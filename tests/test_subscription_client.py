@@ -38,11 +38,11 @@ class TestSubscriptionClient(unittest.TestCase):
             m.register_uri('POST', 'https://api.getlago.com/api/v1/subscriptions', text=mock_response())
             response = client.subscriptions().create(create_subscription())
 
-        self.assertEqual(response.external_customer_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
-        self.assertEqual(response.status, 'active')
-        self.assertEqual(response.plan_code, 'eartha lynch')
-        self.assertEqual(response.billing_time, 'anniversary')
-        self.assertEqual(response.subscription_date, '2022-04-29')
+        assert response.external_customer_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
+        assert response.status == 'active'
+        assert response.plan_code == 'eartha lynch'
+        assert response.billing_time == 'anniversary'
+        assert response.subscription_date == '2022-04-29'
 
     def test_invalid_create_subscriptions_request(self):
         client = Client(api_key='invalid')
@@ -63,11 +63,11 @@ class TestSubscriptionClient(unittest.TestCase):
                            text=mock_response())
             response = client.subscriptions().update(Subscription(name='name'), identifier)
 
-        self.assertEqual(response.external_customer_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
-        self.assertEqual(response.status, 'active')
-        self.assertEqual(response.plan_code, 'eartha lynch')
-        self.assertEqual(response.billing_time, 'anniversary')
-        self.assertEqual(response.subscription_date, '2022-04-29')
+        assert response.external_customer_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
+        assert response.status == 'active'
+        assert response.plan_code == 'eartha lynch'
+        assert response.billing_time == 'anniversary'
+        assert response.subscription_date == '2022-04-29'
 
     def test_invalid_update_subscription_request(self):
         client = Client(api_key='invalid')
@@ -90,9 +90,9 @@ class TestSubscriptionClient(unittest.TestCase):
             m.register_uri('DELETE', 'https://api.getlago.com/api/v1/subscriptions/' + identifier, text=mock_response())
             response = client.subscriptions().destroy(identifier)
 
-        self.assertEqual(response.external_customer_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
-        self.assertEqual(response.status, 'active')
-        self.assertEqual(response.plan_code, 'eartha lynch')
+        assert response.external_customer_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
+        assert response.status == 'active'
+        assert response.plan_code == 'eartha lynch'
 
     def test_invalid_destroy_subscription_request(self):
         client = Client(api_key='invalid')
@@ -113,8 +113,8 @@ class TestSubscriptionClient(unittest.TestCase):
                            text=mock_collection_response())
             response = client.subscriptions().find_all({'external_customer_id': '123'})
 
-        self.assertEqual(response['subscriptions'][0].lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac129b')
-        self.assertEqual(response['meta']['current_page'], 1)
+        assert response['subscriptions'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
+        assert response['meta']['current_page'] == 1
 
     def test_invalid_find_all_subscription_request(self):
         client = Client(api_key='invalid')

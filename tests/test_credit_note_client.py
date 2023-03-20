@@ -54,7 +54,7 @@ class TestCreditNoteClient(unittest.TestCase):
             m.register_uri('GET', 'https://api.getlago.com/api/v1/credit_notes/' + identifier, text=mock_response())
             response = client.credit_notes().find(identifier)
 
-        self.assertEqual(response.lago_id, identifier)
+        assert response.lago_id == identifier
 
     def test_invalid_find_invoice_request(self):
         client = Client(api_key='invalid')
@@ -73,8 +73,8 @@ class TestCreditNoteClient(unittest.TestCase):
             m.register_uri('GET', 'https://api.getlago.com/api/v1/credit_notes', text=mock_collection_response())
             response = client.credit_notes().find_all({'per_page': 2, 'page': 1})
 
-        self.assertEqual(response['credit_notes'][0].lago_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
-        self.assertEqual(response['meta']['current_page'], 1)
+        assert response['credit_notes'][0].lago_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
+        assert response['meta']['current_page'] == 1
 
     def test_valid_download_credit_note_request(self):
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
@@ -85,7 +85,7 @@ class TestCreditNoteClient(unittest.TestCase):
                             text=mock_response())
             response = client.credit_notes().download('5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
 
-        self.assertEqual(response.lago_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
+        assert response.lago_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
     def test_valid_create_credit_note_request(self):
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
@@ -94,8 +94,8 @@ class TestCreditNoteClient(unittest.TestCase):
             m.register_uri('POST', 'https://api.getlago.com/api/v1/credit_notes', text=mock_response())
             response = client.credit_notes().create(credit_note_object())
 
-        self.assertEqual(response.lago_id, "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba")
-        self.assertEqual(response.refund_status, 'pending')
+        assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+        assert response.refund_status == 'pending'
 
     def test_invalid_create_credit_note_request(self):
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
@@ -116,8 +116,8 @@ class TestCreditNoteClient(unittest.TestCase):
                            text=mock_response())
             response = client.credit_notes().update(credit_note_update_object(), credit_note_id)
 
-        self.assertEqual(response.lago_id, "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba")
-        self.assertEqual(response.refund_status, 'pending')
+        assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+        assert response.refund_status == 'pending'
 
     def test_valid_void_credit_note_request(self):
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
@@ -129,5 +129,5 @@ class TestCreditNoteClient(unittest.TestCase):
                            text=mock_response())
             response = client.credit_notes().void(credit_note_id)
 
-        self.assertEqual(response.lago_id, "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba")
-        self.assertEqual(response.refund_status, 'pending')
+        assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+        assert response.refund_status == 'pending'

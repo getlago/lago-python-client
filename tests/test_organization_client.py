@@ -39,7 +39,7 @@ class TestOrganizationClient(unittest.TestCase):
                            text=mock_response())
             response = client.organizations().update(organization_object())
 
-        self.assertEqual(response.name, 'Hooli')
+        assert response.name == 'Hooli'
 
     def test_invalid_update_organization_request(self):
         client = Client(api_key='invalid')

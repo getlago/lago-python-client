@@ -23,4 +23,4 @@ class TestFeeClient(unittest.TestCase):
         m.register_uri('GET', 'https://api.getlago.com/api/v1/fees/' + identifier, text=mock_response())
         response = client.fees().find(identifier)
 
-    self.assertEqual(response.lago_id, identifier)
+    assert response.lago_id == identifier

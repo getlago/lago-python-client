@@ -48,8 +48,8 @@ class TestCouponClient(unittest.TestCase):
             m.register_uri('POST', 'https://api.getlago.com/api/v1/coupons', text=mock_response())
             response = client.coupons().create(coupon_object())
 
-        self.assertEqual(response.lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac129b')
-        self.assertEqual(response.code, 'coupon_code')
+        assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
+        assert response.code == 'coupon_code'
 
     def test_invalid_create_coupon_request(self):
         client = Client(api_key='invalid')
@@ -70,8 +70,8 @@ class TestCouponClient(unittest.TestCase):
                            text=mock_response())
             response = client.coupons().update(coupon_object(), code)
 
-        self.assertEqual(response.lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac129b')
-        self.assertEqual(response.code, code)
+        assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
+        assert response.code == code
 
     def test_invalid_update_coupon_request(self):
         client = Client(api_key='invalid')
@@ -94,8 +94,8 @@ class TestCouponClient(unittest.TestCase):
             m.register_uri('GET', 'https://api.getlago.com/api/v1/coupons/' + code, text=mock_response())
             response = client.coupons().find(code)
 
-        self.assertEqual(response.lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac129b')
-        self.assertEqual(response.code, code)
+        assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
+        assert response.code == code
 
     def test_invalid_find_coupon_request(self):
         client = Client(api_key='invalid')
@@ -115,8 +115,8 @@ class TestCouponClient(unittest.TestCase):
             m.register_uri('DELETE', 'https://api.getlago.com/api/v1/coupons/' + code, text=mock_response())
             response = client.coupons().destroy(code)
 
-        self.assertEqual(response.lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac129b')
-        self.assertEqual(response.code, code)
+        assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
+        assert response.code == code
 
     def test_invalid_destroy_coupon_request(self):
         client = Client(api_key='invalid')
@@ -135,8 +135,8 @@ class TestCouponClient(unittest.TestCase):
             m.register_uri('GET', 'https://api.getlago.com/api/v1/coupons', text=mock_collection_response())
             response = client.coupons().find_all()
 
-        self.assertEqual(response['coupons'][0].lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac1111')
-        self.assertEqual(response['meta']['current_page'], 1)
+        assert response['coupons'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1111'
+        assert response['meta']['current_page'] == 1
 
     def test_valid_find_all_coupon_request_with_options(self):
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
@@ -145,8 +145,8 @@ class TestCouponClient(unittest.TestCase):
             m.register_uri('GET', 'https://api.getlago.com/api/v1/coupons?per_page=2&page=1', text=mock_collection_response())
             response = client.coupons().find_all({'per_page': 2, 'page': 1})
 
-        self.assertEqual(response['coupons'][1].lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac1222')
-        self.assertEqual(response['meta']['current_page'], 1)
+        assert response['coupons'][1].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1222'
+        assert response['meta']['current_page'] == 1
 
     def test_invalid_find_all_coupon_request(self):
         client = Client(api_key='invalid')

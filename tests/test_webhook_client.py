@@ -24,7 +24,7 @@ class TestWebhookClient(unittest.TestCase):
             m.register_uri('GET', 'https://api.getlago.com/api/v1/webhooks/json_public_key', text=mock_response())
             response = client.webhooks().public_key()
 
-        self.assertEqual(response, b'key')
+        assert response == b'key'
 
     def test_invalid_public_key_request(self):
         client = Client(api_key='invalid')
