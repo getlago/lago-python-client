@@ -23,22 +23,21 @@ def mock_response():
         return applied_add_on_response.read()
 
 
-if True:
-    def test_valid_create_applied_add_on_request():
-        client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+def test_valid_create_applied_add_on_request():
+    client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-        with requests_mock.Mocker() as m:
-            m.register_uri('POST', 'https://api.getlago.com/api/v1/applied_add_ons', text=mock_response())
-            response = client.applied_add_ons().create(create_applied_add_on())
+    with requests_mock.Mocker() as m:
+        m.register_uri('POST', 'https://api.getlago.com/api/v1/applied_add_ons', text=mock_response())
+        response = client.applied_add_ons().create(create_applied_add_on())
 
-        assert response.external_customer_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
+    assert response.external_customer_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
 
-    def test_invalid_create_applied_add_on_request():
-        client = Client(api_key='invalid')
+def test_invalid_create_applied_add_on_request():
+    client = Client(api_key='invalid')
 
-        with requests_mock.Mocker() as m:
-            m.register_uri('POST', 'https://api.getlago.com/api/v1/applied_add_ons', status_code=401, text='')
+    with requests_mock.Mocker() as m:
+        m.register_uri('POST', 'https://api.getlago.com/api/v1/applied_add_ons', status_code=401, text='')
 
-            with pytest.raises(LagoApiError):
-                client.applied_add_ons().create(create_applied_add_on())
+        with pytest.raises(LagoApiError):
+            client.applied_add_ons().create(create_applied_add_on())

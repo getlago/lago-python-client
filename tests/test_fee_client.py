@@ -13,8 +13,7 @@ def mock_response():
         return fee_response.read()
 
 
-if True:
-  def test_valid_find_fee_request():
+def test_valid_find_fee_request():
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     identifier = '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
