@@ -1,8 +1,9 @@
 from typing import ClassVar, Type
 
 from pydantic import BaseModel
+
 from .base_client import BaseClient
-from lago_python_client.models.coupon import CouponResponse
+from ..models.coupon import CouponResponse
 
 
 class CouponClient(BaseClient):

@@ -1,15 +1,20 @@
-from typing import Dict, Sequence
+import sys
 from urllib.parse import urljoin, urlencode
 try:
     from typing import Final
 except ImportError:  # Python 3.7
-    from typing_extensions import Final
+    from typing_extensions import Final  # type: ignore
+
+if sys.version_info >= (3, 9):
+    from collections.abc import Mapping, Sequence
+else:
+    from typing import Mapping, Sequence
 
 URI_TEMPLATE: Final[str] = '{uri_path}{uri_query}'
 QUERY_TEMPLATE: Final[str] = '?{query}'
 
 
-def make_url(*, origin: str, path_parts: Sequence[str], query_pairs: Dict[str, str] = {}) -> str:
+def make_url(*, origin: str, path_parts: Sequence[str], query_pairs: Mapping[str, str] = {}) -> str:
     """Return url."""
     return urljoin(
         origin,

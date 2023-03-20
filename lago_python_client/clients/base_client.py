@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Optional, Type
+import sys
+from typing import Any, Optional, Type, Union
 
 from pydantic import BaseModel
 import requests
@@ -7,8 +8,13 @@ from requests import Response
 
 from ..services.json import from_json, to_json
 from ..services.request import make_url
-from ..services.response import verify_response
+from ..services.response import prepare_index_response, prepare_object_response, verify_response
 from ..version import LAGO_VERSION
+
+if sys.version_info >= (3, 9):
+    from collections.abc import Mapping
+else:
+    from typing import Mapping
 
 
 class BaseClient(ABC):
@@ -39,40 +45,47 @@ class BaseClient(ABC):
         """The resource key (required class property), used to access the response data."""
         raise NotImplementedError
 
-    def find(self, resource_id: str, params: dict = {}):
+    def find(self, resource_id: str, params: dict = {}) -> BaseModel:
         query_url: str = make_url(
             origin=self.base_url,
             path_parts=(self.API_RESOURCE, resource_id),
         )
         data = to_json(params) if params else None
 
-        api_response = requests.get(query_url, data=data, headers=self.headers())
-        data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
+        api_response: Response = requests.get(query_url, data=data, headers=self.headers())
 
-        return self.prepare_object_response(data)
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=from_json(verify_response(api_response)).get(self.ROOT_NAME),
+        )
 
-    def find_all(self, options: dict = {}):
+    def find_all(self, options: dict = {}) -> Mapping[str, Any]:
         query_url: str = make_url(
             origin=self.base_url,
             path_parts=(self.API_RESOURCE, ),
             query_pairs=options,
         )
-        api_response = requests.get(query_url, headers=self.headers())
-        data = from_json(verify_response(api_response))
+        api_response: Response = requests.get(query_url, headers=self.headers())
 
-        return self.prepare_index_response(data)
+        return prepare_index_response(
+            api_resource=self.API_RESOURCE,
+            response_model=self.RESPONSE_MODEL,
+            data=from_json(verify_response(api_response)),
+        )
 
-    def destroy(self, resource_id: str):
+    def destroy(self, resource_id: str) -> BaseModel:
         query_url: str = make_url(
             origin=self.base_url,
             path_parts=(self.API_RESOURCE, resource_id),
         )
-        api_response = requests.delete(query_url, headers=self.headers())
-        data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
+        api_response: Response = requests.delete(query_url, headers=self.headers())
 
-        return self.prepare_object_response(data)
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=from_json(verify_response(api_response)).get(self.ROOT_NAME),
+        )
 
-    def create(self, input_object: BaseModel):
+    def create(self, input_object: BaseModel) -> Union[BaseModel, bool]:
         query_url: str = make_url(
             origin=self.base_url,
             path_parts=(self.API_RESOURCE, ),
@@ -80,16 +93,18 @@ class BaseClient(ABC):
         query_parameters = {
             self.ROOT_NAME: input_object.dict()
         }
-        data = to_json(query_parameters)
-        api_response = requests.post(query_url, data=data, headers=self.headers())
+        api_response: Response = requests.post(query_url, data=to_json(query_parameters), headers=self.headers())
         data = verify_response(api_response)
 
         if data is None:
             return True
-        else:
-            return self.prepare_object_response(from_json(data).get(self.ROOT_NAME))
 
-    def update(self, input_object: BaseModel, identifier: Optional[str] = None):
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=from_json(data).get(self.ROOT_NAME),
+        )
+
+    def update(self, input_object: BaseModel, identifier: Optional[str] = None) -> BaseModel:
         query_url: str = make_url(
             origin=self.base_url,
             path_parts=(self.API_RESOURCE, identifier) if identifier else (self.API_RESOURCE, ),
@@ -98,12 +113,14 @@ class BaseClient(ABC):
             self.ROOT_NAME: input_object.dict(exclude_none=True)
         }
         data = to_json(query_parameters)
-        api_response = requests.put(query_url, data=data, headers=self.headers())
-        data = from_json(verify_response(api_response)).get(self.ROOT_NAME)
+        api_response: Response = requests.put(query_url, data=data, headers=self.headers())
 
-        return self.prepare_object_response(data)
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=from_json(verify_response(api_response)).get(self.ROOT_NAME),
+        )
 
-    def headers(self):
+    def headers(self) -> Mapping[str, str]:
         bearer = "Bearer " + self.api_key
         user_agent = 'Lago Python v' + LAGO_VERSION
         headers = {
@@ -113,14 +130,3 @@ class BaseClient(ABC):
         }
 
         return headers
-
-    @classmethod
-    def prepare_object_response(cls, data: Dict[Any, Any]) -> BaseModel:
-        return cls.RESPONSE_MODEL.parse_obj(data)
-
-    @classmethod
-    def prepare_index_response(cls, data: Dict[str, Any]) -> Dict[str, Any]:
-        return {
-            cls.API_RESOURCE: [cls.prepare_object_response(el) for el in data[cls.API_RESOURCE]],
-            'meta': data['meta'],
-        }

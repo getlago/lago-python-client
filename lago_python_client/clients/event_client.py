@@ -2,9 +2,10 @@ import requests
 from typing import ClassVar, Type
 
 from pydantic import BaseModel
+from requests import Response
+
 from .base_client import BaseClient
-from lago_python_client.models.event import EventResponse
-from urllib.parse import urljoin
+from ..models.event import EventResponse
 from ..services.json import to_json
 from ..services.request import make_url
 from ..services.response import verify_response
@@ -15,7 +16,7 @@ class EventClient(BaseClient):
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = EventResponse
     ROOT_NAME: ClassVar[str] = 'event'
 
-    def batch_create(self, input_object: BaseModel):
+    def batch_create(self, input_object: BaseModel) -> bool:
         query_url: str = make_url(
             origin=self.base_url,
             path_parts=(self.API_RESOURCE, 'batch'),
@@ -24,7 +25,7 @@ class EventClient(BaseClient):
             self.ROOT_NAME: input_object.dict()
         }
         data = to_json(query_parameters)
-        api_response = requests.post(query_url, data=data, headers=self.headers())
+        api_response: Response = requests.post(query_url, data=data, headers=self.headers())
         verify_response(api_response)
 
         return True

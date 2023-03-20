@@ -1,78 +1,132 @@
+"""Test response services."""
 from copy import deepcopy
-import unittest
 
+from pydantic import BaseModel
+import pytest
 from requests import Request, Response
 
 from lago_python_client.exceptions import LagoApiError
-from lago_python_client.services.response import RESPONSE_SUCCESS_CODES, _is_status_code_successful, _is_content_exists, verify_response
+from lago_python_client.services.response import (
+    RESPONSE_SUCCESS_CODES, _is_status_code_successful, _is_content_exists, verify_response,
+    prepare_create_response, prepare_index_response, prepare_object_response,
+)
 
 
-class TestResponseServices(unittest.TestCase):
-    """Test response services."""
-
-    def test_success_status_codes_exists(self):
-        """Ensure ``RESPONSE_SUCCESS_CODES`` is set."""
-        self.assertTrue(len(RESPONSE_SUCCESS_CODES) >= 4)
-
-    def test_is_status_code_successful(self):
-        """Check status code is successful."""
-        # Given instanse of ``requests.Response`` class with successful status code
-        response = Response()
-        response._content_consumed = True
-        response._content = b'{"a":{"b":"c"}}'
-        response.status_code = 200
-        # ... and with error status code
-        response404 = deepcopy(response)
-        response404._content = b''
-        response404.status_code = 404
-
-        # When check helper function is applied
-        # Then verification passes.
-        self.assertEqual(_is_status_code_successful(response), True)
-        # ... or not
-        self.assertEqual(_is_status_code_successful(response404), False)
-
-    def test_is_content_exists(self):
-        """Check content exists."""
-        # Given instanse of ``requests.Response`` class with content
-        response = Response()
-        response._content_consumed = True
-        response._content = b'{"a":{"b":"c"}}'
-        response.status_code = 200
-        # ... and with empty content
-        response204 = deepcopy(response)
-        response204._content = b''
-        response204.status_code = 204
-
-        # When check helper function is applied
-        # Then verification passes.
-        self.assertEqual(_is_content_exists(response), True)
-        # ... or not
-        self.assertEqual(_is_content_exists(response204), False)
-
-    def test_verify_response(self):
-        """Verify response."""
-        # Given instanse of ``requests.Response`` class with successful status code and content
-        response = Response()
-        response._content_consumed = True
-        response._content = b'{"a":{"b":"c"}}'
-        response.status_code = 200
-        # ... and with successful status code and empty content
-        response204 = deepcopy(response)
-        response204._content = b''
-        response204.status_code = 204
-        # ... and with error status code
-        response404 = deepcopy(response)
-        response404.status_code = 404
-        response404.request = Request(url='')
-
-        # When service is applied
-        # Then
-        self.assertEqual(verify_response(response), response)
-        self.assertEqual(verify_response(response204), None)
-        with self.assertRaises(LagoApiError):
-            verify_response(response404)
+def test_success_status_codes_exists():
+    """Ensure ``RESPONSE_SUCCESS_CODES`` is set."""
+    assert len(RESPONSE_SUCCESS_CODES) >= 4
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_is_status_code_successful():
+    """Check status code is successful."""
+    # Given instanse of ``requests.Response`` class with successful status code
+    response = Response()
+    response._content_consumed = True
+    response._content = b'{"a":{"b":"c"}}'
+    response.status_code = 200
+    # ... and with error status code
+    response404 = deepcopy(response)
+    response404._content = b''
+    response404.status_code = 404
+
+    # When check helper function is applied
+    # Then verification passes.
+    assert _is_status_code_successful(response) is True
+    # ... or not
+    assert _is_status_code_successful(response404) is False
+
+
+def test_is_content_exists():
+    """Check content exists."""
+    # Given instanse of ``requests.Response`` class with content
+    response = Response()
+    response._content_consumed = True
+    response._content = b'{"a":{"b":"c"}}'
+    response.status_code = 200
+    # ... and with empty content
+    response204 = deepcopy(response)
+    response204._content = b''
+    response204.status_code = 204
+
+    # When check helper function is applied
+    # Then verification passes.
+    assert _is_content_exists(response) is True
+    # ... or not
+    assert _is_content_exists(response204) is False
+
+
+def test_verify_response():
+    """Verify response."""
+    # Given instanse of ``requests.Response`` class with successful status code and content
+    response = Response()
+    response._content_consumed = True
+    response._content = b'{"a":{"b":"c"}}'
+    response.status_code = 200
+    # ... and with successful status code and empty content
+    response204 = deepcopy(response)
+    response204._content = b''
+    response204.status_code = 204
+    # ... and with error status code
+    response404 = deepcopy(response)
+    response404.status_code = 404
+    response404.request = Request(url='')
+
+    # When service is applied
+    # Then
+    assert verify_response(response) == response
+    assert verify_response(response204) is None
+    with pytest.raises(LagoApiError):
+        verify_response(response404)
+
+
+class SomeHumanModel(BaseModel):
+    name: str
+
+
+def test_prepare_object_response():
+    """Verify ``prepare_object_response`` service returns Pydantic model instance."""
+    # Given Pydantic model and some data
+    data = {'name': 'Aurelia'}
+
+    # When service is applied
+    result = prepare_object_response(response_model=SomeHumanModel, data=data)
+    # Then
+    assert SomeHumanModel(**data) == result
+
+
+def test_prepare_index_response():
+    """Verify ``prepare_index_response`` service returns valid mapping object."""
+    # Given Pydantic model and some data
+    data = {
+        'human': [
+            {'name': 'Aurelia'},
+            {'name': 'Aleksandra'},
+            {'name': 'John'},
+        ],
+        'meta': {
+            'something': 'is here'
+        },
+    }
+
+    # When service is applied
+    result = prepare_index_response(api_resource='human', response_model=SomeHumanModel, data=data)
+    # Then
+    assert SomeHumanModel(**data['human'][0]) in result['human']
+    assert len(result['human']) == 3
+    assert 'meta' in result
+
+
+def test_prepare_create_response():
+    """Verify ``prepare_create_response`` service returns valid mapping object."""
+    # Given Pydantic model and some data
+    data = [
+        {'name': 'Aurelia'},
+        {'name': 'Aleksandra'},
+        {'name': 'John'},
+    ]
+
+    # When service is applied
+    result = prepare_create_response(api_resource='human', response_model=SomeHumanModel, data=data)
+    # Then
+    assert SomeHumanModel(**data[0]) == result['human'][0]
+    assert len(result['human']) == 3

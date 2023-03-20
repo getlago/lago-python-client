@@ -1,8 +1,9 @@
 from typing import ClassVar, Type
 
 from pydantic import BaseModel
+
 from .base_client import BaseClient
-from lago_python_client.models.wallet import WalletResponse
+from ..models.wallet import WalletResponse
 
 
 class WalletClient(BaseClient):
