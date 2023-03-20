@@ -1,6 +1,8 @@
-import unittest
-import requests_mock
 import os
+import unittest
+
+import pytest
+import requests_mock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
@@ -38,9 +40,5 @@ class TestAppliedAddOnClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('POST', 'https://api.getlago.com/api/v1/applied_add_ons', status_code=401, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.applied_add_ons().create(create_applied_add_on())
-
-
-if __name__ == '__main__':
-    unittest.main()

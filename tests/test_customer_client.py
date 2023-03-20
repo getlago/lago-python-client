@@ -1,6 +1,8 @@
-import unittest
-import requests_mock
 import os
+import unittest
+
+import pytest
+import requests_mock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
@@ -64,7 +66,7 @@ class TestCustomerClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('POST', 'https://api.getlago.com/api/v1/customers', status_code=401, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.customers().create(create_customer())
 
 
@@ -89,7 +91,7 @@ class TestCustomerClient(unittest.TestCase):
                            'https://api.getlago.com/api/v1/customers/invalid_customer/current_usage?external_subscription_id=123',
                            status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.customers().current_usage('invalid_customer', '123')
 
     def test_valid_destroy_customer_request(self):
@@ -110,8 +112,5 @@ class TestCustomerClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('DELETE', 'https://api.getlago.com/api/v1/customers/' + external_id, status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.customers().destroy(external_id)
-
-if __name__ == '__main__':
-    unittest.main()

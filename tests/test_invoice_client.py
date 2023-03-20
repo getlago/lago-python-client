@@ -1,6 +1,8 @@
-import unittest
-import requests_mock
 import os
+import unittest
+
+import pytest
+import requests_mock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
@@ -55,7 +57,7 @@ class TestInvoiceClient(unittest.TestCase):
                            status_code=401,
                            text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.invoices().update(update_invoice_object(), '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
 
     def test_valid_find_invoice_request(self):
@@ -75,7 +77,7 @@ class TestInvoiceClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('GET', 'https://api.getlago.com/api/v1/invoices/' + identifier, status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.invoices().find(identifier)
 
     def test_valid_find_all_invoice_request(self):
@@ -104,7 +106,7 @@ class TestInvoiceClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('GET', 'https://api.getlago.com/api/v1/invoices', status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.invoices().find_all()
 
     def test_valid_download_invoice_request(self):
@@ -151,7 +153,3 @@ class TestInvoiceClient(unittest.TestCase):
             response = client.invoices().retry_payment('5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
 
         self.assertEqual(response.lago_id, '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
-
-
-if __name__ == '__main__':
-    unittest.main()

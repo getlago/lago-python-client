@@ -1,6 +1,8 @@
-import unittest
-import requests_mock
 import os
+import unittest
+
+import pytest
+import requests_mock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
@@ -61,7 +63,7 @@ class TestCreditNoteClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('GET', 'https://api.getlago.com/api/v1/credit_notes/' + identifier, status_code=404, text='')
 
-        with self.assertRaises(LagoApiError):
+        with pytest.raises(LagoApiError):
             client.credit_notes().find(identifier)
 
     def test_valid_find_all_credit_notes_request(self):
@@ -101,7 +103,7 @@ class TestCreditNoteClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('POST', 'https://api.getlago.com/api/v1/credit_notes', status_code=422, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.credit_notes().create(credit_note_object())
 
     def test_valid_update_credit_note_request(self):
@@ -129,6 +131,3 @@ class TestCreditNoteClient(unittest.TestCase):
 
         self.assertEqual(response.lago_id, "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba")
         self.assertEqual(response.refund_status, 'pending')
-
-if __name__ == '__main__':
-    unittest.main()

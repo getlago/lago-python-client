@@ -1,5 +1,6 @@
 import unittest
 
+import pytest
 from requests import Response
 
 from lago_python_client.exceptions import LagoApiError
@@ -33,10 +34,10 @@ class TestJSONServices(unittest.TestCase):
         self.assertEqual(from_json(json_bytes), expected_data)
         self.assertEqual(from_json(json_requests_response), expected_data)
         # ... or raise exception
-        with self.assertRaises(LagoApiError) as cm:
+        with pytest.raises(LagoApiError) as cm:
             from_json(json_none)
-        self.assertEqual(cm.exception.detail, 'Input must be bytes, bytearray, memoryview, or str')
-        with self.assertRaises(LagoApiError):
+        self.assertEqual(cm.value.detail, 'Input must be bytes, bytearray, memoryview, or str')
+        with pytest.raises(LagoApiError):
             from_json(json_string_shit_happens)
 
 
@@ -50,7 +51,3 @@ class TestJSONServices(unittest.TestCase):
         # When service is applied
         # Then service result is equal to given serialized json string.
         self.assertEqual(to_json(initial_data), expected_json_string)
-
-
-if __name__ == '__main__':
-    unittest.main()

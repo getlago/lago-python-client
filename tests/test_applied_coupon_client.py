@@ -1,6 +1,8 @@
-import unittest
-import requests_mock
 import os
+import unittest
+
+import pytest
+import requests_mock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
@@ -46,7 +48,7 @@ class TestAppliedCouponClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('POST', 'https://api.getlago.com/api/v1/applied_coupons', status_code=401, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.applied_coupons().create(create_applied_coupon())
 
     def test_valid_find_all_applied_coupon_request(self):
@@ -75,7 +77,7 @@ class TestAppliedCouponClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('GET', 'https://api.getlago.com/api/v1/applied_coupons', status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.applied_coupons().find_all()
 
     def test_valid_destroy_applied_coupon_request(self):
@@ -105,8 +107,5 @@ class TestAppliedCouponClient(unittest.TestCase):
                 status_code=404,
                 text=''
             )
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.applied_coupons().destroy(external_customer_id, applied_coupon_id)
-
-if __name__ == '__main__':
-    unittest.main()

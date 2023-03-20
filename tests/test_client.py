@@ -14,7 +14,3 @@ class TestClient(unittest.TestCase):
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         self.assertEqual(client.base_api_url, 'https://api.getlago.com/api/v1/')
-
-
-if __name__ == '__main__':
-    unittest.main()

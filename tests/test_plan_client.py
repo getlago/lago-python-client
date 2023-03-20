@@ -1,6 +1,8 @@
-import unittest
-import requests_mock
 import os
+import unittest
+
+import pytest
+import requests_mock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
@@ -119,7 +121,7 @@ class TestPlanClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('POST', 'https://api.getlago.com/api/v1/plans', status_code=401, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.plans().create(plan_object())
 
     def test_valid_update_plan_request(self):
@@ -145,7 +147,7 @@ class TestPlanClient(unittest.TestCase):
                            status_code=401,
                            text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.plans().update(plan_object(), code)
 
     def test_valid_find_plan_request(self):
@@ -167,7 +169,7 @@ class TestPlanClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('GET', 'https://api.getlago.com/api/v1/plans/' + code, status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.plans().find(code)
 
     def test_valid_destroy_plan_request(self):
@@ -188,7 +190,7 @@ class TestPlanClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('DELETE', 'https://api.getlago.com/api/v1/plans/' + code, status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.plans().destroy(code)
 
     def test_valid_find_all_plan_request(self):
@@ -217,9 +219,5 @@ class TestPlanClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('GET', 'https://api.getlago.com/api/v1/plans', status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.plans().find_all()
-
-
-if __name__ == '__main__':
-    unittest.main()

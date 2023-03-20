@@ -1,6 +1,8 @@
-import unittest
-import requests_mock
 import os
+import unittest
+
+import pytest
+import requests_mock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
@@ -54,7 +56,7 @@ class TestBillableMetricClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('POST', 'https://api.getlago.com/api/v1/billable_metrics', status_code=401, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.billable_metrics().create(billable_metric_object())
 
     def test_valid_update_billable_metric_request(self):
@@ -80,7 +82,7 @@ class TestBillableMetricClient(unittest.TestCase):
                            status_code=401,
                            text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.billable_metrics().update(billable_metric_object(), code)
 
     def test_valid_find_billable_metric_request(self):
@@ -101,7 +103,7 @@ class TestBillableMetricClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('GET', 'https://api.getlago.com/api/v1/billable_metrics/' + code, status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.billable_metrics().find(code)
 
     def test_valid_destroy_billable_metric_request(self):
@@ -122,7 +124,7 @@ class TestBillableMetricClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('DELETE', 'https://api.getlago.com/api/v1/billable_metrics/' + code, status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.billable_metrics().destroy(code)
 
     def test_valid_find_all_billable_metric_request(self):
@@ -151,9 +153,5 @@ class TestBillableMetricClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('GET', 'https://api.getlago.com/api/v1/billable_metrics', status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.billable_metrics().find_all()
-
-
-if __name__ == '__main__':
-    unittest.main()

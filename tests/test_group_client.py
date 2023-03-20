@@ -1,6 +1,8 @@
-import unittest
-import requests_mock
 import os
+import unittest
+
+import pytest
+import requests_mock
 
 from lago_python_client.client import Client
 
@@ -21,7 +23,3 @@ class TestGroupClient(unittest.TestCase):
 
         self.assertEqual(response['groups'][0].lago_id, '12345678-1de8-4428-9bcd-779314ac1111')
         self.assertEqual(response['meta']['current_page'], 1)
-
-
-if __name__ == '__main__':
-    unittest.main()

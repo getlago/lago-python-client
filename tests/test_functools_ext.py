@@ -35,7 +35,3 @@ class TestFunctoolsExt(unittest.TestCase):
             # ... but only for same `Client` instance
             self.assertNotEqual(Client().collection(), Client().collection())
             self.assertNotEqual(Client().collection, Client().collection)
-
-
-if __name__ == '__main__':
-    unittest.main()

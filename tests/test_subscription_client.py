@@ -1,6 +1,8 @@
-import unittest
-import requests_mock
 import os
+import unittest
+
+import pytest
+import requests_mock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
@@ -48,7 +50,7 @@ class TestSubscriptionClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('POST', 'https://api.getlago.com/api/v1/subscriptions', status_code=401, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.subscriptions().create(create_subscription())
 
     def test_valid_update_subscription_request(self):
@@ -77,7 +79,7 @@ class TestSubscriptionClient(unittest.TestCase):
                            status_code=401,
                            text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.subscriptions().update(Subscription(name='name'), identifier)
 
     def test_valid_destroy_subscription_request(self):
@@ -100,7 +102,7 @@ class TestSubscriptionClient(unittest.TestCase):
             m.register_uri('DELETE', 'https://api.getlago.com/api/v1/subscriptions/' + identifier,
                            status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.subscriptions().destroy(identifier)
 
     def test_valid_find_all_subscription_request_with_options(self):
@@ -120,9 +122,5 @@ class TestSubscriptionClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('GET', 'https://api.getlago.com/api/v1/subscriptions', status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.subscriptions().find_all()
-
-
-if __name__ == '__main__':
-    unittest.main()

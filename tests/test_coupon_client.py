@@ -1,6 +1,8 @@
-import unittest
-import requests_mock
 import os
+import unittest
+
+import pytest
+import requests_mock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
@@ -55,7 +57,7 @@ class TestCouponClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('POST', 'https://api.getlago.com/api/v1/coupons', status_code=401, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.coupons().create(coupon_object())
 
     def test_valid_update_coupon_request(self):
@@ -81,7 +83,7 @@ class TestCouponClient(unittest.TestCase):
                            status_code=401,
                            text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.coupons().update(coupon_object(), code)
 
     def test_valid_find_coupon_request(self):
@@ -102,7 +104,7 @@ class TestCouponClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('GET', 'https://api.getlago.com/api/v1/coupons/' + code, status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.coupons().find(code)
 
     def test_valid_destroy_coupon_request(self):
@@ -123,7 +125,7 @@ class TestCouponClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('DELETE', 'https://api.getlago.com/api/v1/coupons/' + code, status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.coupons().destroy(code)
 
     def test_valid_find_all_coupon_request(self):
@@ -152,9 +154,5 @@ class TestCouponClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('GET', 'https://api.getlago.com/api/v1/coupons', status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.coupons().find_all()
-
-
-if __name__ == '__main__':
-    unittest.main()

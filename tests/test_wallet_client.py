@@ -1,6 +1,8 @@
-import unittest
-import requests_mock
 import os
+import unittest
+
+import pytest
+import requests_mock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
@@ -49,7 +51,7 @@ class TestWalletClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('POST', 'https://api.getlago.com/api/v1/wallets', status_code=401, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.wallets().create(wallet_object())
 
     def test_valid_update_wallet_request(self):
@@ -74,7 +76,7 @@ class TestWalletClient(unittest.TestCase):
                            status_code=401,
                            text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.wallets().update(wallet_object(), arg)
 
     def test_valid_find_wallet_request(self):
@@ -94,7 +96,7 @@ class TestWalletClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('GET', 'https://api.getlago.com/api/v1/wallets/' + arg, status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.wallets().find(arg)
 
     def test_valid_destroy_wallet_request(self):
@@ -114,7 +116,7 @@ class TestWalletClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('DELETE', 'https://api.getlago.com/api/v1/wallets/' + arg, status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.wallets().destroy(arg)
 
     def test_valid_find_all_wallet_request(self):
@@ -143,9 +145,5 @@ class TestWalletClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('GET', 'https://api.getlago.com/api/v1/wallets', status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.wallets().find_all()
-
-
-if __name__ == '__main__':
-    unittest.main()

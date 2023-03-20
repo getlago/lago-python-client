@@ -1,6 +1,8 @@
-import unittest
-import requests_mock
 import os
+import unittest
+
+import pytest
+import requests_mock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
@@ -36,7 +38,7 @@ class TestEventClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('POST', 'https://api.getlago.com/api/v1/events', status_code=401, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.events().create(create_event())
 
     def test_valid_create_batch_events_request(self):
@@ -54,7 +56,7 @@ class TestEventClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('POST', 'https://api.getlago.com/api/v1/events/batch', status_code=401, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.events().batch_create(create_batch_event())
 
     def test_valid_find_event_request(self):
@@ -75,8 +77,5 @@ class TestEventClient(unittest.TestCase):
             m.register_uri('POST', 'https://api.getlago.com/api/v1/events', status_code=401, text='')
             m.register_uri('GET', 'https://api.getlago.com/api/v1/events/' + event_id, status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.events().find(event_id)
-
-if __name__ == '__main__':
-    unittest.main()

@@ -1,6 +1,8 @@
-import unittest
-import requests_mock
 import os
+import unittest
+
+import pytest
+import requests_mock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
@@ -48,7 +50,7 @@ class TestWalletTransactionClient(unittest.TestCase):
         with requests_mock.Mocker() as m:
             m.register_uri('POST', 'https://api.getlago.com/api/v1/wallet_transactions', status_code=401, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.wallet_transactions().create(wallet_transaction_object())
 
     def test_valid_find_all_groups_request(self):
@@ -64,7 +66,3 @@ class TestWalletTransactionClient(unittest.TestCase):
 
         self.assertEqual(response['wallet_transactions'][0].lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac1111')
         self.assertEqual(response['meta']['current_page'], 1)
-
-
-if __name__ == '__main__':
-    unittest.main()
