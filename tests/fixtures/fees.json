@@ -1,0 +1,21 @@
+{
+  "fees": [
+    {
+      "lago_id": "nil",
+      "lago_group_id": "1a2d9c8d-5875-4688-9854-5ccfd414bc5e",
+      "item": {
+        "type": "instant_charge",
+        "code": "fee_code",
+        "name": "Fee Code"
+      },
+      "amount_cents": 120,
+      "amount_currency": "EUR",
+      "vat_amount_cents": 20,
+      "vat_amount_currency": "EUR",
+      "total_amount_cents": 140,
+      "total_amount_currency": "EUR",
+      "units": "1.0",
+      "events_count": 1
+    }
+  ]
+}
