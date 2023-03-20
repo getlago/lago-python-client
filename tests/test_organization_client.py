@@ -1,5 +1,4 @@
 import os
-import unittest
 
 import pytest
 import requests_mock
@@ -29,8 +28,8 @@ def mock_response():
         return organization_response.read()
 
 
-class TestOrganizationClient(unittest.TestCase):
-    def test_valid_update_organization_request(self):
+if True:
+    def test_valid_update_organization_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -41,7 +40,8 @@ class TestOrganizationClient(unittest.TestCase):
 
         assert response.name == 'Hooli'
 
-    def test_invalid_update_organization_request(self):
+
+    def test_invalid_update_organization_request():
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:

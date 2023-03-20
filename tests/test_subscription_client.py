@@ -1,5 +1,4 @@
 import os
-import unittest
 
 import pytest
 import requests_mock
@@ -30,8 +29,8 @@ def mock_collection_response():
         return subscription_response.read()
 
 
-class TestSubscriptionClient(unittest.TestCase):
-    def test_valid_create_subscriptions_request(self):
+if True:
+    def test_valid_create_subscriptions_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -44,7 +43,8 @@ class TestSubscriptionClient(unittest.TestCase):
         assert response.billing_time == 'anniversary'
         assert response.subscription_date == '2022-04-29'
 
-    def test_invalid_create_subscriptions_request(self):
+
+    def test_invalid_create_subscriptions_request():
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:
@@ -53,7 +53,8 @@ class TestSubscriptionClient(unittest.TestCase):
             with pytest.raises(LagoApiError):
                 client.subscriptions().create(create_subscription())
 
-    def test_valid_update_subscription_request(self):
+
+    def test_valid_update_subscription_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
         identifier = 'sub_id'
 
@@ -69,7 +70,8 @@ class TestSubscriptionClient(unittest.TestCase):
         assert response.billing_time == 'anniversary'
         assert response.subscription_date == '2022-04-29'
 
-    def test_invalid_update_subscription_request(self):
+
+    def test_invalid_update_subscription_request():
         client = Client(api_key='invalid')
         identifier = 'invalid'
 
@@ -82,7 +84,8 @@ class TestSubscriptionClient(unittest.TestCase):
             with pytest.raises(LagoApiError):
                 client.subscriptions().update(Subscription(name='name'), identifier)
 
-    def test_valid_destroy_subscription_request(self):
+
+    def test_valid_destroy_subscription_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
         identifier = 'sub_id'
 
@@ -94,7 +97,8 @@ class TestSubscriptionClient(unittest.TestCase):
         assert response.status == 'active'
         assert response.plan_code == 'eartha lynch'
 
-    def test_invalid_destroy_subscription_request(self):
+
+    def test_invalid_destroy_subscription_request():
         client = Client(api_key='invalid')
         identifier = 'invalid'
 
@@ -105,7 +109,8 @@ class TestSubscriptionClient(unittest.TestCase):
             with pytest.raises(LagoApiError):
                 client.subscriptions().destroy(identifier)
 
-    def test_valid_find_all_subscription_request_with_options(self):
+
+    def test_valid_find_all_subscription_request_with_options():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -116,7 +121,8 @@ class TestSubscriptionClient(unittest.TestCase):
         assert response['subscriptions'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
         assert response['meta']['current_page'] == 1
 
-    def test_invalid_find_all_subscription_request(self):
+
+    def test_invalid_find_all_subscription_request():
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:

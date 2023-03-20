@@ -1,10 +1,9 @@
 import os
-import unittest
 
-import pytest
 import requests_mock
 
 from lago_python_client.client import Client
+
 
 def mock_collection_response():
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -13,8 +12,9 @@ def mock_collection_response():
     with open(data_path, 'r') as groups_response:
         return groups_response.read()
 
-class TestGroupClient(unittest.TestCase):
-    def test_valid_find_all_groups_request(self):
+
+if True:
+    def test_valid_find_all_groups_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:

@@ -1,11 +1,9 @@
 import os
-import unittest
 
-import pytest
 import requests_mock
 
 from lago_python_client.client import Client
-from lago_python_client.exceptions import LagoApiError
+
 
 def mock_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
@@ -14,8 +12,9 @@ def mock_response():
     with open(my_data_path, 'r') as fee_response:
         return fee_response.read()
 
-class TestFeeClient(unittest.TestCase):
-  def test_valid_find_fee_request(self):
+
+if True:
+  def test_valid_find_fee_request():
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     identifier = '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 

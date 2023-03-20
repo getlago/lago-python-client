@@ -1,5 +1,4 @@
 import os
-import unittest
 
 import pytest
 import requests_mock
@@ -19,8 +18,10 @@ def billable_metric_object():
         group=group()
     )
 
+
 def group():
     return BillableMetricGroup(key='country', values=['france', 'italy', 'spain'])
+
 
 def mock_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
@@ -38,8 +39,8 @@ def mock_collection_response():
         return billable_metric_response.read()
 
 
-class TestBillableMetricClient(unittest.TestCase):
-    def test_valid_create_billable_metric_request(self):
+if True:
+    def test_valid_create_billable_metric_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -50,7 +51,8 @@ class TestBillableMetricClient(unittest.TestCase):
         assert response.code == 'bm_code'
         assert response.group == group()
 
-    def test_invalid_create_billable_metric_request(self):
+
+    def test_invalid_create_billable_metric_request():
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:
@@ -59,7 +61,8 @@ class TestBillableMetricClient(unittest.TestCase):
             with pytest.raises(LagoApiError):
                 client.billable_metrics().create(billable_metric_object())
 
-    def test_valid_update_billable_metric_request(self):
+
+    def test_valid_update_billable_metric_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
         code = 'bm_code'
 
@@ -72,7 +75,8 @@ class TestBillableMetricClient(unittest.TestCase):
         assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
         assert response.code == code
 
-    def test_invalid_update_billable_metric_request(self):
+
+    def test_invalid_update_billable_metric_request():
         client = Client(api_key='invalid')
         code = 'invalid'
 
@@ -85,7 +89,8 @@ class TestBillableMetricClient(unittest.TestCase):
             with pytest.raises(LagoApiError):
                 client.billable_metrics().update(billable_metric_object(), code)
 
-    def test_valid_find_billable_metric_request(self):
+
+    def test_valid_find_billable_metric_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
         code = 'bm_code'
 
@@ -96,7 +101,8 @@ class TestBillableMetricClient(unittest.TestCase):
         assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
         assert response.code == code
 
-    def test_invalid_find_billable_metric_request(self):
+
+    def test_invalid_find_billable_metric_request():
         client = Client(api_key='invalid')
         code = 'invalid'
 
@@ -106,7 +112,8 @@ class TestBillableMetricClient(unittest.TestCase):
             with pytest.raises(LagoApiError):
                 client.billable_metrics().find(code)
 
-    def test_valid_destroy_billable_metric_request(self):
+
+    def test_valid_destroy_billable_metric_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
         code = 'bm_code'
 
@@ -117,7 +124,8 @@ class TestBillableMetricClient(unittest.TestCase):
         assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
         assert response.code == code
 
-    def test_invalid_destroy_billable_metric_request(self):
+
+    def test_invalid_destroy_billable_metric_request():
         client = Client(api_key='invalid')
         code = 'invalid'
 
@@ -127,7 +135,8 @@ class TestBillableMetricClient(unittest.TestCase):
             with pytest.raises(LagoApiError):
                 client.billable_metrics().destroy(code)
 
-    def test_valid_find_all_billable_metric_request(self):
+
+    def test_valid_find_all_billable_metric_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -137,7 +146,8 @@ class TestBillableMetricClient(unittest.TestCase):
         assert response['billable_metrics'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1000'
         assert response['meta']['current_page'] == 1
 
-    def test_valid_find_all_billable_metric_request_with_options(self):
+
+    def test_valid_find_all_billable_metric_request_with_options():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -147,7 +157,8 @@ class TestBillableMetricClient(unittest.TestCase):
         assert response['billable_metrics'][1].lago_id == 'b7ab2926-1de8-4428-9bcd-779314a11111'
         assert response['meta']['current_page'] == 1
 
-    def test_invalid_find_all_billable_metric_request(self):
+
+    def test_invalid_find_all_billable_metric_request():
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:

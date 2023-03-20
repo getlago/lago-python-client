@@ -1,5 +1,4 @@
 import os
-import unittest
 
 import pytest
 import requests_mock
@@ -36,6 +35,7 @@ def plan_object():
         charges=charges
     )
 
+
 def graduated_plan_object():
     charge = Charge(
         billable_metric_id='id',
@@ -71,12 +71,14 @@ def graduated_plan_object():
         charges = charges,
     )
 
+
 def mock_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(this_dir, 'fixtures/plan.json')
 
     with open(data_path, 'r') as plan_response:
         return plan_response.read()
+
 
 def mock_graduated_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
@@ -94,8 +96,8 @@ def mock_collection_response():
         return plan_response.read()
 
 
-class TestPlanClient(unittest.TestCase):
-    def test_valid_create_plan_request(self):
+if True:
+    def test_valid_create_plan_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -105,7 +107,8 @@ class TestPlanClient(unittest.TestCase):
         assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
         assert response.code == 'plan_code'
 
-    def test_valid_create_graduated_plan_request(self):
+
+    def test_valid_create_graduated_plan_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -115,7 +118,8 @@ class TestPlanClient(unittest.TestCase):
         assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
         assert response.code == 'plan_code'
 
-    def test_invalid_create_plan_request(self):
+
+    def test_invalid_create_plan_request():
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:
@@ -124,7 +128,8 @@ class TestPlanClient(unittest.TestCase):
             with pytest.raises(LagoApiError):
                 client.plans().create(plan_object())
 
-    def test_valid_update_plan_request(self):
+
+    def test_valid_update_plan_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
         code = 'plan_code'
 
@@ -137,7 +142,8 @@ class TestPlanClient(unittest.TestCase):
         assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
         assert response.code == code
 
-    def test_invalid_update_plan_request(self):
+
+    def test_invalid_update_plan_request():
         client = Client(api_key='invalid')
         code = 'invalid'
 
@@ -150,7 +156,8 @@ class TestPlanClient(unittest.TestCase):
             with pytest.raises(LagoApiError):
                 client.plans().update(plan_object(), code)
 
-    def test_valid_find_plan_request(self):
+
+    def test_valid_find_plan_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
         code = 'plan_code'
 
@@ -162,7 +169,8 @@ class TestPlanClient(unittest.TestCase):
         assert response.code == code
         assert response.charges.__root__[0].charge_model == 'standard'
 
-    def test_invalid_find_plan_request(self):
+
+    def test_invalid_find_plan_request():
         client = Client(api_key='invalid')
         code = 'invalid'
 
@@ -172,7 +180,8 @@ class TestPlanClient(unittest.TestCase):
             with pytest.raises(LagoApiError):
                 client.plans().find(code)
 
-    def test_valid_destroy_plan_request(self):
+
+    def test_valid_destroy_plan_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
         code = 'plan_code'
 
@@ -183,7 +192,8 @@ class TestPlanClient(unittest.TestCase):
         assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
         assert response.code == code
 
-    def test_invalid_destroy_plan_request(self):
+
+    def test_invalid_destroy_plan_request():
         client = Client(api_key='invalid')
         code = 'invalid'
 
@@ -193,7 +203,8 @@ class TestPlanClient(unittest.TestCase):
             with pytest.raises(LagoApiError):
                 client.plans().destroy(code)
 
-    def test_valid_find_all_plan_request(self):
+
+    def test_valid_find_all_plan_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -203,7 +214,8 @@ class TestPlanClient(unittest.TestCase):
         assert response['plans'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1111'
         assert response['meta']['current_page'] == 1
 
-    def test_valid_find_all_plan_request_with_options(self):
+
+    def test_valid_find_all_plan_request_with_options():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -213,7 +225,8 @@ class TestPlanClient(unittest.TestCase):
         assert response['plans'][1].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1222'
         assert response['meta']['current_page'] == 1
 
-    def test_invalid_find_all_plan_request(self):
+
+    def test_invalid_find_all_plan_request():
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:

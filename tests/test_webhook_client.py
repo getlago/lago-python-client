@@ -1,5 +1,4 @@
 import os
-import unittest
 
 import pytest
 import requests_mock
@@ -16,8 +15,8 @@ def mock_response():
         return webhook_response.read()
 
 
-class TestWebhookClient(unittest.TestCase):
-    def test_valid_public_key_request(self):
+if True:
+    def test_valid_public_key_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -26,7 +25,8 @@ class TestWebhookClient(unittest.TestCase):
 
         assert response == b'key'
 
-    def test_invalid_public_key_request(self):
+
+    def test_invalid_public_key_request():
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:

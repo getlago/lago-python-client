@@ -1,5 +1,4 @@
 import os
-import unittest
 
 import pytest
 import requests_mock
@@ -32,8 +31,8 @@ def mock_collection_response():
         return applied_coupon_response.read()
 
 
-class TestAppliedCouponClient(unittest.TestCase):
-    def test_valid_create_applied_coupon_request(self):
+if True:
+    def test_valid_create_applied_coupon_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -42,7 +41,8 @@ class TestAppliedCouponClient(unittest.TestCase):
 
         assert response.external_customer_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
-    def test_invalid_create_applied_coupon_request(self):
+
+    def test_invalid_create_applied_coupon_request():
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:
@@ -51,7 +51,8 @@ class TestAppliedCouponClient(unittest.TestCase):
             with pytest.raises(LagoApiError):
                 client.applied_coupons().create(create_applied_coupon())
 
-    def test_valid_find_all_applied_coupon_request(self):
+
+    def test_valid_find_all_applied_coupon_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -61,7 +62,8 @@ class TestAppliedCouponClient(unittest.TestCase):
         assert response['applied_coupons'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
         assert response['meta']['current_page'] == 1
 
-    def test_valid_find_all_applied_coupon_request_with_options(self):
+
+    def test_valid_find_all_applied_coupon_request_with_options():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -71,7 +73,8 @@ class TestAppliedCouponClient(unittest.TestCase):
         assert response['applied_coupons'][1].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac2222'
         assert response['meta']['current_page'] == 1
 
-    def test_invalid_find_all_applied_coupon_request(self):
+
+    def test_invalid_find_all_applied_coupon_request():
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:
@@ -80,7 +83,8 @@ class TestAppliedCouponClient(unittest.TestCase):
             with pytest.raises(LagoApiError):
                 client.applied_coupons().find_all()
 
-    def test_valid_destroy_applied_coupon_request(self):
+
+    def test_valid_destroy_applied_coupon_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
         external_customer_id = 'external_customer_id'
         applied_coupon_id = '_ID_'
@@ -95,7 +99,8 @@ class TestAppliedCouponClient(unittest.TestCase):
 
         assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
 
-    def test_invalid_destroy_applied_coupon_request(self):
+
+    def test_invalid_destroy_applied_coupon_request():
         client = Client(api_key='invalid')
         external_customer_id = 'external_customer_id'
         applied_coupon_id = '_ID_'

@@ -1,5 +1,4 @@
 import os
-import unittest
 
 import pytest
 import requests_mock
@@ -32,6 +31,7 @@ def create_customer():
         metadata=metadata_list
     )
 
+
 def mock_response(mock='customer'):
     this_dir = os.path.dirname(os.path.abspath(__file__))
     my_data_path = os.path.join(this_dir, 'fixtures/' + mock + '.json')
@@ -39,8 +39,9 @@ def mock_response(mock='customer'):
     with open(my_data_path, 'r') as customer_response:
         return customer_response.read()
 
-class TestCustomerClient(unittest.TestCase):
-    def test_valid_create_customers_request(self):
+
+if True:
+    def test_valid_create_customers_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -60,7 +61,8 @@ class TestCustomerClient(unittest.TestCase):
         assert response.metadata.__root__[0].key == 'key'
         assert response.metadata.__root__[0].value == 'value'
 
-    def test_invalid_create_customers_request(self):
+
+    def test_invalid_create_customers_request():
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:
@@ -70,7 +72,7 @@ class TestCustomerClient(unittest.TestCase):
                 client.customers().create(create_customer())
 
 
-    def test_valid_current_usage(self):
+    def test_valid_current_usage():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -83,7 +85,8 @@ class TestCustomerClient(unittest.TestCase):
         assert len(response.charges_usage) == 1
         assert response.charges_usage[0].units == 1.0
 
-    def test_invalid_current_usage(self):
+
+    def test_invalid_current_usage():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -94,7 +97,8 @@ class TestCustomerClient(unittest.TestCase):
             with pytest.raises(LagoApiError):
                 client.customers().current_usage('invalid_customer', '123')
 
-    def test_valid_destroy_customer_request(self):
+
+    def test_valid_destroy_customer_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
         external_id = '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
@@ -105,7 +109,8 @@ class TestCustomerClient(unittest.TestCase):
         assert response.lago_id == '99a6094e-199b-4101-896a-54e927ce7bd7'
         assert response.external_id == external_id
 
-    def test_invalid_destroy_customer_request(self):
+
+    def test_invalid_destroy_customer_request():
         client = Client(api_key='invalid')
         external_id = 'external_id'
 

@@ -1,5 +1,4 @@
 import os
-import unittest
 
 import pytest
 import requests_mock
@@ -32,8 +31,8 @@ def mock_collection_response():
         return invoice_response.read()
 
 
-class TestInvoiceClient(unittest.TestCase):
-    def test_valid_update_invoice_request(self):
+if True:
+    def test_valid_update_invoice_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -48,7 +47,8 @@ class TestInvoiceClient(unittest.TestCase):
         assert response.metadata.__root__[0].key == 'key'
         assert response.metadata.__root__[0].value == 'value'
 
-    def test_invalid_update_invoice_request(self):
+
+    def test_invalid_update_invoice_request():
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:
@@ -60,7 +60,8 @@ class TestInvoiceClient(unittest.TestCase):
             with pytest.raises(LagoApiError):
                 client.invoices().update(update_invoice_object(), '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
 
-    def test_valid_find_invoice_request(self):
+
+    def test_valid_find_invoice_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
         identifier = '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
@@ -70,7 +71,8 @@ class TestInvoiceClient(unittest.TestCase):
 
         assert response.lago_id == identifier
 
-    def test_invalid_find_invoice_request(self):
+
+    def test_invalid_find_invoice_request():
         client = Client(api_key='invalid')
         identifier = '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
@@ -80,7 +82,8 @@ class TestInvoiceClient(unittest.TestCase):
             with pytest.raises(LagoApiError):
                 client.invoices().find(identifier)
 
-    def test_valid_find_all_invoice_request(self):
+
+    def test_valid_find_all_invoice_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -90,7 +93,8 @@ class TestInvoiceClient(unittest.TestCase):
         assert response['invoices'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1111'
         assert response['meta']['current_page'] == 1
 
-    def test_valid_find_all_invoice_request_with_options(self):
+
+    def test_valid_find_all_invoice_request_with_options():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -100,7 +104,8 @@ class TestInvoiceClient(unittest.TestCase):
         assert response['invoices'][1].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1222'
         assert response['meta']['current_page'] == 1
 
-    def test_invalid_find_all_invoice_request(self):
+
+    def test_invalid_find_all_invoice_request():
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:
@@ -109,7 +114,8 @@ class TestInvoiceClient(unittest.TestCase):
             with pytest.raises(LagoApiError):
                 client.invoices().find_all()
 
-    def test_valid_download_invoice_request(self):
+
+    def test_valid_download_invoice_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -120,7 +126,8 @@ class TestInvoiceClient(unittest.TestCase):
 
         assert response.lago_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
-    def test_valid_refresh_invoice_request(self):
+
+    def test_valid_refresh_invoice_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -131,7 +138,8 @@ class TestInvoiceClient(unittest.TestCase):
 
         assert response.lago_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
-    def test_valid_finalize_invoice_request(self):
+
+    def test_valid_finalize_invoice_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -142,7 +150,8 @@ class TestInvoiceClient(unittest.TestCase):
 
         assert response.lago_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
-    def test_valid_retry_payment_invoice_request(self):
+
+    def test_valid_retry_payment_invoice_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:

@@ -1,5 +1,4 @@
 import os
-import unittest
 
 import pytest
 import requests_mock
@@ -24,8 +23,8 @@ def mock_response():
         return applied_add_on_response.read()
 
 
-class TestAppliedAddOnClient(unittest.TestCase):
-    def test_valid_create_applied_add_on_request(self):
+if True:
+    def test_valid_create_applied_add_on_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -34,7 +33,8 @@ class TestAppliedAddOnClient(unittest.TestCase):
 
         assert response.external_customer_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
-    def test_invalid_create_applied_add_on_request(self):
+
+    def test_invalid_create_applied_add_on_request():
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:

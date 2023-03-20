@@ -1,5 +1,4 @@
 import os
-import unittest
 
 import pytest
 import requests_mock
@@ -40,8 +39,8 @@ def mock_collection_response():
         return coupon_response.read()
 
 
-class TestCouponClient(unittest.TestCase):
-    def test_valid_create_coupon_request(self):
+if True:
+    def test_valid_create_coupon_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -51,7 +50,8 @@ class TestCouponClient(unittest.TestCase):
         assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
         assert response.code == 'coupon_code'
 
-    def test_invalid_create_coupon_request(self):
+
+    def test_invalid_create_coupon_request():
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:
@@ -60,7 +60,8 @@ class TestCouponClient(unittest.TestCase):
             with pytest.raises(LagoApiError):
                 client.coupons().create(coupon_object())
 
-    def test_valid_update_coupon_request(self):
+
+    def test_valid_update_coupon_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
         code = 'coupon_code'
 
@@ -73,7 +74,8 @@ class TestCouponClient(unittest.TestCase):
         assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
         assert response.code == code
 
-    def test_invalid_update_coupon_request(self):
+
+    def test_invalid_update_coupon_request():
         client = Client(api_key='invalid')
         code = 'invalid'
 
@@ -86,7 +88,8 @@ class TestCouponClient(unittest.TestCase):
             with pytest.raises(LagoApiError):
                 client.coupons().update(coupon_object(), code)
 
-    def test_valid_find_coupon_request(self):
+
+    def test_valid_find_coupon_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
         code = 'coupon_code'
 
@@ -97,7 +100,8 @@ class TestCouponClient(unittest.TestCase):
         assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
         assert response.code == code
 
-    def test_invalid_find_coupon_request(self):
+
+    def test_invalid_find_coupon_request():
         client = Client(api_key='invalid')
         code = 'invalid'
 
@@ -107,7 +111,8 @@ class TestCouponClient(unittest.TestCase):
             with pytest.raises(LagoApiError):
                 client.coupons().find(code)
 
-    def test_valid_destroy_coupon_request(self):
+
+    def test_valid_destroy_coupon_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
         code = 'coupon_code'
 
@@ -118,7 +123,8 @@ class TestCouponClient(unittest.TestCase):
         assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
         assert response.code == code
 
-    def test_invalid_destroy_coupon_request(self):
+
+    def test_invalid_destroy_coupon_request():
         client = Client(api_key='invalid')
         code = 'invalid'
 
@@ -128,7 +134,8 @@ class TestCouponClient(unittest.TestCase):
             with pytest.raises(LagoApiError):
                 client.coupons().destroy(code)
 
-    def test_valid_find_all_coupon_request(self):
+
+    def test_valid_find_all_coupon_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -138,7 +145,8 @@ class TestCouponClient(unittest.TestCase):
         assert response['coupons'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1111'
         assert response['meta']['current_page'] == 1
 
-    def test_valid_find_all_coupon_request_with_options(self):
+
+    def test_valid_find_all_coupon_request_with_options():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -148,7 +156,8 @@ class TestCouponClient(unittest.TestCase):
         assert response['coupons'][1].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1222'
         assert response['meta']['current_page'] == 1
 
-    def test_invalid_find_all_coupon_request(self):
+
+    def test_invalid_find_all_coupon_request():
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:
