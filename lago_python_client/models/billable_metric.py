@@ -1,9 +1,12 @@
-from pydantic import BaseModel, Field
-from typing import Optional, List, Union
+from typing import Any, Dict, List, Optional, Union
+
+from pydantic import BaseModel
+
 
 class BillableMetricGroup(BaseModel):
     key: Optional[str]
-    values: Optional[List[Union[str, dict]]]
+    values: Optional[List[Union[str, Dict[str, Any]]]]
+
 
 class BillableMetric(BaseModel):
     name: Optional[str]
@@ -12,6 +15,7 @@ class BillableMetric(BaseModel):
     aggregation_type: Optional[str]
     field_name: Optional[str]
     group: Optional[BillableMetricGroup]
+
 
 class BillableMetricResponse(BaseModel):
     lago_id: str

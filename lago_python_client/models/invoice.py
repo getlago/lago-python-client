@@ -1,10 +1,11 @@
-from pydantic import BaseModel, Field
-from typing import Optional, List
-from .credit import CreditsResponse, InvoiceItemResponse
+from typing import List, Optional
+
+from pydantic import BaseModel
+
+from .credit import CreditsResponse
 from .customer import CustomerResponse
+from .fee import FeesResponse
 from .subscription import SubscriptionsResponse
-from .fee import FeeResponse, FeesResponse
-from .invoice_item import InvoiceItemResponse
 
 
 # Deprecated: Will be removed in the future

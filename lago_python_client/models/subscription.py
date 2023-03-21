@@ -1,5 +1,6 @@
-from pydantic import BaseModel, Field
-from typing import Optional, List
+from typing import List, Optional
+
+from pydantic import BaseModel
 
 
 class Subscription(BaseModel):
@@ -28,6 +29,7 @@ class SubscriptionResponse(BaseModel):
     previous_plan_code: Optional[str]
     next_plan_code: Optional[str]
     downgrade_plan_date: Optional[str]
+
 
 class SubscriptionsResponse(BaseModel):
     __root__: List[SubscriptionResponse]

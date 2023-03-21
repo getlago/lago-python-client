@@ -1,5 +1,6 @@
-from pydantic import BaseModel, Field
-from typing import Optional, List
+from typing import List, Optional
+
+from pydantic import BaseModel
 
 from .invoice_item import InvoiceItemResponse
 
