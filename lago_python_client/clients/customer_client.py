@@ -4,7 +4,7 @@ from .base_client import BaseClient
 from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.customer import CustomerResponse
 from ..models.customer_usage import CustomerUsageResponse
-from ..services.request import make_url, send_get_request
+from ..services.request import make_headers, make_url, send_get_request
 from ..services.response import get_response_data, prepare_object_response, Response
 
 
@@ -29,7 +29,7 @@ class CustomerClient(
                     'external_subscription_id': external_subscription_id,
                 },
             ),
-            headers=self.headers(),
+            headers=make_headers(api_key=self.api_key),
         )
 
         return prepare_object_response(

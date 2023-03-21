@@ -3,7 +3,7 @@ from typing import ClassVar, Optional, Type, Union
 from .base_client import BaseClient
 from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.invoice import InvoiceResponse
-from ..services.request import make_url, send_post_request, send_put_request
+from ..services.request import make_headers, make_url, send_post_request, send_put_request
 from ..services.response import get_response_data, prepare_object_response, Response
 
 
@@ -25,7 +25,7 @@ class InvoiceClient(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, resource_id, 'download'),
             ),
-            headers=self.headers(),
+            headers=make_headers(api_key=self.api_key),
         )
 
         response_data = get_response_data(response=api_response, key=self.ROOT_NAME)
@@ -43,7 +43,7 @@ class InvoiceClient(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, resource_id, 'retry_payment'),
             ),
-            headers=self.headers(),
+            headers=make_headers(api_key=self.api_key),
         )
 
         return prepare_object_response(
@@ -57,7 +57,7 @@ class InvoiceClient(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, resource_id, 'refresh'),
             ),
-            headers=self.headers(),
+            headers=make_headers(api_key=self.api_key),
         )
 
         return prepare_object_response(
@@ -71,7 +71,7 @@ class InvoiceClient(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, resource_id, 'finalize'),
             ),
-            headers=self.headers(),
+            headers=make_headers(api_key=self.api_key),
         )
 
         return prepare_object_response(

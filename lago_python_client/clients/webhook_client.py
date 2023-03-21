@@ -13,7 +13,7 @@ import typeguard
 from .base_client import BaseClient
 from ..exceptions import LagoApiError
 from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
-from ..services.request import make_url, send_get_request
+from ..services.request import make_headers, make_url, send_get_request
 from ..services.response import get_response_data, Response
 
 if sys.version_info >= (3, 9):
@@ -46,7 +46,7 @@ class WebhookClient(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, 'json_public_key'),
             ),
-            headers=self.headers(),
+            headers=make_headers(api_key=self.api_key),
         )
         response_data: Optional[Union[Mapping[str, Any], Sequence[Any]]] = get_response_data(response=api_response, key=self.ROOT_NAME)
 
