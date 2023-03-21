@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from requests import Response
 
 from .base_client import BaseClient
+from ..mixins import DestroyCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.wallet_transaction import WalletTransactionResponse
 from ..services.json import to_json
 from ..services.request import make_url
@@ -17,7 +18,7 @@ else:
     from typing import Mapping
 
 
-class WalletTransactionClient(BaseClient):
+class WalletTransactionClient(DestroyCommandMixin, FindCommandMixin, UpdateCommandMixin, BaseClient):
     API_RESOURCE: ClassVar[str] = 'wallet_transactions'
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = WalletTransactionResponse
     ROOT_NAME: ClassVar[str] = 'wallet_transactions'

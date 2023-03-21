@@ -5,13 +5,14 @@ from pydantic import BaseModel
 from requests import Response
 
 from .base_client import BaseClient
+from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.event import EventResponse
 from ..services.json import to_json
 from ..services.request import make_url
 from ..services.response import verify_response
 
 
-class EventClient(BaseClient):
+class EventClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin, BaseClient):
     API_RESOURCE: ClassVar[str] = 'events'
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = EventResponse
     ROOT_NAME: ClassVar[str] = 'event'

@@ -5,12 +5,13 @@ from pydantic import BaseModel
 from requests import Response
 
 from .base_client import BaseClient
+from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.credit_note import CreditNoteResponse
 from ..services.request import make_url
 from ..services.response import get_response_data, prepare_object_response
 
 
-class CreditNoteClient(BaseClient):
+class CreditNoteClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin, BaseClient):
     API_RESOURCE: ClassVar[str] = 'credit_notes'
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = CreditNoteResponse
     ROOT_NAME: ClassVar[str] = 'credit_note'

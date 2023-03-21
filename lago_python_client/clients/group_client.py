@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from requests import Response
 
 from .base_client import BaseClient
+from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.group import GroupResponse
 from ..services.request import make_url
 from ..services.response import get_response_data, prepare_index_response
@@ -16,7 +17,7 @@ else:
     from typing import Mapping
 
 
-class GroupClient(BaseClient):
+class GroupClient(CreateCommandMixin, DestroyCommandMixin, FindCommandMixin, UpdateCommandMixin, BaseClient):
     API_RESOURCE: ClassVar[str] = 'groups'
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = GroupResponse
     ROOT_NAME: ClassVar[str] = 'group'

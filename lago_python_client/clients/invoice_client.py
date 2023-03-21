@@ -6,12 +6,13 @@ from pydantic import BaseModel
 from requests import Response
 
 from .base_client import BaseClient
+from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.invoice import InvoiceResponse
 from ..services.request import make_url
 from ..services.response import get_response_data, prepare_object_response
 
 
-class InvoiceClient(BaseClient):
+class InvoiceClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin, BaseClient):
     API_RESOURCE: ClassVar[str] = 'invoices'
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = InvoiceResponse
     ROOT_NAME: ClassVar[str] = 'invoice'
