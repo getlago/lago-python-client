@@ -7,9 +7,15 @@ from requests import Request, Response
 
 from lago_python_client.exceptions import LagoApiError
 from lago_python_client.services.response import (
+    Response as ServiceResponse,
     RESPONSE_SUCCESS_CODES, _is_status_code_successful, _is_content_exists, verify_response,
     get_response_data, prepare_create_response, prepare_index_response, prepare_object_response,
 )
+
+
+def test_Response():
+    """Ensure Response object is the same as ``request.Response``."""
+    assert ServiceResponse == Response
 
 
 def test_success_status_codes_exists():

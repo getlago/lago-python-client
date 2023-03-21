@@ -1,15 +1,13 @@
-import requests
 from typing import ClassVar, Optional, Type
 
 from pydantic import BaseModel
-from requests import Response
 
 from .base_client import BaseClient
 from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.event import EventResponse
 from ..services.json import to_json
-from ..services.request import make_url
-from ..services.response import verify_response
+from ..services.request import make_url, send_post_request
+from ..services.response import verify_response, Response
 
 
 class EventClient(
@@ -25,7 +23,7 @@ class EventClient(
     ROOT_NAME: ClassVar[str] = 'event'
 
     def batch_create(self, input_object: BaseModel) -> Optional[bool]:
-        api_response: Response = requests.post(
+        api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, 'batch'),

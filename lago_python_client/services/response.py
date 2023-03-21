@@ -11,7 +11,7 @@ except ImportError:  # Python 3.7
     from typing_extensions import Final  # type: ignore
 
 from pydantic import BaseModel
-from requests import Response
+from requests import Response as Response  # not a typo! implicit reexport
 import typeguard
 
 from ..exceptions import LagoApiError
