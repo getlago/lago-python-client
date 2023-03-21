@@ -1,5 +1,6 @@
 import os
-import unittest
+
+import pytest
 import requests_mock
 
 from lago_python_client.client import Client
@@ -14,25 +15,22 @@ def mock_response():
         return webhook_response.read()
 
 
-class TestWebhookClient(unittest.TestCase):
-    def test_valid_public_key_request(self):
+if True:
+    def test_valid_public_key_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
             m.register_uri('GET', 'https://api.getlago.com/api/v1/webhooks/json_public_key', text=mock_response())
             response = client.webhooks().public_key()
 
-        self.assertEqual(response, b'key')
+        assert response == b'key'
 
-    def test_invalid_public_key_request(self):
+
+    def test_invalid_public_key_request():
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:
             m.register_uri('GET', 'https://api.getlago.com/api/v1/webhooks/json_public_key', status_code=401, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.webhooks().public_key()
-
-
-if __name__ == '__main__':
-    unittest.main()

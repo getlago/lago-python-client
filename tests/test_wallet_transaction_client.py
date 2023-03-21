@@ -1,6 +1,7 @@
-import unittest
-import requests_mock
 import os
+
+import pytest
+import requests_mock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
@@ -31,27 +32,29 @@ def mock_collection_response():
         return wallet_transaction_index_response.read()
 
 
-class TestWalletTransactionClient(unittest.TestCase):
-    def test_valid_create_wallet_transaction_request(self):
+if True:
+    def test_valid_create_wallet_transaction_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
             m.register_uri('POST', 'https://api.getlago.com/api/v1/wallet_transactions', text=mock_response())
             response = client.wallet_transactions().create(wallet_transaction_object())
 
-        self.assertEqual(response['wallet_transactions'][0].lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac1111')
-        self.assertEqual(response['wallet_transactions'][1].lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac1222')
+        assert response['wallet_transactions'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1111'
+        assert response['wallet_transactions'][1].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1222'
 
-    def test_invalid_create_wallet_transaction_request(self):
+
+    def test_invalid_create_wallet_transaction_request():
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:
             m.register_uri('POST', 'https://api.getlago.com/api/v1/wallet_transactions', status_code=401, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.wallet_transactions().create(wallet_transaction_object())
 
-    def test_valid_find_all_groups_request(self):
+
+    def test_valid_find_all_groups_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
@@ -62,9 +65,5 @@ class TestWalletTransactionClient(unittest.TestCase):
             )
             response = client.wallet_transactions().find_all('555')
 
-        self.assertEqual(response['wallet_transactions'][0].lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac1111')
-        self.assertEqual(response['meta']['current_page'], 1)
-
-
-if __name__ == '__main__':
-    unittest.main()
+        assert response['wallet_transactions'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1111'
+        assert response['meta']['current_page'] == 1

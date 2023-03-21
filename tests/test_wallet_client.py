@@ -1,6 +1,7 @@
-import unittest
-import requests_mock
 import os
+
+import pytest
+import requests_mock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
@@ -33,26 +34,28 @@ def mock_collection_response():
         return wallet_response.read()
 
 
-class TestWalletClient(unittest.TestCase):
-    def test_valid_create_wallet_request(self):
+if True:
+    def test_valid_create_wallet_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
             m.register_uri('POST', 'https://api.getlago.com/api/v1/wallets', text=mock_response())
             response = client.wallets().create(wallet_object())
 
-        self.assertEqual(response.lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac129b')
+        assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
 
-    def test_invalid_create_wallet_request(self):
+
+    def test_invalid_create_wallet_request():
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:
             m.register_uri('POST', 'https://api.getlago.com/api/v1/wallets', status_code=401, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.wallets().create(wallet_object())
 
-    def test_valid_update_wallet_request(self):
+
+    def test_valid_update_wallet_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
         arg = 'b7ab2926-1de8-4428-9bcd-779314ac129b'
 
@@ -62,9 +65,10 @@ class TestWalletClient(unittest.TestCase):
                            text=mock_response())
             response = client.wallets().update(wallet_object(), arg)
 
-        self.assertEqual(response.lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac129b')
+        assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
 
-    def test_invalid_update_wallet_request(self):
+
+    def test_invalid_update_wallet_request():
         client = Client(api_key='invalid')
         arg = 'invalid'
 
@@ -74,10 +78,11 @@ class TestWalletClient(unittest.TestCase):
                            status_code=401,
                            text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.wallets().update(wallet_object(), arg)
 
-    def test_valid_find_wallet_request(self):
+
+    def test_valid_find_wallet_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
         arg = 'b7ab2926-1de8-4428-9bcd-779314ac129b'
 
@@ -85,19 +90,21 @@ class TestWalletClient(unittest.TestCase):
             m.register_uri('GET', 'https://api.getlago.com/api/v1/wallets/' + arg, text=mock_response())
             response = client.wallets().find(arg)
 
-        self.assertEqual(response.lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac129b')
+        assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
 
-    def test_invalid_find_wallet_request(self):
+
+    def test_invalid_find_wallet_request():
         client = Client(api_key='invalid')
         arg = 'invalid'
 
         with requests_mock.Mocker() as m:
             m.register_uri('GET', 'https://api.getlago.com/api/v1/wallets/' + arg, status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.wallets().find(arg)
 
-    def test_valid_destroy_wallet_request(self):
+
+    def test_valid_destroy_wallet_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
         arg = 'b7ab2926-1de8-4428-9bcd-779314ac129b'
 
@@ -105,47 +112,47 @@ class TestWalletClient(unittest.TestCase):
             m.register_uri('DELETE', 'https://api.getlago.com/api/v1/wallets/' + arg, text=mock_response())
             response = client.wallets().destroy(arg)
 
-        self.assertEqual(response.lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac129b')
+        assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
 
-    def test_invalid_destroy_wallet_request(self):
+
+    def test_invalid_destroy_wallet_request():
         client = Client(api_key='invalid')
         arg = 'invalid'
 
         with requests_mock.Mocker() as m:
             m.register_uri('DELETE', 'https://api.getlago.com/api/v1/wallets/' + arg, status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.wallets().destroy(arg)
 
-    def test_valid_find_all_wallet_request(self):
+
+    def test_valid_find_all_wallet_request():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
             m.register_uri('GET', 'https://api.getlago.com/api/v1/wallets', text=mock_collection_response())
             response = client.wallets().find_all()
 
-        self.assertEqual(response['wallets'][0].lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac129b')
-        self.assertEqual(response['meta']['current_page'], 1)
+        assert response['wallets'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
+        assert response['meta']['current_page'] == 1
 
-    def test_valid_find_all_wallet_request_with_options(self):
+
+    def test_valid_find_all_wallet_request_with_options():
         client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
         with requests_mock.Mocker() as m:
             m.register_uri('GET', 'https://api.getlago.com/api/v1/wallets?external_customer_id=123&per_page=2&page=1', text=mock_collection_response())
             response = client.wallets().find_all({'external_customer_id': 123, 'per_page': 2, 'page': 1})
 
-        self.assertEqual(response['wallets'][1].lago_id, 'b7ab2926-1de8-4428-9bcd-779314ac1111')
-        self.assertEqual(response['meta']['current_page'], 1)
+        assert response['wallets'][1].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1111'
+        assert response['meta']['current_page'] == 1
 
-    def test_invalid_find_all_wallet_request(self):
+
+    def test_invalid_find_all_wallet_request():
         client = Client(api_key='invalid')
 
         with requests_mock.Mocker() as m:
             m.register_uri('GET', 'https://api.getlago.com/api/v1/wallets', status_code=404, text='')
 
-            with self.assertRaises(LagoApiError):
+            with pytest.raises(LagoApiError):
                 client.wallets().find_all()
-
-
-if __name__ == '__main__':
-    unittest.main()
