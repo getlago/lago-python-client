@@ -1,10 +1,6 @@
 from http import HTTPStatus
 import sys
-from typing import Any, Optional, Set, Type, Union
-try:
-    from typing import TypedDict
-except ImportError:
-    from typing_extensions import TypedDict
+from typing import Any, Optional, Set, Type, TypeVar, Union
 try:
     from typing import assert_never
 except ImportError: # Python 3.7, 3.8, 3.9, 3.10
@@ -25,6 +21,8 @@ if sys.version_info >= (3, 9):
     from collections.abc import Mapping, Sequence
 else:
     from typing import Mapping, Sequence
+
+_M = TypeVar("_M", bound=BaseModel)
 
 typeguard.config.collection_check_strategy = typeguard.CollectionCheckStrategy.ALL_ITEMS
 
@@ -93,7 +91,7 @@ def get_response_data(*, response: Response, key: str = '') -> Optional[_Mapping
         assert_never(mapping_or_sequence_data)
 
 
-def prepare_object_response(response_model: Type[BaseModel], data: Optional[_MappingOrSequence]) -> BaseModel:
+def prepare_object_response(response_model: Type[_M], data: Optional[_MappingOrSequence]) -> _M:
     """Return single object response - Pydantic model instance with provided data."""
     if not data:
         raise LagoApiError(
@@ -107,7 +105,7 @@ def prepare_object_response(response_model: Type[BaseModel], data: Optional[_Map
     return response_model.parse_obj(data)
 
 
-def prepare_index_response(api_resource: str, response_model: Type[BaseModel], data: Optional[_MappingOrSequence]) -> Mapping[str, Any]:
+def prepare_index_response(api_resource: str, response_model: Type[_M], data: Optional[_MappingOrSequence]) -> Mapping[str, Any]:
     """Return index response with meta based on mapping data object."""
     # Ensure deserialized_data has correct type: mapping with mapping or sequence inside or raise LagoApiError
 
@@ -133,7 +131,7 @@ def prepare_index_response(api_resource: str, response_model: Type[BaseModel], d
 
 def prepare_create_response(
         api_resource: str,
-        response_model: Type[BaseModel],
+        response_model: Type[_M],
         data: Optional[Union[Mapping[str, object], Sequence[object]]],
 ) -> Mapping[str, Any]:
     """Return response based on sequence of data objects."""

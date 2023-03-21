@@ -1,7 +1,6 @@
 import requests
 from typing import ClassVar, Optional, Type, Union
 
-from pydantic import BaseModel
 from requests import Response
 
 from .base_client import BaseClient
@@ -11,17 +10,26 @@ from ..services.request import make_url
 from ..services.response import get_response_data, prepare_object_response
 
 
-class CreditNoteClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin, BaseClient):
+class CreditNoteClient(
+    CreateCommandMixin[CreditNoteResponse],
+    DestroyCommandMixin[CreditNoteResponse],
+    FindAllCommandMixin[CreditNoteResponse],
+    FindCommandMixin[CreditNoteResponse],
+    UpdateCommandMixin[CreditNoteResponse],
+    BaseClient
+):
     API_RESOURCE: ClassVar[str] = 'credit_notes'
-    RESPONSE_MODEL: ClassVar[Type[BaseModel]] = CreditNoteResponse
+    RESPONSE_MODEL: ClassVar[Type[CreditNoteResponse]] = CreditNoteResponse
     ROOT_NAME: ClassVar[str] = 'credit_note'
 
-    def download(self, resource_id: str) -> Union[Optional[BaseModel], bool]:
-        query_url: str = make_url(
-            origin=self.base_url,
-            path_parts=(self.API_RESOURCE, resource_id, 'download'),
+    def download(self, resource_id: str) -> Union[Optional[CreditNoteResponse], bool]:
+        api_response: Response = requests.post(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, 'download'),
+            ),
+            headers=self.headers(),
         )
-        api_response: Response = requests.post(query_url, headers=self.headers())
 
         response_data = get_response_data(response=api_response, key=self.ROOT_NAME)
         if not response_data:
@@ -32,12 +40,14 @@ class CreditNoteClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMi
             data=response_data,
         )
 
-    def void(self, resource_id: str) -> BaseModel:
-        query_url: str = make_url(
-            origin=self.base_url,
-            path_parts=(self.API_RESOURCE, resource_id, 'void'),
+    def void(self, resource_id: str) -> CreditNoteResponse:
+        api_response: Response = requests.put(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, 'void'),
+            ),
+            headers=self.headers(),
         )
-        api_response: Response = requests.put(query_url, headers=self.headers())
 
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,

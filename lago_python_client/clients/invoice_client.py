@@ -1,8 +1,6 @@
 import requests
-import sys
 from typing import ClassVar, Optional, Type, Union
 
-from pydantic import BaseModel
 from requests import Response
 
 from .base_client import BaseClient
@@ -12,17 +10,26 @@ from ..services.request import make_url
 from ..services.response import get_response_data, prepare_object_response
 
 
-class InvoiceClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin, BaseClient):
+class InvoiceClient(
+    CreateCommandMixin[InvoiceResponse],
+    DestroyCommandMixin[InvoiceResponse],
+    FindAllCommandMixin[InvoiceResponse],
+    FindCommandMixin[InvoiceResponse],
+    UpdateCommandMixin[InvoiceResponse],
+    BaseClient,
+):
     API_RESOURCE: ClassVar[str] = 'invoices'
-    RESPONSE_MODEL: ClassVar[Type[BaseModel]] = InvoiceResponse
+    RESPONSE_MODEL: ClassVar[Type[InvoiceResponse]] = InvoiceResponse
     ROOT_NAME: ClassVar[str] = 'invoice'
 
-    def download(self, resource_id: str) -> Union[Optional[BaseModel], bool]:
-        query_url: str = make_url(
-            origin=self.base_url,
-            path_parts=(self.API_RESOURCE, resource_id, 'download'),
+    def download(self, resource_id: str) -> Union[Optional[InvoiceResponse], bool]:
+        api_response: Response = requests.post(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, 'download'),
+            ),
+            headers=self.headers(),
         )
-        api_response: Response = requests.post(query_url, headers=self.headers())
 
         response_data = get_response_data(response=api_response, key=self.ROOT_NAME)
         if not response_data:
@@ -33,36 +40,42 @@ class InvoiceClient(CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin
             data=response_data,
         )
 
-    def retry_payment(self, resource_id: str) -> BaseModel:
-        query_url: str = make_url(
-            origin=self.base_url,
-            path_parts=(self.API_RESOURCE, resource_id, 'retry_payment'),
+    def retry_payment(self, resource_id: str) -> InvoiceResponse:
+        api_response: Response = requests.post(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, 'retry_payment'),
+            ),
+            headers=self.headers(),
         )
-        api_response: Response = requests.post(query_url, headers=self.headers())
 
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,
             data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
 
-    def refresh(self, resource_id: str) -> BaseModel:
-        query_url: str = make_url(
-            origin=self.base_url,
-            path_parts=(self.API_RESOURCE, resource_id, 'refresh'),
+    def refresh(self, resource_id: str) -> InvoiceResponse:
+        api_response: Response = requests.put(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, 'refresh'),
+            ),
+            headers=self.headers(),
         )
-        api_response: Response = requests.put(query_url, headers=self.headers())
 
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,
             data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
 
-    def finalize(self, resource_id: str) -> BaseModel:
-        query_url: str = make_url(
-            origin=self.base_url,
-            path_parts=(self.API_RESOURCE, resource_id, 'finalize'),
+    def finalize(self, resource_id: str) -> InvoiceResponse:
+        api_response: Response = requests.put(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, 'finalize'),
+            ),
+            headers=self.headers(),
         )
-        api_response: Response = requests.put(query_url, headers=self.headers())
 
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,
