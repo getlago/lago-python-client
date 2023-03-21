@@ -7,9 +7,9 @@ from requests import Response
 
 from .base_client import BaseClient
 from ..models.wallet_transaction import WalletTransactionResponse
-from ..services.json import from_json, to_json
+from ..services.json import to_json
 from ..services.request import make_url
-from ..services.response import prepare_create_response, prepare_index_response, verify_response
+from ..services.response import get_response_data, prepare_create_response, prepare_index_response
 
 if sys.version_info >= (3, 9):
     from collections.abc import Mapping
@@ -36,10 +36,10 @@ class WalletTransactionClient(BaseClient):
         return prepare_create_response(
             api_resource=self.API_RESOURCE,
             response_model=self.RESPONSE_MODEL,
-            data=from_json(verify_response(api_response)).get(self.ROOT_NAME),
+            data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
 
-    def find_all(self, wallet_id: str, options: dict = {}) -> Mapping[str, Any]:
+    def find_all(self, wallet_id: str, options: Mapping[str, str] = {}) -> Mapping[str, Any]:
         query_url: str = make_url(
             origin=self.base_url,
             path_parts=('wallets', wallet_id, self.API_RESOURCE),
@@ -50,5 +50,5 @@ class WalletTransactionClient(BaseClient):
         return prepare_index_response(
             api_resource=self.API_RESOURCE,
             response_model=self.RESPONSE_MODEL,
-            data=from_json(verify_response(api_response)),
+            data=get_response_data(response=api_response),
         )

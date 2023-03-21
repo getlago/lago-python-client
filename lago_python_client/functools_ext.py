@@ -7,7 +7,7 @@ except ImportError:
 try:
     from typing import ParamSpec
 except ImportError:  # Python 3.7, Python 3.8, Python 3.9
-    from typing_extensions import ParamSpec  # type: ignore
+    from typing_extensions import ParamSpec
 if sys.version_info >= (3, 9):
     from collections.abc import Callable
 

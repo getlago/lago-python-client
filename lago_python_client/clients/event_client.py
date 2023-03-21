@@ -1,5 +1,5 @@
 import requests
-from typing import ClassVar, Type
+from typing import ClassVar, Optional, Type
 
 from pydantic import BaseModel
 from requests import Response
@@ -16,7 +16,7 @@ class EventClient(BaseClient):
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = EventResponse
     ROOT_NAME: ClassVar[str] = 'event'
 
-    def batch_create(self, input_object: BaseModel) -> bool:
+    def batch_create(self, input_object: BaseModel) -> Optional[bool]:
         query_url: str = make_url(
             origin=self.base_url,
             path_parts=(self.API_RESOURCE, 'batch'),
@@ -28,4 +28,4 @@ class EventClient(BaseClient):
         api_response: Response = requests.post(query_url, data=data, headers=self.headers())
         verify_response(api_response)
 
-        return True
+        return True  # TODO: should return None

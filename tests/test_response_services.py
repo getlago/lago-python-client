@@ -8,7 +8,7 @@ from requests import Request, Response
 from lago_python_client.exceptions import LagoApiError
 from lago_python_client.services.response import (
     RESPONSE_SUCCESS_CODES, _is_status_code_successful, _is_content_exists, verify_response,
-    prepare_create_response, prepare_index_response, prepare_object_response,
+    get_response_data, prepare_create_response, prepare_index_response, prepare_object_response,
 )
 
 
@@ -77,6 +77,45 @@ def test_verify_response():
     assert verify_response(response204) is None
     with pytest.raises(LagoApiError):
         verify_response(response404)
+
+
+def test_get_response_data():
+    """Get response data."""
+    # Given instanse of ``requests.Response`` class with successful status code and content
+    response = Response()
+    response._content_consumed = True
+    response._content = b'{"a":{"b":"c"}}'
+    response.status_code = 200
+    # ... and with successful status code and content with sequence inside
+    response200_2 = deepcopy(response)
+    response200_2._content = b'[{"a": "b"}]'
+    # ... and with successful status code and empty content
+    response204 = deepcopy(response)
+    response204._content = b''
+    response204.status_code = 204
+    # ... and with error status code
+    response404 = deepcopy(response)
+    response404.status_code = 404
+    response404.request = Request(url='')
+
+    # When service is applied
+    # Then
+    assert get_response_data(response=response) == {
+        'a': {
+            'b': 'c',
+        },
+    }
+    assert get_response_data(response=response, key='a') == {
+        'b': 'c',
+    }
+    assert get_response_data(response=response200_2) == [
+        {
+            'a': 'b',
+        },
+    ]
+    assert get_response_data(response=response204) is None
+    with pytest.raises(LagoApiError):
+        get_response_data(response=response404)
 
 
 class SomeHumanModel(BaseModel):
