@@ -32,38 +32,37 @@ def mock_collection_response():
         return wallet_transaction_index_response.read()
 
 
-if True:
-    def test_valid_create_wallet_transaction_request():
-        client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+def test_valid_create_wallet_transaction_request():
+    client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-        with requests_mock.Mocker() as m:
-            m.register_uri('POST', 'https://api.getlago.com/api/v1/wallet_transactions', text=mock_response())
-            response = client.wallet_transactions().create(wallet_transaction_object())
+    with requests_mock.Mocker() as m:
+        m.register_uri('POST', 'https://api.getlago.com/api/v1/wallet_transactions', text=mock_response())
+        response = client.wallet_transactions().create(wallet_transaction_object())
 
-        assert response['wallet_transactions'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1111'
-        assert response['wallet_transactions'][1].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1222'
-
-
-    def test_invalid_create_wallet_transaction_request():
-        client = Client(api_key='invalid')
-
-        with requests_mock.Mocker() as m:
-            m.register_uri('POST', 'https://api.getlago.com/api/v1/wallet_transactions', status_code=401, text='')
-
-            with pytest.raises(LagoApiError):
-                client.wallet_transactions().create(wallet_transaction_object())
+    assert response['wallet_transactions'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1111'
+    assert response['wallet_transactions'][1].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1222'
 
 
-    def test_valid_find_all_groups_request():
-        client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+def test_invalid_create_wallet_transaction_request():
+    client = Client(api_key='invalid')
 
-        with requests_mock.Mocker() as m:
-            m.register_uri(
-                'GET',
-                'https://api.getlago.com/api/v1/wallets/555/wallet_transactions',
-                text=mock_collection_response()
-            )
-            response = client.wallet_transactions().find_all('555')
+    with requests_mock.Mocker() as m:
+        m.register_uri('POST', 'https://api.getlago.com/api/v1/wallet_transactions', status_code=401, text='')
 
-        assert response['wallet_transactions'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1111'
-        assert response['meta']['current_page'] == 1
+        with pytest.raises(LagoApiError):
+            client.wallet_transactions().create(wallet_transaction_object())
+
+
+def test_valid_find_all_groups_request():
+    client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+
+    with requests_mock.Mocker() as m:
+        m.register_uri(
+            'GET',
+            'https://api.getlago.com/api/v1/wallets/555/wallet_transactions',
+            text=mock_collection_response()
+        )
+        response = client.wallet_transactions().find_all('555')
+
+    assert response['wallet_transactions'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1111'
+    assert response['meta']['current_page'] == 1
