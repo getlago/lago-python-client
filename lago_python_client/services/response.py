@@ -129,7 +129,7 @@ def prepare_index_response(api_resource: str, response_model: Type[_M], data: Op
     }
 
 
-def prepare_create_response(
+def prepare_object_list_response(
         api_resource: str,
         response_model: Type[_M],
         data: Optional[Union[Mapping[str, object], Sequence[object]]],

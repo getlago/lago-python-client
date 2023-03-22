@@ -8,7 +8,7 @@ from ..mixins import DestroyCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.wallet_transaction import WalletTransactionResponse
 from ..services.json import to_json
 from ..services.request import make_headers, make_url, send_get_request, send_post_request
-from ..services.response import get_response_data, prepare_create_response, prepare_index_response, Response
+from ..services.response import get_response_data, prepare_object_list_response, prepare_index_response, Response
 
 if sys.version_info >= (3, 9):
     from collections.abc import Mapping
@@ -38,7 +38,7 @@ class WalletTransactionClient(
             headers=make_headers(api_key=self.api_key),
         )
 
-        return prepare_create_response(
+        return prepare_object_list_response(
             api_resource=self.API_RESOURCE,
             response_model=self.RESPONSE_MODEL,
             data=get_response_data(response=api_response, key=self.ROOT_NAME),
