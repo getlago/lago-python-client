@@ -13,7 +13,6 @@ class CustomerClient(
     DestroyCommandMixin[CustomerResponse],
     FindAllCommandMixin[CustomerResponse],
     FindCommandMixin[CustomerResponse],
-    UpdateCommandMixin[CustomerResponse],
     BaseClient,
 ):
     API_RESOURCE: ClassVar[str] = 'customers'

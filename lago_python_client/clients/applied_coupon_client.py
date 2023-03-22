@@ -10,8 +10,6 @@ from ..services.response import get_response_data, prepare_object_response, Resp
 class AppliedCouponClient(
     CreateCommandMixin[AppliedCouponResponse],
     FindAllCommandMixin[AppliedCouponResponse],
-    FindCommandMixin[AppliedCouponResponse],
-    UpdateCommandMixin[AppliedCouponResponse],
     BaseClient,
 ):
     API_RESOURCE: ClassVar[str] = 'applied_coupons'

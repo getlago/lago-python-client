@@ -8,10 +8,8 @@ from ..services.response import get_response_data, prepare_object_response, Resp
 
 
 class InvoiceClient(
-    CreateCommandMixin[InvoiceResponse],
-    DestroyCommandMixin[InvoiceResponse],
-    FindAllCommandMixin[InvoiceResponse],
     FindCommandMixin[InvoiceResponse],
+    FindAllCommandMixin[InvoiceResponse],
     UpdateCommandMixin[InvoiceResponse],
     BaseClient,
 ):

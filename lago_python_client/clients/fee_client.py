@@ -5,11 +5,7 @@ from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixi
 from ..models.fee import FeeResponse
 
 class FeeClient(
-    CreateCommandMixin[FeeResponse],
-    DestroyCommandMixin[FeeResponse],
-    FindAllCommandMixin[FeeResponse],
     FindCommandMixin[FeeResponse],
-    UpdateCommandMixin[FeeResponse],
     BaseClient,
 ):
     API_RESOURCE: ClassVar[str] = 'fees'

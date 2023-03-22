@@ -6,10 +6,6 @@ from ..models.organization import OrganizationResponse
 
 
 class OrganizationClient(
-    CreateCommandMixin[OrganizationResponse],
-    DestroyCommandMixin[OrganizationResponse],
-    FindAllCommandMixin[OrganizationResponse],
-    FindCommandMixin[OrganizationResponse],
     UpdateCommandMixin[OrganizationResponse],
     BaseClient,
 ):

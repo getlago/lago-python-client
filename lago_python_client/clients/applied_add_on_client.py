@@ -7,10 +7,6 @@ from ..models.applied_add_on import AppliedAddOnResponse
 
 class AppliedAddOnClient(
     CreateCommandMixin[AppliedAddOnResponse],
-    DestroyCommandMixin[AppliedAddOnResponse],
-    FindAllCommandMixin[AppliedAddOnResponse],
-    FindCommandMixin[AppliedAddOnResponse],
-    UpdateCommandMixin[AppliedAddOnResponse],
     BaseClient,
 ):
     API_RESOURCE: ClassVar[str] = 'applied_add_ons'

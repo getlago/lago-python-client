@@ -9,7 +9,6 @@ from ..services.response import get_response_data, prepare_object_response, Resp
 
 class CreditNoteClient(
     CreateCommandMixin[CreditNoteResponse],
-    DestroyCommandMixin[CreditNoteResponse],
     FindAllCommandMixin[CreditNoteResponse],
     FindCommandMixin[CreditNoteResponse],
     UpdateCommandMixin[CreditNoteResponse],

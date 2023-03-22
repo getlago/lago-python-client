@@ -14,10 +14,6 @@ else:
 
 
 class GroupClient(
-    CreateCommandMixin[GroupResponse],
-    DestroyCommandMixin[GroupResponse],
-    FindCommandMixin[GroupResponse],
-    UpdateCommandMixin[GroupResponse],
     BaseClient,
 ):
     API_RESOURCE: ClassVar[str] = 'groups'

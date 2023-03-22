@@ -9,7 +9,6 @@ class SubscriptionClient(
     CreateCommandMixin[SubscriptionResponse],
     DestroyCommandMixin[SubscriptionResponse],
     FindAllCommandMixin[SubscriptionResponse],
-    FindCommandMixin[SubscriptionResponse],
     UpdateCommandMixin[SubscriptionResponse],
     BaseClient,
 ):

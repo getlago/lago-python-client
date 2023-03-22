@@ -12,10 +12,7 @@ from ..services.response import verify_response, Response
 
 class EventClient(
     CreateCommandMixin[EventResponse],
-    DestroyCommandMixin[EventResponse],
-    FindAllCommandMixin[EventResponse],
     FindCommandMixin[EventResponse],
-    UpdateCommandMixin[EventResponse],
     BaseClient
 ):
     API_RESOURCE: ClassVar[str] = 'events'
