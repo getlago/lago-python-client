@@ -23,6 +23,13 @@ def mock_response():
     with open(data_path, 'r') as event_response:
         return event_response.read()
 
+def mock_fees_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(this_dir, 'fixtures/fees.json')
+
+    with open(data_path, 'r') as fees_response:
+        return fees_response.read()
+
 
 def test_valid_create_events_request():
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
@@ -85,3 +92,23 @@ def test_invalid_find_events_request():
 
         with pytest.raises(LagoApiError):
             client.events().find(event_id)
+
+
+def test_valid_estimate_fees_request():
+    client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+
+    with requests_mock.Mocker() as m:
+        m.register_uri('POST', 'https://api.getlago.com/api/v1/events/estimate_fees', text=mock_fees_response())
+        response = client.events().estimate_fees(create_event())
+
+    assert response['fees'][0].item.type == 'instant_charge'
+
+
+def test_invalid_estimate_fees_request():
+    client = Client(api_key='invalid')
+
+    with requests_mock.Mocker() as m:
+        m.register_uri('POST', 'https://api.getlago.com/api/v1/events/estimate_fees', status_code=404, text='')
+
+        with pytest.raises(LagoApiError):
+            client.events().estimate_fees(create_event())
