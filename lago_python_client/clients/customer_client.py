@@ -1,7 +1,7 @@
 from typing import ClassVar, Type
 
 from .base_client import BaseClient
-from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
+from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin
 from ..models.customer import CustomerResponse
 from ..models.customer_usage import CustomerUsageResponse
 from ..services.request import make_headers, make_url, send_get_request
@@ -13,7 +13,6 @@ class CustomerClient(
     DestroyCommandMixin[CustomerResponse],
     FindAllCommandMixin[CustomerResponse],
     FindCommandMixin[CustomerResponse],
-    UpdateCommandMixin[CustomerResponse],
     BaseClient,
 ):
     API_RESOURCE: ClassVar[str] = 'customers'

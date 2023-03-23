@@ -12,7 +12,6 @@ import typeguard
 
 from .base_client import BaseClient
 from ..exceptions import LagoApiError
-from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..services.request import make_headers, make_url, send_get_request
 from ..services.response import get_response_data, Response
 
@@ -28,14 +27,7 @@ class _ResponseWithPublicKeyInside(TypedDict):
     public_key: str
 
 
-class WebhookClient(
-    CreateCommandMixin[BaseModel],
-    DestroyCommandMixin[BaseModel],
-    FindAllCommandMixin[BaseModel],
-    FindCommandMixin[BaseModel],
-    UpdateCommandMixin[BaseModel],
-    BaseClient,
-):
+class WebhookClient(BaseClient):
     API_RESOURCE: ClassVar[str] = 'webhooks'
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = NotImplemented
     ROOT_NAME: ClassVar[str] = 'webhook'

@@ -1,7 +1,7 @@
 from typing import ClassVar, Type
 
 from .base_client import BaseClient
-from ..mixins import CreateCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
+from ..mixins import CreateCommandMixin, FindAllCommandMixin
 from ..models.applied_coupon import AppliedCouponResponse
 from ..services.request import make_headers, make_url, send_delete_request
 from ..services.response import get_response_data, prepare_object_response, Response
@@ -10,8 +10,6 @@ from ..services.response import get_response_data, prepare_object_response, Resp
 class AppliedCouponClient(
     CreateCommandMixin[AppliedCouponResponse],
     FindAllCommandMixin[AppliedCouponResponse],
-    FindCommandMixin[AppliedCouponResponse],
-    UpdateCommandMixin[AppliedCouponResponse],
     BaseClient,
 ):
     API_RESOURCE: ClassVar[str] = 'applied_coupons'

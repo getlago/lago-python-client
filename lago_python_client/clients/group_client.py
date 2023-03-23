@@ -2,7 +2,6 @@ import sys
 from typing import Any, ClassVar, Type, Union
 
 from .base_client import BaseClient
-from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.group import GroupResponse
 from ..services.request import make_headers, make_url, send_get_request
 from ..services.response import get_response_data, prepare_index_response, Response
@@ -14,10 +13,6 @@ else:
 
 
 class GroupClient(
-    CreateCommandMixin[GroupResponse],
-    DestroyCommandMixin[GroupResponse],
-    FindCommandMixin[GroupResponse],
-    UpdateCommandMixin[GroupResponse],
     BaseClient,
 ):
     API_RESOURCE: ClassVar[str] = 'groups'
