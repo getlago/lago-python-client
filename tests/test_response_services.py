@@ -9,7 +9,7 @@ from lago_python_client.exceptions import LagoApiError
 from lago_python_client.services.response import (
     Response as ServiceResponse,
     RESPONSE_SUCCESS_CODES, _is_status_code_successful, _is_content_exists, verify_response,
-    get_response_data, prepare_create_response, prepare_index_response, prepare_object_response,
+    get_response_data, prepare_object_list_response, prepare_index_response, prepare_object_response,
 )
 
 
@@ -161,8 +161,8 @@ def test_prepare_index_response():
     assert 'meta' in result
 
 
-def test_prepare_create_response():
-    """Verify ``prepare_create_response`` service returns valid mapping object."""
+def test_prepare_object_list_response():
+    """Verify ``prepare_object_list_response`` service returns valid mapping object."""
     # Given Pydantic model and some data
     data = [
         {'name': 'Aurelia'},
@@ -171,7 +171,7 @@ def test_prepare_create_response():
     ]
 
     # When service is applied
-    result = prepare_create_response(api_resource='human', response_model=SomeHumanModel, data=data)
+    result = prepare_object_list_response(api_resource='human', response_model=SomeHumanModel, data=data)
     # Then
     assert SomeHumanModel(**data[0]) == result['human'][0]
     assert len(result['human']) == 3

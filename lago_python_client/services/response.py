@@ -3,7 +3,7 @@ import sys
 from typing import Any, Optional, Set, Type, TypeVar, Union
 try:
     from typing import assert_never
-except ImportError: # Python 3.7, 3.8, 3.9, 3.10
+except ImportError:  # Python 3.7, 3.8, 3.9, 3.10
     from typing_extensions import assert_never
 try:
     from typing import Final
@@ -129,7 +129,7 @@ def prepare_index_response(api_resource: str, response_model: Type[_M], data: Op
     }
 
 
-def prepare_create_response(
+def prepare_object_list_response(
         api_resource: str,
         response_model: Type[_M],
         data: Optional[Union[Mapping[str, object], Sequence[object]]],

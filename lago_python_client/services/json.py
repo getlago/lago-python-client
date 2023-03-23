@@ -1,7 +1,7 @@
 from datetime import datetime, date, time
 from http import HTTPStatus
 import sys
-from typing import Any, Dict, List, NoReturn, Tuple, Union
+from typing import Any, NoReturn, Tuple, Union
 from uuid import UUID
 
 from classes import typeclass
@@ -15,7 +15,9 @@ if sys.version_info >= (3, 9):
 else:
     from typing import Mapping, Sequence
 
-Serializable = Union[str, Mapping[Any, Any], Sequence[Any], Tuple[Any], int, float, bool, datetime, date, time, UUID, None]  # And dataclass, TypedDict and ndarray
+Serializable = Union[
+    str, Mapping[Any, Any], Sequence[Any], Tuple[Any], int, float, bool, datetime, date, time, UUID, None,
+]  # And dataclass, TypedDict and ndarray
 Deserializable = Union[bytes, bytearray, memoryview, str]
 DeserializedData = Union[Mapping[str, Any], Sequence[Any], int, float, str, bool, None]
 

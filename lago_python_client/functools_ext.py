@@ -42,6 +42,7 @@ class Proxy(object):
     def __hash__(self) -> int:
         return hash(self._obj)
 
+
 if sys.version_info >= (3, 9):
     def callable_cached_property(func: Callable[P, T]) -> cached_property[T]:
         return cached_property(lambda s: Proxy(func(s)))  # type: ignore
