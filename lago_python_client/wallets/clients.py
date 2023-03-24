@@ -3,7 +3,9 @@ from typing import Any, ClassVar, Type, Union
 
 from pydantic import BaseModel
 
-from .base_client import BaseClient
+from ..base_client import BaseClient
+from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
+from ..models.wallet import WalletResponse
 from ..models.wallet_transaction import WalletTransactionResponse
 from ..services.json import to_json
 from ..services.request import make_headers, make_url, send_get_request, send_post_request
@@ -13,6 +15,19 @@ if sys.version_info >= (3, 9):
     from collections.abc import Mapping
 else:
     from typing import Mapping
+
+
+class WalletClient(
+    CreateCommandMixin[WalletResponse],
+    DestroyCommandMixin[WalletResponse],
+    FindAllCommandMixin[WalletResponse],
+    FindCommandMixin[WalletResponse],
+    UpdateCommandMixin[WalletResponse],
+    BaseClient,
+):
+    API_RESOURCE: ClassVar[str] = 'wallets'
+    RESPONSE_MODEL: ClassVar[Type[WalletResponse]] = WalletResponse
+    ROOT_NAME: ClassVar[str] = 'wallet'
 
 
 class WalletTransactionClient(BaseClient):

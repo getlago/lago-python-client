@@ -1,6 +1,6 @@
 from typing import ClassVar, Optional, Type, Union
 
-from .base_client import BaseClient
+from ..base_client import BaseClient
 from ..mixins import CreateCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.credit_note import CreditNoteResponse
 from ..services.request import make_headers, make_url, send_post_request, send_put_request
@@ -12,7 +12,7 @@ class CreditNoteClient(
     FindAllCommandMixin[CreditNoteResponse],
     FindCommandMixin[CreditNoteResponse],
     UpdateCommandMixin[CreditNoteResponse],
-    BaseClient
+    BaseClient,
 ):
     API_RESOURCE: ClassVar[str] = 'credit_notes'
     RESPONSE_MODEL: ClassVar[Type[CreditNoteResponse]] = CreditNoteResponse

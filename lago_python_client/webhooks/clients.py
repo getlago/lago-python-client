@@ -10,7 +10,7 @@ except ImportError:
 from pydantic import BaseModel
 import typeguard
 
-from .base_client import BaseClient
+from ..base_client import BaseClient
 from ..exceptions import LagoApiError
 from ..services.request import make_headers, make_url, send_get_request
 from ..services.response import get_response_data, Response
