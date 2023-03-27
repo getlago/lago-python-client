@@ -22,6 +22,7 @@ class Organization(BaseModel):
     legal_name: Optional[str]
     legal_number: Optional[str]
     timezone: Optional[str]
+    email_settings: Optional[List[str]]
     billing_configuration: Optional[OrganizationBillingConfiguration]
 
 
@@ -39,4 +40,5 @@ class OrganizationResponse(BaseModel):
     legal_name: Optional[str]
     legal_number: Optional[str]
     timezone: Optional[str]
+    email_settings: Optional[List[str]]
     billing_configuration: Optional[OrganizationBillingConfiguration]
