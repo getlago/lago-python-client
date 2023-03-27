@@ -2,6 +2,8 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+from ..base_model import BaseResponseModel
+
 
 class AddOn(BaseModel):
     name: Optional[str]
@@ -11,7 +13,7 @@ class AddOn(BaseModel):
     description: Optional[str]
 
 
-class AddOnResponse(BaseModel):
+class AddOnResponse(BaseResponseModel):
     lago_id: str
     name: str
     code: str

@@ -1,9 +1,9 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from ..base_model import BaseResponseModel
 
 
-class InvoiceItemResponse(BaseModel):
+class InvoiceItemResponse(BaseResponseModel):
     lago_id: Optional[str]
     type: Optional[str]
     code: Optional[str]

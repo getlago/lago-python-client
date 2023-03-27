@@ -3,6 +3,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 from .credit import CreditsResponse
+from ..base_model import BaseResponseModel
 
 
 class AppliedCoupon(BaseModel):
@@ -15,7 +16,7 @@ class AppliedCoupon(BaseModel):
     frequency_duration: Optional[int]
 
 
-class AppliedCouponResponse(BaseModel):
+class AppliedCouponResponse(BaseResponseModel):
     lago_id: str
     lago_coupon_id: str
     coupon_code: str

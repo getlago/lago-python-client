@@ -1,11 +1,10 @@
 from typing import List, Optional
 
-from pydantic import BaseModel
-
 from .invoice_item import InvoiceItemResponse
+from ..base_model import BaseResponseModel
 
 
-class FeeResponse(BaseModel):
+class FeeResponse(BaseResponseModel):
     lago_id: Optional[str]
     item: Optional[InvoiceItemResponse]
     amount_cents: Optional[int]
@@ -18,5 +17,5 @@ class FeeResponse(BaseModel):
     events_count: Optional[int]
 
 
-class FeesResponse(BaseModel):
+class FeesResponse(BaseResponseModel):
     __root__: List[FeeResponse]

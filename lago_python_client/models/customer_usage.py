@@ -2,6 +2,8 @@ from typing import List
 
 from pydantic import BaseModel
 
+from ..base_model import BaseResponseModel
+
 
 class Metric(BaseModel):
     lago_id: str
@@ -23,7 +25,7 @@ class ChargeUsage(BaseModel):
     billable_metric: Metric
 
 
-class CustomerUsageResponse(BaseModel):
+class CustomerUsageResponse(BaseResponseModel):
     from_datetime: str
     to_datetime: str
     issuing_date: str
