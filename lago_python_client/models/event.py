@@ -2,6 +2,8 @@ from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel
 
+from ..base_model import BaseResponseModel
+
 
 class Event(BaseModel):
     transaction_id: str
@@ -21,7 +23,7 @@ class BatchEvent(BaseModel):
     properties: Optional[Dict[str, Any]]
 
 
-class EventResponse(BaseModel):
+class EventResponse(BaseResponseModel):
     lago_id: str
     transaction_id: str
     external_customer_id: Optional[str]

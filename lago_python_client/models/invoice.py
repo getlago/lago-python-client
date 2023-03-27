@@ -6,6 +6,7 @@ from .credit import CreditsResponse
 from .customer import CustomerResponse
 from .fee import FeesResponse
 from .subscription import SubscriptionsResponse
+from ..base_model import BaseResponseModel
 
 
 # Deprecated: Will be removed in the future
@@ -28,7 +29,7 @@ class Invoice(BaseModel):
     metadata: Optional[InvoiceMetadataList]
 
 
-class InvoiceResponse(BaseModel):
+class InvoiceResponse(BaseResponseModel):
     lago_id: str
     sequential_id: int
     issuing_date: Optional[str]

@@ -2,6 +2,8 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+from ..base_model import BaseResponseModel
+
 
 class WalletTransaction(BaseModel):
     wallet_id: Optional[str]
@@ -9,7 +11,7 @@ class WalletTransaction(BaseModel):
     granted_credits: Optional[str]
 
 
-class WalletTransactionResponse(BaseModel):
+class WalletTransactionResponse(BaseResponseModel):
     lago_id: str
     lago_wallet_id: str
     status: str

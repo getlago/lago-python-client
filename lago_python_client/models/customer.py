@@ -2,6 +2,8 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
+from ..base_model import BaseResponseModel
+
 
 class CustomerBillingConfiguration(BaseModel):
     invoice_grace_period: Optional[int]
@@ -45,7 +47,7 @@ class Customer(BaseModel):
     billing_configuration: Optional[CustomerBillingConfiguration]
 
 
-class CustomerResponse(BaseModel):
+class CustomerResponse(BaseResponseModel):
     lago_id: str
     external_id: str
     address_line1: Optional[str]

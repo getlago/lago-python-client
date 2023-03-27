@@ -2,6 +2,8 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+from ..base_model import BaseResponseModel
+
 
 class Wallet(BaseModel):
     external_customer_id: Optional[str]
@@ -13,7 +15,7 @@ class Wallet(BaseModel):
     currency: Optional[str]
 
 
-class WalletResponse(BaseModel):
+class WalletResponse(BaseResponseModel):
     lago_id: str
     lago_customer_id: str
     external_customer_id: str

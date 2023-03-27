@@ -3,6 +3,7 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 from .invoice_item import InvoiceItemResponse
+from ..base_model import BaseResponseModel
 
 
 class InvoiceShortDetails(BaseModel):
@@ -10,7 +11,7 @@ class InvoiceShortDetails(BaseModel):
     payment_status: Optional[str]
 
 
-class CreditResponse(BaseModel):
+class CreditResponse(BaseResponseModel):
     lago_id: Optional[str]
     amount_cents: Optional[int]
     amount_currency: Optional[str]
@@ -18,5 +19,5 @@ class CreditResponse(BaseModel):
     invoice: Optional[InvoiceShortDetails]
 
 
-class CreditsResponse(BaseModel):
+class CreditsResponse(BaseResponseModel):
     __root__: List[CreditResponse]

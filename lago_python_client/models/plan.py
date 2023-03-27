@@ -3,6 +3,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 from .charge import Charges, ChargesResponse
+from ..base_model import BaseResponseModel
 
 
 class Plan(BaseModel):
@@ -18,7 +19,7 @@ class Plan(BaseModel):
     charges: Optional[Charges]
 
 
-class PlanResponse(BaseModel):
+class PlanResponse(BaseResponseModel):
     lago_id: str
     name: str
     created_at: str

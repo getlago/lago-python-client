@@ -2,6 +2,8 @@ from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel
 
+from ..base_model import BaseResponseModel
+
 
 class BillableMetricGroup(BaseModel):
     key: Optional[str]
@@ -17,7 +19,7 @@ class BillableMetric(BaseModel):
     group: Optional[BillableMetricGroup]
 
 
-class BillableMetricResponse(BaseModel):
+class BillableMetricResponse(BaseResponseModel):
     lago_id: str
     name: str
     code: str

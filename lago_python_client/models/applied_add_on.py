@@ -2,6 +2,8 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+from ..base_model import BaseResponseModel
+
 
 class AppliedAddOn(BaseModel):
     external_customer_id: str
@@ -10,7 +12,7 @@ class AppliedAddOn(BaseModel):
     amount_currency: Optional[str]
 
 
-class AppliedAddOnResponse(BaseModel):
+class AppliedAddOnResponse(BaseResponseModel):
     lago_id: str
     lago_add_on_id: str
     add_on_code: str

@@ -3,9 +3,10 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 from .fee import FeeResponse
+from ..base_model import BaseResponseModel
 
 
-class ItemResponse(BaseModel):
+class ItemResponse(BaseResponseModel):
     lago_id: Optional[str]
     credit_amount_cents: Optional[int]
     credit_amount_currency: Optional[str]
@@ -14,11 +15,11 @@ class ItemResponse(BaseModel):
     fee: Optional[FeeResponse]
 
 
-class ItemsResponse(BaseModel):
+class ItemsResponse(BaseResponseModel):
     __root__: List[ItemResponse]
 
 
-class CreditNoteResponse(BaseModel):
+class CreditNoteResponse(BaseResponseModel):
     lago_id: Optional[str]
     sequential_id: Optional[int]
     number: Optional[str]

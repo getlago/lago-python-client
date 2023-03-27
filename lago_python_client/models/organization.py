@@ -2,6 +2,8 @@ from typing import Optional, List
 
 from pydantic import BaseModel
 
+from ..base_model import BaseResponseModel
+
 
 class OrganizationBillingConfiguration(BaseModel):
     invoice_footer: Optional[str]
@@ -26,7 +28,7 @@ class Organization(BaseModel):
     billing_configuration: Optional[OrganizationBillingConfiguration]
 
 
-class OrganizationResponse(BaseModel):
+class OrganizationResponse(BaseResponseModel):
     name: str
     created_at: str
     webhook_url: Optional[str]

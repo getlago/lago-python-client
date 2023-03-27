@@ -2,6 +2,8 @@ from typing import Any, List, Optional
 
 from pydantic import BaseModel
 
+from ..base_model import BaseResponseModel
+
 
 class LimitationConfiguration(BaseModel):
     plan_codes: Optional[List[Any]]
@@ -22,7 +24,7 @@ class Coupon(BaseModel):
     applies_to: Optional[LimitationConfiguration]
 
 
-class CouponResponse(BaseModel):
+class CouponResponse(BaseResponseModel):
     lago_id: str
     name: str
     code: str

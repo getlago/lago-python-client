@@ -2,6 +2,8 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+from ..base_model import BaseResponseModel
+
 
 class Group(BaseModel):
     lago_id: Optional[str]
@@ -9,7 +11,7 @@ class Group(BaseModel):
     value: Optional[str]
 
 
-class GroupResponse(BaseModel):
+class GroupResponse(BaseResponseModel):
     lago_id: str
     key: str
     value: str

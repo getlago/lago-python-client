@@ -2,6 +2,8 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
+from ..base_model import BaseResponseModel
+
 
 class Subscription(BaseModel):
     plan_code: Optional[str]
@@ -12,7 +14,7 @@ class Subscription(BaseModel):
     billing_time: Optional[str]
 
 
-class SubscriptionResponse(BaseModel):
+class SubscriptionResponse(BaseResponseModel):
     lago_id: str
     lago_customer_id: Optional[str]
     external_customer_id: Optional[str]
@@ -31,5 +33,5 @@ class SubscriptionResponse(BaseModel):
     downgrade_plan_date: Optional[str]
 
 
-class SubscriptionsResponse(BaseModel):
+class SubscriptionsResponse(BaseResponseModel):
     __root__: List[SubscriptionResponse]
