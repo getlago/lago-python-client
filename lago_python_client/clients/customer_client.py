@@ -46,4 +46,4 @@ class CustomerClient(
             headers=make_headers(api_key=self.api_key),
         )
 
-        return from_json(verify_response(api_response)).get(self.ROOT_NAME).get('portal_url')
+        return get_response_data(response=api_response, key=self.ROOT_NAME).get('portal_url', '')
