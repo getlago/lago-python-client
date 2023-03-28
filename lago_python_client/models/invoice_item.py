@@ -4,7 +4,8 @@ from ..base_model import BaseResponseModel
 
 
 class InvoiceItemResponse(BaseResponseModel):
-    lago_id: Optional[str]
     type: Optional[str]
     code: Optional[str]
     name: Optional[str]
+    lago_item_id: Optional[str]
+    item_type: Optional[str]
