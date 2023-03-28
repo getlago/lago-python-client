@@ -97,6 +97,30 @@ def test_invalid_current_usage():
             client.customers().current_usage('invalid_customer', '123')
 
 
+def test_valid_portal_url():
+    client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+
+    with requests_mock.Mocker() as m:
+        m.register_uri('GET',
+                       'https://api.getlago.com/api/v1/customers/external_customer_id/portal_url',
+                       text=mock_response('customer_portal_url'))
+        response = client.customers().portal_url('external_customer_id')
+
+    assert response == "https://app.lago.dev/customer-portal/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaWt3WkdGbE1qWmxZUzFqWlRnekxUUTJZell0T1dRNFl5MHdabVF4TURabFlqY3dNVElHT2daRlZBPT0iLCJleHAiOiIyMDIzLTAzLTIzVDIzOjAzOjAwLjM2NloiLCJwdXIiOm51bGx9fQ==--7128c6e541adc7b4c14249b1b18509f92e652d17"
+
+
+def test_invalid_portal_url():
+    client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+
+    with requests_mock.Mocker() as m:
+        m.register_uri('GET',
+                       'https://api.getlago.com/api/v1/customers/invalid_customer/portal_url',
+                       status_code=404, text='')
+
+        with pytest.raises(LagoApiError):
+            client.customers().portal_url('invalid_customer')
+
+
 def test_valid_destroy_customer_request():
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     external_id = '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'

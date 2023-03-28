@@ -4,8 +4,9 @@ from .base_client import BaseClient
 from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin
 from ..models.customer import CustomerResponse
 from ..models.customer_usage import CustomerUsageResponse
+from ..services.json import from_json
 from ..services.request import make_headers, make_url, send_get_request
-from ..services.response import get_response_data, prepare_object_response, Response
+from ..services.response import get_response_data, prepare_object_response, verify_response, Response
 
 
 class CustomerClient(
@@ -35,3 +36,14 @@ class CustomerClient(
             response_model=CustomerUsageResponse,
             data=get_response_data(response=api_response, key='customer_usage'),
         )
+
+    def portal_url(self, resource_id: str) -> str:
+        api_response: Response = send_get_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, 'portal_url'),
+            ),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        return get_response_data(response=api_response, key=self.ROOT_NAME).get('portal_url', '')
