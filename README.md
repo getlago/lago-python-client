@@ -25,6 +25,8 @@ Check the [lago API reference](https://doc.getlago.com/docs/api/intro)
 
 ```bash
 python -m pip install .[test]
+python -m nltk.downloader averaged_perceptron_tagger punkt
+python -m spacy download en_core_web_trf
 ```
 
 ### Run tests
