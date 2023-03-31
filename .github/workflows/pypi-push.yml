@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies (nltk data)
         if: ${{ matrix.python-version }} == '3.11'
         run: |
-          python -m nltk.downloader averaged_perceptron_tagger
+          python -m nltk.downloader averaged_perceptron_tagger punkt
       - name: Install dependencies (spacy data)
         if: ${{ matrix.python-version }} == '3.11'
         run: |
