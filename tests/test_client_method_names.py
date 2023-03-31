@@ -15,8 +15,8 @@ except:
 ALLOWED_CALLABLE_NAMES = {'current_usage', 'public_key'}  # add here client method names if you feel test gives you true negative results
 
 
-def _get_all_methods(package_name):
-    """Get all ``*Client`` methods."""
+def _get_all_methods(package_name: str):
+    """Get all ``*Client`` methods."""  # TODO: refactor
     ignored_items = {'API_RESOURCE', 'RESPONSE_MODEL', 'ROOT_NAME'}
     package = importlib.import_module(package_name)
     for loader, name, is_pkg in pkgutil.walk_packages(package.__path__):
@@ -28,12 +28,20 @@ def _get_all_methods(package_name):
                         yield method_name
 
 
-def _check_first_word_is_verb(phrase) -> bool:
-    """Check first word in given phrase is verb."""
-    to_phrase: str = 'to {phrase}'.format(phrase=phrase)
-    spacy_opinion: bool = any(token.pos_ == "VERB" for token in nlp(to_phrase))
-    nltk_opinion: bool = any((tagged_token[1].startswith('V') for tagged_token in nltk.pos_tag(nltk.word_tokenize(to_phrase))))
-    return nltk_opinion or spacy_opinion
+def _spacy_check(phrase: str) -> bool:
+    """Check given phrase contains verb."""
+    return any(token.pos_ == "VERB" for token in nlp(phrase))
+
+
+def _ntlk_check(phrase: str) -> bool:
+    """Check given phrase contains verb."""
+    return any((tagged_token[1].startswith('V') for tagged_token in nltk.pos_tag(nltk.word_tokenize(phrase))))
+
+
+def _check_phrase_contains_verb(phrase: str) -> bool:
+    """Check given phrase contains verb."""
+    to_phrase: str = 'to {phrase}'.format(phrase=phrase)  # small hack here: we add "to " before phrase
+    return _spacy_check(to_phrase) or _ntlk_check(to_phrase)
 
 
 @pytest.mark.skipif(sys.version_info < (3, 11), reason="requires python3.11 or higher")
@@ -41,4 +49,4 @@ def test_client_method_names():
     """Check *Client method names, must contain verb."""
     actions = set([action.replace('_', ' ') for action in _get_all_methods('lago_python_client.clients') if action not in ALLOWED_CALLABLE_NAMES])
     for action in actions:
-        assert _check_first_word_is_verb(action) is True
+        assert _check_phrase_contains_verb(action) is True
