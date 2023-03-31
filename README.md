@@ -24,6 +24,7 @@ Check the [lago API reference](https://doc.getlago.com/docs/api/intro)
 ### Install the dependencies
 
 ```bash
+python -m pip install --upgrade pip setuptools wheel
 python -m pip install .[test]
 ```
 
