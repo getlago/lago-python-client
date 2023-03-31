@@ -1,11 +1,16 @@
 import importlib
 import inspect
 import pkgutil
+import sys
 
 import nltk
+import pytest
 import spacy
 
-nlp = spacy.load("en_core_web_trf")
+try:
+    nlp = spacy.load("en_core_web_trf")
+except:
+    pass
 
 ALLOWED_CALLABLE_NAMES = {'current_usage', 'public_key'}  # add here client method names if you feel test gives you true negative results
 
@@ -31,6 +36,7 @@ def _check_first_word_is_verb(phrase) -> bool:
     return nltk_opinion or spacy_opinion
 
 
+@pytest.mark.skipif(sys.version_info < (3, 11), reason="requires python3.11 or higher")
 def test_client_method_names():
     """Check *Client method names, must contain verb."""
     actions = set([action.replace('_', ' ') for action in _get_all_methods('lago_python_client.clients') if action not in ALLOWED_CALLABLE_NAMES])

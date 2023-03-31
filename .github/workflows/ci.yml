@@ -25,9 +25,11 @@ jobs:
         run: |
           python -m pip install .[test]
       - name: Install dependencies (nltk data)
+        if: ${{ matrix.python-version }} == '3.11'
         run: |
           python -m nltk.downloader averaged_perceptron_tagger
       - name: Install dependencies (spacy data)
+        if: ${{ matrix.python-version }} == '3.11'
         run: |
           python -m spacy download en_core_web_trf
       - name: Display Python version
