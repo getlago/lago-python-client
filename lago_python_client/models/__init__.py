@@ -9,6 +9,7 @@ from .plan import Plan
 from .add_on import AddOn
 from .organization import Organization, OrganizationBillingConfiguration
 from .event import Event, BatchEvent
+from .fee import Fee
 from .customer import Customer, CustomerBillingConfiguration, Metadata, MetadataList
 from .invoice import InvoicePaymentStatusChange, Invoice, InvoiceMetadata, InvoiceMetadataList
 from .invoice_item import InvoiceItemResponse
