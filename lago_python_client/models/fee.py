@@ -24,6 +24,8 @@ class FeeResponse(BaseResponseModel):
     succeeded_at: Optional[str]
     failed_at: Optional[str]
     refunded_at: Optional[str]
+    from_date: Optional[str]
+    to_date: Optional[str]
 
     item: Optional[InvoiceItemResponse]
 
