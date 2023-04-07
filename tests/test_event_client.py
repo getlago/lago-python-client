@@ -38,7 +38,7 @@ def test_valid_create_events_request():
         m.register_uri('POST', 'https://api.getlago.com/api/v1/events', text='')
         response = client.events().create(create_event())
 
-    assert response == True
+    assert response is None
 
 
 def test_invalid_create_events_request():
@@ -58,7 +58,7 @@ def test_valid_create_batch_events_request():
         m.register_uri('POST', 'https://api.getlago.com/api/v1/events/batch', text='')
         response = client.events().batch_create(create_batch_event())
 
-    assert response == True
+    assert response is None
 
 
 def test_invalid_create_batch_events_request():
