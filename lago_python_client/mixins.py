@@ -36,7 +36,7 @@ class _ClientMixin(Protocol[_PM]):
 class CreateCommandMixin(Generic[_M]):
     """Client mixin with `create` command."""
 
-    def create(self: _ClientMixin[_M], input_object: BaseModel) -> Union[Optional[_M], bool]:
+    def create(self: _ClientMixin[_M], input_object: BaseModel) -> Optional[_M]:
         """Execute `create` command."""
         # Send request and save response
         api_response: Response = send_post_request(
@@ -53,7 +53,7 @@ class CreateCommandMixin(Generic[_M]):
         # Process response data
         response_data = get_response_data(response=api_response, key=self.ROOT_NAME)
         if not response_data:
-            return True  # TODO: should return None
+            return None
 
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,

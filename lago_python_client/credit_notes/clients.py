@@ -18,7 +18,7 @@ class CreditNoteClient(
     RESPONSE_MODEL: ClassVar[Type[CreditNoteResponse]] = CreditNoteResponse
     ROOT_NAME: ClassVar[str] = 'credit_note'
 
-    def download(self, resource_id: str) -> Union[Optional[CreditNoteResponse], bool]:
+    def download(self, resource_id: str) -> Optional[CreditNoteResponse]:
         api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
@@ -29,7 +29,7 @@ class CreditNoteClient(
 
         response_data = get_response_data(response=api_response, key=self.ROOT_NAME)
         if not response_data:
-            return True  # TODO: should return None
+            return None
 
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,
