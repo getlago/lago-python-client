@@ -1,6 +1,6 @@
 from typing import ClassVar, Type
 
-from .base_client import BaseClient
+from ..base_client import BaseClient
 from ..mixins import FindCommandMixin, FindAllCommandMixin, UpdateCommandMixin
 from ..models.fee import FeeResponse
 

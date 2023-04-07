@@ -1,6 +1,6 @@
 from typing import ClassVar, Type
 
-from .base_client import BaseClient
+from ..base_client import BaseClient
 from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.plan import PlanResponse
 

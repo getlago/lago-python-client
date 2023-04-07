@@ -1,12 +1,17 @@
+import sys
 from typing import ClassVar, Type
 
-from .base_client import BaseClient
+from ..base_client import BaseClient
 from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin
 from ..models.customer import CustomerResponse
 from ..models.customer_usage import CustomerUsageResponse
-from ..services.json import from_json
 from ..services.request import make_headers, make_url, send_get_request
-from ..services.response import get_response_data, prepare_object_response, verify_response, Response
+from ..services.response import get_response_data, prepare_object_response, Response
+
+if sys.version_info >= (3, 9):
+    from collections.abc import Mapping
+else:
+    from typing import Mapping
 
 
 class CustomerClient(
@@ -46,4 +51,5 @@ class CustomerClient(
             headers=make_headers(api_key=self.api_key),
         )
 
-        return get_response_data(response=api_response, key=self.ROOT_NAME).get('portal_url', '')
+        response_data = get_response_data(response=api_response, key=self.ROOT_NAME)
+        return response_data.get('portal_url', '') if isinstance(response_data, Mapping) else ''

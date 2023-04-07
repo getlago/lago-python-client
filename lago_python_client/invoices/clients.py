@@ -1,18 +1,13 @@
 from typing import ClassVar, Optional, Type, Union
 
-from .base_client import BaseClient
+from ..base_client import BaseClient
 from ..mixins import FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
 from ..models.invoice import InvoiceResponse
 from ..services.request import make_headers, make_url, send_post_request, send_put_request
 from ..services.response import get_response_data, prepare_object_response, Response
 
 
-class InvoiceClient(
-    FindCommandMixin[InvoiceResponse],
-    FindAllCommandMixin[InvoiceResponse],
-    UpdateCommandMixin[InvoiceResponse],
-    BaseClient,
-):
+class InvoiceClient(FindCommandMixin[InvoiceResponse], FindAllCommandMixin[InvoiceResponse], UpdateCommandMixin[InvoiceResponse], BaseClient):
     API_RESOURCE: ClassVar[str] = 'invoices'
     RESPONSE_MODEL: ClassVar[Type[InvoiceResponse]] = InvoiceResponse
     ROOT_NAME: ClassVar[str] = 'invoice'

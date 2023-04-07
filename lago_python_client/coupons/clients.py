@@ -1,17 +1,27 @@
 from typing import ClassVar, Type
 
-from .base_client import BaseClient
-from ..mixins import CreateCommandMixin, FindAllCommandMixin
+from ..base_client import BaseClient
+from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
+from ..models.coupon import CouponResponse
 from ..models.applied_coupon import AppliedCouponResponse
 from ..services.request import make_headers, make_url, send_delete_request
 from ..services.response import get_response_data, prepare_object_response, Response
 
 
-class AppliedCouponClient(
-    CreateCommandMixin[AppliedCouponResponse],
-    FindAllCommandMixin[AppliedCouponResponse],
+class CouponClient(
+    CreateCommandMixin[CouponResponse],
+    DestroyCommandMixin[CouponResponse],
+    FindAllCommandMixin[CouponResponse],
+    FindCommandMixin[CouponResponse],
+    UpdateCommandMixin[CouponResponse],
     BaseClient,
 ):
+    API_RESOURCE: ClassVar[str] = 'coupons'
+    RESPONSE_MODEL: ClassVar[Type[CouponResponse]] = CouponResponse
+    ROOT_NAME: ClassVar[str] = 'coupon'
+
+
+class AppliedCouponClient(CreateCommandMixin[AppliedCouponResponse], FindAllCommandMixin[AppliedCouponResponse], BaseClient):
     API_RESOURCE: ClassVar[str] = 'applied_coupons'
     RESPONSE_MODEL: ClassVar[Type[AppliedCouponResponse]] = AppliedCouponResponse
     ROOT_NAME: ClassVar[str] = 'applied_coupon'
