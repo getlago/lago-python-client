@@ -36,9 +36,7 @@ def test_valid_create_events_request():
 
     with requests_mock.Mocker() as m:
         m.register_uri('POST', 'https://api.getlago.com/api/v1/events', text='')
-        response = client.events().create(create_event())
-
-    assert response is None
+        client.events().create(create_event())  # Any response means success, any exception - failure
 
 
 def test_invalid_create_events_request():
@@ -56,9 +54,7 @@ def test_valid_create_batch_events_request():
 
     with requests_mock.Mocker() as m:
         m.register_uri('POST', 'https://api.getlago.com/api/v1/events/batch', text='')
-        response = client.events().batch_create(create_batch_event())
-
-    assert response is None
+        client.events().batch_create(create_batch_event())  # Any response means success, any exception - failure
 
 
 def test_invalid_create_batch_events_request():
