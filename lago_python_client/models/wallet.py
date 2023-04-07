@@ -24,10 +24,11 @@ class WalletResponse(BaseResponseModel):
     name: Optional[str]
     rate_amount: str
     credits_balance: str
-    balance: str
+    balance_cents: int
     consumed_credits: str
     created_at: str
     expiration_at: Optional[str]
     last_balance_sync_at: Optional[str]
     last_consumed_credit_at: Optional[str]
     terminated_at: Optional[str]
+    balance: str # NOTE(legacy)
