@@ -1,6 +1,6 @@
 """Test JSON services."""
+from httpx import Response
 import pytest
-from requests import Response
 
 from lago_python_client.exceptions import LagoApiError
 from lago_python_client.services.json import from_json, to_json
@@ -14,11 +14,8 @@ def test_from_json():
     json_string = '{"a":{"b":"c"}}'
     # ... or bytes,
     json_bytes = b'{"a":{"b":"c"}}'
-    # ... or even available as ``content`` property of instanse of ``requests.Response`` class
-    json_requests_response = Response()
-    json_requests_response._content_consumed = True
-    json_requests_response._content = json_bytes
-    json_requests_response.status_code = 200
+    # ... or even available as ``content`` property of instanse of ``httpx.Response`` class
+    json_httpx_response = Response(content=json_bytes, status_code=200)
     # ... or None
     json_none = None
     # ... or something incorrect
@@ -28,7 +25,7 @@ def test_from_json():
     # Then service result is equal to given data.
     assert from_json(json_string) == expected_data
     assert from_json(json_bytes) == expected_data
-    assert from_json(json_requests_response) == expected_data
+    assert from_json(json_httpx_response) == expected_data
     # ... or raise exception
     with pytest.raises(LagoApiError) as cm:
         from_json(json_none)

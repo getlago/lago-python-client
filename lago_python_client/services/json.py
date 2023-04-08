@@ -5,8 +5,8 @@ from typing import Any, NoReturn, Tuple, Union
 from uuid import UUID
 
 from classes import typeclass
+from httpx import Response
 import orjson
-from requests import Response
 
 from ..exceptions import LagoApiError
 
@@ -64,6 +64,6 @@ def _from_json_none(json_container: None) -> NoReturn:
 
 
 @from_json.instance(Response)  # type: ignore
-def _from_json_requests_response_bytes(json_container: Response) -> DeserializedData:
-    """Deserialize json from ``requests.Response`` class instances (from content bytes)."""
+def _from_json_httpx_response_bytes(json_container: Response) -> DeserializedData:
+    """Deserialize json from ``httpx.Response`` class instances (from content bytes)."""
     return from_json(json_container.content)  # type: ignore

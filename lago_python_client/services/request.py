@@ -6,7 +6,7 @@ except ImportError:  # Python 3.7
     from typing_extensions import Final  # type: ignore
 from urllib.parse import urljoin, urlencode
 
-import requests
+import httpx
 
 from ..version import LAGO_VERSION
 
@@ -41,7 +41,7 @@ def make_headers(*, api_key: str) -> Mapping[str, str]:
     }
 
 
-send_get_request = requests.get
-send_post_request = requests.post
-send_put_request = requests.put
-send_delete_request = requests.delete
+send_get_request = httpx.get
+send_post_request = httpx.post
+send_put_request = httpx.put
+send_delete_request = httpx.delete
