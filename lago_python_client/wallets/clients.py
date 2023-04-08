@@ -41,7 +41,7 @@ class WalletTransactionClient(BaseClient):
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, ),
             ),
-            data=to_json({
+            content=to_json({
                 'wallet_transaction': input_object.dict()
             }),
             headers=make_headers(api_key=self.api_key),
