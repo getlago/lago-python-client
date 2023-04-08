@@ -10,7 +10,7 @@ def mock_collection_response():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(current_dir, 'fixtures/group_index.json')
 
-    with open(data_path, 'r') as groups_response:
+    with open(data_path, 'rb') as groups_response:
         return groups_response.read()
 
 

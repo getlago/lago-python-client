@@ -37,7 +37,7 @@ def mock_response(mock='customer'):
     this_dir = os.path.dirname(os.path.abspath(__file__))
     my_data_path = os.path.join(this_dir, 'fixtures/' + mock + '.json')
 
-    with open(my_data_path, 'r') as customer_response:
+    with open(my_data_path, 'rb') as customer_response:
         return customer_response.read()
 
 

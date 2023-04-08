@@ -38,7 +38,7 @@ def mock_response():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(current_dir, 'fixtures/credit_note.json')
 
-    with open(data_path, 'r') as credit_note_response:
+    with open(data_path, 'rb') as credit_note_response:
         return credit_note_response.read()
 
 
@@ -46,7 +46,7 @@ def mock_collection_response():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(current_dir, 'fixtures/credit_note_index.json')
 
-    with open(data_path, 'r') as credit_notes_response:
+    with open(data_path, 'rb') as credit_notes_response:
         return credit_notes_response.read()
 
 

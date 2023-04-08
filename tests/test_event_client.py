@@ -21,14 +21,14 @@ def mock_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(this_dir, 'fixtures/event.json')
 
-    with open(data_path, 'r') as event_response:
+    with open(data_path, 'rb') as event_response:
         return event_response.read()
 
 def mock_fees_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(this_dir, 'fixtures/fees.json')
 
-    with open(data_path, 'r') as fees_response:
+    with open(data_path, 'rb') as fees_response:
         return fees_response.read()
 
 

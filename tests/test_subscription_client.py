@@ -18,7 +18,7 @@ def mock_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     my_data_path = os.path.join(this_dir, 'fixtures/subscription.json')
 
-    with open(my_data_path, 'r') as subscription_response:
+    with open(my_data_path, 'rb') as subscription_response:
         return subscription_response.read()
 
 
@@ -26,7 +26,7 @@ def mock_collection_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(this_dir, 'fixtures/subscription_index.json')
 
-    with open(data_path, 'r') as subscription_response:
+    with open(data_path, 'rb') as subscription_response:
         return subscription_response.read()
 
 

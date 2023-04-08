@@ -78,7 +78,7 @@ def mock_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(this_dir, 'fixtures/plan.json')
 
-    with open(data_path, 'r') as plan_response:
+    with open(data_path, 'rb') as plan_response:
         return plan_response.read()
 
 
@@ -86,7 +86,7 @@ def mock_graduated_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(this_dir, 'fixtures/graduated_plan.json')
 
-    with open(data_path, 'r') as plan_response:
+    with open(data_path, 'rb') as plan_response:
         return plan_response.read()
 
 
@@ -94,7 +94,7 @@ def mock_collection_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(this_dir, 'fixtures/plan_index.json')
 
-    with open(data_path, 'r') as plan_response:
+    with open(data_path, 'rb') as plan_response:
         return plan_response.read()
 
 

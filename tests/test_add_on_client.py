@@ -23,7 +23,7 @@ def mock_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(this_dir, 'fixtures/add_on.json')
 
-    with open(data_path, 'r') as add_on_response:
+    with open(data_path, 'rb') as add_on_response:
         return add_on_response.read()
 
 
@@ -31,7 +31,7 @@ def mock_collection_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(this_dir, 'fixtures/add_on_index.json')
 
-    with open(data_path, 'r') as add_on_response:
+    with open(data_path, 'rb') as add_on_response:
         return add_on_response.read()
 
 

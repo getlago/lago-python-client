@@ -25,7 +25,7 @@ def mock_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(this_dir, 'fixtures/organization.json')
 
-    with open(data_path, 'r') as organization_response:
+    with open(data_path, 'rb') as organization_response:
         return organization_response.read()
 
 

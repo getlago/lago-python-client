@@ -10,7 +10,7 @@ def mock_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     my_data_path = os.path.join(this_dir, 'fixtures/fee.json')
 
-    with open(my_data_path, 'r') as fee_response:
+    with open(my_data_path, 'rb') as fee_response:
         return fee_response.read()
 
 

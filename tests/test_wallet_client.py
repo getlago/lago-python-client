@@ -23,7 +23,7 @@ def mock_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(this_dir, 'fixtures/wallet.json')
 
-    with open(data_path, 'r') as wallet_response:
+    with open(data_path, 'rb') as wallet_response:
         return wallet_response.read()
 
 
@@ -31,7 +31,7 @@ def mock_collection_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(this_dir, 'fixtures/wallet_index.json')
 
-    with open(data_path, 'r') as wallet_response:
+    with open(data_path, 'rb') as wallet_response:
         return wallet_response.read()
 
 
