@@ -1,7 +1,6 @@
 import os
 
 from pytest_httpx import HTTPXMock
-import requests_mock
 
 from lago_python_client.client import Client
 
