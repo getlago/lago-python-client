@@ -32,7 +32,7 @@ def mock_collection_response():
         return invoice_response.read()
 
 
-def test_valid_update_invoice_request():
+def test_valid_update_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -48,7 +48,7 @@ def test_valid_update_invoice_request():
     assert response.metadata.__root__[0].value == 'value'
 
 
-def test_invalid_update_invoice_request():
+def test_invalid_update_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
     with requests_mock.Mocker() as m:
@@ -61,7 +61,7 @@ def test_invalid_update_invoice_request():
             client.invoices().update(update_invoice_object(), '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
 
 
-def test_valid_find_invoice_request():
+def test_valid_find_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     identifier = '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
@@ -72,7 +72,7 @@ def test_valid_find_invoice_request():
     assert response.lago_id == identifier
 
 
-def test_invalid_find_invoice_request():
+def test_invalid_find_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     identifier = '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
@@ -83,7 +83,7 @@ def test_invalid_find_invoice_request():
             client.invoices().find(identifier)
 
 
-def test_valid_find_all_invoice_request():
+def test_valid_find_all_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -94,7 +94,7 @@ def test_valid_find_all_invoice_request():
     assert response['meta']['current_page'] == 1
 
 
-def test_valid_find_all_invoice_request_with_options():
+def test_valid_find_all_invoice_request_with_options(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -105,7 +105,7 @@ def test_valid_find_all_invoice_request_with_options():
     assert response['meta']['current_page'] == 1
 
 
-def test_invalid_find_all_invoice_request():
+def test_invalid_find_all_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
     with requests_mock.Mocker() as m:
@@ -115,7 +115,7 @@ def test_invalid_find_all_invoice_request():
             client.invoices().find_all()
 
 
-def test_valid_download_invoice_request():
+def test_valid_download_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -127,7 +127,7 @@ def test_valid_download_invoice_request():
     assert response.lago_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
 
-def test_valid_refresh_invoice_request():
+def test_valid_refresh_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -139,7 +139,7 @@ def test_valid_refresh_invoice_request():
     assert response.lago_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
 
-def test_valid_finalize_invoice_request():
+def test_valid_finalize_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -151,7 +151,7 @@ def test_valid_finalize_invoice_request():
     assert response.lago_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
 
-def test_valid_retry_payment_invoice_request():
+def test_valid_retry_payment_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:

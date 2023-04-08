@@ -14,7 +14,7 @@ def mock_collection_response():
         return groups_response.read()
 
 
-def test_valid_find_all_groups_request():
+def test_valid_find_all_groups_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:

@@ -98,7 +98,7 @@ def mock_collection_response():
         return plan_response.read()
 
 
-def test_valid_create_plan_request():
+def test_valid_create_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -109,7 +109,7 @@ def test_valid_create_plan_request():
     assert response.code == 'plan_code'
 
 
-def test_valid_create_graduated_plan_request():
+def test_valid_create_graduated_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -120,7 +120,7 @@ def test_valid_create_graduated_plan_request():
     assert response.code == 'plan_code'
 
 
-def test_invalid_create_plan_request():
+def test_invalid_create_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
     with requests_mock.Mocker() as m:
@@ -130,7 +130,7 @@ def test_invalid_create_plan_request():
             client.plans().create(plan_object())
 
 
-def test_valid_update_plan_request():
+def test_valid_update_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     code = 'plan_code'
 
@@ -144,7 +144,7 @@ def test_valid_update_plan_request():
     assert response.code == code
 
 
-def test_invalid_update_plan_request():
+def test_invalid_update_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     code = 'invalid'
 
@@ -158,7 +158,7 @@ def test_invalid_update_plan_request():
             client.plans().update(plan_object(), code)
 
 
-def test_valid_find_plan_request():
+def test_valid_find_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     code = 'plan_code'
 
@@ -171,7 +171,7 @@ def test_valid_find_plan_request():
     assert response.charges.__root__[0].charge_model == 'standard'
 
 
-def test_invalid_find_plan_request():
+def test_invalid_find_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     code = 'invalid'
 
@@ -182,7 +182,7 @@ def test_invalid_find_plan_request():
             client.plans().find(code)
 
 
-def test_valid_destroy_plan_request():
+def test_valid_destroy_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     code = 'plan_code'
 
@@ -194,7 +194,7 @@ def test_valid_destroy_plan_request():
     assert response.code == code
 
 
-def test_invalid_destroy_plan_request():
+def test_invalid_destroy_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     code = 'invalid'
 
@@ -205,7 +205,7 @@ def test_invalid_destroy_plan_request():
             client.plans().destroy(code)
 
 
-def test_valid_find_all_plan_request():
+def test_valid_find_all_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -216,7 +216,7 @@ def test_valid_find_all_plan_request():
     assert response['meta']['current_page'] == 1
 
 
-def test_valid_find_all_plan_request_with_options():
+def test_valid_find_all_plan_request_with_options(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -227,7 +227,7 @@ def test_valid_find_all_plan_request_with_options():
     assert response['meta']['current_page'] == 1
 
 
-def test_invalid_find_all_plan_request():
+def test_invalid_find_all_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
     with requests_mock.Mocker() as m:

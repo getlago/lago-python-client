@@ -32,7 +32,7 @@ def mock_fees_response():
         return fees_response.read()
 
 
-def test_valid_create_events_request():
+def test_valid_create_events_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -42,7 +42,7 @@ def test_valid_create_events_request():
     assert response == True
 
 
-def test_invalid_create_events_request():
+def test_invalid_create_events_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
     with requests_mock.Mocker() as m:
@@ -52,7 +52,7 @@ def test_invalid_create_events_request():
             client.events().create(create_event())
 
 
-def test_valid_create_batch_events_request():
+def test_valid_create_batch_events_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -62,7 +62,7 @@ def test_valid_create_batch_events_request():
     assert response == True
 
 
-def test_invalid_create_batch_events_request():
+def test_invalid_create_batch_events_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
     with requests_mock.Mocker() as m:
@@ -72,7 +72,7 @@ def test_invalid_create_batch_events_request():
             client.events().batch_create(create_batch_event())
 
 
-def test_valid_find_event_request():
+def test_valid_find_event_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     event_id = '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
@@ -83,7 +83,7 @@ def test_valid_find_event_request():
     assert response.lago_id == event_id
 
 
-def test_invalid_find_events_request():
+def test_invalid_find_events_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     event_id = 'INVALID_EVENT'
 
@@ -95,7 +95,7 @@ def test_invalid_find_events_request():
             client.events().find(event_id)
 
 
-def test_valid_estimate_fees_request():
+def test_valid_estimate_fees_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -105,7 +105,7 @@ def test_valid_estimate_fees_request():
     assert response['fees'][0].item.type == 'instant_charge'
 
 
-def test_invalid_estimate_fees_request():
+def test_invalid_estimate_fees_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
     with requests_mock.Mocker() as m:

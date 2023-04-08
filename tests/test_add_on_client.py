@@ -35,7 +35,7 @@ def mock_collection_response():
         return add_on_response.read()
 
 
-def test_valid_create_add_on_request():
+def test_valid_create_add_on_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -46,7 +46,7 @@ def test_valid_create_add_on_request():
     assert response.code == 'add_on_code'
 
 
-def test_invalid_create_add_on_request():
+def test_invalid_create_add_on_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
     with requests_mock.Mocker() as m:
@@ -56,7 +56,7 @@ def test_invalid_create_add_on_request():
             client.add_ons().create(add_on_object())
 
 
-def test_valid_update_add_on_request():
+def test_valid_update_add_on_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     code = 'add_on_code'
 
@@ -70,7 +70,7 @@ def test_valid_update_add_on_request():
     assert response.code == code
 
 
-def test_invalid_update_add_on_request():
+def test_invalid_update_add_on_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     code = 'invalid'
 
@@ -84,7 +84,7 @@ def test_invalid_update_add_on_request():
             client.add_ons().update(add_on_object(), code)
 
 
-def test_valid_find_add_on_request():
+def test_valid_find_add_on_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     code = 'add_on_code'
 
@@ -96,7 +96,7 @@ def test_valid_find_add_on_request():
     assert response.code == code
 
 
-def test_invalid_find_add_on_request():
+def test_invalid_find_add_on_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     code = 'invalid'
 
@@ -107,7 +107,7 @@ def test_invalid_find_add_on_request():
             client.add_ons().find(code)
 
 
-def test_valid_destroy_add_on_request():
+def test_valid_destroy_add_on_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     code = 'add_on_code'
 
@@ -119,7 +119,7 @@ def test_valid_destroy_add_on_request():
     assert response.code == code
 
 
-def test_invalid_destroy_add_on_request():
+def test_invalid_destroy_add_on_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     code = 'invalid'
 
@@ -130,7 +130,7 @@ def test_invalid_destroy_add_on_request():
             client.add_ons().destroy(code)
 
 
-def test_valid_find_all_add_on_request():
+def test_valid_find_all_add_on_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -141,7 +141,7 @@ def test_valid_find_all_add_on_request():
     assert response['meta']['current_page'] == 1
 
 
-def test_valid_find_all_add_on_request_with_options():
+def test_valid_find_all_add_on_request_with_options(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -152,7 +152,7 @@ def test_valid_find_all_add_on_request_with_options():
     assert response['meta']['current_page'] == 1
 
 
-def test_invalid_find_all_add_on_request():
+def test_invalid_find_all_add_on_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
     with requests_mock.Mocker() as m:

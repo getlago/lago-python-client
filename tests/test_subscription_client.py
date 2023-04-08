@@ -30,7 +30,7 @@ def mock_collection_response():
         return subscription_response.read()
 
 
-def test_valid_create_subscriptions_request():
+def test_valid_create_subscriptions_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -44,7 +44,7 @@ def test_valid_create_subscriptions_request():
     assert response.subscription_date == '2022-04-29'
 
 
-def test_invalid_create_subscriptions_request():
+def test_invalid_create_subscriptions_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
     with requests_mock.Mocker() as m:
@@ -54,7 +54,7 @@ def test_invalid_create_subscriptions_request():
             client.subscriptions().create(create_subscription())
 
 
-def test_valid_update_subscription_request():
+def test_valid_update_subscription_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     identifier = 'sub_id'
 
@@ -71,7 +71,7 @@ def test_valid_update_subscription_request():
     assert response.subscription_date == '2022-04-29'
 
 
-def test_invalid_update_subscription_request():
+def test_invalid_update_subscription_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     identifier = 'invalid'
 
@@ -85,7 +85,7 @@ def test_invalid_update_subscription_request():
             client.subscriptions().update(Subscription(name='name'), identifier)
 
 
-def test_valid_destroy_subscription_request():
+def test_valid_destroy_subscription_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     identifier = 'sub_id'
 
@@ -98,7 +98,7 @@ def test_valid_destroy_subscription_request():
     assert response.plan_code == 'eartha lynch'
 
 
-def test_invalid_destroy_subscription_request():
+def test_invalid_destroy_subscription_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     identifier = 'invalid'
 
@@ -110,7 +110,7 @@ def test_invalid_destroy_subscription_request():
             client.subscriptions().destroy(identifier)
 
 
-def test_valid_find_all_subscription_request_with_options():
+def test_valid_find_all_subscription_request_with_options(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -122,7 +122,7 @@ def test_valid_find_all_subscription_request_with_options():
     assert response['meta']['current_page'] == 1
 
 
-def test_invalid_find_all_subscription_request():
+def test_invalid_find_all_subscription_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
     with requests_mock.Mocker() as m:

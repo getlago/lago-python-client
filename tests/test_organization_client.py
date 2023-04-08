@@ -29,7 +29,7 @@ def mock_response():
         return organization_response.read()
 
 
-def test_valid_update_organization_request():
+def test_valid_update_organization_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -41,7 +41,7 @@ def test_valid_update_organization_request():
     assert response.name == 'Hooli'
 
 
-def test_invalid_update_organization_request():
+def test_invalid_update_organization_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
     with requests_mock.Mocker() as m:

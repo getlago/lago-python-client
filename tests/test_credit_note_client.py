@@ -50,7 +50,7 @@ def mock_collection_response():
         return credit_notes_response.read()
 
 
-def test_valid_find_credit_note_request():
+def test_valid_find_credit_note_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     identifier = '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
@@ -61,7 +61,7 @@ def test_valid_find_credit_note_request():
     assert response.lago_id == identifier
 
 
-def test_invalid_find_invoice_request():
+def test_invalid_find_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     identifier = '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
@@ -72,7 +72,7 @@ def test_invalid_find_invoice_request():
         client.credit_notes().find(identifier)
 
 
-def test_valid_find_all_credit_notes_request():
+def test_valid_find_all_credit_notes_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -83,7 +83,7 @@ def test_valid_find_all_credit_notes_request():
     assert response['meta']['current_page'] == 1
 
 
-def test_valid_download_credit_note_request():
+def test_valid_download_credit_note_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -95,7 +95,7 @@ def test_valid_download_credit_note_request():
     assert response.lago_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
 
-def test_valid_create_credit_note_request():
+def test_valid_create_credit_note_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -106,7 +106,7 @@ def test_valid_create_credit_note_request():
     assert response.refund_status == 'pending'
 
 
-def test_invalid_create_credit_note_request():
+def test_invalid_create_credit_note_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -116,7 +116,7 @@ def test_invalid_create_credit_note_request():
             client.credit_notes().create(credit_note_object())
 
 
-def test_valid_update_credit_note_request():
+def test_valid_update_credit_note_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     credit_note_id = 'credit-note-id'
 
@@ -130,7 +130,7 @@ def test_valid_update_credit_note_request():
     assert response.refund_status == 'pending'
 
 
-def test_valid_void_credit_note_request():
+def test_valid_void_credit_note_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     credit_note_id = 'credit-note-id'
 

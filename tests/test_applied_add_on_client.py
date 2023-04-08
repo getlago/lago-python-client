@@ -24,7 +24,7 @@ def mock_response():
         return applied_add_on_response.read()
 
 
-def test_valid_create_applied_add_on_request():
+def test_valid_create_applied_add_on_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -34,7 +34,7 @@ def test_valid_create_applied_add_on_request():
     assert response.external_customer_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
 
-def test_invalid_create_applied_add_on_request():
+def test_invalid_create_applied_add_on_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
     with requests_mock.Mocker() as m:

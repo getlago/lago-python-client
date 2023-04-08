@@ -40,7 +40,7 @@ def mock_collection_response():
         return coupon_response.read()
 
 
-def test_valid_create_coupon_request():
+def test_valid_create_coupon_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -51,7 +51,7 @@ def test_valid_create_coupon_request():
     assert response.code == 'coupon_code'
 
 
-def test_invalid_create_coupon_request():
+def test_invalid_create_coupon_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
     with requests_mock.Mocker() as m:
@@ -61,7 +61,7 @@ def test_invalid_create_coupon_request():
             client.coupons().create(coupon_object())
 
 
-def test_valid_update_coupon_request():
+def test_valid_update_coupon_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     code = 'coupon_code'
 
@@ -75,7 +75,7 @@ def test_valid_update_coupon_request():
     assert response.code == code
 
 
-def test_invalid_update_coupon_request():
+def test_invalid_update_coupon_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     code = 'invalid'
 
@@ -89,7 +89,7 @@ def test_invalid_update_coupon_request():
             client.coupons().update(coupon_object(), code)
 
 
-def test_valid_find_coupon_request():
+def test_valid_find_coupon_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     code = 'coupon_code'
 
@@ -101,7 +101,7 @@ def test_valid_find_coupon_request():
     assert response.code == code
 
 
-def test_invalid_find_coupon_request():
+def test_invalid_find_coupon_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     code = 'invalid'
 
@@ -112,7 +112,7 @@ def test_invalid_find_coupon_request():
             client.coupons().find(code)
 
 
-def test_valid_destroy_coupon_request():
+def test_valid_destroy_coupon_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     code = 'coupon_code'
 
@@ -124,7 +124,7 @@ def test_valid_destroy_coupon_request():
     assert response.code == code
 
 
-def test_invalid_destroy_coupon_request():
+def test_invalid_destroy_coupon_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     code = 'invalid'
 
@@ -135,7 +135,7 @@ def test_invalid_destroy_coupon_request():
             client.coupons().destroy(code)
 
 
-def test_valid_find_all_coupon_request():
+def test_valid_find_all_coupon_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -146,7 +146,7 @@ def test_valid_find_all_coupon_request():
     assert response['meta']['current_page'] == 1
 
 
-def test_valid_find_all_coupon_request_with_options():
+def test_valid_find_all_coupon_request_with_options(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -157,7 +157,7 @@ def test_valid_find_all_coupon_request_with_options():
     assert response['meta']['current_page'] == 1
 
 
-def test_invalid_find_all_coupon_request():
+def test_invalid_find_all_coupon_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
     with requests_mock.Mocker() as m:

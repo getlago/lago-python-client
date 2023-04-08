@@ -35,7 +35,7 @@ def mock_collection_response():
         return wallet_response.read()
 
 
-def test_valid_create_wallet_request():
+def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -45,7 +45,7 @@ def test_valid_create_wallet_request():
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
 
 
-def test_invalid_create_wallet_request():
+def test_invalid_create_wallet_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
     with requests_mock.Mocker() as m:
@@ -55,7 +55,7 @@ def test_invalid_create_wallet_request():
             client.wallets().create(wallet_object())
 
 
-def test_valid_update_wallet_request():
+def test_valid_update_wallet_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     arg = 'b7ab2926-1de8-4428-9bcd-779314ac129b'
 
@@ -68,7 +68,7 @@ def test_valid_update_wallet_request():
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
 
 
-def test_invalid_update_wallet_request():
+def test_invalid_update_wallet_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     arg = 'invalid'
 
@@ -82,7 +82,7 @@ def test_invalid_update_wallet_request():
             client.wallets().update(wallet_object(), arg)
 
 
-def test_valid_find_wallet_request():
+def test_valid_find_wallet_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     arg = 'b7ab2926-1de8-4428-9bcd-779314ac129b'
 
@@ -93,7 +93,7 @@ def test_valid_find_wallet_request():
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
 
 
-def test_invalid_find_wallet_request():
+def test_invalid_find_wallet_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     arg = 'invalid'
 
@@ -104,7 +104,7 @@ def test_invalid_find_wallet_request():
             client.wallets().find(arg)
 
 
-def test_valid_destroy_wallet_request():
+def test_valid_destroy_wallet_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     arg = 'b7ab2926-1de8-4428-9bcd-779314ac129b'
 
@@ -115,7 +115,7 @@ def test_valid_destroy_wallet_request():
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
 
 
-def test_invalid_destroy_wallet_request():
+def test_invalid_destroy_wallet_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     arg = 'invalid'
 
@@ -126,7 +126,7 @@ def test_invalid_destroy_wallet_request():
             client.wallets().destroy(arg)
 
 
-def test_valid_find_all_wallet_request():
+def test_valid_find_all_wallet_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -137,7 +137,7 @@ def test_valid_find_all_wallet_request():
     assert response['meta']['current_page'] == 1
 
 
-def test_valid_find_all_wallet_request_with_options():
+def test_valid_find_all_wallet_request_with_options(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -148,7 +148,7 @@ def test_valid_find_all_wallet_request_with_options():
     assert response['meta']['current_page'] == 1
 
 
-def test_invalid_find_all_wallet_request():
+def test_invalid_find_all_wallet_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
     with requests_mock.Mocker() as m:

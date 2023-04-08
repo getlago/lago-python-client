@@ -16,7 +16,7 @@ def mock_response():
         return webhook_response.read()
 
 
-def test_valid_public_key_request():
+def test_valid_public_key_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -26,7 +26,7 @@ def test_valid_public_key_request():
     assert response == b'key'
 
 
-def test_invalid_public_key_request():
+def test_invalid_public_key_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
     with requests_mock.Mocker() as m:

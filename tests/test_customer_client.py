@@ -41,7 +41,7 @@ def mock_response(mock='customer'):
         return customer_response.read()
 
 
-def test_valid_create_customers_request():
+def test_valid_create_customers_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -62,7 +62,7 @@ def test_valid_create_customers_request():
     assert response.metadata.__root__[0].value == 'value'
 
 
-def test_invalid_create_customers_request():
+def test_invalid_create_customers_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
     with requests_mock.Mocker() as m:
@@ -72,7 +72,7 @@ def test_invalid_create_customers_request():
             client.customers().create(create_customer())
 
 
-def test_valid_current_usage():
+def test_valid_current_usage(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -86,7 +86,7 @@ def test_valid_current_usage():
     assert response.charges_usage[0].units == 1.0
 
 
-def test_invalid_current_usage():
+def test_invalid_current_usage(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -98,7 +98,7 @@ def test_invalid_current_usage():
             client.customers().current_usage('invalid_customer', '123')
 
 
-def test_valid_portal_url():
+def test_valid_portal_url(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -110,7 +110,7 @@ def test_valid_portal_url():
     assert response == "https://app.lago.dev/customer-portal/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaWt3WkdGbE1qWmxZUzFqWlRnekxUUTJZell0T1dRNFl5MHdabVF4TURabFlqY3dNVElHT2daRlZBPT0iLCJleHAiOiIyMDIzLTAzLTIzVDIzOjAzOjAwLjM2NloiLCJwdXIiOm51bGx9fQ==--7128c6e541adc7b4c14249b1b18509f92e652d17"
 
 
-def test_invalid_portal_url():
+def test_invalid_portal_url(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     with requests_mock.Mocker() as m:
@@ -122,7 +122,7 @@ def test_invalid_portal_url():
             client.customers().portal_url('invalid_customer')
 
 
-def test_valid_destroy_customer_request():
+def test_valid_destroy_customer_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     external_id = '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
@@ -134,7 +134,7 @@ def test_valid_destroy_customer_request():
     assert response.external_id == external_id
 
 
-def test_invalid_destroy_customer_request():
+def test_invalid_destroy_customer_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     external_id = 'external_id'
 
