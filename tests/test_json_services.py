@@ -35,11 +35,11 @@ def test_from_json():
 
 
 def test_to_json():
-    """Serialize data to json string."""
+    """Serialize data to json bytestring."""
     # Given some data
     initial_data = {'a': {'b': 'c'}}
     # And same data serialized in json format
-    expected_json_string = '{"a":{"b":"c"}}'
+    expected_json_string = b'{"a":{"b":"c"}}'
 
     # When service is applied
     # Then service result is equal to given serialized json string.

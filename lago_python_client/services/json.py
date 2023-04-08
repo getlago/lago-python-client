@@ -22,9 +22,9 @@ Deserializable = Union[bytes, bytearray, memoryview, str]
 DeserializedData = Union[Mapping[str, Any], Sequence[Any], int, float, str, bool, None]
 
 
-def to_json(data_container: Serializable) -> str:
+def to_json(data_container: Serializable) -> bytes:
     """Serialize data into json format."""
-    return orjson.dumps(data_container, option=orjson.OPT_NON_STR_KEYS).decode('utf-8')
+    return orjson.dumps(data_container, option=orjson.OPT_NON_STR_KEYS)
 
 
 @typeclass  # type: ignore
