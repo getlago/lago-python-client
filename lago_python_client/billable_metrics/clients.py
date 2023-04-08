@@ -26,8 +26,22 @@ class BillableMetricClient(
     RESPONSE_MODEL: ClassVar[Type[BillableMetricResponse]] = BillableMetricResponse
     ROOT_NAME: ClassVar[str] = 'billable_metric'
 
+    def __init__(self, base_url: str, api_key: str) -> None:
+        """Initialize client instance with internal ``GroupClient`` client instance."""
+        super().__init__(base_url=base_url, api_key=api_key)
+        self._groups: GroupClient = GroupClient(base_url=base_url, api_key=api_key)
+
+    def find_all_groups(self, metric_code: str, options: Mapping[str, Union[int, str]] = {}) -> Mapping[str, Any]:
+        """Find all groups."""
+        return self._groups.find_all(metric_code=metric_code, options=options)
+
 
 class GroupClient(BaseClient):
+    """Groups collection client.
+
+    Pending deprecation warning: class methods are not for public use. If you going to add new methods then register aliases in `BillableMetricClient`.
+    """
+
     API_RESOURCE: ClassVar[str] = 'groups'
     RESPONSE_MODEL: ClassVar[Type[GroupResponse]] = GroupResponse
     ROOT_NAME: ClassVar[str] = 'group'

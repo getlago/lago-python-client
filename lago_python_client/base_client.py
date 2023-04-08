@@ -7,7 +7,8 @@ from pydantic import BaseModel
 class BaseClient(ABC):
     """The base class used for each collection client."""
 
-    def __init__(self, base_url: str, api_key: str):
+    def __init__(self, base_url: str, api_key: str) -> None:
+        """Initialize base client."""
         self.base_url = base_url
         self.api_key = api_key
 

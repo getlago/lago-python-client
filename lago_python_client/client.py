@@ -1,4 +1,5 @@
 from urllib.parse import urljoin
+import warnings
 
 from .add_ons.clients import AddOnClient, AppliedAddOnClient
 from .billable_metrics.clients import BillableMetricClient, GroupClient
@@ -33,9 +34,11 @@ class Client:
     def base_api_url(self) -> str:
         return urljoin(self.api_url if self.api_url else Client.BASE_URL, Client.API_PATH)
 
+    # TODO: Deprecate me (replace PendingDeprecationWarning to DeprecationWarning, set date)
     @callable_cached_property
     def applied_add_ons(self) -> AppliedAddOnClient:
-        return AppliedAddOnClient(self.base_api_url, self.api_key)
+        warnings.warn('Use `client.add_ons.apply(...)` instead of `client.applied_add_ons.create(...)`', PendingDeprecationWarning)
+        return self.add_ons._applied_add_ons
 
     @callable_cached_property
     def add_ons(self) -> AddOnClient:
@@ -45,17 +48,27 @@ class Client:
     def billable_metrics(self) -> BillableMetricClient:
         return BillableMetricClient(self.base_api_url, self.api_key)
 
+    # TODO: Deprecate me (replace PendingDeprecationWarning to DeprecationWarning, set date)
     @callable_cached_property
     def groups(self) -> GroupClient:
-        return GroupClient(self.base_api_url, self.api_key)
+        warnings.warn('Use `client.billable_metrics.find_all_groups(...)` instead of `client.groups.find_all(...)`', PendingDeprecationWarning)
+        return self.billable_metrics._groups
 
     @callable_cached_property
     def coupons(self) -> CouponClient:
         return CouponClient(self.base_api_url, self.api_key)
 
+    # TODO: Deprecate me (replace PendingDeprecationWarning to DeprecationWarning, set date)
     @callable_cached_property
     def applied_coupons(self) -> AppliedCouponClient:
-        return AppliedCouponClient(self.base_api_url, self.api_key)
+        warnings.warn(
+            ''.join((
+                'Use `client.coupons.apply(...)` / `client.coupons.find_all_applied(...)` / `client.coupons.delete_applied(...)` instead of ',
+                '`client.applied_coupons.create(...)` / `client.applied_coupons.find_all(...)` / `client.applied_coupons.destroy(...)`',
+            )),
+            PendingDeprecationWarning,
+        )
+        return self.coupons._applied_coupons
 
     @callable_cached_property
     def credit_notes(self) -> CreditNoteClient:
@@ -93,9 +106,17 @@ class Client:
     def wallets(self) -> WalletClient:
         return WalletClient(self.base_api_url, self.api_key)
 
+    # TODO: Deprecate me (replace PendingDeprecationWarning to DeprecationWarning, set date)
     @callable_cached_property
     def wallet_transactions(self) -> WalletTransactionClient:
-        return WalletTransactionClient(self.base_api_url, self.api_key)
+        warnings.warn(
+            ''.join((
+                'Use `client.wallets.create_transaction(...)` / `client.wallets.find_all_transactions(...)` instead of ',
+                '`client.wallet_transactions.create(...)` / `client.wallet_transactions.find_all(...)`',
+            )),
+            PendingDeprecationWarning,
+        )
+        return self.wallets._wallet_transactions
 
     @callable_cached_property
     def webhooks(self) -> WebhookClient:

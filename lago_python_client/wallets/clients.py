@@ -29,8 +29,26 @@ class WalletClient(
     RESPONSE_MODEL: ClassVar[Type[WalletResponse]] = WalletResponse
     ROOT_NAME: ClassVar[str] = 'wallet'
 
+    def __init__(self, base_url: str, api_key: str) -> None:
+        """Initialize client instance with internal ``WalletTransactionClient`` client instance."""
+        super().__init__(base_url=base_url, api_key=api_key)
+        self._wallet_transactions: WalletTransactionClient = WalletTransactionClient(base_url=base_url, api_key=api_key)
+
+    def create_transaction(self, input_object: BaseModel) -> Mapping[str, Any]:
+        """Create a wallet transaction."""
+        return self._wallet_transactions.create(input_object=input_object)
+
+    def find_all_transactions(self, wallet_id: str, options: Mapping[str, Union[int, str]] = {}) -> Mapping[str, Any]:
+        """Find all wallet transactions."""
+        return self._wallet_transactions.find_all(wallet_id=wallet_id, options=options)
+
 
 class WalletTransactionClient(BaseClient):
+    """Wallet transactions collection client.
+
+    Pending deprecation warning: class methods are not for public use. If you going to add new methods then register aliases in `WalletClient`.
+    """
+
     API_RESOURCE: ClassVar[str] = 'wallet_transactions'
     RESPONSE_MODEL: ClassVar[Type[WalletTransactionResponse]] = WalletTransactionResponse
     ROOT_NAME: ClassVar[str] = 'wallet_transactions'
