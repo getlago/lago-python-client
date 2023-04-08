@@ -101,9 +101,8 @@ def mock_collection_response():
 def test_valid_create_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('POST', 'https://api.getlago.com/api/v1/plans', text=mock_response())
-        response = client.plans().create(plan_object())
+    httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/plans', content=mock_response())
+    response = client.plans().create(plan_object())
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == 'plan_code'
@@ -112,9 +111,8 @@ def test_valid_create_plan_request(httpx_mock: HTTPXMock):
 def test_valid_create_graduated_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('POST', 'https://api.getlago.com/api/v1/plans', text=mock_graduated_response())
-        response = client.plans().create(graduated_plan_object())
+    httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/plans', content=mock_graduated_response())
+    response = client.plans().create(graduated_plan_object())
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == 'plan_code'
@@ -123,22 +121,18 @@ def test_valid_create_graduated_plan_request(httpx_mock: HTTPXMock):
 def test_invalid_create_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('POST', 'https://api.getlago.com/api/v1/plans', status_code=401, text='')
+    httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/plans', status_code=401, content=b'')
 
-        with pytest.raises(LagoApiError):
-            client.plans().create(plan_object())
+    with pytest.raises(LagoApiError):
+        client.plans().create(plan_object())
 
 
 def test_valid_update_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     code = 'plan_code'
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('PUT',
-                       'https://api.getlago.com/api/v1/plans/' + code,
-                       text=mock_response())
-        response = client.plans().update(plan_object(), code)
+    httpx_mock.add_response(method='PUT', url='https://api.getlago.com/api/v1/plans/' + code, content=mock_response())
+    response = client.plans().update(plan_object(), code)
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == code
@@ -148,23 +142,18 @@ def test_invalid_update_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     code = 'invalid'
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('PUT',
-                       'https://api.getlago.com/api/v1/plans/' + code,
-                       status_code=401,
-                       text='')
+    httpx_mock.add_response(method='PUT', url='https://api.getlago.com/api/v1/plans/' + code, status_code=401, content=b'')
 
-        with pytest.raises(LagoApiError):
-            client.plans().update(plan_object(), code)
+    with pytest.raises(LagoApiError):
+        client.plans().update(plan_object(), code)
 
 
 def test_valid_find_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     code = 'plan_code'
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('GET', 'https://api.getlago.com/api/v1/plans/' + code, text=mock_response())
-        response = client.plans().find(code)
+    httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/plans/' + code, content=mock_response())
+    response = client.plans().find(code)
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == code
@@ -175,20 +164,18 @@ def test_invalid_find_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     code = 'invalid'
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('GET', 'https://api.getlago.com/api/v1/plans/' + code, status_code=404, text='')
+    httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/plans/' + code, status_code=404, content=b'')
 
-        with pytest.raises(LagoApiError):
-            client.plans().find(code)
+    with pytest.raises(LagoApiError):
+        client.plans().find(code)
 
 
 def test_valid_destroy_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     code = 'plan_code'
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('DELETE', 'https://api.getlago.com/api/v1/plans/' + code, text=mock_response())
-        response = client.plans().destroy(code)
+    httpx_mock.add_response(method='DELETE', url='https://api.getlago.com/api/v1/plans/' + code, content=mock_response())
+    response = client.plans().destroy(code)
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == code
@@ -198,19 +185,17 @@ def test_invalid_destroy_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     code = 'invalid'
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('DELETE', 'https://api.getlago.com/api/v1/plans/' + code, status_code=404, text='')
+    httpx_mock.add_response(method='DELETE', url='https://api.getlago.com/api/v1/plans/' + code, status_code=404, content=b'')
 
-        with pytest.raises(LagoApiError):
-            client.plans().destroy(code)
+    with pytest.raises(LagoApiError):
+        client.plans().destroy(code)
 
 
 def test_valid_find_all_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('GET', 'https://api.getlago.com/api/v1/plans', text=mock_collection_response())
-        response = client.plans().find_all()
+    httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/plans', content=mock_collection_response())
+    response = client.plans().find_all()
 
     assert response['plans'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1111'
     assert response['meta']['current_page'] == 1
@@ -219,9 +204,8 @@ def test_valid_find_all_plan_request(httpx_mock: HTTPXMock):
 def test_valid_find_all_plan_request_with_options(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('GET', 'https://api.getlago.com/api/v1/plans?per_page=2&page=1', text=mock_collection_response())
-        response = client.plans().find_all({'per_page': 2, 'page': 1})
+    httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/plans?per_page=2&page=1', content=mock_collection_response())
+    response = client.plans().find_all({'per_page': 2, 'page': 1})
 
     assert response['plans'][1].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1222'
     assert response['meta']['current_page'] == 1
@@ -230,8 +214,7 @@ def test_valid_find_all_plan_request_with_options(httpx_mock: HTTPXMock):
 def test_invalid_find_all_plan_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('GET', 'https://api.getlago.com/api/v1/plans', status_code=404, text='')
+    httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/plans', status_code=404, content=b'')
 
-        with pytest.raises(LagoApiError):
-            client.plans().find_all()
+    with pytest.raises(LagoApiError):
+        client.plans().find_all()

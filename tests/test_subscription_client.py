@@ -33,9 +33,8 @@ def mock_collection_response():
 def test_valid_create_subscriptions_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('POST', 'https://api.getlago.com/api/v1/subscriptions', text=mock_response())
-        response = client.subscriptions().create(create_subscription())
+    httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/subscriptions', content=mock_response())
+    response = client.subscriptions().create(create_subscription())
 
     assert response.external_customer_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
     assert response.status == 'active'
@@ -47,22 +46,18 @@ def test_valid_create_subscriptions_request(httpx_mock: HTTPXMock):
 def test_invalid_create_subscriptions_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('POST', 'https://api.getlago.com/api/v1/subscriptions', status_code=401, text='')
+    httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/subscriptions', status_code=401, content=b'')
 
-        with pytest.raises(LagoApiError):
-            client.subscriptions().create(create_subscription())
+    with pytest.raises(LagoApiError):
+        client.subscriptions().create(create_subscription())
 
 
 def test_valid_update_subscription_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     identifier = 'sub_id'
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('PUT',
-                       'https://api.getlago.com/api/v1/subscriptions/' + identifier,
-                       text=mock_response())
-        response = client.subscriptions().update(Subscription(name='name'), identifier)
+    httpx_mock.add_response(method='PUT', url='https://api.getlago.com/api/v1/subscriptions/' + identifier, content=mock_response())
+    response = client.subscriptions().update(Subscription(name='name'), identifier)
 
     assert response.external_customer_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
     assert response.status == 'active'
@@ -75,23 +70,18 @@ def test_invalid_update_subscription_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     identifier = 'invalid'
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('PUT',
-                       'https://api.getlago.com/api/v1/subscriptions/' + identifier,
-                       status_code=401,
-                       text='')
+    httpx_mock.add_response(method='PUT', url='https://api.getlago.com/api/v1/subscriptions/' + identifier, status_code=401, content=b'')
 
-        with pytest.raises(LagoApiError):
-            client.subscriptions().update(Subscription(name='name'), identifier)
+    with pytest.raises(LagoApiError):
+        client.subscriptions().update(Subscription(name='name'), identifier)
 
 
 def test_valid_destroy_subscription_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     identifier = 'sub_id'
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('DELETE', 'https://api.getlago.com/api/v1/subscriptions/' + identifier, text=mock_response())
-        response = client.subscriptions().destroy(identifier)
+    httpx_mock.add_response(method='DELETE', url='https://api.getlago.com/api/v1/subscriptions/' + identifier, content=mock_response())
+    response = client.subscriptions().destroy(identifier)
 
     assert response.external_customer_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
     assert response.status == 'active'
@@ -102,21 +92,17 @@ def test_invalid_destroy_subscription_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     identifier = 'invalid'
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('DELETE', 'https://api.getlago.com/api/v1/subscriptions/' + identifier,
-                       status_code=404, text='')
+    httpx_mock.add_response(method='DELETE', url='https://api.getlago.com/api/v1/subscriptions/' + identifier, status_code=404, content=b'')
 
-        with pytest.raises(LagoApiError):
-            client.subscriptions().destroy(identifier)
+    with pytest.raises(LagoApiError):
+        client.subscriptions().destroy(identifier)
 
 
 def test_valid_find_all_subscription_request_with_options(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('GET', 'https://api.getlago.com/api/v1/subscriptions?external_customer_id=123',
-                       text=mock_collection_response())
-        response = client.subscriptions().find_all({'external_customer_id': '123'})
+    httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/subscriptions?external_customer_id=123', content=mock_collection_response())
+    response = client.subscriptions().find_all({'external_customer_id': '123'})
 
     assert response['subscriptions'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response['meta']['current_page'] == 1
@@ -125,8 +111,7 @@ def test_valid_find_all_subscription_request_with_options(httpx_mock: HTTPXMock)
 def test_invalid_find_all_subscription_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('GET', 'https://api.getlago.com/api/v1/subscriptions', status_code=404, text='')
+    httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/subscriptions', status_code=404, content=b'')
 
-        with pytest.raises(LagoApiError):
-            client.subscriptions().find_all()
+    with pytest.raises(LagoApiError):
+        client.subscriptions().find_all()

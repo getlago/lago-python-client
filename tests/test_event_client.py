@@ -35,9 +35,8 @@ def mock_fees_response():
 def test_valid_create_events_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('POST', 'https://api.getlago.com/api/v1/events', text='')
-        response = client.events().create(create_event())
+    httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/events', content=b'')
+    response = client.events().create(create_event())
 
     assert response == True
 
@@ -45,19 +44,17 @@ def test_valid_create_events_request(httpx_mock: HTTPXMock):
 def test_invalid_create_events_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('POST', 'https://api.getlago.com/api/v1/events', status_code=401, text='')
+    httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/events', status_code=401, content=b'')
 
-        with pytest.raises(LagoApiError):
-            client.events().create(create_event())
+    with pytest.raises(LagoApiError):
+        client.events().create(create_event())
 
 
 def test_valid_create_batch_events_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('POST', 'https://api.getlago.com/api/v1/events/batch', text='')
-        response = client.events().batch_create(create_batch_event())
+    httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/events/batch', content=b'')
+    response = client.events().batch_create(create_batch_event())
 
     assert response == True
 
@@ -65,20 +62,18 @@ def test_valid_create_batch_events_request(httpx_mock: HTTPXMock):
 def test_invalid_create_batch_events_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('POST', 'https://api.getlago.com/api/v1/events/batch', status_code=401, text='')
+    httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/events/batch', status_code=401, content=b'')
 
-        with pytest.raises(LagoApiError):
-            client.events().batch_create(create_batch_event())
+    with pytest.raises(LagoApiError):
+        client.events().batch_create(create_batch_event())
 
 
 def test_valid_find_event_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     event_id = '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('GET', 'https://api.getlago.com/api/v1/events/' + event_id, text=mock_response())
-        response = client.events().find(event_id)
+    httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/events/' + event_id, content=mock_response())
+    response = client.events().find(event_id)
 
     assert response.lago_id == event_id
 
@@ -87,20 +82,17 @@ def test_invalid_find_events_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     event_id = 'INVALID_EVENT'
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('POST', 'https://api.getlago.com/api/v1/events', status_code=401, text='')
-        m.register_uri('GET', 'https://api.getlago.com/api/v1/events/' + event_id, status_code=404, text='')
+    httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/events/' + event_id, status_code=404, content=b'')
 
-        with pytest.raises(LagoApiError):
-            client.events().find(event_id)
+    with pytest.raises(LagoApiError):
+        client.events().find(event_id)
 
 
 def test_valid_estimate_fees_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('POST', 'https://api.getlago.com/api/v1/events/estimate_fees', text=mock_fees_response())
-        response = client.events().estimate_fees(create_event())
+    httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/events/estimate_fees', content=mock_fees_response())
+    response = client.events().estimate_fees(create_event())
 
     assert response['fees'][0].item.type == 'instant_charge'
 
@@ -108,8 +100,7 @@ def test_valid_estimate_fees_request(httpx_mock: HTTPXMock):
 def test_invalid_estimate_fees_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('POST', 'https://api.getlago.com/api/v1/events/estimate_fees', status_code=404, text='')
+    httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/events/estimate_fees', status_code=404, content=b'')
 
-        with pytest.raises(LagoApiError):
-            client.events().estimate_fees(create_event())
+    with pytest.raises(LagoApiError):
+        client.events().estimate_fees(create_event())

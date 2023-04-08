@@ -35,11 +35,8 @@ def mock_collection_response():
 def test_valid_update_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('PUT',
-                       'https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba',
-                       text=mock_response())
-        response = client.invoices().update(update_invoice_object(), '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
+    httpx_mock.add_response(method='PUT', url='https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba', content=mock_response())
+    response = client.invoices().update(update_invoice_object(), '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
 
     assert response.lago_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
     assert response.status == 'finalized'
@@ -51,23 +48,18 @@ def test_valid_update_invoice_request(httpx_mock: HTTPXMock):
 def test_invalid_update_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('PUT',
-                       'https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba',
-                       status_code=401,
-                       text='')
+    httpx_mock.add_response(method='PUT', url='https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba', status_code=401, content=b'')
 
-        with pytest.raises(LagoApiError):
-            client.invoices().update(update_invoice_object(), '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
+    with pytest.raises(LagoApiError):
+        client.invoices().update(update_invoice_object(), '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
 
 
 def test_valid_find_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     identifier = '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('GET', 'https://api.getlago.com/api/v1/invoices/' + identifier, text=mock_response())
-        response = client.invoices().find(identifier)
+    httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/invoices/' + identifier, content=mock_response())
+    response = client.invoices().find(identifier)
 
     assert response.lago_id == identifier
 
@@ -76,19 +68,17 @@ def test_invalid_find_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     identifier = '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('GET', 'https://api.getlago.com/api/v1/invoices/' + identifier, status_code=404, text='')
+    httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/invoices/' + identifier, status_code=404, content=b'')
 
-        with pytest.raises(LagoApiError):
-            client.invoices().find(identifier)
+    with pytest.raises(LagoApiError):
+        client.invoices().find(identifier)
 
 
 def test_valid_find_all_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('GET', 'https://api.getlago.com/api/v1/invoices', text=mock_collection_response())
-        response = client.invoices().find_all()
+    httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/invoices', content=mock_collection_response())
+    response = client.invoices().find_all()
 
     assert response['invoices'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1111'
     assert response['meta']['current_page'] == 1
@@ -97,9 +87,8 @@ def test_valid_find_all_invoice_request(httpx_mock: HTTPXMock):
 def test_valid_find_all_invoice_request_with_options(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('GET', 'https://api.getlago.com/api/v1/invoices?per_page=2&page=1', text=mock_collection_response())
-        response = client.invoices().find_all({'per_page': 2, 'page': 1})
+    httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/invoices?per_page=2&page=1', content=mock_collection_response())
+    response = client.invoices().find_all({'per_page': 2, 'page': 1})
 
     assert response['invoices'][1].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1222'
     assert response['meta']['current_page'] == 1
@@ -108,21 +97,17 @@ def test_valid_find_all_invoice_request_with_options(httpx_mock: HTTPXMock):
 def test_invalid_find_all_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('GET', 'https://api.getlago.com/api/v1/invoices', status_code=404, text='')
+    httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/invoices', status_code=404, content=b'')
 
-        with pytest.raises(LagoApiError):
-            client.invoices().find_all()
+    with pytest.raises(LagoApiError):
+        client.invoices().find_all()
 
 
 def test_valid_download_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('POST',
-                        'https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba/download',
-                        text=mock_response())
-        response = client.invoices().download('5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
+    httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba/download', content=mock_response())
+    response = client.invoices().download('5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
 
     assert response.lago_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
@@ -130,11 +115,8 @@ def test_valid_download_invoice_request(httpx_mock: HTTPXMock):
 def test_valid_refresh_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('PUT',
-                        'https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba/refresh',
-                        text=mock_response())
-        response = client.invoices().refresh('5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
+    httpx_mock.add_response(method='PUT', url='https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba/refresh', content=mock_response())
+    response = client.invoices().refresh('5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
 
     assert response.lago_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
@@ -142,11 +124,8 @@ def test_valid_refresh_invoice_request(httpx_mock: HTTPXMock):
 def test_valid_finalize_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('PUT',
-                        'https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba/finalize',
-                        text=mock_response())
-        response = client.invoices().finalize('5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
+    httpx_mock.add_response(method='PUT', url='https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba/finalize', content=mock_response())
+    response = client.invoices().finalize('5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
 
     assert response.lago_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
@@ -154,11 +133,11 @@ def test_valid_finalize_invoice_request(httpx_mock: HTTPXMock):
 def test_valid_retry_payment_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri(
-            'POST',
-            'https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba/retry_payment',
-            text=mock_response())
-        response = client.invoices().retry_payment('5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
+    httpx_mock.add_response(
+        method='POST',
+        url='https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba/retry_payment',
+        content=mock_response(),
+    )
+    response = client.invoices().retry_payment('5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
 
     assert response.lago_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'

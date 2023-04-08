@@ -54,9 +54,8 @@ def test_valid_find_credit_note_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     identifier = '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('GET', 'https://api.getlago.com/api/v1/credit_notes/' + identifier, text=mock_response())
-        response = client.credit_notes().find(identifier)
+    httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/credit_notes/' + identifier, content=mock_response())
+    response = client.credit_notes().find(identifier)
 
     assert response.lago_id == identifier
 
@@ -65,8 +64,7 @@ def test_invalid_find_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
     identifier = '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('GET', 'https://api.getlago.com/api/v1/credit_notes/' + identifier, status_code=404, text='')
+    httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/credit_notes/' + identifier, status_code=404, content=b'')
 
     with pytest.raises(LagoApiError):
         client.credit_notes().find(identifier)
@@ -75,9 +73,8 @@ def test_invalid_find_invoice_request(httpx_mock: HTTPXMock):
 def test_valid_find_all_credit_notes_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('GET', 'https://api.getlago.com/api/v1/credit_notes', text=mock_collection_response())
-        response = client.credit_notes().find_all({'per_page': 2, 'page': 1})
+    httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/credit_notes?per_page=2&page=1', content=mock_collection_response())
+    response = client.credit_notes().find_all({'per_page': 2, 'page': 1})
 
     assert response['credit_notes'][0].lago_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
     assert response['meta']['current_page'] == 1
@@ -86,11 +83,12 @@ def test_valid_find_all_credit_notes_request(httpx_mock: HTTPXMock):
 def test_valid_download_credit_note_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('POST',
-                        'https://api.getlago.com/api/v1/credit_notes/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba/download',
-                        text=mock_response())
-        response = client.credit_notes().download('5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
+    httpx_mock.add_response(
+        method='POST',
+        url='https://api.getlago.com/api/v1/credit_notes/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba/download',
+        content=mock_response(),
+    )
+    response = client.credit_notes().download('5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
 
     assert response.lago_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
@@ -98,9 +96,8 @@ def test_valid_download_credit_note_request(httpx_mock: HTTPXMock):
 def test_valid_create_credit_note_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('POST', 'https://api.getlago.com/api/v1/credit_notes', text=mock_response())
-        response = client.credit_notes().create(credit_note_object())
+    httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/credit_notes', content=mock_response())
+    response = client.credit_notes().create(credit_note_object())
 
     assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
     assert response.refund_status == 'pending'
@@ -109,22 +106,18 @@ def test_valid_create_credit_note_request(httpx_mock: HTTPXMock):
 def test_invalid_create_credit_note_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('POST', 'https://api.getlago.com/api/v1/credit_notes', status_code=422, text='')
+    httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/credit_notes', status_code=422, content=b'')
 
-        with pytest.raises(LagoApiError):
-            client.credit_notes().create(credit_note_object())
+    with pytest.raises(LagoApiError):
+        client.credit_notes().create(credit_note_object())
 
 
 def test_valid_update_credit_note_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     credit_note_id = 'credit-note-id'
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('PUT',
-                       'https://api.getlago.com/api/v1/credit_notes/' + credit_note_id,
-                       text=mock_response())
-        response = client.credit_notes().update(credit_note_update_object(), credit_note_id)
+    httpx_mock.add_response(method='PUT', url='https://api.getlago.com/api/v1/credit_notes/' + credit_note_id, content=mock_response())
+    response = client.credit_notes().update(credit_note_update_object(), credit_note_id)
 
     assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
     assert response.refund_status == 'pending'
@@ -134,11 +127,8 @@ def test_valid_void_credit_note_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     credit_note_id = 'credit-note-id'
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('PUT',
-                       'https://api.getlago.com/api/v1/credit_notes/' + credit_note_id + '/void',
-                       text=mock_response())
-        response = client.credit_notes().void(credit_note_id)
+    httpx_mock.add_response(method='PUT', url='https://api.getlago.com/api/v1/credit_notes/' + credit_note_id + '/void', content=mock_response())
+    response = client.credit_notes().void(credit_note_id)
 
     assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
     assert response.refund_status == 'pending'
