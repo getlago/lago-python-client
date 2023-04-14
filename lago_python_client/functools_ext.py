@@ -1,5 +1,6 @@
 import sys
 from typing import Any, TypeVar
+import warnings
 try:
     from functools import cached_property
 except ImportError:
@@ -28,6 +29,14 @@ class Proxy(object):
         setattr(self._obj, name, value)
 
     def __call__(self) -> Any:
+        warnings.warn(
+            ''.join((
+                'We are going to deprecate callable properties (`client.<your_tag_name>()`) in future. ',
+                'Please, remove braces. ',
+                'Use `client.<your_tag_name>.<your_operation_name>(...)` instead of `client.<your_tag_name>().<your_operation_name>(...)`',
+            )),
+            PendingDeprecationWarning,
+        )
         return self._obj
 
     def __repr__(self) -> str:
