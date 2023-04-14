@@ -1,7 +1,7 @@
 import os
 
 import pytest
-import requests_mock
+from pytest_httpx import HTTPXMock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
@@ -24,30 +24,23 @@ def mock_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(this_dir, 'fixtures/organization.json')
 
-    with open(data_path, 'r') as organization_response:
+    with open(data_path, 'rb') as organization_response:
         return organization_response.read()
 
 
-def test_valid_update_organization_request():
+def test_valid_update_organization_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('PUT',
-                       'https://api.getlago.com/api/v1/organizations',
-                       text=mock_response())
-        response = client.organizations().update(organization_object())
+    httpx_mock.add_response(method='PUT', url='https://api.getlago.com/api/v1/organizations', content=mock_response())
+    response = client.organizations().update(organization_object())
 
     assert response.name == 'Hooli'
 
 
-def test_invalid_update_organization_request():
+def test_invalid_update_organization_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('PUT',
-                       'https://api.getlago.com/api/v1/organizations',
-                       status_code=401,
-                       text='')
+    httpx_mock.add_response(method='PUT', url='https://api.getlago.com/api/v1/organizations', status_code=401, content=b'')
 
-        with pytest.raises(LagoApiError):
-            client.organizations().update(organization_object())
+    with pytest.raises(LagoApiError):
+        client.organizations().update(organization_object())

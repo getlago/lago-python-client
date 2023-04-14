@@ -29,7 +29,7 @@ class EventClient(CreateCommandMixin[EventResponse], FindCommandMixin[EventRespo
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, 'batch'),
             ),
-            data=to_json({
+            content=to_json({
                 self.ROOT_NAME: input_object.dict(),
             }),
             headers=make_headers(api_key=self.api_key),
@@ -44,7 +44,7 @@ class EventClient(CreateCommandMixin[EventResponse], FindCommandMixin[EventRespo
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, 'estimate_fees'),
             ),
-            data=to_json({
+            content=to_json({
                 self.ROOT_NAME: input_object.dict(),
             }),
             headers=make_headers(api_key=self.api_key),

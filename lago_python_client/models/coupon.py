@@ -7,6 +7,7 @@ from ..base_model import BaseResponseModel
 
 class LimitationConfiguration(BaseModel):
     plan_codes: Optional[List[Any]]
+    billable_metric_codes: Optional[List[Any]]
 
 
 class Coupon(BaseModel):
@@ -40,3 +41,5 @@ class CouponResponse(BaseResponseModel):
     frequency_duration: Optional[int]
     plan_codes: Optional[List[Any]]
     limited_plans: Optional[bool]
+    billable_metric_codes: Optional[List[Any]]
+    limited_billable_metrics: Optional[bool]

@@ -1,5 +1,5 @@
 """Test request services."""
-import requests
+import httpx
 
 from lago_python_client.services.request import make_headers, make_url, send_delete_request, send_get_request, send_post_request, send_put_request
 from lago_python_client.version import LAGO_VERSION
@@ -48,20 +48,20 @@ def test_make_url_no_query():
 
 
 def test_send_delete_request():
-    """Ensure `send_delete_request` service use requests."""
-    assert send_delete_request == requests.delete
+    """Ensure `send_delete_request` service use httpx."""
+    assert send_delete_request == httpx.delete
 
 
 def test_send_get_request():
-    """Ensure `send_get_request` service use requests."""
-    assert send_get_request == requests.get
+    """Ensure `send_get_request` service use httpx."""
+    assert send_get_request == httpx.get
 
 
 def test_send_post_request():
-    """Ensure `send_post_request` service use requests."""
-    assert send_post_request == requests.post
+    """Ensure `send_post_request` service use httpx."""
+    assert send_post_request == httpx.post
 
 
 def test_send_put_request():
-    """Ensure `send_put_request` service use requests."""
-    assert send_put_request == requests.put
+    """Ensure `send_put_request` service use httpx."""
+    assert send_put_request == httpx.put
