@@ -44,7 +44,7 @@ class CreateCommandMixin(Generic[_M]):
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, ),
             ),
-            data=to_json({
+            content=to_json({
                 self.ROOT_NAME: input_object.dict(),
             }),
             headers=make_headers(api_key=self.api_key),
@@ -115,8 +115,8 @@ class FindCommandMixin(Generic[_M]):
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, resource_id),
+                query_pairs=params,
             ),
-            data=to_json(params) if params else None,
             headers=make_headers(api_key=self.api_key),
         )
 
@@ -138,7 +138,7 @@ class UpdateCommandMixin(Generic[_M]):
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, identifier) if identifier else (self.API_RESOURCE, ),
             ),
-            data=to_json({
+            content=to_json({
                 self.ROOT_NAME: input_object.dict(exclude_none=True),
             }),
             headers=make_headers(api_key=self.api_key),

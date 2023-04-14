@@ -10,8 +10,8 @@ try:
 except ImportError:  # Python 3.7
     from typing_extensions import Final  # type: ignore
 
+from httpx import Response as Response  # not a typo! implicit reexport
 from pydantic import BaseModel
-from requests import Response as Response  # not a typo! implicit reexport
 import typeguard
 
 from ..exceptions import LagoApiError
@@ -52,7 +52,7 @@ def verify_response(response: Response) -> Optional[Response]:
         response_data: Any = from_json(response)  # type: ignore
         raise LagoApiError(
             status_code=response.status_code,
-            url=response.request.url,
+            url=str(response.request.url),
             response=response_data,
             detail=getattr(response_data, 'error', None),
             headers=response.headers,

@@ -1,7 +1,7 @@
 import os
 
 import pytest
-import requests_mock
+from pytest_httpx import HTTPXMock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
@@ -19,25 +19,23 @@ def mock_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(this_dir, 'fixtures/applied_add_on.json')
 
-    with open(data_path, 'r') as applied_add_on_response:
+    with open(data_path, 'rb') as applied_add_on_response:
         return applied_add_on_response.read()
 
 
-def test_valid_create_applied_add_on_request():
+def test_valid_create_applied_add_on_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('POST', 'https://api.getlago.com/api/v1/applied_add_ons', text=mock_response())
-        response = client.applied_add_ons().create(create_applied_add_on())
+    httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/applied_add_ons', content=mock_response())
+    response = client.applied_add_ons().create(create_applied_add_on())
 
     assert response.external_customer_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
 
-def test_invalid_create_applied_add_on_request():
+def test_invalid_create_applied_add_on_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
-    with requests_mock.Mocker() as m:
-        m.register_uri('POST', 'https://api.getlago.com/api/v1/applied_add_ons', status_code=401, text='')
+    httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/applied_add_ons', status_code=401, content=b'')
 
-        with pytest.raises(LagoApiError):
-            client.applied_add_ons().create(create_applied_add_on())
+    with pytest.raises(LagoApiError):
+        client.applied_add_ons().create(create_applied_add_on())
