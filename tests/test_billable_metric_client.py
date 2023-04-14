@@ -43,7 +43,7 @@ def test_valid_create_billable_metric_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/billable_metrics', content=mock_response())
-    response = client.billable_metrics().create(billable_metric_object())
+    response = client.billable_metrics.create(billable_metric_object())
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == 'bm_code'
@@ -56,7 +56,7 @@ def test_invalid_create_billable_metric_request(httpx_mock: HTTPXMock):
     httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/billable_metrics', status_code=401, content=b'')
 
     with pytest.raises(LagoApiError):
-        client.billable_metrics().create(billable_metric_object())
+        client.billable_metrics.create(billable_metric_object())
 
 
 def test_valid_update_billable_metric_request(httpx_mock: HTTPXMock):
@@ -64,7 +64,7 @@ def test_valid_update_billable_metric_request(httpx_mock: HTTPXMock):
     code = 'bm_code'
 
     httpx_mock.add_response(method='PUT', url='https://api.getlago.com/api/v1/billable_metrics/' + code, content=mock_response())
-    response = client.billable_metrics().update(billable_metric_object(), code)
+    response = client.billable_metrics.update(billable_metric_object(), code)
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == code
@@ -77,7 +77,7 @@ def test_invalid_update_billable_metric_request(httpx_mock: HTTPXMock):
     httpx_mock.add_response(method='PUT', url='https://api.getlago.com/api/v1/billable_metrics/' + code, status_code=401, content=b'')
 
     with pytest.raises(LagoApiError):
-        client.billable_metrics().update(billable_metric_object(), code)
+        client.billable_metrics.update(billable_metric_object(), code)
 
 
 def test_valid_find_billable_metric_request(httpx_mock: HTTPXMock):
@@ -85,7 +85,7 @@ def test_valid_find_billable_metric_request(httpx_mock: HTTPXMock):
     code = 'bm_code'
 
     httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/billable_metrics/' + code, content=mock_response())
-    response = client.billable_metrics().find(code)
+    response = client.billable_metrics.find(code)
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == code
@@ -98,7 +98,7 @@ def test_invalid_find_billable_metric_request(httpx_mock: HTTPXMock):
     httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/billable_metrics/' + code, status_code=404, content=b'')
 
     with pytest.raises(LagoApiError):
-        client.billable_metrics().find(code)
+        client.billable_metrics.find(code)
 
 
 def test_valid_destroy_billable_metric_request(httpx_mock: HTTPXMock):
@@ -106,7 +106,7 @@ def test_valid_destroy_billable_metric_request(httpx_mock: HTTPXMock):
     code = 'bm_code'
 
     httpx_mock.add_response(method='DELETE', url='https://api.getlago.com/api/v1/billable_metrics/' + code, content=mock_response())
-    response = client.billable_metrics().destroy(code)
+    response = client.billable_metrics.destroy(code)
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == code
@@ -119,14 +119,14 @@ def test_invalid_destroy_billable_metric_request(httpx_mock: HTTPXMock):
     httpx_mock.add_response(method='DELETE', url='https://api.getlago.com/api/v1/billable_metrics/' + code, status_code=404, content=b'')
 
     with pytest.raises(LagoApiError):
-        client.billable_metrics().destroy(code)
+        client.billable_metrics.destroy(code)
 
 
 def test_valid_find_all_billable_metric_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/billable_metrics', content=mock_collection_response())
-    response = client.billable_metrics().find_all()
+    response = client.billable_metrics.find_all()
 
     assert response['billable_metrics'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1000'
     assert response['meta']['current_page'] == 1
@@ -136,7 +136,7 @@ def test_valid_find_all_billable_metric_request_with_options(httpx_mock: HTTPXMo
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/billable_metrics?per_page=2&page=1', content=mock_collection_response())
-    response = client.billable_metrics().find_all({'per_page': 2, 'page': 1})
+    response = client.billable_metrics.find_all({'per_page': 2, 'page': 1})
 
     assert response['billable_metrics'][1].lago_id == 'b7ab2926-1de8-4428-9bcd-779314a11111'
     assert response['meta']['current_page'] == 1
@@ -148,4 +148,4 @@ def test_invalid_find_all_billable_metric_request(httpx_mock: HTTPXMock):
     httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/billable_metrics', status_code=404, content=b'')
 
     with pytest.raises(LagoApiError):
-        client.billable_metrics().find_all()
+        client.billable_metrics.find_all()

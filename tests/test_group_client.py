@@ -21,7 +21,7 @@ def test_valid_find_all_groups_request(httpx_mock: HTTPXMock):
         url='https://api.getlago.com/api/v1/billable_metrics/bm_code/groups?per_page=2&page=1',
         content=mock_collection_response(),
     )
-    response = client.groups().find_all('bm_code', {'per_page': 2, 'page': 1})
+    response = client.groups.find_all('bm_code', {'per_page': 2, 'page': 1})
 
     assert response['groups'][0].lago_id == '12345678-1de8-4428-9bcd-779314ac1111'
     assert response['meta']['current_page'] == 1
