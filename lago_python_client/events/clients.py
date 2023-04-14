@@ -23,7 +23,7 @@ class EventClient(CreateCommandMixin[EventResponse], FindCommandMixin[EventRespo
     RESPONSE_MODEL: ClassVar[Type[EventResponse]] = EventResponse
     ROOT_NAME: ClassVar[str] = 'event'
 
-    def batch_create(self, input_object: BaseModel) -> Optional[bool]:
+    def batch_create(self, input_object: BaseModel) -> None:
         api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
@@ -36,7 +36,7 @@ class EventClient(CreateCommandMixin[EventResponse], FindCommandMixin[EventRespo
         )
         verify_response(api_response)
 
-        return True # TODO: should return None
+        return None
 
     def estimate_fees(self, input_object: BaseModel) -> Mapping[str, Any]:
         api_response: Response = send_post_request(

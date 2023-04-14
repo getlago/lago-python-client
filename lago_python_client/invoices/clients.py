@@ -12,7 +12,7 @@ class InvoiceClient(FindCommandMixin[InvoiceResponse], FindAllCommandMixin[Invoi
     RESPONSE_MODEL: ClassVar[Type[InvoiceResponse]] = InvoiceResponse
     ROOT_NAME: ClassVar[str] = 'invoice'
 
-    def download(self, resource_id: str) -> Union[Optional[InvoiceResponse], bool]:
+    def download(self, resource_id: str) -> Optional[InvoiceResponse]:
         api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
@@ -23,7 +23,7 @@ class InvoiceClient(FindCommandMixin[InvoiceResponse], FindAllCommandMixin[Invoi
 
         response_data = get_response_data(response=api_response, key=self.ROOT_NAME)
         if not response_data:
-            return True  # TODO: should return None
+            return None
 
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,

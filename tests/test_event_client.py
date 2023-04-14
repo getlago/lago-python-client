@@ -35,9 +35,7 @@ def test_valid_create_events_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/events', content=b'')
-    response = client.events().create(create_event())
-
-    assert response == True
+    client.events().create(create_event())  # Any response means success, any exception - failure
 
 
 def test_invalid_create_events_request(httpx_mock: HTTPXMock):
@@ -53,9 +51,7 @@ def test_valid_create_batch_events_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/events/batch', content=b'')
-    response = client.events().batch_create(create_batch_event())
-
-    assert response == True
+    client.events().batch_create(create_batch_event())  # Any response means success, any exception - failure
 
 
 def test_invalid_create_batch_events_request(httpx_mock: HTTPXMock):
