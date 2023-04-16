@@ -10,15 +10,15 @@ except ImportError:
 from pydantic import BaseModel
 import typeguard
 
-from ..base_client import BaseClient
+from ..base_operation import BaseOperation
 from ..exceptions import LagoApiError
 from ..services.request import make_headers, make_url, send_get_request
 from ..services.response import get_response_data, Response
 
 if sys.version_info >= (3, 9):
-    from collections.abc import Mapping, Sequence
+    from collections.abc import Callable, Mapping, Sequence
 else:
-    from typing import Mapping, Sequence
+    from typing import Callable, Mapping, Sequence
 
 typeguard.config.collection_check_strategy = typeguard.CollectionCheckStrategy.ALL_ITEMS
 
@@ -27,12 +27,14 @@ class _ResponseWithPublicKeyInside(TypedDict):
     public_key: str
 
 
-class WebhookClient(BaseClient):
+class FetchPublicKey(BaseOperation):
+    """Fetch webhook public key."""
+
     API_RESOURCE: ClassVar[str] = 'webhooks'
     RESPONSE_MODEL: ClassVar[Type[BaseModel]] = NotImplemented
     ROOT_NAME: ClassVar[str] = 'webhook'
 
-    def public_key(self) -> bytes:
+    def __call__(self) -> bytes:
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
@@ -54,3 +56,8 @@ class WebhookClient(BaseClient):
             )
 
         return base64.b64decode(checked_response_data['public_key'])
+
+
+webhooks_operations_config: Mapping[str, Callable[..., Callable]] = {
+    'public_key': FetchPublicKey,
+}

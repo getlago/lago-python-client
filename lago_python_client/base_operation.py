@@ -4,12 +4,12 @@ from typing import Type
 from pydantic import BaseModel
 
 
-class BaseClient(ABC):
-    """The base class used for each collection client."""
+class BaseOperation(ABC):
+    """The base class used for each OpenAPI-based operation."""
 
     def __init__(self, base_url: str, api_key: str):
-        self.base_url = base_url
-        self.api_key = api_key
+        self.base_url: str = base_url
+        self.api_key: str = api_key
 
     @property
     @classmethod
