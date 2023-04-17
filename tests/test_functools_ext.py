@@ -1,5 +1,7 @@
 import sys
 
+import pytest
+
 from lago_python_client.functools_ext import callable_cached_property
 
 
@@ -14,6 +16,7 @@ class Client:
         return InternalCollectionClient()
 
 
+@pytest.mark.filterwarnings("ignore:We are going to deprecate callable properties")  # we need test both cases to ensure we keep compatibility
 def test_callable_cached_property():
     # Given `InternalCollectionClient` class
     # And `Client` class with `callable_cached_property` decorator on `collection` method

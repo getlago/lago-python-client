@@ -43,7 +43,7 @@ def test_valid_create_coupon_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/coupons', content=mock_response())
-    response = client.coupons().create(coupon_object())
+    response = client.coupons.create(coupon_object())
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == 'coupon_code'
@@ -55,7 +55,7 @@ def test_invalid_create_coupon_request(httpx_mock: HTTPXMock):
     httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/coupons', status_code=401, content=b'')
 
     with pytest.raises(LagoApiError):
-        client.coupons().create(coupon_object())
+        client.coupons.create(coupon_object())
 
 
 def test_valid_update_coupon_request(httpx_mock: HTTPXMock):
@@ -63,7 +63,7 @@ def test_valid_update_coupon_request(httpx_mock: HTTPXMock):
     code = 'coupon_code'
 
     httpx_mock.add_response(method='PUT', url='https://api.getlago.com/api/v1/coupons/' + code, content=mock_response())
-    response = client.coupons().update(coupon_object(), code)
+    response = client.coupons.update(coupon_object(), code)
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == code
@@ -76,7 +76,7 @@ def test_invalid_update_coupon_request(httpx_mock: HTTPXMock):
     httpx_mock.add_response(method='PUT', url='https://api.getlago.com/api/v1/coupons/' + code, status_code=401, content=b'')
 
     with pytest.raises(LagoApiError):
-        client.coupons().update(coupon_object(), code)
+        client.coupons.update(coupon_object(), code)
 
 
 def test_valid_find_coupon_request(httpx_mock: HTTPXMock):
@@ -84,7 +84,7 @@ def test_valid_find_coupon_request(httpx_mock: HTTPXMock):
     code = 'coupon_code'
 
     httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/coupons/' + code, content=mock_response())
-    response = client.coupons().find(code)
+    response = client.coupons.find(code)
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == code
@@ -97,7 +97,7 @@ def test_invalid_find_coupon_request(httpx_mock: HTTPXMock):
     httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/coupons/' + code, status_code=404, content=b'')
 
     with pytest.raises(LagoApiError):
-        client.coupons().find(code)
+        client.coupons.find(code)
 
 
 def test_valid_destroy_coupon_request(httpx_mock: HTTPXMock):
@@ -105,7 +105,7 @@ def test_valid_destroy_coupon_request(httpx_mock: HTTPXMock):
     code = 'coupon_code'
 
     httpx_mock.add_response(method='DELETE', url='https://api.getlago.com/api/v1/coupons/' + code, content=mock_response())
-    response = client.coupons().destroy(code)
+    response = client.coupons.destroy(code)
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == code
@@ -118,14 +118,14 @@ def test_invalid_destroy_coupon_request(httpx_mock: HTTPXMock):
     httpx_mock.add_response(method='DELETE', url='https://api.getlago.com/api/v1/coupons/' + code, status_code=404, content=b'')
 
     with pytest.raises(LagoApiError):
-        client.coupons().destroy(code)
+        client.coupons.destroy(code)
 
 
 def test_valid_find_all_coupon_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/coupons', content=mock_collection_response())
-    response = client.coupons().find_all()
+    response = client.coupons.find_all()
 
     assert response['coupons'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1111'
     assert response['meta']['current_page'] == 1
@@ -135,7 +135,7 @@ def test_valid_find_all_coupon_request_with_options(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/coupons?per_page=2&page=1', content=mock_collection_response())
-    response = client.coupons().find_all({'per_page': 2, 'page': 1})
+    response = client.coupons.find_all({'per_page': 2, 'page': 1})
 
     assert response['coupons'][1].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1222'
     assert response['meta']['current_page'] == 1
@@ -147,4 +147,4 @@ def test_invalid_find_all_coupon_request(httpx_mock: HTTPXMock):
     httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/coupons', status_code=404, content=b'')
 
     with pytest.raises(LagoApiError):
-        client.coupons().find_all()
+        client.coupons.find_all()

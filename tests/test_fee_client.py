@@ -18,6 +18,6 @@ def test_valid_find_fee_request(httpx_mock: HTTPXMock):
     identifier = '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
 
     httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/fees/' + identifier, content=mock_response())
-    response = client.fees().find(identifier)
+    response = client.fees.find(identifier)
 
     assert response.lago_id == identifier
