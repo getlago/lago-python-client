@@ -3,6 +3,7 @@
     {
       "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac1111",
       "sequential_id": 15,
+      "number": "LAG-1234-001-002",
       "from_date": "2022-06-02",
       "to_date": "2022-06-02",
       "charges_from_date": "2022-06-02",
@@ -20,6 +21,7 @@
     {
       "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac1222",
       "sequential_id": 16,
+      "number": "LAG-1234-001-002",
       "from_date": "2022-06-02",
       "to_date": "2022-06-02",
       "charges_from_date": "2022-06-02",
