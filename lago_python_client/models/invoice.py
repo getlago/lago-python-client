@@ -32,6 +32,7 @@ class Invoice(BaseModel):
 class InvoiceResponse(BaseResponseModel):
     lago_id: str
     sequential_id: int
+    number: str
     issuing_date: Optional[str]
     invoice_type: str
     status: str
