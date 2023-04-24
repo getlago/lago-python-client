@@ -8,6 +8,7 @@
     "credit_status": "available",
     "refund_status": "pending",
     "reason": "other",
+    "currency": "EUR",
     "total_amount_cents": 240,
     "total_amount_currency": "EUR",
     "credit_amount_cents": 100,
@@ -20,6 +21,7 @@
     "vat_amount_currency": "EUR",
     "sub_total_vat_excluded_amount_cents": 200,
     "sub_total_vat_excluded_amount_currency": "EUR",
+    "coupons_adjustement_amount_cents": 0,
     "created_at": "2022-10-04 16:21:00",
     "updated_at": "2022-10-04 16:21:00",
     "items": [

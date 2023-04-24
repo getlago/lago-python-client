@@ -28,22 +28,26 @@ class CreditNoteResponse(BaseResponseModel):
     credit_status: Optional[str]
     refund_status: Optional[str]
     reason: Optional[str]
-    total_amount_cents: Optional[int]
-    total_amount_currency: Optional[str]
-    credit_amount_cents: Optional[int]
-    credit_amount_currency: Optional[str]
-    balance_amount_cents: Optional[int]
-    balance_amount_currency: Optional[str]
-    refund_amount_cents: Optional[int]
-    refund_amount_currency: Optional[str]
-    vat_amount_cents: Optional[str]
-    vat_amount_currency: Optional[str]
-    sub_total_vat_excluded_amount_cents: Optional[str]
-    sub_total_vat_excluded_amount_currency: Optional[str]
+    currency: str
+    total_amount_cents: int
+    credit_amount_cents: int
+    balance_amount_cents: int
+    refund_amount_cents: int
+    vat_amount_cents: str
+    sub_total_vat_excluded_amount_cents: int
+    coupons_adjustement_amount_cents: int
     file_url: Optional[str]
     created_at: Optional[str]
     updated_at: Optional[str]
     items: Optional[ItemsResponse]
+
+    # NOTE(legacy): Deprecated fields that will be removed in the future
+    total_amount_currency: Optional[str]
+    credit_amount_currency: Optional[str]
+    refund_amount_currency: Optional[str]
+    balance_amount_currency: Optional[str]
+    vat_amount_currency: Optional[str]
+    sub_total_vat_excluded_amount_currency: Optional[str]
 
 
 class Item(BaseModel):
