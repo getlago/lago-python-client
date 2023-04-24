@@ -15,6 +15,7 @@ class Charge(BaseModel):
     billable_metric_id: Optional[str]
     charge_model: Optional[str]
     instant: Optional[bool]
+    min_amount_cents: Optional[int]
     properties: Optional[Dict[str, Any]]
     group_properties: Optional[GroupProperties]
 
@@ -28,6 +29,8 @@ class ChargeResponse(BaseResponseModel):
     lago_billable_metric_id: Optional[str]
     billable_metric_code: Optional[str]
     charge_model: Optional[str]
+    instant: Optional[bool]
+    min_amount_cents: Optional[int]
     properties: Optional[Dict[str, Any]]
     group_properties: Optional[GroupProperties]
 

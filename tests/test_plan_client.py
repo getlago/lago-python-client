@@ -14,6 +14,7 @@ def plan_object():
         charge_model='standard',
         amount_currency='EUR',
         instant=True,
+        min_amount_cents=0,
         group_properties = [
             {
                 'group_id': 'id',
@@ -157,6 +158,7 @@ def test_valid_find_plan_request(httpx_mock: HTTPXMock):
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == code
     assert response.charges.__root__[0].charge_model == 'standard'
+    assert response.charges.__root__[0].min_amount_cents == 0
 
 
 def test_invalid_find_plan_request(httpx_mock: HTTPXMock):
