@@ -4,6 +4,7 @@
     "lago_group_id": "1a2d9c8d-5875-4688-9854-5ccfd414bc5e",
     "lago_invoice_id": "1a2d9c8d-5875-4688-9854-5ccfd414bc5e",
     "lago_true_up_fee_id": "1a2d9c8d-5875-4688-9854-5ccfd414bc5e",
+    "lago_true_up_parent_fee_id": null,
     "item": {
       "type": "charge",
       "code": "fee_code",

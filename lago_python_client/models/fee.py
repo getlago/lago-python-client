@@ -11,6 +11,7 @@ class FeeResponse(BaseResponseModel):
     lago_group_id: Optional[str]
     lago_invoice_id: Optional[str]
     lago_true_up_fee_id: Optional[str]
+    lago_true_up_parent_fee_id: Optional[str]
     external_subscription_id: Optional[str]
     amount_cents: Optional[int]
     amount_currency: Optional[str]
