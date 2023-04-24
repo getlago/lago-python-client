@@ -22,6 +22,7 @@
         "amount_currency": "EUR",
         "charge_model": "standard",
         "instant": true,
+        "min_amount_cents": 0,
         "properties": {
           "amount": "0.22"
         }
