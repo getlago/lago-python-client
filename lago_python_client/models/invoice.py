@@ -35,17 +35,30 @@ class InvoiceResponse(BaseResponseModel):
     number: str
     issuing_date: Optional[str]
     invoice_type: str
+    version_number: int
     status: str
     payment_status: str
-    amount_cents: int
-    amount_currency: str
+    currency: str
+    fees_amount_cents: int
+    coupons_amount_cents: int
     vat_amount_cents: int
-    vat_amount_currency: str
+    credit_notes_amount_cents: int
+    sub_total_vat_excluded_amount_cents: int
+    sub_total_vat_included_amount_cents: int
     total_amount_cents: int
-    total_amount_currency: str
+    prepaid_credit_amount_cents: int
     file_url: Optional[str]
     customer: Optional[CustomerResponse]
     subscriptions: Optional[SubscriptionsResponse]
     fees: Optional[FeesResponse]
     credits: Optional[CreditsResponse]
     metadata: Optional[InvoiceMetadataList]
+
+    # NOTE(legacy): Deprecated fields that will be removed in the future
+    legacy: bool
+    amount_cents: int
+    credit_amount_cents: int
+    amount_currency: str
+    vat_amount_currency: str
+    credit_amount_currency: str
+    total_amount_currency: str
