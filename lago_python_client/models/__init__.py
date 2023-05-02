@@ -11,7 +11,8 @@ from .organization import Organization, OrganizationBillingConfiguration
 from .event import Event, BatchEvent
 from .fee import Fee
 from .customer import Customer, CustomerBillingConfiguration, Metadata, MetadataList
-from .invoice import InvoicePaymentStatusChange, Invoice, InvoiceMetadata, InvoiceMetadataList
+from .invoice import InvoicePaymentStatusChange, Invoice, InvoiceMetadata, InvoiceMetadataList,\
+    OneOffInvoice, InvoiceFeesList, InvoiceFee
 from .invoice_item import InvoiceItemResponse
 from .subscription import Subscription
 from .customer_usage import Metric, ChargeObject, ChargeUsage, CustomerUsageResponse
