@@ -97,6 +97,7 @@
       {
         "amount_cents": 20,
         "amount_currency": "EUR",
+        "before_vat": true,
         "item": {
           "type": "coupon",
           "code": "free_beer",
