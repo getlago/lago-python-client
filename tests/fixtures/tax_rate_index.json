@@ -1,0 +1,29 @@
+{
+  "tax_rates": [
+    {
+      "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac1111",
+      "name": "tax_rate_name_1",
+      "code": "tax_rate_code_1",
+      "value": 15.0,
+      "customers_count": 0,
+      "description": "tax_rate_desc_1",
+      "created_at": "2022-04-29T08:59:51Z"
+    },
+    {
+      "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac1222",
+      "name": "tax_rate_name_2",
+      "code": "tax_rate_code_2",
+      "value": 20.0,
+      "customers_count": 5,
+      "description": "tax_rate_desc_2",
+      "created_at": "2022-04-29T08:59:51Z"
+    }
+  ],
+  "meta": {
+    "current_page": 1,
+    "next_page": 2,
+    "prev_page": null,
+    "total_pages": 8,
+    "total_count": 73
+  }
+}

@@ -12,6 +12,7 @@ from .invoices.clients import InvoiceClient
 from .organizations.clients import OrganizationClient
 from .plans.clients import PlanClient
 from .subscriptions.clients import SubscriptionClient
+from .tax_rates.clients import TaxRateClient
 from .wallets.clients import WalletClient, WalletTransactionClient
 from .webhooks.clients import WebhookClient
 
@@ -88,6 +89,10 @@ class Client:
     @callable_cached_property
     def subscriptions(self) -> SubscriptionClient:
         return SubscriptionClient(self.base_api_url, self.api_key)
+
+    @callable_cached_property
+    def tax_rates(self) -> TaxRateClient:
+        return TaxRateClient(self.base_api_url, self.api_key)
 
     @callable_cached_property
     def wallets(self) -> WalletClient:
