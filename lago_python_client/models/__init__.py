@@ -16,5 +16,6 @@ from .invoice import InvoicePaymentStatusChange, Invoice, InvoiceMetadata, Invoi
 from .invoice_item import InvoiceItemResponse
 from .subscription import Subscription
 from .customer_usage import Metric, ChargeObject, ChargeUsage, CustomerUsageResponse
+from .tax_rate import TaxRate
 from .wallet import Wallet
 from .wallet_transaction import WalletTransaction
