@@ -20,13 +20,30 @@ class InvoiceMetadata(BaseModel):
     value: Optional[str]
 
 
+class InvoiceFee(BaseModel):
+    add_on_code: Optional[str]
+    unit_amount_cents: Optional[int]
+    units: Optional[float]
+    description: Optional[str]
+
+
 class InvoiceMetadataList(BaseModel):
     __root__: List[InvoiceMetadata]
+
+
+class InvoiceFeesList(BaseModel):
+    __root__: List[InvoiceFee]
 
 
 class Invoice(BaseModel):
     payment_status: Optional[str]
     metadata: Optional[InvoiceMetadataList]
+
+
+class OneOffInvoice(BaseModel):
+    external_customer_id: Optional[str]
+    currency: Optional[str]
+    fees: Optional[InvoiceFeesList]
 
 
 class InvoiceResponse(BaseResponseModel):
