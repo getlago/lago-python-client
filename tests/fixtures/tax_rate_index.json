@@ -7,6 +7,7 @@
       "value": 15.0,
       "customers_count": 0,
       "description": "tax_rate_desc_1",
+      "applied_by_default": false,
       "created_at": "2022-04-29T08:59:51Z"
     },
     {
@@ -16,6 +17,7 @@
       "value": 20.0,
       "customers_count": 5,
       "description": "tax_rate_desc_2",
+      "applied_by_default": false,
       "created_at": "2022-04-29T08:59:51Z"
     }
   ],
