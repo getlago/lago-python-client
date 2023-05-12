@@ -1,5 +1,6 @@
 from .applied_add_on import AppliedAddOn
 from .applied_coupon import AppliedCoupon
+from .applied_tax_rate import AppliedTaxRate
 from .billable_metric import BillableMetric, BillableMetricGroup
 from .charge import Charge, Charges, ChargesResponse
 from .coupon import Coupon, LimitationConfiguration
