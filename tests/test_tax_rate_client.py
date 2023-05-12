@@ -13,7 +13,8 @@ def tax_rate_object():
         name='name',
         code='tax_rate_first',
         value=15.0,
-        description='desc'
+        description='desc',
+        applied_by_default=False
     )
 
 

@@ -10,6 +10,7 @@ class TaxRate(BaseModel):
     code: Optional[str]
     value: Optional[float]
     description: Optional[str]
+    applied_by_default: Optional[bool]
 
 
 class TaxRateResponse(BaseResponseModel):
@@ -19,4 +20,5 @@ class TaxRateResponse(BaseResponseModel):
     value: float
     description: Optional[str]
     customers_count: int
+    applied_by_default: bool
     created_at: str
