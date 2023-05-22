@@ -5,20 +5,20 @@ from pydantic import BaseModel
 from ..base_model import BaseResponseModel
 
 
-class TaxRate(BaseModel):
+class Tax(BaseModel):
     name: Optional[str]
     code: Optional[str]
-    value: Optional[float]
+    rate: Optional[float]
     description: Optional[str]
-    applied_by_default: Optional[bool]
+    applied_to_organization: Optional[bool]
 
 
-class TaxRateResponse(BaseResponseModel):
+class TaxResponse(BaseResponseModel):
     lago_id: str
     name: str
     code: str
-    value: float
+    rate: float
     description: Optional[str]
     customers_count: int
-    applied_by_default: bool
+    applied_to_organization: bool
     created_at: str
