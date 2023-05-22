@@ -136,7 +136,7 @@ def test_valid_find_all_taxes_request_with_options(httpx_mock: HTTPXMock):
     assert response['meta']['current_page'] == 1
 
 
-def test_invalid_find_all_tax_request(httpx_mock: HTTPXMock):
+def test_invalid_find_all_taxes_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
     httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/taxes', status_code=404, content=b'')
