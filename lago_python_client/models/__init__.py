@@ -1,6 +1,6 @@
 from .applied_add_on import AppliedAddOn
 from .applied_coupon import AppliedCoupon
-from .applied_tax_rate import AppliedTaxRate
+from .applied_tax import AppliedTax
 from .billable_metric import BillableMetric, BillableMetricGroup
 from .charge import Charge, Charges, ChargesResponse
 from .coupon import Coupon, LimitationConfiguration
@@ -17,6 +17,6 @@ from .invoice import InvoicePaymentStatusChange, Invoice, InvoiceMetadata, Invoi
 from .invoice_item import InvoiceItemResponse
 from .subscription import Subscription
 from .customer_usage import Metric, ChargeObject, ChargeUsage, CustomerUsageResponse
-from .tax_rate import TaxRate
+from .tax import Tax
 from .wallet import Wallet
 from .wallet_transaction import WalletTransaction

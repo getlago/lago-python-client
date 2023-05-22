@@ -5,14 +5,14 @@ from pydantic import BaseModel
 from ..base_model import BaseResponseModel
 
 
-class AppliedTaxRate(BaseModel):
-    tax_rate_code: str
+class AppliedTax(BaseModel):
+    tax_code: str
 
 
-class AppliedTaxRateResponse(BaseResponseModel):
+class AppliedTaxResponse(BaseResponseModel):
     lago_id: str
     lago_customer_id: str
-    lago_tax_rate_id: str
-    tax_rate_code: str
+    lago_tax_id: str
+    tax_code: str
     external_customer_id: str
     created_at: str
