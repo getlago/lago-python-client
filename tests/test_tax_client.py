@@ -116,7 +116,7 @@ def test_invalid_destroy_tax_request(httpx_mock: HTTPXMock):
         client.taxes.destroy(code)
 
 
-def test_valid_find_all_tax_request(httpx_mock: HTTPXMock):
+def test_valid_find_all_taxes_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/taxes', content=mock_collection_response())
