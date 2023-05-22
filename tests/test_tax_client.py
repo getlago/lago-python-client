@@ -126,7 +126,7 @@ def test_valid_find_all_taxes_request(httpx_mock: HTTPXMock):
     assert response['meta']['current_page'] == 1
 
 
-def test_valid_find_all_tax_request_with_options(httpx_mock: HTTPXMock):
+def test_valid_find_all_taxes_request_with_options(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/taxes?per_page=2&page=1', content=mock_collection_response())
