@@ -21,7 +21,7 @@
         "created_at": "2022-07-01T14:47:14Z",
         "amount_currency": "EUR",
         "charge_model": "standard",
-        "instant": true,
+        "pay_in_advance": true,
         "min_amount_cents": 0,
         "properties": {
           "amount": "0.22"

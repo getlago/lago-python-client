@@ -25,6 +25,7 @@ class FeeResponse(BaseResponseModel):
     payment_status: Optional[str]
     created_at: Optional[str]
     description: Optional[str]
+    pay_in_advance: Optional[bool]
     succeeded_at: Optional[str]
     failed_at: Optional[str]
     refunded_at: Optional[str]
