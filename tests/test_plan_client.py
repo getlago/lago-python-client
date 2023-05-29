@@ -14,6 +14,7 @@ def plan_object():
         charge_model='standard',
         amount_currency='EUR',
         pay_in_advance=True,
+        invoiceable=False,
         min_amount_cents=0,
         group_properties = [
             {
