@@ -200,6 +200,9 @@ def test_valid_find_all_plan_request(httpx_mock: HTTPXMock):
     response = client.plans.find_all()
 
     assert response['plans'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1111'
+    assert response['plans'][0].charges.__root__[0].lago_id == '51c1e851-5be6-4343-a0ee-39a81d8b4ee1'
+    assert response['plans'][0].charges.__root__[0].group_properties.__root__[0].group_id == 'gfc1e851-5be6-4343-a0ee-39a81d8b4ee1'
+    assert response['plans'][0].charges.__root__[0].group_properties.__root__[0].values['amount'] == '0.22'
     assert response['meta']['current_page'] == 1
 
 

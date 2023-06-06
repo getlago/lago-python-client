@@ -10,6 +10,10 @@ class GroupProperties(BaseModel):
     values: Optional[Dict[str, Any]]
 
 
+class GroupPropertiesList(BaseModel):
+    __root__: List[GroupProperties]
+
+
 class Charge(BaseModel):
     id: Optional[str]
     billable_metric_id: Optional[str]
@@ -18,7 +22,7 @@ class Charge(BaseModel):
     invoiceable: Optional[bool]
     min_amount_cents: Optional[int]
     properties: Optional[Dict[str, Any]]
-    group_properties: Optional[GroupProperties]
+    group_properties: Optional[GroupPropertiesList]
 
 
 class Charges(BaseModel):
@@ -34,7 +38,7 @@ class ChargeResponse(BaseResponseModel):
     invoiceable: Optional[bool]
     min_amount_cents: Optional[int]
     properties: Optional[Dict[str, Any]]
-    group_properties: Optional[GroupProperties]
+    group_properties: Optional[GroupPropertiesList]
 
 
 class ChargesResponse(BaseResponseModel):
