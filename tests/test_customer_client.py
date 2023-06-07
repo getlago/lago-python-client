@@ -20,6 +20,7 @@ def create_customer():
         external_id='5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba',
         name='Gavin Belson',
         currency='EUR',
+        tax_identification_number='EU123456789',
         billing_configuration=CustomerBillingConfiguration(
             invoice_grace_period=3,
             payment_provider='stripe',
@@ -50,6 +51,7 @@ def test_valid_create_customers_request(httpx_mock: HTTPXMock):
     assert response.name == 'Gavin Belson'
     assert response.email == 'dinesh@piedpiper.test'
     assert response.currency == 'EUR'
+    assert response.tax_identification_number == 'EU123456789'
     assert response.billing_configuration.invoice_grace_period == 3
     assert response.billing_configuration.payment_provider == 'stripe'
     assert response.billing_configuration.provider_customer_id == 'cus_12345'
