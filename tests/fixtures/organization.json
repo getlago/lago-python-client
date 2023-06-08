@@ -12,6 +12,7 @@
     "city": "city125",
     "legal_name": null,
     "legal_number": null,
+    "tax_identification_number": "EU123456789",
     "timezone": "America/New_York",
     "billing_configuration": {
       "invoice_footer": null,

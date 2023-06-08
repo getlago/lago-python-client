@@ -11,6 +11,7 @@ from lago_python_client.models import Organization, OrganizationBillingConfigura
 def organization_object():
     return Organization(
         webhook_url="https://test-example.example",
+        tax_identification_number='EU123456789',
         billing_configuration=OrganizationBillingConfiguration(
             invoice_footer='footer',
             invoice_grace_period=3,
@@ -35,6 +36,7 @@ def test_valid_update_organization_request(httpx_mock: HTTPXMock):
     response = client.organizations.update(organization_object())
 
     assert response.name == 'Hooli'
+    assert response.tax_identification_number == 'EU123456789'
 
 
 def test_invalid_update_organization_request(httpx_mock: HTTPXMock):
