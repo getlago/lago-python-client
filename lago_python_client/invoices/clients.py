@@ -36,7 +36,7 @@ class InvoiceClient(
             data=response_data,
         )
 
-    def retry_payment(self, resource_id: str) -> InvoiceResponse:
+    def retry_payment(self, resource_id: str) -> Optional[InvoiceResponse]:
         api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
@@ -45,9 +45,13 @@ class InvoiceClient(
             headers=make_headers(api_key=self.api_key),
         )
 
+        response_data = get_response_data(response=api_response, key=self.ROOT_NAME)
+        if not response_data:
+            return None
+
         return prepare_object_response(
             response_model=self.RESPONSE_MODEL,
-            data=get_response_data(response=api_response, key=self.ROOT_NAME),
+            data=response_data,
         )
 
     def refresh(self, resource_id: str) -> InvoiceResponse:
