@@ -46,6 +46,23 @@ class OneOffInvoice(BaseModel):
     fees: Optional[InvoiceFeesList]
 
 
+class InvoiceAppliedTax(BaseResponseModel):
+    lago_id: Optional[str]
+    lago_invoice_id: Optional[str]
+    lago_tax_id: Optional[str]
+    tax_name: Optional[str]
+    tax_code: Optional[str]
+    tax_rate: Optional[float]
+    tax_description: Optional[str]
+    amount_cents: Optional[int]
+    amount_currency: Optional[str]
+    created_at: Optional[str]
+
+
+class InvoiceAppliedTaxes(BaseResponseModel):
+    __root__: List[InvoiceAppliedTax]
+
+
 class InvoiceResponse(BaseResponseModel):
     lago_id: str
     sequential_id: int
@@ -58,10 +75,10 @@ class InvoiceResponse(BaseResponseModel):
     currency: str
     fees_amount_cents: int
     coupons_amount_cents: int
-    vat_amount_cents: int
+    taxes_amount_cents: int
     credit_notes_amount_cents: int
-    sub_total_vat_excluded_amount_cents: int
-    sub_total_vat_included_amount_cents: int
+    sub_total_excluding_taxes_amount_cents: int
+    sub_total_including_taxes_amount_cents: int
     total_amount_cents: int
     prepaid_credit_amount_cents: int
     file_url: Optional[str]
@@ -70,12 +87,4 @@ class InvoiceResponse(BaseResponseModel):
     fees: Optional[FeesResponse]
     credits: Optional[CreditsResponse]
     metadata: Optional[InvoiceMetadataList]
-
-    # NOTE(legacy): Deprecated fields that will be removed in the future
-    legacy: bool
-    amount_cents: int
-    credit_amount_cents: int
-    amount_currency: str
-    vat_amount_currency: str
-    credit_amount_currency: str
-    total_amount_currency: str
+    applied_taxes: Optional[InvoiceAppliedTaxes]

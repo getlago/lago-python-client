@@ -6,6 +6,24 @@ from ..base_model import BaseModel, BaseResponseModel
 class Fee(BaseModel):
     payment_status: Optional[str]
 
+
+class FeeAppliedTax(BaseResponseModel):
+    lago_id: Optional[str]
+    lago_fee_id: Optional[str]
+    lago_tax_id: Optional[str]
+    tax_name: Optional[str]
+    tax_code: Optional[str]
+    tax_rate: Optional[float]
+    tax_description: Optional[str]
+    amount_cents: Optional[int]
+    amount_currency: Optional[str]
+    created_at: Optional[str]
+
+
+class FeeAppliedTaxes(BaseResponseModel):
+    __root__: List[FeeAppliedTax]
+
+
 class FeeResponse(BaseResponseModel):
     lago_id: Optional[str]
     lago_group_id: Optional[str]
@@ -15,8 +33,8 @@ class FeeResponse(BaseResponseModel):
     external_subscription_id: Optional[str]
     amount_cents: Optional[int]
     amount_currency: Optional[str]
-    vat_amount_cents: Optional[int]
-    vat_amount_currency: Optional[str]
+    taxes_amount_cents: Optional[int]
+    taxes_rate: Optional[float]
     total_amount_cents: Optional[int]
     unit_amount_cents: Optional[int]
     total_amount_currency: Optional[str]
@@ -34,6 +52,7 @@ class FeeResponse(BaseResponseModel):
     to_date: Optional[str]
 
     item: Optional[InvoiceItemResponse]
+    applied_taxes: Optional[FeeAppliedTaxes]
 
 
 class FeesResponse(BaseResponseModel):

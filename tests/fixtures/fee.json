@@ -12,11 +12,25 @@
     },
     "amount_cents": 120,
     "amount_currency": "EUR",
-    "vat_amount_cents": 20,
-    "vat_amount_currency": "EUR",
+    "taxes_amount_cents": 20,
+    "taxes_rate": "20.0",
     "total_amount_cents": 140,
     "total_amount_currency": "EUR",
     "units": "10.0",
-    "events_count": 10
+    "events_count": 10,
+    "applied_taxes": [
+      {
+        "lago_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
+        "lago_fee_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
+        "lago_tax_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
+        "tax_name": "tax name",
+        "tax_code": "tax_code",
+        "tax_rate": "20.0",
+        "tax_description": "tax description",
+        "amount_cents": 100,
+        "amount_currency": "EUR",
+        "created_at": "2022-04-29T08:59:51Z"
+      }
+    ]
   }
 }

@@ -29,10 +29,8 @@ class CustomerUsageResponse(BaseResponseModel):
     from_datetime: str
     to_datetime: str
     issuing_date: str
+    currency: str
     amount_cents: int
-    amount_currency: str
     total_amount_cents: int
-    total_amount_currency: str
-    vat_amount_cents: int
-    vat_amount_currency: str
+    taxes_amount_cents: int
     charges_usage: List[ChargeUsage]

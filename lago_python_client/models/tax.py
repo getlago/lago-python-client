@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -22,3 +22,7 @@ class TaxResponse(BaseResponseModel):
     customers_count: int
     applied_to_organization: bool
     created_at: str
+
+
+class Taxes(BaseResponseModel):
+    __root__: List[Tax]

@@ -26,7 +26,6 @@ def create_customer():
             payment_provider='stripe',
             provider_customer_id='cus_12345',
             sync_with_provider=True,
-            vat_rate=12.5,
             document_locale="fr"
         ),
         metadata=metadata_list
@@ -56,7 +55,6 @@ def test_valid_create_customers_request(httpx_mock: HTTPXMock):
     assert response.billing_configuration.payment_provider == 'stripe'
     assert response.billing_configuration.provider_customer_id == 'cus_12345'
     assert response.billing_configuration.sync_with_provider == True
-    assert response.billing_configuration.vat_rate == 12.5
     assert response.billing_configuration.document_locale == "fr"
     assert response.metadata.__root__[0].key == 'key'
     assert response.metadata.__root__[0].value == 'value'
