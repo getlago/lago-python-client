@@ -4,12 +4,13 @@ from pydantic import BaseModel
 
 from ..base_model import BaseResponseModel
 
+from .tax import Taxes
+
 
 class CustomerBillingConfiguration(BaseModel):
     invoice_grace_period: Optional[int]
     payment_provider: Optional[str]
     provider_customer_id: Optional[str]
-    vat_rate: Optional[float]
     sync: Optional[bool]
     sync_with_provider: Optional[bool]
     document_locale: Optional[str]
@@ -46,6 +47,7 @@ class Customer(BaseModel):
     zipcode: Optional[str]
     metadata: Optional[MetadataList]
     billing_configuration: Optional[CustomerBillingConfiguration]
+    taxes: Optional[Taxes]
 
 
 class CustomerResponse(BaseResponseModel):

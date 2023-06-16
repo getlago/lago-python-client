@@ -19,6 +19,24 @@ class ItemsResponse(BaseResponseModel):
     __root__: List[ItemResponse]
 
 
+class CreditNoteAppliedTax(BaseResponseModel):
+    lago_id: Optional[str]
+    lago_credit_note_id: Optional[str]
+    lago_tax_id: Optional[str]
+    tax_name: Optional[str]
+    tax_code: Optional[str]
+    tax_rate: Optional[float]
+    tax_description: Optional[str]
+    amount_cents: Optional[int]
+    amount_currency: Optional[str]
+    base_amount_cents: Optional[int]
+    created_at: Optional[str]
+
+
+class CreditNoteAppliedTaxes(BaseResponseModel):
+    __root__: List[CreditNoteAppliedTax]
+
+
 class CreditNoteResponse(BaseResponseModel):
     lago_id: Optional[str]
     sequential_id: Optional[int]
@@ -33,21 +51,15 @@ class CreditNoteResponse(BaseResponseModel):
     credit_amount_cents: int
     balance_amount_cents: int
     refund_amount_cents: int
-    vat_amount_cents: str
-    sub_total_vat_excluded_amount_cents: int
+    taxes_amount_cents: str
+    taxes_rate: float
+    sub_total_excluding_taxes_amount_cents: int
     coupons_adjustement_amount_cents: int
     file_url: Optional[str]
     created_at: Optional[str]
     updated_at: Optional[str]
     items: Optional[ItemsResponse]
-
-    # NOTE(legacy): Deprecated fields that will be removed in the future
-    total_amount_currency: Optional[str]
-    credit_amount_currency: Optional[str]
-    refund_amount_currency: Optional[str]
-    balance_amount_currency: Optional[str]
-    vat_amount_currency: Optional[str]
-    sub_total_vat_excluded_amount_currency: Optional[str]
+    applied_taxes: Optional[CreditNoteAppliedTaxes]
 
 
 class Item(BaseModel):
