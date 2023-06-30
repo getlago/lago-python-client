@@ -13,6 +13,7 @@ class LimitationConfiguration(BaseModel):
 class Coupon(BaseModel):
     name: Optional[str]
     code: Optional[str]
+    description: Optional[str]
     amount_cents: Optional[int]
     amount_currency: Optional[str]
     expiration: Optional[str]
@@ -29,6 +30,7 @@ class CouponResponse(BaseResponseModel):
     lago_id: str
     name: str
     code: str
+    description: Optional[str]
     amount_cents: int
     amount_currency: str
     created_at: str

@@ -3,6 +3,7 @@
     "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac129b",
     "name": "coupon_name",
     "code": "coupon_code",
+    "description": "coupon_description",
     "amount_cents": 5000,
     "amount_currency": "USD",
     "expiration": "no_expiration",
