@@ -12,6 +12,7 @@ def coupon_object():
     return Coupon(
         name='name',
         code='code_first',
+        description="coupon_description",
         amount_cents=1000,
         amount_currency='EUR',
         expiration='no_expiration',
@@ -47,6 +48,7 @@ def test_valid_create_coupon_request(httpx_mock: HTTPXMock):
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == 'coupon_code'
+    assert response.description == 'coupon_description'
 
 
 def test_invalid_create_coupon_request(httpx_mock: HTTPXMock):
