@@ -11,6 +11,7 @@ from lago_python_client.models import Organization, OrganizationBillingConfigura
 def organization_object():
     return Organization(
         webhook_url="https://test-example.example",
+        webhook_urls=["https://test-example.example", "https://test-example2.example"],
         tax_identification_number='EU123456789',
         billing_configuration=OrganizationBillingConfiguration(
             invoice_footer='footer',

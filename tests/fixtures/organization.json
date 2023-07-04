@@ -3,6 +3,7 @@
     "name": "Hooli",
     "created_at": "2022-05-02T13:04:09Z",
     "webhook_url": "https://test-example.example",
+    "webhook_urls": ["https://test-example.example", "https://test-example2.example"],
     "country": null,
     "address_line1": null,
     "address_line2": null,
