@@ -14,6 +14,7 @@ class OrganizationBillingConfiguration(BaseModel):
 
 class Organization(BaseModel):
     webhook_url: Optional[str]
+    webhook_urls: Optional[List[str]]
     country: Optional[str]
     address_line1: Optional[str]
     address_line2: Optional[str]
@@ -33,6 +34,7 @@ class OrganizationResponse(BaseResponseModel):
     name: str
     created_at: str
     webhook_url: Optional[str]
+    webhook_urls: Optional[List[str]]
     country: Optional[str]
     address_line1: Optional[str]
     address_line2: Optional[str]
