@@ -13,6 +13,10 @@ class Tax(BaseModel):
     applied_to_organization: Optional[bool]
 
 
+class Taxes(BaseModel):
+    __root__: List[Tax]
+
+
 class TaxResponse(BaseResponseModel):
     lago_id: str
     name: str
@@ -24,5 +28,5 @@ class TaxResponse(BaseResponseModel):
     created_at: str
 
 
-class Taxes(BaseResponseModel):
-    __root__: List[Tax]
+class TaxesResponse(BaseResponseModel):
+    __root__: List[TaxResponse]

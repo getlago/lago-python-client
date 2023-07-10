@@ -6,6 +6,7 @@ from .charge import Charge, Charges, ChargesResponse
 from .coupon import Coupon, LimitationConfiguration
 from .credit import CreditResponse, CreditsResponse
 from .credit_note import Item, Items, CreditNote, CreditNoteUpdate
+from .plan_applied_tax import PlanAppliedTax, PlanAppliedTaxResponse
 from .plan import Plan
 from .add_on import AddOn
 from .organization import Organization, OrganizationBillingConfiguration
@@ -17,7 +18,7 @@ from .invoice import InvoicePaymentStatusChange, Invoice, InvoiceMetadata, Invoi
 from .invoice_item import InvoiceItemResponse
 from .subscription import Subscription
 from .customer_usage import Metric, ChargeObject, ChargeUsage, CustomerUsageResponse
-from .tax import Tax, Taxes
+from .tax import Tax, Taxes, TaxResponse, TaxesResponse
 from .wallet import Wallet
 from .wallet_transaction import WalletTransaction
 from .webhook_endpoint import WebhookEndpoint

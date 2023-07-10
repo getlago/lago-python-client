@@ -12,6 +12,7 @@ from .functools_ext import callable_cached_property
 from .invoices.clients import InvoiceClient
 from .organizations.clients import OrganizationClient
 from .plans.clients import PlanClient
+from .plan_applied_taxes.clients import PlanAppliedTaxClient
 from .subscriptions.clients import SubscriptionClient
 from .taxes.clients import TaxClient
 from .wallets.clients import WalletClient, WalletTransactionClient
@@ -91,6 +92,10 @@ class Client:
     @callable_cached_property
     def plans(self) -> PlanClient:
         return PlanClient(self.base_api_url, self.api_key)
+
+    @callable_cached_property
+    def plan_applied_taxes(self) -> PlanAppliedTaxClient:
+        return PlanAppliedTaxClient(self.base_api_url, self.api_key)
 
     @callable_cached_property
     def subscriptions(self) -> SubscriptionClient:
