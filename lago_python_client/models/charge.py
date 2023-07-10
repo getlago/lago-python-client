@@ -2,6 +2,7 @@ from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel
 
+from .tax import TaxesResponse
 from ..base_model import BaseResponseModel
 
 
@@ -23,6 +24,7 @@ class Charge(BaseModel):
     min_amount_cents: Optional[int]
     properties: Optional[Dict[str, Any]]
     group_properties: Optional[GroupPropertiesList]
+    tax_codes: Optional[List[str]]
 
 
 class Charges(BaseModel):
@@ -39,6 +41,7 @@ class ChargeResponse(BaseResponseModel):
     min_amount_cents: Optional[int]
     properties: Optional[Dict[str, Any]]
     group_properties: Optional[GroupPropertiesList]
+    taxes: Optional[TaxesResponse]
 
 
 class ChargesResponse(BaseResponseModel):

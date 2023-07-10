@@ -3,6 +3,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 from .charge import Charges, ChargesResponse
+from .tax import Taxes, TaxesResponse
 from ..base_model import BaseResponseModel
 
 
@@ -34,3 +35,4 @@ class PlanResponse(BaseResponseModel):
     charges: Optional[ChargesResponse]
     active_subscriptions_count: int
     draft_invoices_count: int
+    taxes: Optional[TaxesResponse]
