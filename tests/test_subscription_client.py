@@ -20,6 +20,13 @@ def mock_response():
     with open(my_data_path, 'rb') as subscription_response:
         return subscription_response.read()
 
+def mock_response_for_pending():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    my_data_path = os.path.join(this_dir, 'fixtures/pending_subscription.json')
+
+    with open(my_data_path, 'rb') as subscription_response:
+        return subscription_response.read()
+
 
 def mock_collection_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
@@ -27,7 +34,6 @@ def mock_collection_response():
 
     with open(data_path, 'rb') as subscription_response:
         return subscription_response.read()
-
 
 def test_valid_create_subscriptions_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
@@ -86,6 +92,16 @@ def test_valid_destroy_subscription_request(httpx_mock: HTTPXMock):
     assert response.status == 'active'
     assert response.plan_code == 'eartha lynch'
 
+def test_valid_destroy_pending_subscription_request(httpx_mock: HTTPXMock):
+    client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+    identifier = 'sub_id'
+
+    httpx_mock.add_response(method='DELETE', url='https://api.getlago.com/api/v1/subscriptions/' + identifier + '?status=pending', content=mock_response_for_pending())
+    response = client.subscriptions.destroy(identifier, { 'status': 'pending' })
+    assert response.external_customer_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
+    assert response.status == 'pending'
+    assert response.plan_code == 'eartha lynch'
+
 
 def test_invalid_destroy_subscription_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
@@ -102,6 +118,15 @@ def test_valid_find_all_subscription_request_with_options(httpx_mock: HTTPXMock)
 
     httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/subscriptions?external_customer_id=123', content=mock_collection_response())
     response = client.subscriptions.find_all({'external_customer_id': '123'})
+
+    assert response['subscriptions'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
+    assert response['meta']['current_page'] == 1
+
+def test_valid_find_all_subscription_request_with_options(httpx_mock: HTTPXMock):
+    client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+
+    httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/subscriptions?external_customer_id=123&status[]=pending', content=mock_collection_response())
+    response = client.subscriptions.find_all({'external_customer_id': '123', 'status[]': 'pending'})
 
     assert response['subscriptions'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response['meta']['current_page'] == 1
