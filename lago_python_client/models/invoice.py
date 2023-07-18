@@ -56,6 +56,7 @@ class InvoiceAppliedTax(BaseResponseModel):
     tax_description: Optional[str]
     amount_cents: Optional[int]
     amount_currency: Optional[str]
+    fees_amount_cents: Optional[int]
     created_at: Optional[str]
 
 
