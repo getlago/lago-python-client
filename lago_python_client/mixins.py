@@ -64,13 +64,14 @@ class CreateCommandMixin(Generic[_M]):
 class DestroyCommandMixin(Generic[_M]):
     """Client mixin with `destroy` command."""
 
-    def destroy(self: _ClientMixin[_M], resource_id: str) -> BaseModel:
+    def destroy(self: _ClientMixin[_M], resource_id: str, options: Mapping[str, Union[int, str]] = {}) -> BaseModel:
         """Execute `destroy` command."""
         # Send request and save response
         api_response: Response = send_delete_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, resource_id),
+                query_pairs=options,
             ),
             headers=make_headers(api_key=self.api_key),
         )
