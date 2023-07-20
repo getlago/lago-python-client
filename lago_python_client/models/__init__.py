@@ -1,12 +1,10 @@
 from .applied_add_on import AppliedAddOn
 from .applied_coupon import AppliedCoupon
-from .applied_tax import AppliedTax
 from .billable_metric import BillableMetric, BillableMetricGroup
 from .charge import Charge, Charges, ChargesResponse
 from .coupon import Coupon, LimitationConfiguration
 from .credit import CreditResponse, CreditsResponse
 from .credit_note import Item, Items, CreditNote, CreditNoteUpdate
-from .plan_applied_tax import PlanAppliedTax, PlanAppliedTaxResponse
 from .plan import Plan
 from .add_on import AddOn
 from .organization import Organization, OrganizationBillingConfiguration
