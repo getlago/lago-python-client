@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 from ..base_model import BaseResponseModel
 
-from .tax import Taxes
+from .tax import TaxesResponse
 
 
 class CustomerBillingConfiguration(BaseModel):
@@ -47,7 +47,7 @@ class Customer(BaseModel):
     zipcode: Optional[str]
     metadata: Optional[MetadataList]
     billing_configuration: Optional[CustomerBillingConfiguration]
-    taxes: Optional[Taxes]
+    tax_codes: Optional[List[str]]
 
 
 class CustomerResponse(BaseResponseModel):
@@ -73,3 +73,4 @@ class CustomerResponse(BaseResponseModel):
     zipcode: Optional[str]
     metadata: Optional[MetadataList]
     billing_configuration: Optional[CustomerBillingConfiguration]
+    taxes: Optional[TaxesResponse]

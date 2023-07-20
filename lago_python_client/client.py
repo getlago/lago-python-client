@@ -1,7 +1,6 @@
 from urllib.parse import urljoin
 
 from .add_ons.clients import AddOnClient, AppliedAddOnClient
-from .applied_taxes.clients import AppliedTaxClient
 from .billable_metrics.clients import BillableMetricClient, GroupClient
 from .coupons.clients import AppliedCouponClient, CouponClient
 from .credit_notes.clients import CreditNoteClient
@@ -12,7 +11,6 @@ from .functools_ext import callable_cached_property
 from .invoices.clients import InvoiceClient
 from .organizations.clients import OrganizationClient
 from .plans.clients import PlanClient
-from .plan_applied_taxes.clients import PlanAppliedTaxClient
 from .subscriptions.clients import SubscriptionClient
 from .taxes.clients import TaxClient
 from .wallets.clients import WalletClient, WalletTransactionClient
@@ -43,10 +41,6 @@ class Client:
     @callable_cached_property
     def add_ons(self) -> AddOnClient:
         return AddOnClient(self.base_api_url, self.api_key)
-
-    @callable_cached_property
-    def applied_taxes(self) -> AppliedTaxClient:
-        return AppliedTaxClient(self.base_api_url, self.api_key)
 
     @callable_cached_property
     def billable_metrics(self) -> BillableMetricClient:
@@ -91,10 +85,6 @@ class Client:
     @callable_cached_property
     def plans(self) -> PlanClient:
         return PlanClient(self.base_api_url, self.api_key)
-
-    @callable_cached_property
-    def plan_applied_taxes(self) -> PlanAppliedTaxClient:
-        return PlanAppliedTaxClient(self.base_api_url, self.api_key)
 
     @callable_cached_property
     def subscriptions(self) -> SubscriptionClient:

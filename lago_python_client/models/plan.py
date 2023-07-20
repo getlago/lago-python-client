@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -18,6 +18,7 @@ class Plan(BaseModel):
     pay_in_advance: Optional[bool]
     bill_charges_monthly: Optional[bool]
     charges: Optional[Charges]
+    tax_codes: Optional[List[str]]
 
 
 class PlanResponse(BaseResponseModel):
