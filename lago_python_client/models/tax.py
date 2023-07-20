@@ -24,6 +24,8 @@ class TaxResponse(BaseResponseModel):
     rate: float
     description: Optional[str]
     customers_count: int
+    plans_count: int
+    charges_count: int
     applied_to_organization: bool
     created_at: str
 

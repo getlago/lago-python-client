@@ -6,6 +6,8 @@
       "code": "tax_code_1",
       "rate": 15.0,
       "customers_count": 0,
+      "plans_count": 0,
+      "charges_count": 0,
       "description": "tax_desc_1",
       "applied_to_organization": false,
       "created_at": "2022-04-29T08:59:51Z"
@@ -15,7 +17,9 @@
       "name": "tax_name_2",
       "code": "tax_code_2",
       "rate": 20.0,
-      "customers_count": 5,
+      "customers_count": 0,
+      "plans_count": 0,
+      "charges_count": 0,
       "description": "tax_desc_2",
       "applied_to_organization": false,
       "created_at": "2022-04-29T08:59:51Z"
