@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -11,6 +11,12 @@ class Metric(BaseModel):
     code: str
     aggregation_type: str
 
+class Group(BaseModel):
+    lago_id: str
+    key: Optional[str]
+    value: str
+    units: str
+    amount_cents: int
 
 class ChargeObject(BaseModel):
     lago_id: str
@@ -23,6 +29,7 @@ class ChargeUsage(BaseModel):
     amount_currency: str
     charge: ChargeObject
     billable_metric: Metric
+    groups: List[Group]
 
 
 class CustomerUsageResponse(BaseResponseModel):

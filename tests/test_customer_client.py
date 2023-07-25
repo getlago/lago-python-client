@@ -82,6 +82,8 @@ def test_valid_current_usage(httpx_mock: HTTPXMock):
     assert response.from_datetime == '2022-07-01T00:00:00Z'
     assert len(response.charges_usage) == 1
     assert response.charges_usage[0].units == 1.0
+    assert len(response.charges_usage[0].groups) == 1
+    assert response.charges_usage[0].groups[0].key == 'google'
 
 
 def test_invalid_current_usage(httpx_mock: HTTPXMock):
