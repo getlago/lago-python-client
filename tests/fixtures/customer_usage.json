@@ -21,7 +21,16 @@
           "name": "Usage metric",
           "code": "usage_metric",
           "aggregation_type": "sum"
-        }
+        },
+        "groups": [
+          {
+            "lago_id": "12435687-1de8-4428-9bcd-779314ac1111",
+            "key": "google",
+            "value": "europe",
+            "units": "3.0",
+            "amount_cents": 123
+          }
+        ]
       }
     ]
   }
