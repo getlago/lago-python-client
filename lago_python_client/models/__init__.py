@@ -20,3 +20,4 @@ from .customer_usage import Metric, ChargeObject, ChargeUsage, CustomerUsageResp
 from .tax import Tax, Taxes
 from .wallet import Wallet
 from .wallet_transaction import WalletTransaction
+from .webhook_endpoint import WebhookEndpoint
