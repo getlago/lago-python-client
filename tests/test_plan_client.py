@@ -15,6 +15,7 @@ def plan_object():
         amount_currency='EUR',
         pay_in_advance=True,
         invoiceable=False,
+        prorated=False,
         min_amount_cents=0,
         group_properties = [
             {
@@ -44,6 +45,7 @@ def graduated_plan_object():
         billable_metric_id='id',
         charge_model='graduated',
         amount_currency='EUR',
+        prorated=False,
         properties = {
             'graduated_ranges': [
                 {

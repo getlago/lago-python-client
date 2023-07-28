@@ -15,6 +15,7 @@ def billable_metric_object():
         description='desc',
         aggregation_type='sum_agg',
         field_name='amount_sum',
+        recurring=False,
         group=group()
     )
 

@@ -14,6 +14,7 @@ class BillableMetric(BaseModel):
     name: Optional[str]
     code: Optional[str]
     description: Optional[str]
+    recurring: Optional[bool]
     aggregation_type: Optional[str]
     field_name: Optional[str]
     group: Optional[BillableMetricGroup]
@@ -24,6 +25,7 @@ class BillableMetricResponse(BaseResponseModel):
     name: str
     code: str
     description: Optional[str]
+    recurring: Optional[bool]
     aggregation_type: Optional[str]
     field_name: Optional[str]
     created_at: str
