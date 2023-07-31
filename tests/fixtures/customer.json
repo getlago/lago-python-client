@@ -20,6 +20,7 @@
     "currency": "EUR",
     "timezone": "Europe/Paris",
     "applicable_timezone": "Europe/Paris",
+    "net_payment_term": null,
     "billing_configuration": {
       "invoice_grace_period": 3,
       "payment_provider": "stripe",

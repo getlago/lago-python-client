@@ -37,6 +37,7 @@ class Customer(BaseModel):
     email: Optional[str]
     legal_name: Optional[str]
     legal_number: Optional[str]
+    net_payment_term: Optional[int]
     tax_identification_number: Optional[str]
     logo_url: Optional[str]
     name: str
@@ -62,6 +63,7 @@ class CustomerResponse(BaseResponseModel):
     created_at: str
     legal_name: Optional[str]
     legal_number: Optional[str]
+    net_payment_term: Optional[int]
     tax_identification_number: Optional[str]
     logo_url: Optional[str]
     name: str

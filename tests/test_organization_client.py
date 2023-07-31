@@ -13,6 +13,7 @@ def organization_object():
         webhook_url="https://test-example.example",
         webhook_urls=["https://test-example.example", "https://test-example2.example"],
         tax_identification_number='EU123456789',
+        net_payment_term=0,
         billing_configuration=OrganizationBillingConfiguration(
             invoice_footer='footer',
             invoice_grace_period=3,
@@ -38,6 +39,7 @@ def test_valid_update_organization_request(httpx_mock: HTTPXMock):
 
     assert response.name == 'Hooli'
     assert response.tax_identification_number == 'EU123456789'
+    assert response.net_payment_term == 0
 
 
 def test_invalid_update_organization_request(httpx_mock: HTTPXMock):
