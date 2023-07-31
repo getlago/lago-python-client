@@ -44,6 +44,7 @@
         "code": "tax_code",
         "rate": 15.0,
         "description": "tax_desc",
+        "add_ons_count": 0,
         "customers_count": 0,
         "plans_count": 0,
         "charges_count": 0,
