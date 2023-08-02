@@ -10,7 +10,8 @@ from lago_python_client.models import WebhookEndpoint
 
 def webhook_endpoint_object():
     return WebhookEndpoint(
-        webhook_url='https://foo.bar'
+        webhook_url='https://foo.bar',
+        signature_algo='hmac'
     )
 
 

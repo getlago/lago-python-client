@@ -3,6 +3,7 @@
     "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac129b",
     "lago_organization_id": "b7ab2926-1de8-4428-9bcd-779314ac129b",
     "webhook_url": "https://foo.bar",
+    "signature_algo": "hmac",
     "created_at": "2022-04-29T08:59:51Z"
   }
 }

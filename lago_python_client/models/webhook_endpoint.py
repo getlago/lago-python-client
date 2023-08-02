@@ -13,4 +13,5 @@ class WebhookEndpointResponse(BaseResponseModel):
     lago_id: str
     lago_organization_id: str
     webhook_url: str
+    signature_algo: str
     created_at: str
