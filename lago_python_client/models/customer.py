@@ -60,6 +60,7 @@ class CustomerResponse(BaseResponseModel):
     currency: Optional[str]
     email: Optional[str]
     created_at: str
+    updated_at: str
     legal_name: Optional[str]
     legal_number: Optional[str]
     tax_identification_number: Optional[str]
