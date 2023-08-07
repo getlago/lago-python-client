@@ -14,6 +14,7 @@ class CustomerBillingConfiguration(BaseModel):
     sync: Optional[bool]
     sync_with_provider: Optional[bool]
     document_locale: Optional[str]
+    provider_payment_methods: Optional[List[str]]
 
 
 class Metadata(BaseModel):
