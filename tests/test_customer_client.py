@@ -26,7 +26,8 @@ def create_customer():
             payment_provider='stripe',
             provider_customer_id='cus_12345',
             sync_with_provider=True,
-            document_locale="fr"
+            document_locale="fr",
+            provider_payment_methods=["card", "sepa_debit"],
         ),
         metadata=metadata_list
     )
