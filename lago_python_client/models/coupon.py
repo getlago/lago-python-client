@@ -31,8 +31,8 @@ class CouponResponse(BaseResponseModel):
     name: str
     code: str
     description: Optional[str]
-    amount_cents: int
-    amount_currency: str
+    amount_cents: Optional[int]
+    amount_currency: Optional[str]
     created_at: str
     expiration: str
     expiration_at: Optional[str]
