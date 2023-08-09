@@ -23,9 +23,9 @@ class AppliedCouponResponse(BaseResponseModel):
     status: Optional[str]
     external_customer_id: str
     lago_customer_id: str
-    amount_cents: int
+    amount_cents: Optional[int]
     amount_cents_remaining: Optional[int]
-    amount_currency: str
+    amount_currency: Optional[str]
     expiration_date: Optional[str]
     created_at: str
     terminated_at: Optional[str]
