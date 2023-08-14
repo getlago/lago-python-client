@@ -32,6 +32,7 @@
     },
     "metadata": [
       {
+        "lago_id": "12345",
         "key": "key",
         "value": "value",
         "display_in_invoice": true
