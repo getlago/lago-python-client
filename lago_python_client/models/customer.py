@@ -24,8 +24,19 @@ class Metadata(BaseModel):
     display_in_invoice: Optional[bool]
 
 
+class MetadataResponse(BaseModel):
+    lago_id: Optional[str]
+    key: Optional[str]
+    value: Optional[str]
+    display_in_invoice: Optional[bool]
+
+
 class MetadataList(BaseModel):
     __root__: List[Metadata]
+
+
+class MetadataResponseList(BaseModel):
+    __root__: List[MetadataResponse]
 
 
 class Customer(BaseModel):
@@ -75,6 +86,6 @@ class CustomerResponse(BaseResponseModel):
     applicable_timezone: str
     url: Optional[str]
     zipcode: Optional[str]
-    metadata: Optional[MetadataList]
+    metadata: Optional[MetadataResponseList]
     billing_configuration: Optional[CustomerBillingConfiguration]
     taxes: Optional[TaxesResponse]
