@@ -6,6 +6,21 @@
     "amount_cents": 5000,
     "amount_currency": "USD",
     "description": "desc",
-    "created_at": "2022-04-29T08:59:51Z"
+    "created_at": "2022-04-29T08:59:51Z",
+    "taxes": [
+      {
+        "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac129b",
+        "name": "tax_name",
+        "code": "tax_code",
+        "rate": 15.0,
+        "description": "tax_desc",
+        "add_ons_count": 0,
+        "customers_count": 0,
+        "plans_count": 0,
+        "charges_count": 0,
+        "applied_to_organization": false,
+        "created_at": "2022-04-29T08:59:51Z"
+      }
+    ]
   }
 }
