@@ -54,7 +54,7 @@ class CreditNoteResponse(BaseResponseModel):
     taxes_amount_cents: str
     taxes_rate: float
     sub_total_excluding_taxes_amount_cents: int
-    coupons_adjustement_amount_cents: int
+    coupons_adjustment_amount_cents: int
     file_url: Optional[str]
     created_at: Optional[str]
     updated_at: Optional[str]
