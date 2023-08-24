@@ -17,7 +17,7 @@
       "taxes_amount_cents": 40,
       "taxes_rate": "20.4",
       "sub_total_excluding_taxes_amount_cents": 200,
-      "coupons_adjustement_amount_cents": 0,
+      "coupons_adjustment_amount_cents": 0,
       "created_at": "2022-10-04 16:21:00",
       "updated_at": "2022-10-04 16:21:00"
     }
