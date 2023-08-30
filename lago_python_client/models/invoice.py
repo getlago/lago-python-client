@@ -70,6 +70,8 @@ class InvoiceResponse(BaseResponseModel):
     sequential_id: int
     number: str
     issuing_date: Optional[str]
+    payment_due_date: Optional[str]
+    net_payment_term: int
     invoice_type: str
     version_number: int
     status: str
