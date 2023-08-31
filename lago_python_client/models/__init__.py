@@ -1,4 +1,3 @@
-from .applied_add_on import AppliedAddOn
 from .applied_coupon import AppliedCoupon
 from .billable_metric import BillableMetric, BillableMetricGroup
 from .charge import Charge, Charges, ChargesResponse
