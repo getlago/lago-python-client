@@ -1,6 +1,6 @@
 from urllib.parse import urljoin
 
-from .add_ons.clients import AddOnClient, AppliedAddOnClient
+from .add_ons.clients import AddOnClient
 from .billable_metrics.clients import BillableMetricClient, GroupClient
 from .coupons.clients import AppliedCouponClient, CouponClient
 from .credit_notes.clients import CreditNoteClient
@@ -34,10 +34,6 @@ class Client:
     @property
     def base_api_url(self) -> str:
         return urljoin(self.api_url if self.api_url else Client.BASE_URL, Client.API_PATH)
-
-    @callable_cached_property
-    def applied_add_ons(self) -> AppliedAddOnClient:
-        return AppliedAddOnClient(self.base_api_url, self.api_key)
 
     @callable_cached_property
     def add_ons(self) -> AddOnClient:
@@ -106,7 +102,7 @@ class Client:
     @callable_cached_property
     def webhooks(self) -> WebhookClient:
         return WebhookClient(self.base_api_url, self.api_key)
-    
+
     @callable_cached_property
     def webhook_endpoints(self) -> WebhookEndpointClient:
         return WebhookEndpointClient(self.base_api_url, self.api_key)
