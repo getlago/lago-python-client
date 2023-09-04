@@ -4,6 +4,8 @@
     "sequential_id": 15,
     "number": "LAG-1234-001-002",
     "issuing_date": "2022-06-02",
+    "payment_due_date": "2022-06-02",
+    "net_payment_term": 0,
     "invoice_type": "type1",
     "version_number": 2,
     "status": "finalized",
