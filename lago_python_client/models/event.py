@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel
 
@@ -10,7 +10,7 @@ class Event(BaseModel):
     external_customer_id: Optional[str]
     external_subscription_id: Optional[str]
     code: str
-    timestamp: Optional[int]
+    timestamp: Optional[Union[int, str]]
     properties: Optional[Dict[str, Any]]
 
 
@@ -19,7 +19,7 @@ class BatchEvent(BaseModel):
     external_customer_id: Optional[str]
     external_subscription_ids: List[str]
     code: str
-    timestamp: Optional[int]
+    timestamp: Optional[Union[int, str]]
     properties: Optional[Dict[str, Any]]
 
 

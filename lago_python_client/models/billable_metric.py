@@ -16,6 +16,7 @@ class BillableMetric(BaseModel):
     description: Optional[str]
     recurring: Optional[bool]
     aggregation_type: Optional[str]
+    weighted_interval: Optional[str]
     field_name: Optional[str]
     group: Optional[BillableMetricGroup]
 
@@ -27,6 +28,7 @@ class BillableMetricResponse(BaseResponseModel):
     description: Optional[str]
     recurring: Optional[bool]
     aggregation_type: Optional[str]
+    weighted_interval: Optional[str]
     field_name: Optional[str]
     created_at: str
     group: BillableMetricGroup

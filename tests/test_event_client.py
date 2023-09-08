@@ -12,6 +12,10 @@ def create_event():
     return Event(external_customer_id='5eb02857-a71e-4ea2-bcf9-57d8885990ba', code='123', transaction_id='123')
 
 
+def create_event_with_string_timestamp():
+    return Event(external_customer_id='5eb02857-a71e-4ea2-bcf9-57d8885990ba', code='123', transaction_id='123', timestamp='1651240791.123')
+
+
 def create_batch_event():
     return BatchEvent(external_subscription_ids=['88u02857-a71e-4ea2-bcf9-57d8885990ba'], code='123', transaction_id='123')
 
@@ -36,6 +40,13 @@ def test_valid_create_events_request(httpx_mock: HTTPXMock):
 
     httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/events', content=b'')
     client.events.create(create_event())  # Any response means success, any exception - failure
+
+
+def test_valid_create_events_request_with_string_timestamp(httpx_mock: HTTPXMock):
+    client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+
+    httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/events', content=b'')
+    client.events.create(create_event_with_string_timestamp())  # Any response means success, any exception - failure
 
 
 def test_invalid_create_events_request(httpx_mock: HTTPXMock):
