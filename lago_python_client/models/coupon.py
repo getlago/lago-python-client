@@ -36,6 +36,7 @@ class CouponResponse(BaseResponseModel):
     created_at: str
     expiration: str
     expiration_at: Optional[str]
+    terminated_at: Optional[str]
     percentage_rate: Optional[float]
     coupon_type: Optional[str]
     reusable: Optional[bool]
