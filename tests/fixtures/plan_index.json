@@ -3,6 +3,7 @@
     {
       "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac1111",
       "name": "test1",
+      "invoice_display_name": "test plan 1",
       "created_at": "2022-07-01T14:47:14Z",
       "code": "plan_api4",
       "interval": "weekly",
@@ -28,7 +29,8 @@
           "group_properties": [
             {
               "group_id": "gfc1e851-5be6-4343-a0ee-39a81d8b4ee1",
-              "values": { "amount": "0.22" }
+              "values": { "amount": "0.22" },
+              "invoice_display_name": "Europe"
             }
           ]
         }

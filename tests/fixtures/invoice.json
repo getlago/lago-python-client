@@ -103,10 +103,12 @@
     "fees": [
       {
         "lago_id": "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
+        "invoice_display_name": "fee_invoice_display_name",
         "item": {
           "type": "charge",
           "code": "seats",
-          "name": "User Seats"
+          "name": "User Seats",
+          "invoice_display_name": "charge_invoice_display_name"
         },
         "amount_cents": 100,
         "amount_currency": "EUR",

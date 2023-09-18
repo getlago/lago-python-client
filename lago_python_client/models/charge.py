@@ -9,6 +9,7 @@ from ..base_model import BaseResponseModel
 class GroupProperties(BaseModel):
     group_id: Optional[str]
     values: Optional[Dict[str, Any]]
+    invoice_display_name: Optional[str]
 
 
 class GroupPropertiesList(BaseModel):
@@ -22,6 +23,7 @@ class Charge(BaseModel):
     pay_in_advance: Optional[bool]
     prorated: Optional[bool]
     invoiceable: Optional[bool]
+    invoice_display_name: Optional[str]
     min_amount_cents: Optional[int]
     properties: Optional[Dict[str, Any]]
     group_properties: Optional[GroupPropertiesList]
@@ -40,6 +42,7 @@ class ChargeResponse(BaseResponseModel):
     pay_in_advance: Optional[bool]
     prorated: Optional[bool]
     invoiceable: Optional[bool]
+    invoice_display_name: Optional[str]
     min_amount_cents: Optional[int]
     properties: Optional[Dict[str, Any]]
     group_properties: Optional[GroupPropertiesList]

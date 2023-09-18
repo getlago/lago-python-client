@@ -88,10 +88,12 @@
     "fees": [
       {
         "lago_id": "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
+        "invoice_display_name": "fee_invoice_display_name",
         "item": {
           "type": "one_off",
           "code": "one",
-          "name": "Name"
+          "name": "Name",
+          "invoice_display_name": "one_off_invoice_display_name"
         },
         "amount_cents": 100,
         "amount_currency": "EUR",

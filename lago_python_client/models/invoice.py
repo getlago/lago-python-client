@@ -25,6 +25,7 @@ class InvoiceFee(BaseModel):
     unit_amount_cents: Optional[int]
     units: Optional[float]
     description: Optional[str]
+    invoice_display_name: Optional[str]
     tax_codes: Optional[List[str]]
 
 

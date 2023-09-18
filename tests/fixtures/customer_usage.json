@@ -16,7 +16,8 @@
         "amount_currency": "EUR",
         "charge": {
           "lago_id": "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
-          "charge_model": "graduated"
+          "charge_model": "graduated",
+          "invoice_display_name": "add_on_invoice_display_name"
         },
         "billable_metric": {
           "lago_id": "99a6094e-199b-4101-896a-54e927ce7bd7",
