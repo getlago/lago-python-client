@@ -8,4 +8,5 @@ class InvoiceItemResponse(BaseResponseModel):
     code: Optional[str]
     name: Optional[str]
     lago_id: Optional[str]
+    lago_item_id: Optional[str]
     item_type: Optional[str]
