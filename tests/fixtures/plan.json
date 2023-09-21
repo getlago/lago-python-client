@@ -25,6 +25,7 @@
         "charge_model": "standard",
         "pay_in_advance": true,
         "invoiceable": true,
+        "invoice_display_name": "Setup",
         "min_amount_cents": 0,
         "properties": {
           "amount": "0.22"

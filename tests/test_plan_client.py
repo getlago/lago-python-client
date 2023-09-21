@@ -112,6 +112,7 @@ def test_valid_create_plan_request(httpx_mock: HTTPXMock):
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == 'plan_code'
     assert response.invoice_display_name == 'test plan 1'
+    assert response.charges.__root__[0].invoice_display_name == 'Setup'
 
 
 def test_valid_create_graduated_plan_request(httpx_mock: HTTPXMock):
