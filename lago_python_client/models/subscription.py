@@ -12,6 +12,7 @@ class Subscription(BaseModel):
     external_id: Optional[str]
     subscription_date: Optional[str]
     billing_time: Optional[str]
+    ending_at: Optional[str]
 
 
 class SubscriptionResponse(BaseResponseModel):
@@ -27,6 +28,7 @@ class SubscriptionResponse(BaseResponseModel):
     external_id: Optional[str]
     billing_time: Optional[str]
     terminated_at: Optional[str]
+    ending_at: Optional[str]
     subscription_date: Optional[str]
     previous_plan_code: Optional[str]
     next_plan_code: Optional[str]

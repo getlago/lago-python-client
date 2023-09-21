@@ -10,7 +10,8 @@ from lago_python_client.models import Subscription
 
 def create_subscription():
     return Subscription(external_customer_id='5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba', plan_code='eartha lynch',
-                        external_id='code', billing_time='anniversary', subscription_date='2022-04-29')
+                        external_id='code', billing_time='anniversary', subscription_date='2022-04-29',
+                        ending_at='2022-08-29T08:59:51Z')
 
 
 def mock_response():
@@ -46,6 +47,7 @@ def test_valid_create_subscriptions_request(httpx_mock: HTTPXMock):
     assert response.plan_code == 'eartha lynch'
     assert response.billing_time == 'anniversary'
     assert response.subscription_date == '2022-04-29'
+    assert response.ending_at == '2022-08-29T08:59:51Z'
 
 
 def test_invalid_create_subscriptions_request(httpx_mock: HTTPXMock):
