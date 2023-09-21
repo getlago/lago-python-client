@@ -16,7 +16,8 @@ def billable_metric_object():
         aggregation_type='sum_agg',
         field_name='amount_sum',
         recurring=False,
-        group=group()
+        group=group(),
+        weighted_interval='seconds'
     )
 
 
