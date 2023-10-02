@@ -3,6 +3,7 @@
     "from_datetime": "2022-07-01T00:00:00Z",
     "to_datetime": "2022-07-31T23:59:59Z",
     "issuing_date": "2022-08-01",
+    "invoice_id": null,
     "currency": "EUR",
     "amount_cents": 123,
     "total_amount_cents": 123,
@@ -10,6 +11,7 @@
     "charges_usage": [
       {
         "units": "1.0",
+        "events_count": 1,
         "amount_cents": 123,
         "amount_currency": "EUR",
         "charge": {
@@ -28,6 +30,7 @@
             "key": "google",
             "value": "europe",
             "units": "3.0",
+            "events_count": 1,
             "amount_cents": 123
           }
         ]
