@@ -52,6 +52,8 @@ def test_valid_create_invoice_request(httpx_mock: HTTPXMock):
 
     assert response.lago_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
     assert response.invoice_type == 'one_off'
+    assert response.fees.__root__[0].invoice_display_name == 'fee_invoice_display_name'
+    assert response.fees.__root__[0].item.invoice_display_name == 'one_off_invoice_display_name'
 
 
 def test_invalid_create_invoice_request(httpx_mock: HTTPXMock):

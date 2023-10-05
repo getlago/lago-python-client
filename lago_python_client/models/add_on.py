@@ -8,6 +8,7 @@ from .tax import TaxesResponse
 
 class AddOn(BaseModel):
     name: Optional[str]
+    invoice_display_name: Optional[str]
     code: Optional[str]
     amount_cents: Optional[int]
     amount_currency: Optional[str]
@@ -18,6 +19,7 @@ class AddOn(BaseModel):
 class AddOnResponse(BaseResponseModel):
     lago_id: str
     name: str
+    invoice_display_name: Optional[str]
     code: str
     amount_cents: int
     amount_currency: str

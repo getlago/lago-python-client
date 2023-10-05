@@ -6,10 +6,12 @@
       "lago_invoice_id": "1a2d9c8d-5875-4688-9854-5ccfd414bc5e",
       "lago_true_up_fee_id": "1a2d9c8d-5875-4688-9854-5ccfd414bc5e",
       "lago_true_up_parent_fee_id": null,
+      "invoice_display_name": "fee_invoice_display_name",
       "item": {
         "type": "instant_charge",
         "code": "fee_code",
-        "name": "Fee Code"
+        "name": "Fee Code",
+        "invoice_display_name": "charge_invoice_display_name"
       },
       "amount_cents": 120,
       "amount_currency": "EUR",

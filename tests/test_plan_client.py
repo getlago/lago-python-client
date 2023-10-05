@@ -22,7 +22,8 @@ def plan_object():
                 'group_id': 'id',
                 'values': {
                     'amount': '0.22'
-                }
+                },
+                'invoice_display_name': 'Europe'
             }
         ]
     )
@@ -30,6 +31,7 @@ def plan_object():
 
     return Plan(
         name='name',
+        invoice_display_name='invoice_display_name',
         code='code_first',
         amount_cents=1000,
         amount_currency='EUR',
@@ -109,6 +111,8 @@ def test_valid_create_plan_request(httpx_mock: HTTPXMock):
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == 'plan_code'
+    assert response.invoice_display_name == 'test plan 1'
+    assert response.charges.__root__[0].invoice_display_name == 'Setup'
 
 
 def test_valid_create_graduated_plan_request(httpx_mock: HTTPXMock):
@@ -119,6 +123,7 @@ def test_valid_create_graduated_plan_request(httpx_mock: HTTPXMock):
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == 'plan_code'
+    assert response.invoice_display_name == 'test plan 1'
 
 
 def test_invalid_create_plan_request(httpx_mock: HTTPXMock):
@@ -139,6 +144,7 @@ def test_valid_update_plan_request(httpx_mock: HTTPXMock):
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == code
+    assert response.invoice_display_name == 'test plan 1'
 
 
 def test_invalid_update_plan_request(httpx_mock: HTTPXMock):
@@ -160,6 +166,7 @@ def test_valid_find_plan_request(httpx_mock: HTTPXMock):
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == code
+    assert response.invoice_display_name == 'test plan 1'
     assert response.charges.__root__[0].charge_model == 'standard'
     assert response.charges.__root__[0].min_amount_cents == 0
 
@@ -202,9 +209,11 @@ def test_valid_find_all_plan_request(httpx_mock: HTTPXMock):
     response = client.plans.find_all()
 
     assert response['plans'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1111'
+    assert response['plans'][0].invoice_display_name == 'test plan 1'
     assert response['plans'][0].charges.__root__[0].lago_id == '51c1e851-5be6-4343-a0ee-39a81d8b4ee1'
     assert response['plans'][0].charges.__root__[0].group_properties.__root__[0].group_id == 'gfc1e851-5be6-4343-a0ee-39a81d8b4ee1'
     assert response['plans'][0].charges.__root__[0].group_properties.__root__[0].values['amount'] == '0.22'
+    assert response['plans'][0].charges.__root__[0].group_properties.__root__[0].invoice_display_name == 'Europe'
     assert response['meta']['current_page'] == 1
 
 

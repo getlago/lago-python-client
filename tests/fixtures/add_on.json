@@ -2,6 +2,7 @@
   "add_on": {
     "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac129b",
     "name": "add_on_name",
+    "invoice_display_name": "add_on_invoice_display_name",
     "code": "add_on_code",
     "amount_cents": 5000,
     "amount_currency": "USD",

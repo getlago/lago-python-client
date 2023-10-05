@@ -9,6 +9,7 @@ from ..base_model import BaseResponseModel
 
 class Plan(BaseModel):
     name: Optional[str]
+    invoice_display_name: Optional[str]
     code: Optional[str]
     interval: Optional[str]
     description: Optional[str]
@@ -24,6 +25,7 @@ class Plan(BaseModel):
 class PlanResponse(BaseResponseModel):
     lago_id: str
     name: str
+    invoice_display_name: Optional[str]
     created_at: str
     code: str
     interval: Optional[str]

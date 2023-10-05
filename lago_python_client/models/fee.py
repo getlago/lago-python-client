@@ -5,6 +5,7 @@ from ..base_model import BaseModel, BaseResponseModel
 
 class Fee(BaseModel):
     payment_status: Optional[str]
+    invoice_display_name: Optional[str]
 
 
 class FeeAppliedTax(BaseResponseModel):
@@ -45,6 +46,7 @@ class FeeResponse(BaseResponseModel):
     description: Optional[str]
     pay_in_advance: Optional[bool]
     invoiceable: Optional[bool]
+    invoice_display_name: Optional[str]
     succeeded_at: Optional[str]
     failed_at: Optional[str]
     refunded_at: Optional[str]

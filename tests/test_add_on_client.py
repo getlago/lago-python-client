@@ -11,6 +11,7 @@ from lago_python_client.models.add_on import AddOn
 def add_on_object():
     return AddOn(
         name='name',
+        invoice_display_name='add_on_invoice_display_name',
         code='add_on_first',
         amount_cents=1000,
         amount_currency='EUR',
@@ -42,6 +43,7 @@ def test_valid_create_add_on_request(httpx_mock: HTTPXMock):
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == 'add_on_code'
+    assert response.invoice_display_name == 'add_on_invoice_display_name'
 
 
 def test_invalid_create_add_on_request(httpx_mock: HTTPXMock):
@@ -56,12 +58,14 @@ def test_invalid_create_add_on_request(httpx_mock: HTTPXMock):
 def test_valid_update_add_on_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     code = 'add_on_code'
+    invoice_display_name = 'add_on_invoice_display_name'
 
     httpx_mock.add_response(method='PUT', url='https://api.getlago.com/api/v1/add_ons/' + code, content=mock_response())
     response = client.add_ons.update(add_on_object(), code)
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == code
+    assert response.invoice_display_name == invoice_display_name
 
 
 def test_invalid_update_add_on_request(httpx_mock: HTTPXMock):
@@ -77,12 +81,15 @@ def test_invalid_update_add_on_request(httpx_mock: HTTPXMock):
 def test_valid_find_add_on_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
     code = 'add_on_code'
+    invoice_display_name = 'add_on_invoice_display_name'
 
     httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/add_ons/' + code, content=mock_response())
     response = client.add_ons.find(code)
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == code
+    assert response.invoice_display_name == invoice_display_name
+
 
 
 def test_invalid_find_add_on_request(httpx_mock: HTTPXMock):
