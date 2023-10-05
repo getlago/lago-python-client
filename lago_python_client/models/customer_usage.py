@@ -25,6 +25,7 @@ class ChargeObject(BaseModel):
 
 class ChargeUsage(BaseModel):
     units: float
+    events_count: int
     amount_cents: int
     amount_currency: str
     charge: ChargeObject
@@ -36,6 +37,7 @@ class CustomerUsageResponse(BaseResponseModel):
     from_datetime: str
     to_datetime: str
     issuing_date: str
+    invoice_id: Optional[str]
     currency: str
     amount_cents: int
     total_amount_cents: int

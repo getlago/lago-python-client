@@ -104,6 +104,37 @@ def test_invalid_current_usage(httpx_mock: HTTPXMock):
         client.customers.current_usage('invalid_customer', '123')
 
 
+def test_valid_past_usage(httpx_mock: HTTPXMock):
+    client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+
+    httpx_mock.add_response(
+        method='GET',
+        url='https://api.getlago.com/api/v1/customers/external_customer_id/past_usage?external_subscription_id=123',
+        content=mock_response('customer_past_usage'),
+    )
+    response = client.customers.past_usage('external_customer_id', '123')
+
+    assert len(response['usage_periods']) == 1
+    assert response['usage_periods'][0].from_datetime == '2022-07-01T00:00:00Z'
+    assert len(response['usage_periods'][0].charges_usage) == 1
+    assert response['usage_periods'][0].charges_usage[0].units == 1.0
+    assert len(response['usage_periods'][0].charges_usage[0].groups) == 0
+
+
+def test_invalid_past_usage(httpx_mock: HTTPXMock):
+    client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+
+    httpx_mock.add_response(
+        method='GET',
+        url='https://api.getlago.com/api/v1/customers/invalid_customer/past_usage?external_subscription_id=123',
+        status_code=404,
+        content=b'',
+    )
+
+    with pytest.raises(LagoApiError):
+        client.customers.past_usage('invalid_customer', '123')
+
+
 def test_valid_portal_url(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
