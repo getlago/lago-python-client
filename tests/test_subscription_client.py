@@ -114,6 +114,25 @@ def test_invalid_destroy_subscription_request(httpx_mock: HTTPXMock):
     with pytest.raises(LagoApiError):
         client.subscriptions.destroy(identifier)
 
+def test_valid_find_subscription_request(httpx_mock: HTTPXMock):
+    client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+    external_id = '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
+
+    httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/subscriptions/' + external_id, content=mock_response())
+    response = client.subscriptions.find(external_id)
+
+    assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
+    assert response.external_customer_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
+
+
+def test_invalid_find_subscription_request(httpx_mock: HTTPXMock):
+    client = Client(api_key='invalid')
+    external_id = 'invalid'
+
+    httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/subscriptions/' + external_id, status_code=404, content=b'')
+
+    with pytest.raises(LagoApiError):
+        client.subscriptions.find(external_id)
 
 def test_valid_find_all_subscription_request_with_options(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
