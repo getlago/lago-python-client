@@ -1,7 +1,7 @@
 from typing import List, Optional
 
 from pydantic import BaseModel
-
+from .plan import PlanOverrides
 from ..base_model import BaseResponseModel
 
 
@@ -13,6 +13,7 @@ class Subscription(BaseModel):
     subscription_date: Optional[str]
     billing_time: Optional[str]
     ending_at: Optional[str]
+    plan_overrides: Optional[PlanOverrides]
 
 
 class SubscriptionResponse(BaseResponseModel):

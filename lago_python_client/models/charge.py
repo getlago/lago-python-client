@@ -51,3 +51,16 @@ class ChargeResponse(BaseResponseModel):
 
 class ChargesResponse(BaseResponseModel):
     __root__: List[ChargeResponse]
+
+
+class ChargeOverrides(BaseModel):
+    id: Optional[str]
+    invoice_display_name: Optional[str]
+    min_amount_cents: Optional[int]
+    properties: Optional[Dict[str, Any]]
+    group_properties: Optional[GroupPropertiesList]
+    tax_codes: Optional[List[str]]
+
+
+class ChargesOverrides(BaseModel):
+    __root__: List[ChargeOverrides]
