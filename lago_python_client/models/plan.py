@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
-from .charge import Charges, ChargesResponse
+from .charge import Charges, ChargesResponse, ChargesOverrides
 from .tax import Taxes, TaxesResponse
 from ..base_model import BaseResponseModel
 
@@ -39,3 +39,13 @@ class PlanResponse(BaseResponseModel):
     active_subscriptions_count: int
     draft_invoices_count: int
     taxes: Optional[TaxesResponse]
+
+class PlanOverrides(BaseModel):
+    name: Optional[str]
+    invoice_display_name: Optional[str]
+    description: Optional[str]
+    amount_cents: Optional[int]
+    amount_currency: Optional[str]
+    trial_period: Optional[float]
+    charges: Optional[ChargesOverrides]
+    tax_codes: Optional[List[str]]
