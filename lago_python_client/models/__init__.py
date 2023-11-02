@@ -3,7 +3,7 @@ from .billable_metric import BillableMetric, BillableMetricGroup
 from .charge import Charge, Charges, ChargesResponse
 from .coupon import Coupon, LimitationConfiguration
 from .credit import CreditResponse, CreditsResponse
-from .credit_note import Item, Items, CreditNote, CreditNoteUpdate
+from .credit_note import Item, Items, CreditNote, CreditNoteUpdate, CreditNoteEstimate
 from .plan import Plan
 from .add_on import AddOn
 from .organization import Organization, OrganizationBillingConfiguration

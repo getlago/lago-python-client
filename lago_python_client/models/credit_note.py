@@ -8,10 +8,8 @@ from ..base_model import BaseResponseModel
 
 class ItemResponse(BaseResponseModel):
     lago_id: Optional[str]
-    credit_amount_cents: Optional[int]
-    credit_amount_currency: Optional[str]
-    refund_amount_cents: Optional[int]
-    refund_amount_currency: Optional[str]
+    amount_cents: Optional[int]
+    amount_currency: Optional[str]
     fee: Optional[FeeResponse]
 
 
@@ -63,8 +61,7 @@ class CreditNoteResponse(BaseResponseModel):
 
 
 class Item(BaseModel):
-    credit_amount_cents: Optional[int]
-    refund_amount_cents: Optional[int]
+    amount_cents: Optional[int]
     fee_id: Optional[str]
 
 
@@ -79,3 +76,46 @@ class CreditNote(BaseModel):
 
 class CreditNoteUpdate(BaseModel):
     refund_status: Optional[str]
+
+
+class EstimatedItemResponse(BaseResponseModel):
+    amount_cents: Optional[int]
+    lago_fee_id: Optional[str]
+
+
+class EstimatedItemsResponse(BaseResponseModel):
+    __root__: List[EstimatedItemResponse]
+
+
+class CreditNoteEstimatedAppliedTax(BaseResponseModel):
+    lago_tax_id: Optional[str]
+    tax_name: Optional[str]
+    tax_code: Optional[str]
+    tax_rate: Optional[float]
+    tax_description: Optional[str]
+    amount_cents: Optional[int]
+    amount_currency: Optional[str]
+    base_amount_cents: Optional[int]
+
+
+class CreditNoteEstimatedAppliedTaxes(BaseResponseModel):
+    __root__: List[CreditNoteEstimatedAppliedTax]
+
+
+class CreditNoteEstimatedResponse(BaseResponseModel):
+    lago_invoice_id: str
+    invoice_number: str
+    currency: str
+    max_creditable_amount_cents: int
+    max_refundable_amount_cents: int
+    taxes_amount_cents: str
+    taxes_rate: float
+    sub_total_excluding_taxes_amount_cents: int
+    coupons_adjustment_amount_cents: int
+    items: EstimatedItemsResponse
+    applied_taxes: CreditNoteEstimatedAppliedTaxes
+
+
+class CreditNoteEstimate(BaseModel):
+    invoice_id: str
+    items: Items
