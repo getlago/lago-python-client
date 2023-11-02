@@ -102,6 +102,7 @@
         "total_amount_cents": 120,
         "total_amount_currency": "EUR",
         "units": 12.6,
+        "precise_unit_amount": 9.52,
         "events_count": 4
       }
     ]
