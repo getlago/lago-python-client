@@ -14,6 +14,7 @@ def organization_object():
         webhook_urls=["https://test-example.example", "https://test-example2.example"],
         tax_identification_number='EU123456789',
         net_payment_term=0,
+        default_currency='EUR',
         billing_configuration=OrganizationBillingConfiguration(
             invoice_footer='footer',
             invoice_grace_period=3,

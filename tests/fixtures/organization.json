@@ -5,6 +5,7 @@
     "webhook_url": "https://test-example.example",
     "webhook_urls": ["https://test-example.example", "https://test-example2.example"],
     "country": null,
+    "default_currency": "USD",
     "address_line1": null,
     "address_line2": null,
     "state": null,
