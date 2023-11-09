@@ -21,6 +21,7 @@ class Group(BaseModel):
 class ChargeObject(BaseModel):
     lago_id: str
     charge_model: str
+    invoice_display_name: Optional[str]
 
 
 class ChargeUsage(BaseModel):

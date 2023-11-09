@@ -16,6 +16,7 @@ class Organization(BaseModel):
     webhook_url: Optional[str]
     webhook_urls: Optional[List[str]]
     country: Optional[str]
+    default_currency: str
     address_line1: Optional[str]
     address_line2: Optional[str]
     state: Optional[str]
