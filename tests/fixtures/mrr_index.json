@@ -1,0 +1,15 @@
+{
+  "mrrs": [
+    {
+      "month": "2023-11-01T00:00:00.000Z",
+      "amount_cents": 100,
+      "currency": "EUR"
+    },
+    {
+      "month": "2023-12-01T00:00:00.000Z",
+      "amount_cents": 200,
+      "currency": "USD"
+    }
+  ],
+  "meta": {}
+}
