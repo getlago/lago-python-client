@@ -5,7 +5,7 @@ from ..base_client import BaseClient
 from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin
 from ..models.customer import CustomerResponse
 from ..models.customer_usage import CustomerUsageResponse
-from ..services.request import make_headers, make_url, send_post_request
+from ..services.request import make_headers, make_url, send_get_request, send_post_request
 from ..services.response import get_response_data, prepare_index_response, prepare_object_response, Response
 
 if sys.version_info >= (3, 9):
