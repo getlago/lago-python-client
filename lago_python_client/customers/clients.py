@@ -5,7 +5,7 @@ from ..base_client import BaseClient
 from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin
 from ..models.customer import CustomerResponse
 from ..models.customer_usage import CustomerUsageResponse
-from ..services.request import make_headers, make_url, send_get_request
+from ..services.request import make_headers, make_url, send_post_request
 from ..services.response import get_response_data, prepare_index_response, prepare_object_response, Response
 
 if sys.version_info >= (3, 9):
@@ -73,3 +73,15 @@ class CustomerClient(
 
         response_data = get_response_data(response=api_response, key=self.ROOT_NAME)
         return response_data.get('portal_url', '') if isinstance(response_data, Mapping) else ''
+
+    def checkout_url(self, resource_id: str) -> str:
+        api_response: Response = send_post_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, 'checkout_url'),
+            ),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        response_data = get_response_data(response=api_response, key=self.ROOT_NAME)
+        return response_data.get('checkout_url', '') if isinstance(response_data, Mapping) else ''
