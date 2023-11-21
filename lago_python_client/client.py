@@ -8,8 +8,12 @@ from .customers.clients import CustomerClient
 from .events.clients import EventClient
 from .fees.clients import FeeClient
 from .functools_ext import callable_cached_property
+from .gross_revenues.clients import GrossRevenueClient
 from .invoices.clients import InvoiceClient
+from .invoiced_usages.clients import InvoicedUsageClient
+from .mrrs.clients import MrrClient
 from .organizations.clients import OrganizationClient
+from .outstanding_invoices.clients import OutstandingInvoiceClient
 from .plans.clients import PlanClient
 from .subscriptions.clients import SubscriptionClient
 from .taxes.clients import TaxClient
@@ -72,12 +76,28 @@ class Client:
         return FeeClient(self.base_api_url, self.api_key)
 
     @callable_cached_property
+    def gross_revenues(self) -> GrossRevenueClient:
+        return GrossRevenueClient(self.base_api_url, self.api_key)
+
+    @callable_cached_property
     def invoices(self) -> InvoiceClient:
         return InvoiceClient(self.base_api_url, self.api_key)
 
     @callable_cached_property
+    def invoiced_usages(self) -> InvoicedUsageClient:
+        return InvoicedUsageClient(self.base_api_url, self.api_key)
+
+    @callable_cached_property
+    def mrrs(self) -> MrrClient:
+        return MrrClient(self.base_api_url, self.api_key)
+
+    @callable_cached_property
     def organizations(self) -> OrganizationClient:
         return OrganizationClient(self.base_api_url, self.api_key)
+
+    @callable_cached_property
+    def outstanding_invoices(self) -> OutstandingInvoiceClient:
+        return OutstandingInvoiceClient(self.base_api_url, self.api_key)
 
     @callable_cached_property
     def plans(self) -> PlanClient:
