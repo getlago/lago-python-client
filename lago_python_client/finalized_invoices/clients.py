@@ -3,7 +3,7 @@ from typing import Any, ClassVar, Type, Union
 
 from ..base_client import BaseClient
 from ..mixins import FindAllCommandMixin
-from ..models.outstanding_invoice import OutstandingInvoiceResponse
+from ..models.finalized_invoice import FinalizedInvoiceResponse
 from ..services.request import make_headers, make_url, send_get_request
 from ..services.response import get_response_data, prepare_index_response, Response
 
@@ -13,13 +13,13 @@ else:
     from typing import Mapping
 
 
-class OutstandingInvoiceClient(
-    FindAllCommandMixin[OutstandingInvoiceResponse],
+class FinalizedInvoiceClient(
+    FindAllCommandMixin[FinalizedInvoiceResponse],
     BaseClient,
 ):
-    API_RESOURCE: ClassVar[str] = 'outstanding_invoices'
-    RESPONSE_MODEL: ClassVar[Type[OutstandingInvoiceResponse]] = OutstandingInvoiceResponse
-    ROOT_NAME: ClassVar[str] = 'outstanding_invoice'
+    API_RESOURCE: ClassVar[str] = 'finalized_invoices'
+    RESPONSE_MODEL: ClassVar[Type[FinalizedInvoiceResponse]] = FinalizedInvoiceResponse
+    ROOT_NAME: ClassVar[str] = 'finalized_invoice'
 
     def find_all(self, options: Mapping[str, Union[int, str]] = {}) -> Mapping[str, Any]:
         api_response: Response = send_get_request(

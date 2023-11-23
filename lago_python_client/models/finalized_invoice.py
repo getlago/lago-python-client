@@ -3,7 +3,7 @@ from typing import List, Optional
 from ..base_model import BaseModel, BaseResponseModel
 
 
-class OutstandingInvoiceResponse(BaseResponseModel):
+class FinalizedInvoiceResponse(BaseResponseModel):
     amount_cents: int
     currency: Optional[str]
     month: str
@@ -11,5 +11,5 @@ class OutstandingInvoiceResponse(BaseResponseModel):
     payment_status: Optional[str]
 
 
-class OutstandingInvoicesResponse(BaseResponseModel):
-    __root__: List[OutstandingInvoiceResponse]
+class FinalizedInvoicesResponse(BaseResponseModel):
+    __root__: List[FinalizedInvoiceResponse]

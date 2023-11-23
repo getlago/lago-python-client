@@ -13,7 +13,7 @@ from .invoices.clients import InvoiceClient
 from .invoiced_usages.clients import InvoicedUsageClient
 from .mrrs.clients import MrrClient
 from .organizations.clients import OrganizationClient
-from .outstanding_invoices.clients import OutstandingInvoiceClient
+from .finalized_invoices.clients import FinalizedInvoiceClient
 from .plans.clients import PlanClient
 from .subscriptions.clients import SubscriptionClient
 from .taxes.clients import TaxClient
@@ -96,8 +96,8 @@ class Client:
         return OrganizationClient(self.base_api_url, self.api_key)
 
     @callable_cached_property
-    def outstanding_invoices(self) -> OutstandingInvoiceClient:
-        return OutstandingInvoiceClient(self.base_api_url, self.api_key)
+    def finalized_invoices(self) -> FinalizedInvoiceClient:
+        return FinalizedInvoiceClient(self.base_api_url, self.api_key)
 
     @callable_cached_property
     def plans(self) -> PlanClient:

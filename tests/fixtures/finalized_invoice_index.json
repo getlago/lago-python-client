@@ -1,5 +1,5 @@
 {
-  "outstanding_invoices": [
+  "finalized_invoices": [
     {
       "month": "2023-11-01T00:00:00.000Z",
       "amount_cents": 100,
