@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
 from .invoice_item import InvoiceItemResponse
 from ..base_model import BaseModel, BaseResponseModel
@@ -53,6 +53,7 @@ class FeeResponse(BaseResponseModel):
     refunded_at: Optional[str]
     from_date: Optional[str]
     to_date: Optional[str]
+    amount_details: Optional[Dict[str, Any]]
 
     item: Optional[InvoiceItemResponse]
     applied_taxes: Optional[FeeAppliedTaxes]

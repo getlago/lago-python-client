@@ -55,6 +55,7 @@ def test_valid_create_invoice_request(httpx_mock: HTTPXMock):
     assert response.fees.__root__[0].invoice_display_name == 'fee_invoice_display_name'
     assert response.fees.__root__[0].precise_unit_amount == 9.52
     assert response.fees.__root__[0].item.invoice_display_name == 'one_off_invoice_display_name'
+    assert response.fees.__root__[0].amount_details == {}
 
 
 def test_invalid_create_invoice_request(httpx_mock: HTTPXMock):
