@@ -17,6 +17,7 @@ from .invoice_item import InvoiceItemResponse
 from .subscription import Subscription
 from .customer_usage import Metric, ChargeObject, ChargeUsage, CustomerUsageResponse
 from .tax import Tax, Taxes, TaxResponse, TaxesResponse
-from .wallet import Wallet
+from .wallet import Wallet, RecurringTransactionRule, RecurringTransactionRuleList, \
+    RecurringTransactionRuleResponse, RecurringTransactionRuleResponseList
 from .wallet_transaction import WalletTransaction
 from .webhook_endpoint import WebhookEndpoint

@@ -5,16 +5,24 @@ from pytest_httpx import HTTPXMock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
-from lago_python_client.models import Wallet
+from lago_python_client.models import Wallet, RecurringTransactionRule, RecurringTransactionRuleList
 
 
 def wallet_object():
+    rule = RecurringTransactionRule(
+        rule_type='interval',
+        interval='monthly',
+        paid_credits='105.0',
+        granted_credits='105.0',
+    )
+    rules_list = RecurringTransactionRuleList(__root__=[rule])
     return Wallet(
         name='name',
         external_customer_id='12345',
         rate_amount='1',
         paid_credits='10',
-        granted_credits='10'
+        granted_credits='10',
+        recurring_transaction_rules=rules_list
     )
 
 
@@ -41,6 +49,9 @@ def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
     response = client.wallets.create(wallet_object())
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
+    assert response.recurring_transaction_rules.__root__[0].lago_id == '12345'
+    assert response.recurring_transaction_rules.__root__[0].rule_type == 'interval'
+    assert response.recurring_transaction_rules.__root__[0].interval == 'monthly'
 
 
 def test_invalid_create_wallet_request(httpx_mock: HTTPXMock):

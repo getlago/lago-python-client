@@ -1,8 +1,35 @@
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import BaseModel
 
 from ..base_model import BaseResponseModel
+
+
+class RecurringTransactionRule(BaseModel):
+    lago_id: Optional[str]
+    rule_type: Optional[str]
+    interval: Optional[str]
+    threshold_credits: Optional[str]
+    paid_credits: Optional[str]
+    granted_credits: Optional[str]
+
+
+class RecurringTransactionRuleResponse(BaseModel):
+    lago_id: Optional[str]
+    rule_type: Optional[str]
+    interval: Optional[str]
+    threshold_credits: Optional[str]
+    paid_credits: Optional[str]
+    granted_credits: Optional[str]
+    created_at: Optional[str]
+
+
+class RecurringTransactionRuleList(BaseModel):
+    __root__: List[RecurringTransactionRule]
+
+
+class RecurringTransactionRuleResponseList(BaseModel):
+    __root__: List[RecurringTransactionRuleResponse]
 
 
 class Wallet(BaseModel):
@@ -13,6 +40,7 @@ class Wallet(BaseModel):
     granted_credits: Optional[str]
     expiration_at: Optional[str]
     currency: Optional[str]
+    recurring_transaction_rules: Optional[RecurringTransactionRuleList]
 
 
 class WalletResponse(BaseResponseModel):
@@ -31,4 +59,5 @@ class WalletResponse(BaseResponseModel):
     last_balance_sync_at: Optional[str]
     last_consumed_credit_at: Optional[str]
     terminated_at: Optional[str]
+    recurring_transaction_rules: Optional[RecurringTransactionRuleResponseList]
     balance: str # NOTE(legacy)
