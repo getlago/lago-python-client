@@ -15,6 +15,7 @@ def organization_object():
         tax_identification_number='EU123456789',
         net_payment_term=0,
         default_currency='EUR',
+        document_number_prefix='ORG-1234',
         billing_configuration=OrganizationBillingConfiguration(
             invoice_footer='footer',
             invoice_grace_period=3,
@@ -40,6 +41,7 @@ def test_valid_update_organization_request(httpx_mock: HTTPXMock):
 
     assert response.name == 'Hooli'
     assert response.tax_identification_number == 'EU123456789'
+    assert response.document_number_prefix == 'ORG-1234'
     assert response.net_payment_term == 0
 
 
