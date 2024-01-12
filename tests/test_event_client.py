@@ -17,7 +17,11 @@ def create_event_with_string_timestamp():
 
 
 def create_batch_event():
-    return BatchEvent(external_subscription_ids=['88u02857-a71e-4ea2-bcf9-57d8885990ba'], code='123', transaction_id='123')
+    return BatchEvent(
+        events=[
+            Event(external_customer_id='5eb02857-a71e-4ea2-bcf9-57d8885990ba', code='123', transaction_id='123'),
+        ],
+    )
 
 
 def mock_response():
