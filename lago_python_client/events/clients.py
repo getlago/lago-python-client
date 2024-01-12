@@ -30,7 +30,7 @@ class EventClient(CreateCommandMixin[EventResponse], FindCommandMixin[EventRespo
                 path_parts=(self.API_RESOURCE, 'batch'),
             ),
             content=to_json({
-                input_object.dict(),
+                input_object.model_dump(),
             }),
             headers=make_headers(api_key=self.api_key),
         )
