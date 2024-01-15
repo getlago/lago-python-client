@@ -10,6 +10,7 @@ from .tax import TaxesResponse
 class CustomerBillingConfiguration(BaseModel):
     invoice_grace_period: Optional[int]
     payment_provider: Optional[str]
+    payment_provider_code: Optional[str]
     provider_customer_id: Optional[str]
     sync: Optional[bool]
     sync_with_provider: Optional[bool]
