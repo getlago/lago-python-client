@@ -64,6 +64,7 @@
       "applicable_timezone": "Europe/Paris",
       "billing_configuration": {
         "payment_provider": "stripe",
+        "payment_provider_code": "stripe-eu-1",
         "provider_customer_id": "cus_12345"
       },
       "taxes": [

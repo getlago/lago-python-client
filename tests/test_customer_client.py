@@ -25,6 +25,7 @@ def create_customer():
         billing_configuration=CustomerBillingConfiguration(
             invoice_grace_period=3,
             payment_provider='stripe',
+            payment_provider_code='stripe-eu-1',
             provider_customer_id='cus_12345',
             sync_with_provider=True,
             document_locale="fr",
@@ -56,6 +57,7 @@ def test_valid_create_customers_request(httpx_mock: HTTPXMock):
     assert response.net_payment_term == None
     assert response.billing_configuration.invoice_grace_period == 3
     assert response.billing_configuration.payment_provider == 'stripe'
+    assert response.billing_configuration.payment_provider_code == 'stripe-eu-1'
     assert response.billing_configuration.provider_customer_id == 'cus_12345'
     assert response.billing_configuration.sync_with_provider == True
     assert response.billing_configuration.document_locale == "fr"
