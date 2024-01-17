@@ -15,13 +15,7 @@ class Event(BaseModel):
 
 
 class BatchEvent(BaseModel):
-    transaction_id: str
-    external_customer_id: Optional[str]
-    external_subscription_ids: List[str]
-    code: str
-    timestamp: Optional[Union[int, str]]
-    properties: Optional[Dict[str, Any]]
-
+    events: List[Event]
 
 class EventResponse(BaseResponseModel):
     lago_id: str
@@ -34,3 +28,6 @@ class EventResponse(BaseResponseModel):
     timestamp: str
     properties: Optional[Dict[str, Any]]
     created_at: str
+
+class BatchEventResponse(BaseResponseModel):
+    events: List[EventResponse]
