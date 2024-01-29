@@ -31,6 +31,14 @@ def mock_response(mock='invoice'):
         return invoice_response.read()
 
 
+def mock_payment_url_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(this_dir, 'fixtures/payment_url.json')
+
+    with open(data_path, 'rb') as payment_url_response:
+        return payment_url_response.read()
+
+
 def test_valid_update_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
@@ -163,3 +171,16 @@ def test_valid_retry_payment_invoice_request(httpx_mock: HTTPXMock):
     response = client.invoices.retry_payment('5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
 
     assert response.lago_id == '5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba'
+
+
+def test_valid_payment_url_request(httpx_mock: HTTPXMock):
+    client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
+
+    httpx_mock.add_response(
+        method='POST',
+        url='https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba/payment_url',
+        content=mock_payment_url_response(),
+    )
+    response = client.invoices.payment_url('5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba')
+
+    assert response == 'https://checkout.stripe.com/c/pay/cs_test_a1cuqFkXvH'
