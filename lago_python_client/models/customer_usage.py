@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from pydantic import BaseModel
 
@@ -23,6 +23,12 @@ class ChargeObject(BaseModel):
     charge_model: str
     invoice_display_name: Optional[str]
 
+class GroupedUsage(BaseModel):
+    amount_cents: int
+    events_count: int
+    units: float
+    grouped_by: Dict[str, str]
+    groups: List[Group]
 
 class ChargeUsage(BaseModel):
     units: float
@@ -32,6 +38,7 @@ class ChargeUsage(BaseModel):
     charge: ChargeObject
     billable_metric: Metric
     groups: List[Group]
+    grouped_usage: Optional[List[GroupedUsage]]
 
 
 class CustomerUsageResponse(BaseResponseModel):

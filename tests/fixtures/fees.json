@@ -11,7 +11,10 @@
         "type": "instant_charge",
         "code": "fee_code",
         "name": "Fee Code",
-        "invoice_display_name": "charge_invoice_display_name"
+        "invoice_display_name": "charge_invoice_display_name",
+        "grouped_by": {
+          "agent_name": "aragorn"
+        }
       },
       "amount_cents": 120,
       "amount_currency": "EUR",
