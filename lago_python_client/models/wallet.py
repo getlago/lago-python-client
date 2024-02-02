@@ -60,4 +60,8 @@ class WalletResponse(BaseResponseModel):
     last_consumed_credit_at: Optional[str]
     terminated_at: Optional[str]
     recurring_transaction_rules: Optional[RecurringTransactionRuleResponseList]
+    ongoing_balance_cents: int
+    ongoing_usage_balance_cents: int
+    credits_ongoing_balance: str
+    credits_ongoing_usage_balance: str
     balance: str # NOTE(legacy)

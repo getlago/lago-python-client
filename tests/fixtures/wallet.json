@@ -23,6 +23,10 @@
         "paid_credits": "105.0",
         "granted_credits": "105.0"
       }
-    ]
+    ],
+    "ongoing_balance_cents": 800,
+    "ongoing_usage_balance_cents": 200,
+    "credits_ongoing_balance": "8.0",
+    "credits_ongoing_usage_balance": "2.0"
   }
 }
