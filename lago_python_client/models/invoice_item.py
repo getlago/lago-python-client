@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Dict, Optional
 
 from ..base_model import BaseResponseModel
 
@@ -12,3 +12,4 @@ class InvoiceItemResponse(BaseResponseModel):
     group_invoice_display_name: Optional[str]
     lago_item_id: Optional[str]
     item_type: Optional[str]
+    grouped_by: Optional[Dict[str, str]]
