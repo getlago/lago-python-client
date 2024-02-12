@@ -1,4 +1,4 @@
-from typing import ClassVar, Optional, Type, Union
+from typing import ClassVar, Optional, Type, Union, Mapping
 
 from ..base_client import BaseClient
 from ..mixins import FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin, CreateCommandMixin
@@ -81,3 +81,15 @@ class InvoiceClient(
             response_model=self.RESPONSE_MODEL,
             data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
+
+    def payment_url(self, resource_id: str) -> str:
+        api_response: Response = send_post_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, 'payment_url'),
+            ),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        response_data = get_response_data(response=api_response, key='invoice_payment_details')
+        return response_data.get('payment_url', '') if isinstance(response_data, Mapping) else ''
