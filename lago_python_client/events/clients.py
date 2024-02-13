@@ -1,7 +1,7 @@
 import sys
 from typing import Any, ClassVar, Optional, Type
 
-from pydantic import BaseModel
+from lago_python_client.base_model import BaseModel
 
 from ..base_client import BaseClient
 from ..fees.clients import FeeClient
