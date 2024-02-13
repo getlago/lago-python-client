@@ -8,7 +8,7 @@ try:
 except ImportError:  # Python 3.7
     from typing_extensions import Protocol  # type: ignore
 
-from pydantic import BaseModel
+from lago_python_client.base_model import BaseModel
 
 from .services.json import to_json
 from .services.request import make_headers, make_url, send_delete_request, send_get_request, send_post_request, send_put_request

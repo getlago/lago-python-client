@@ -1,7 +1,7 @@
 import sys
 from typing import Any, ClassVar, Type, Union
 
-from pydantic import BaseModel
+from lago_python_client.base_model import BaseModel
 
 from ..base_client import BaseClient
 from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin

@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from pydantic import BaseModel
+from lago_python_client.base_model import BaseModel
 
 from .fee import FeeResponse
 from ..base_model import BaseResponseModel

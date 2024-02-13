@@ -1,7 +1,7 @@
 """Test response services."""
 from copy import deepcopy
 
-from pydantic import BaseModel
+from lago_python_client.base_model import BaseModel
 import pytest
 from httpx import Request, Response
 

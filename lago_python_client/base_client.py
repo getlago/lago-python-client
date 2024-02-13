@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Type
 
-from pydantic import BaseModel
+from lago_python_client.base_model import BaseModel
 
 
 class BaseClient(ABC):

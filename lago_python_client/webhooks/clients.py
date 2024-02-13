@@ -7,7 +7,7 @@ try:
 except ImportError:
     from typing_extensions import TypedDict
 
-from pydantic import BaseModel
+from lago_python_client.base_model import BaseModel
 import typeguard
 
 from ..base_client import BaseClient

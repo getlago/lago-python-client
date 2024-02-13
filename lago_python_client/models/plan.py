@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from pydantic import BaseModel
+from lago_python_client.base_model import BaseModel
 
 from .charge import Charges, ChargesResponse, ChargesOverrides
 from .tax import Taxes, TaxesResponse

@@ -11,7 +11,7 @@ except ImportError:  # Python 3.7
     from typing_extensions import Final  # type: ignore
 
 from httpx import Response as Response  # not a typo! implicit reexport
-from pydantic import BaseModel
+from lago_python_client.base_model import BaseModel
 import typeguard
 
 from ..exceptions import LagoApiError
