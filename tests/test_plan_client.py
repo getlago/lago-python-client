@@ -5,7 +5,7 @@ from pytest_httpx import HTTPXMock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
-from lago_python_client.models import Plan, Charge, Charges
+from lago_python_client.models import Plan, Charge, Charges, MinimumCommitment
 
 
 def plan_object():
@@ -29,6 +29,11 @@ def plan_object():
     )
     charges = Charges(__root__=[charge])
 
+    minimum_commitment = MinimumCommitment(
+        amount_cents=0,
+        invoice_display_name='Commitment (C1)'
+    )
+
     return Plan(
         name='name',
         invoice_display_name='invoice_display_name',
@@ -38,7 +43,8 @@ def plan_object():
         description='desc',
         interval='weekly',
         pay_in_advance=True,
-        charges=charges
+        charges=charges,
+        minimum_commitment=minimum_commitment
     )
 
 
@@ -113,6 +119,7 @@ def test_valid_create_plan_request(httpx_mock: HTTPXMock):
     assert response.code == 'plan_code'
     assert response.invoice_display_name == 'test plan 1'
     assert response.charges.__root__[0].invoice_display_name == 'Setup'
+    assert response.minimum_commitment.invoice_display_name == 'Minimum commitment (C1)'
 
 
 def test_valid_create_graduated_plan_request(httpx_mock: HTTPXMock):
@@ -145,6 +152,7 @@ def test_valid_update_plan_request(httpx_mock: HTTPXMock):
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == code
     assert response.invoice_display_name == 'test plan 1'
+    assert response.minimum_commitment.invoice_display_name == 'Minimum commitment (C1)'
 
 
 def test_invalid_update_plan_request(httpx_mock: HTTPXMock):
@@ -169,6 +177,7 @@ def test_valid_find_plan_request(httpx_mock: HTTPXMock):
     assert response.invoice_display_name == 'test plan 1'
     assert response.charges.__root__[0].charge_model == 'standard'
     assert response.charges.__root__[0].min_amount_cents == 0
+    assert response.minimum_commitment.amount_cents == 1000
 
 
 def test_invalid_find_plan_request(httpx_mock: HTTPXMock):
@@ -210,6 +219,7 @@ def test_valid_find_all_plan_request(httpx_mock: HTTPXMock):
 
     assert response['plans'][0].lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac1111'
     assert response['plans'][0].invoice_display_name == 'test plan 1'
+    assert response['plans'][0].minimum_commitment.invoice_display_name == 'Minimum commitment (C2)'
     assert response['plans'][0].charges.__root__[0].lago_id == '51c1e851-5be6-4343-a0ee-39a81d8b4ee1'
     assert response['plans'][0].charges.__root__[0].group_properties.__root__[0].group_id == 'gfc1e851-5be6-4343-a0ee-39a81d8b4ee1'
     assert response['plans'][0].charges.__root__[0].group_properties.__root__[0].values['amount'] == '0.22'
