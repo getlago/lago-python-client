@@ -14,6 +14,7 @@ from .customer import Customer, CustomerBillingConfiguration, Metadata, Metadata
 from .invoice import InvoicePaymentStatusChange, Invoice, InvoiceMetadata, InvoiceMetadataList,\
     OneOffInvoice, InvoiceFeesList, InvoiceFee
 from .invoice_item import InvoiceItemResponse
+from .minimum_commitment import MinimumCommitment, MinimumCommitmentResponse
 from .subscription import Subscription
 from .customer_usage import Metric, ChargeObject, ChargeUsage, CustomerUsageResponse
 from .tax import Tax, Taxes, TaxResponse, TaxesResponse

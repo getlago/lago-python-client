@@ -50,6 +50,12 @@
         ]
       }
     ],
+    "minimum_commitment": {
+      "lago_id": "9474537e-2070-44fe-b8ba-3a25e0aa2d8e",
+      "invoice_display_name": "Minimum commitment (C1)",
+      "amount_cents": 1000,
+      "interval": "weekly"
+    },
     "taxes": [
       {
         "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac129b",
