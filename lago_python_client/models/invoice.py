@@ -68,7 +68,7 @@ class InvoiceAppliedTaxes(BaseResponseModel):
 
 class InvoiceResponse(BaseResponseModel):
     lago_id: str
-    sequential_id: int
+    sequential_id: Optional[int]
     number: str
     issuing_date: Optional[str]
     payment_due_date: Optional[str]
