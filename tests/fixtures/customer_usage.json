@@ -35,6 +35,18 @@
             "amount_cents": 123
           }
         ],
+        "filters": [
+          {
+            "units": "3.0",
+            "events_count": 1,
+            "amount_cents": 123,
+            "values": {
+              "country": [
+                "france"
+              ]
+            }
+          }
+        ],
         "grouped_usage": [
           {
             "amount_cents": 123,
@@ -51,6 +63,18 @@
                 "units": "3.0",
                 "events_count": 1,
                 "amount_cents": 123
+              }
+            ],
+            "filters": [
+              {
+                "units": "3.0",
+                "events_count": 1,
+                "amount_cents": 123,
+                "values": {
+                  "country": [
+                    "france"
+                  ]
+                }
               }
             ]
           }

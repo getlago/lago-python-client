@@ -109,7 +109,12 @@
           "type": "charge",
           "code": "seats",
           "name": "User Seats",
-          "invoice_display_name": "charge_invoice_display_name"
+          "invoice_display_name": "charge_invoice_display_name",
+          "filters": {
+            "region": [
+              "us-east-1"
+            ]
+          }
         },
         "amount_cents": 100,
         "amount_currency": "EUR",

@@ -10,6 +10,15 @@ class BillableMetricGroup(BaseModel):
     values: Optional[List[Union[str, Dict[str, Any]]]]
 
 
+class BillableMetricFilter(BaseModel):
+    key: Optional[str]
+    values: Optional[List[str]]
+
+
+class BillableMetricFilters(BaseModel):
+    __root__: List[BillableMetricFilter]
+
+
 class BillableMetric(BaseModel):
     name: Optional[str]
     code: Optional[str]
@@ -19,6 +28,7 @@ class BillableMetric(BaseModel):
     weighted_interval: Optional[str]
     field_name: Optional[str]
     group: Optional[BillableMetricGroup]
+    filters: Optional[BillableMetricFilters]
 
 
 class BillableMetricResponse(BaseResponseModel):
@@ -32,6 +42,7 @@ class BillableMetricResponse(BaseResponseModel):
     field_name: Optional[str]
     created_at: str
     group: BillableMetricGroup
+    filters: BillableMetricFilters
     active_subscriptions_count: int
     draft_invoices_count: int
     plans_count: int
