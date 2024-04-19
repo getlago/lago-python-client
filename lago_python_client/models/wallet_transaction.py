@@ -15,6 +15,7 @@ class WalletTransactionResponse(BaseResponseModel):
     lago_id: str
     lago_wallet_id: str
     status: str
+    transaction_status: str
     transaction_type: str
     amount: str
     credit_amount: str
