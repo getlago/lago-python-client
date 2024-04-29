@@ -9,6 +9,7 @@ class WalletTransaction(BaseModel):
     wallet_id: Optional[str]
     paid_credits: Optional[str]
     granted_credits: Optional[str]
+    voided_credits: Optional[str]
 
 
 class WalletTransactionResponse(BaseResponseModel):
