@@ -23,7 +23,7 @@
       "recurring_transaction_rules": [
         {
           "lago_id": "12345",
-          "rule_type": "interval",
+          "trigger": "interval",
           "interval": "monthly",
           "paid_credits": "105.0",
           "granted_credits": "105.0"
