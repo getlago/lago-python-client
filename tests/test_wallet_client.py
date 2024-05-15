@@ -10,7 +10,7 @@ from lago_python_client.models import Wallet, RecurringTransactionRule, Recurrin
 
 def wallet_object():
     rule = RecurringTransactionRule(
-        rule_type='interval',
+        trigger='interval',
         interval='monthly',
         paid_credits='105.0',
         granted_credits='105.0',
@@ -50,7 +50,7 @@ def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.recurring_transaction_rules.__root__[0].lago_id == '12345'
-    assert response.recurring_transaction_rules.__root__[0].rule_type == 'interval'
+    assert response.recurring_transaction_rules.__root__[0].trigger == 'interval'
     assert response.recurring_transaction_rules.__root__[0].interval == 'monthly'
 
 

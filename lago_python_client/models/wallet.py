@@ -7,18 +7,18 @@ from ..base_model import BaseResponseModel
 
 class RecurringTransactionRule(BaseModel):
     lago_id: Optional[str]
-    rule_type: Optional[str]
     interval: Optional[str]
     threshold_credits: Optional[str]
+    trigger: Optional[str]
     paid_credits: Optional[str]
     granted_credits: Optional[str]
 
 
 class RecurringTransactionRuleResponse(BaseModel):
     lago_id: Optional[str]
-    rule_type: Optional[str]
     interval: Optional[str]
     threshold_credits: Optional[str]
+    trigger: Optional[str]
     paid_credits: Optional[str]
     granted_credits: Optional[str]
     created_at: Optional[str]
