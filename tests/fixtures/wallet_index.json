@@ -24,9 +24,11 @@
         {
           "lago_id": "12345",
           "trigger": "interval",
+          "method": "fixed",
           "interval": "monthly",
           "paid_credits": "105.0",
-          "granted_credits": "105.0"
+          "granted_credits": "105.0",
+          "target_ongoing_balance": null
         }
       ]
     },

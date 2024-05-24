@@ -14,6 +14,8 @@ def wallet_object():
         interval='monthly',
         paid_credits='105.0',
         granted_credits='105.0',
+        method='target',
+        target_ongoing_balance='105.0'
     )
     rules_list = RecurringTransactionRuleList(__root__=[rule])
     return Wallet(

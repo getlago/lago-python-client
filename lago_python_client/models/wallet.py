@@ -10,8 +10,10 @@ class RecurringTransactionRule(BaseModel):
     interval: Optional[str]
     threshold_credits: Optional[str]
     trigger: Optional[str]
+    method: Optional[str]
     paid_credits: Optional[str]
     granted_credits: Optional[str]
+    target_ongoing_balance: Optional[str]
 
 
 class RecurringTransactionRuleResponse(BaseModel):
@@ -19,8 +21,10 @@ class RecurringTransactionRuleResponse(BaseModel):
     interval: Optional[str]
     threshold_credits: Optional[str]
     trigger: Optional[str]
+    method: Optional[str]
     paid_credits: Optional[str]
     granted_credits: Optional[str]
+    target_ongoing_balance: Optional[str]
     created_at: Optional[str]
 
 
