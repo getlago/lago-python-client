@@ -18,6 +18,14 @@ class CustomerBillingConfiguration(BaseModel):
     provider_payment_methods: Optional[List[str]]
 
 
+class IntegrationCustomer(BaseModel):
+    external_customer_id: Optional[str]
+    integration_type: Optional[str]
+    integration_code: Optional[str]
+    subsidiary_id: Optional[str]
+    sync_with_provider: Optional[bool]
+
+
 class Metadata(BaseModel):
     id: Optional[str]
     key: Optional[str]
@@ -61,6 +69,7 @@ class Customer(BaseModel):
     zipcode: Optional[str]
     metadata: Optional[MetadataList]
     billing_configuration: Optional[CustomerBillingConfiguration]
+    integration_customer: Optional[IntegrationCustomer]
     tax_codes: Optional[List[str]]
 
 
@@ -89,4 +98,5 @@ class CustomerResponse(BaseResponseModel):
     zipcode: Optional[str]
     metadata: Optional[MetadataResponseList]
     billing_configuration: Optional[CustomerBillingConfiguration]
+    integration_customer: Optional[IntegrationCustomer]
     taxes: Optional[TaxesResponse]

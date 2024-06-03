@@ -31,6 +31,13 @@
       "document_locale": "fr",
       "provider_payment_methods": ["card", "sepa_debit"]
     },
+    "integration_customer": {
+      "external_customer_id": "test-12345",
+      "integration_type": "netsuite",
+      "integration_code": "test",
+      "subsidiary_id": "2",
+      "sync_with_provider": true
+    },
     "metadata": [
       {
         "lago_id": "12345",
