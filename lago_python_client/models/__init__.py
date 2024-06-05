@@ -10,7 +10,7 @@ from .organization import Organization, OrganizationBillingConfiguration
 from .event import Event, BatchEvent
 from .fee import Fee
 from .customer import Customer, CustomerBillingConfiguration, Metadata, MetadataList,\
-    MetadataResponse, MetadataResponseList
+    MetadataResponse, MetadataResponseList, IntegrationCustomer
 from .invoice import InvoicePaymentStatusChange, Invoice, InvoiceMetadata, InvoiceMetadataList,\
     OneOffInvoice, InvoiceFeesList, InvoiceFee
 from .invoice_item import InvoiceItemResponse
