@@ -5,6 +5,7 @@
     "number": "LAG-1234-001-002",
     "issuing_date": "2022-06-02",
     "payment_due_date": "2022-06-02",
+    "payment_overdue": false,
     "net_payment_term": 0,
     "invoice_type": "one_off",
     "version_number": 2,
