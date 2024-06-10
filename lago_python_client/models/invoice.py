@@ -73,6 +73,7 @@ class InvoiceResponse(BaseResponseModel):
     issuing_date: Optional[str]
     payment_dispute_lost_at: Optional[str]
     payment_due_date: Optional[str]
+    payment_overdue: bool
     net_payment_term: int
     invoice_type: str
     version_number: int
