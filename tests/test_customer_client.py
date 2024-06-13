@@ -5,8 +5,8 @@ from pytest_httpx import HTTPXMock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
-from lago_python_client.models import Customer, IntegrationCustomer, CustomerBillingConfiguration,\
-    Metadata, MetadataList
+from lago_python_client.models import Customer, IntegrationCustomer, IntegrationCustomersList,\
+    CustomerBillingConfiguration, Metadata, MetadataList
 
 
 def create_customer():
@@ -16,6 +16,14 @@ def create_customer():
         value='value'
     )
     metadata_list = MetadataList(__root__=[metadata])
+
+    integration_customer = IntegrationCustomer(
+        integration_type='netsuite',
+        integration_code='test-123',
+        subsidiary_id='2',
+        sync_with_provider=True
+    )
+    integration_customers_list = IntegrationCustomersList(__root__=[integration_customer])
 
     return Customer(
         external_id='5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba',
@@ -32,12 +40,7 @@ def create_customer():
             document_locale="fr",
             provider_payment_methods=["card", "sepa_debit"],
         ),
-        integration_customer=IntegrationCustomer(
-            integration_type='netsuite',
-            integration_code='test-123',
-            subsidiary_id='2',
-            sync_with_provider=True
-        ),
+        integration_customers=integration_customers_list,
         metadata=metadata_list
     )
 
@@ -68,8 +71,8 @@ def test_valid_create_customers_request(httpx_mock: HTTPXMock):
     assert response.billing_configuration.provider_customer_id == 'cus_12345'
     assert response.billing_configuration.sync_with_provider == True
     assert response.billing_configuration.document_locale == "fr"
-    assert response.integration_customer.external_customer_id == 'test-12345'
-    assert response.integration_customer.integration_type == "netsuite"
+    assert response.integration_customers.__root__[0].external_customer_id == 'test-12345'
+    assert response.integration_customers.__root__[0].integration_type == "netsuite"
     assert response.metadata.__root__[0].lago_id == '12345'
     assert response.metadata.__root__[0].key == 'key'
     assert response.metadata.__root__[0].value == 'value'
