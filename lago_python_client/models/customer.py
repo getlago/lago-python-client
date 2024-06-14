@@ -25,6 +25,8 @@ class IntegrationCustomer(BaseModel):
     subsidiary_id: Optional[str]
     sync_with_provider: Optional[bool]
 
+class IntegrationCustomersList(BaseModel):
+    __root__: List[IntegrationCustomer]
 
 class Metadata(BaseModel):
     id: Optional[str]
@@ -69,7 +71,7 @@ class Customer(BaseModel):
     zipcode: Optional[str]
     metadata: Optional[MetadataList]
     billing_configuration: Optional[CustomerBillingConfiguration]
-    integration_customer: Optional[IntegrationCustomer]
+    integration_customers: Optional[IntegrationCustomersList]
     tax_codes: Optional[List[str]]
 
 
@@ -98,5 +100,5 @@ class CustomerResponse(BaseResponseModel):
     zipcode: Optional[str]
     metadata: Optional[MetadataResponseList]
     billing_configuration: Optional[CustomerBillingConfiguration]
-    integration_customer: Optional[IntegrationCustomer]
+    integration_customers: Optional[IntegrationCustomersList]
     taxes: Optional[TaxesResponse]
