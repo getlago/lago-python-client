@@ -81,6 +81,17 @@ def test_invalid_create_events_request(httpx_mock: HTTPXMock):
         client.events.create(create_event())
 
 
+def test_valid_create_event_request_with_custom_ingest_url(httpx_mock: HTTPXMock):
+    client = Client(
+        api_key="886fe239-927d-4072-ab72-6dd345e8dd0d",
+        use_ingest_service=True,
+        ingest_api_url="https://custom-ingest.getlago.com",
+    )
+
+    httpx_mock.add_response(method="POST", url="https://custom-ingest.getlago.com/api/v1/events", content=b"")
+    client.events.create(create_event())  # Any response means success, any exception - failure
+
+
 def test_valid_create_batch_events_request(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
 
