@@ -72,7 +72,7 @@ def test_valid_create_customers_request(httpx_mock: HTTPXMock):
     assert response.billing_configuration.sync_with_provider == True
     assert response.billing_configuration.document_locale == "fr"
     assert response.integration_customers.__root__[0].external_customer_id == 'test-12345'
-    assert response.integration_customers.__root__[0].integration_type == "netsuite"
+    assert response.integration_customers.__root__[0].type == "netsuite"
     assert response.metadata.__root__[0].lago_id == '12345'
     assert response.metadata.__root__[0].key == 'key'
     assert response.metadata.__root__[0].value == 'value'
