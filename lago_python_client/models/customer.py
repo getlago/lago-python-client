@@ -19,14 +19,30 @@ class CustomerBillingConfiguration(BaseModel):
 
 
 class IntegrationCustomer(BaseModel):
+    id: Optional[str]
     external_customer_id: Optional[str]
     integration_type: Optional[str]
     integration_code: Optional[str]
     subsidiary_id: Optional[str]
     sync_with_provider: Optional[bool]
 
+
+class IntegrationCustomerResponse(BaseModel):
+    lago_id: Optional[str]
+    external_customer_id: Optional[str]
+    type: Optional[str]
+    integration_code: Optional[str]
+    subsidiary_id: Optional[str]
+    sync_with_provider: Optional[bool]
+
+
 class IntegrationCustomersList(BaseModel):
     __root__: List[IntegrationCustomer]
+
+
+class IntegrationCustomersResponseList(BaseModel):
+    __root__: List[IntegrationCustomerResponse]
+
 
 class Metadata(BaseModel):
     id: Optional[str]
@@ -100,5 +116,5 @@ class CustomerResponse(BaseResponseModel):
     zipcode: Optional[str]
     metadata: Optional[MetadataResponseList]
     billing_configuration: Optional[CustomerBillingConfiguration]
-    integration_customers: Optional[IntegrationCustomersList]
+    integration_customers: Optional[IntegrationCustomersResponseList]
     taxes: Optional[TaxesResponse]
