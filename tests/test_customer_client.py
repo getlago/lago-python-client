@@ -6,7 +6,7 @@ from pytest_httpx import HTTPXMock
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
 from lago_python_client.models import Customer, IntegrationCustomer, IntegrationCustomersList,\
-    CustomerBillingConfiguration, Metadata, MetadataList
+    CustomerBillingConfiguration, Metadata, MetadataList, Address
 
 
 def create_customer():
@@ -40,6 +40,11 @@ def create_customer():
             document_locale="fr",
             provider_payment_methods=["card", "sepa_debit"],
         ),
+        shipping_address=Address(
+            city='Paris',
+            zipcode='123',
+            country='FR'
+,       ),
         integration_customers=integration_customers_list,
         metadata=metadata_list
     )
@@ -71,6 +76,9 @@ def test_valid_create_customers_request(httpx_mock: HTTPXMock):
     assert response.billing_configuration.provider_customer_id == 'cus_12345'
     assert response.billing_configuration.sync_with_provider == True
     assert response.billing_configuration.document_locale == "fr"
+    assert response.shipping_address.city == 'Paris'
+    assert response.shipping_address.country == 'FR'
+    assert response.shipping_address.zipcode == '123'
     assert response.integration_customers.__root__[0].external_customer_id == 'test-12345'
     assert response.integration_customers.__root__[0].type == "netsuite"
     assert response.metadata.__root__[0].lago_id == '12345'
