@@ -31,6 +31,11 @@
       "document_locale": "fr",
       "provider_payment_methods": ["card", "sepa_debit"]
     },
+    "shipping_address": {
+      "city": "Paris",
+      "zipcode": "123",
+      "country": "FR"
+    },
     "integration_customers": [
       {
         "lago_id": "123456789",
