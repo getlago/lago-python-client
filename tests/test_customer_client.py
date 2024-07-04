@@ -43,7 +43,9 @@ def create_customer():
         shipping_address=Address(
             city='Paris',
             zipcode='123',
-            country='FR'
+            country='FR',
+            address_line1='Test Ave',
+            state='XZ'
 ,       ),
         integration_customers=integration_customers_list,
         metadata=metadata_list
@@ -79,6 +81,9 @@ def test_valid_create_customers_request(httpx_mock: HTTPXMock):
     assert response.shipping_address.city == 'Paris'
     assert response.shipping_address.country == 'FR'
     assert response.shipping_address.zipcode == '123'
+    assert response.shipping_address.address_line1 == 'Test Ave'
+    assert response.shipping_address.address_line2 == None
+    assert response.shipping_address.state == 'XZ'
     assert response.integration_customers.__root__[0].external_customer_id == 'test-12345'
     assert response.integration_customers.__root__[0].type == "netsuite"
     assert response.metadata.__root__[0].lago_id == '12345'

@@ -34,7 +34,10 @@
     "shipping_address": {
       "city": "Paris",
       "zipcode": "123",
-      "country": "FR"
+      "country": "FR",
+      "address_line1": "Test Ave",
+      "address_line2": null,
+      "state": "XZ"
     },
     "integration_customers": [
       {
