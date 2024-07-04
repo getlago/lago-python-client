@@ -11,7 +11,7 @@ from .event import Event, BatchEvent
 from .fee import Fee
 from .customer import Customer, CustomerBillingConfiguration, Metadata, MetadataList,\
     MetadataResponse, MetadataResponseList, IntegrationCustomer, IntegrationCustomerResponse,\
-    IntegrationCustomersResponseList, IntegrationCustomersList
+    IntegrationCustomersResponseList, IntegrationCustomersList, Address
 from .invoice import InvoicePaymentStatusChange, Invoice, InvoiceMetadata, InvoiceMetadataList,\
     OneOffInvoice, InvoiceFeesList, InvoiceFee
 from .invoice_item import InvoiceItemResponse
