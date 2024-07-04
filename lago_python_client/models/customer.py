@@ -19,7 +19,7 @@ class CustomerBillingConfiguration(BaseModel):
 
 
 class Address(BaseModel):
-    address_line1: Optional[int]
+    address_line1: Optional[str]
     address_line2: Optional[str]
     city: Optional[str]
     zipcode: Optional[str]
