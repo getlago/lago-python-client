@@ -25,16 +25,6 @@
           "code": "usage_metric",
           "aggregation_type": "sum"
         },
-        "groups": [
-          {
-            "lago_id": "12435687-1de8-4428-9bcd-779314ac1111",
-            "key": "google",
-            "value": "europe",
-            "units": "3.0",
-            "events_count": 1,
-            "amount_cents": 123
-          }
-        ],
         "filters": [
           {
             "units": "3.0",
@@ -55,16 +45,6 @@
             "grouped_by": {
               "agent_name": "aragorn"
             },
-            "groups": [
-              {
-                "lago_id": "12435687-1de8-4428-9bcd-779314ac1111",
-                "key": "google",
-                "value": "europe",
-                "units": "3.0",
-                "events_count": 1,
-                "amount_cents": 123
-              }
-            ],
             "filters": [
               {
                 "units": "3.0",

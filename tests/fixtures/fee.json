@@ -1,7 +1,6 @@
 {
   "fee": {
     "lago_id": "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
-    "lago_group_id": "1a2d9c8d-5875-4688-9854-5ccfd414bc5e",
     "lago_charge_filter_id": "1a2d9c8d-5875-4688-9854-5ccfd414bc5e",
     "lago_invoice_id": "1a2d9c8d-5875-4688-9854-5ccfd414bc5e",
     "lago_true_up_fee_id": "1a2d9c8d-5875-4688-9854-5ccfd414bc5e",

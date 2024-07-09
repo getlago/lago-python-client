@@ -26,7 +26,7 @@ class AppliedCouponResponse(BaseResponseModel):
     amount_cents: Optional[int]
     amount_cents_remaining: Optional[int]
     amount_currency: Optional[str]
-    expiration_date: Optional[str]
+    expiration_at: Optional[str]
     created_at: str
     terminated_at: Optional[str]
     percentage_rate: Optional[float]

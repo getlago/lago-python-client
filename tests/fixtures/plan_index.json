@@ -26,10 +26,18 @@
           "charge_model": "standard",
           "pay_in_advance": true,
           "invoiceable": true,
-          "group_properties": [
+          "filters": [
             {
-              "group_id": "gfc1e851-5be6-4343-a0ee-39a81d8b4ee1",
-              "values": { "amount": "0.22" },
+              "properties": {
+                "amount": "0.22"
+              },
+              "values": {
+                "country": [
+                  "france",
+                  "italy",
+                  "spain"
+                ]
+              },
               "invoice_display_name": "Europe"
             }
           ]

@@ -8,7 +8,6 @@ from ..base_model import BaseResponseModel
 class OrganizationBillingConfiguration(BaseModel):
     invoice_footer: Optional[str]
     invoice_grace_period: Optional[int]
-    vat_rate: Optional[float]
     document_locale: Optional[str]
 
 

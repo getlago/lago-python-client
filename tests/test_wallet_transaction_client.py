@@ -52,7 +52,7 @@ def test_invalid_create_wallet_transaction_request(httpx_mock: HTTPXMock):
         client.wallet_transactions.create(wallet_transaction_object())
 
 
-def test_valid_find_all_groups_request(httpx_mock: HTTPXMock):
+def test_valid_find_all_wallet_transactions_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
     httpx_mock.add_response(method='GET', url='https://api.getlago.com/api/v1/wallets/555/wallet_transactions', content=mock_collection_response())

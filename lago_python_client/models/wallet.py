@@ -70,4 +70,3 @@ class WalletResponse(BaseResponseModel):
     ongoing_usage_balance_cents: int
     credits_ongoing_balance: str
     credits_ongoing_usage_balance: str
-    balance: str # NOTE(legacy)

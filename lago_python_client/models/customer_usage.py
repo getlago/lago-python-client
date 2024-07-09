@@ -11,13 +11,6 @@ class Metric(BaseModel):
     code: str
     aggregation_type: str
 
-class Group(BaseModel):
-    lago_id: str
-    key: Optional[str]
-    value: str
-    units: str
-    amount_cents: int
-
 
 class ChargeFilterUsage(BaseModel):
     invoice_display_name: Optional[str]
@@ -37,7 +30,6 @@ class GroupedUsage(BaseModel):
     events_count: int
     units: float
     grouped_by: Dict[str, str]
-    groups: List[Group]
     filters: List[ChargeFilterUsage]
 
 class ChargeUsage(BaseModel):
@@ -47,7 +39,6 @@ class ChargeUsage(BaseModel):
     amount_currency: str
     charge: ChargeObject
     billable_metric: Metric
-    groups: List[Group]
     filters: List[ChargeFilterUsage]
     grouped_usage: Optional[List[GroupedUsage]]
 

@@ -15,7 +15,7 @@ class CreditResponse(BaseResponseModel):
     lago_id: Optional[str]
     amount_cents: Optional[int]
     amount_currency: Optional[str]
-    before_vat: bool
+    before_taxes: bool
     item: Optional[InvoiceItemResponse]
     invoice: Optional[InvoiceShortDetails]
 
