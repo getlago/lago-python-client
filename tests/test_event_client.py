@@ -9,17 +9,17 @@ from lago_python_client.models.event import BatchEvent, Event
 
 
 def create_event():
-    return Event(external_customer_id='5eb02857-a71e-4ea2-bcf9-57d8885990ba', code='123', transaction_id='123')
+    return Event(external_subscription_id='5eb02857-a71e-4ea2-bcf9-57d8885990ba', code='123', transaction_id='123')
 
 
 def create_event_with_string_timestamp():
-    return Event(external_customer_id='5eb02857-a71e-4ea2-bcf9-57d8885990ba', code='123', transaction_id='123', timestamp='1651240791.123')
+    return Event(external_subscription_id='5eb02857-a71e-4ea2-bcf9-57d8885990ba', code='123', transaction_id='123', timestamp='1651240791.123')
 
 
 def create_batch_event():
     return BatchEvent(
         events=[
-            Event(external_customer_id='5eb02857-a71e-4ea2-bcf9-57d8885990ba', code='123', transaction_id='123'),
+            Event(external_subscription_id='5eb02857-a71e-4ea2-bcf9-57d8885990ba', code='123', transaction_id='123'),
         ],
     )
 
