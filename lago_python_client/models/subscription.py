@@ -30,6 +30,7 @@ class SubscriptionResponse(BaseResponseModel):
     billing_time: Optional[str]
     terminated_at: Optional[str]
     ending_at: Optional[str]
+    trial_ended_at: Optional[str]
     subscription_date: Optional[str]
     previous_plan_code: Optional[str]
     next_plan_code: Optional[str]
