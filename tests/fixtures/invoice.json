@@ -96,7 +96,7 @@
         "status": "active",
         "billing_time": "anniversary",
         "terminated_at": null,
-        "subscription_date": "2022-04-29",
+        "subscription_at": "2022-04-29T08:59:51Z",
         "previous_plan_code": null,
         "next_plan_code": null,
         "downgrade_plan_date": null
@@ -145,7 +145,7 @@
       {
         "amount_cents": 20,
         "amount_currency": "EUR",
-        "before_vat": true,
+        "before_taxes": true,
         "item": {
           "type": "coupon",
           "code": "free_beer",

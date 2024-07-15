@@ -1,5 +1,5 @@
 from .applied_coupon import AppliedCoupon
-from .billable_metric import BillableMetric, BillableMetricGroup
+from .billable_metric import BillableMetric, BillableMetricFilter, BillableMetricFilters
 from .charge import Charge, Charges, ChargesResponse
 from .coupon import Coupon, LimitationConfiguration
 from .credit import CreditResponse, CreditsResponse

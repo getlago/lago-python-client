@@ -7,7 +7,7 @@
       "amount_cents": 5000,
       "amount_currency": "USD",
       "expiration": "no_expiration",
-      "expiration_date": "2022-08-08",
+      "expiration_at": "2022-08-08T08:59:51Z",
       "percentage_rate": null,
       "frequency": "once",
       "frequency_duration": null,
@@ -15,7 +15,9 @@
       "coupon_type": "fixed_amount",
       "limited_plans": true,
       "limited_billable_metrics": false,
-      "plan_codes": ["plan1"],
+      "plan_codes": [
+        "plan1"
+      ],
       "billable_metric_codes": [],
       "created_at": "2022-04-29T08:59:51Z",
       "terminated_at": "2022-08-08T23:59:59Z"
@@ -27,7 +29,7 @@
       "amount_cents": 7000,
       "amount_currency": "USD",
       "expiration": "no_expiration",
-      "expiration_date": "2022-08-08",
+      "expiration_at": "2022-08-08T08:59:51Z",
       "percentage_rate": null,
       "frequency": "once",
       "frequency_duration": null,
@@ -35,7 +37,9 @@
       "coupon_type": "fixed_amount",
       "limited_plans": true,
       "limited_billable_metrics": false,
-      "plan_codes": ["plan1"],
+      "plan_codes": [
+        "plan1"
+      ],
       "billable_metric_codes": [],
       "created_at": "2022-04-29T08:59:51Z",
       "terminated_at": null

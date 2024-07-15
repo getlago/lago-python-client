@@ -25,7 +25,6 @@
             "code": "usage_metric",
             "aggregation_type": "sum"
           },
-          "groups": [],
           "filters": [
             {
               "units": "3.0",

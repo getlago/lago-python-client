@@ -17,11 +17,13 @@ def plan_object():
         invoiceable=False,
         prorated=False,
         min_amount_cents=0,
-        group_properties = [
+        filters = [
             {
-                'group_id': 'id',
-                'values': {
+                'properties': {
                     'amount': '0.22'
+                },
+                'values': {
+                    'country': ['france', 'italy', 'spain']
                 },
                 'invoice_display_name': 'Europe'
             }
@@ -221,9 +223,8 @@ def test_valid_find_all_plan_request(httpx_mock: HTTPXMock):
     assert response['plans'][0].invoice_display_name == 'test plan 1'
     assert response['plans'][0].minimum_commitment.invoice_display_name == 'Minimum commitment (C2)'
     assert response['plans'][0].charges.__root__[0].lago_id == '51c1e851-5be6-4343-a0ee-39a81d8b4ee1'
-    assert response['plans'][0].charges.__root__[0].group_properties.__root__[0].group_id == 'gfc1e851-5be6-4343-a0ee-39a81d8b4ee1'
-    assert response['plans'][0].charges.__root__[0].group_properties.__root__[0].values['amount'] == '0.22'
-    assert response['plans'][0].charges.__root__[0].group_properties.__root__[0].invoice_display_name == 'Europe'
+    assert response['plans'][0].charges.__root__[0].filters.__root__[0].properties['amount'] == '0.22'
+    assert response['plans'][0].charges.__root__[0].filters.__root__[0].invoice_display_name == 'Europe'
     assert response['meta']['current_page'] == 1
 
 
