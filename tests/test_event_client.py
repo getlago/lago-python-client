@@ -42,24 +42,30 @@ def mock_fees_response():
 def test_valid_create_events_request(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/events', content=b'')
+    httpx_mock.add_response(method='POST', url='https://ingest.getlago.com/api/v1/events', content=b'')
     client.events.create(create_event())  # Any response means success, any exception - failure
 
 
 def test_valid_create_events_request_with_string_timestamp(httpx_mock: HTTPXMock):
     client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d')
 
-    httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/events', content=b'')
+    httpx_mock.add_response(method='POST', url='https://ingest.getlago.com/api/v1/events', content=b'')
     client.events.create(create_event_with_string_timestamp())  # Any response means success, any exception - failure
 
 
 def test_invalid_create_events_request(httpx_mock: HTTPXMock):
     client = Client(api_key='invalid')
 
-    httpx_mock.add_response(method='POST', url='https://api.getlago.com/api/v1/events', status_code=401, content=b'')
+    httpx_mock.add_response(method='POST', url='https://ingest.getlago.com/api/v1/events', status_code=401, content=b'')
 
     with pytest.raises(LagoApiError):
         client.events.create(create_event())
+
+def test_valid_create_event_request_with_custom_ingest_url(httpx_mock: HTTPXMock):
+    client = Client(api_key='886fe239-927d-4072-ab72-6dd345e8dd0d', ingest_api_url='https://custom-ingest.getlago.com')
+
+    httpx_mock.add_response(method='POST', url='https://custom-ingest.getlago.com/api/v1/events', content=b'')
+    client.events.create(create_event())  # Any response means success, any exception - failure
 
 
 def test_valid_create_batch_events_request(httpx_mock: HTTPXMock):
