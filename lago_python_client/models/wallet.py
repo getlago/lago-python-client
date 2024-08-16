@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Dict
 
 from lago_python_client.base_model import BaseModel
 
@@ -15,6 +15,7 @@ class RecurringTransactionRule(BaseModel):
     granted_credits: Optional[str]
     started_at: Optional[str]
     target_ongoing_balance: Optional[str]
+    transaction_metadata: Optional[List[Dict[str, str]]]
 
 
 class RecurringTransactionRuleResponse(BaseModel):
@@ -28,6 +29,7 @@ class RecurringTransactionRuleResponse(BaseModel):
     started_at: Optional[str]
     target_ongoing_balance: Optional[str]
     created_at: Optional[str]
+    transaction_metadata: Optional[List[Dict[str, str]]]
 
 
 class RecurringTransactionRuleList(BaseModel):
@@ -47,6 +49,7 @@ class Wallet(BaseModel):
     expiration_at: Optional[str]
     currency: Optional[str]
     recurring_transaction_rules: Optional[RecurringTransactionRuleList]
+    transaction_metadata: Optional[List[Dict[str, str]]]
 
 
 class WalletResponse(BaseResponseModel):
