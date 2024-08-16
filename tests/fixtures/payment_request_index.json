@@ -1,0 +1,67 @@
+{
+  "payment_requests": [
+    {
+      "lago_id": "89b6b61e-4dbc-4307-ac96-4abcfa9e3e2d",
+      "email": "gavin@overdue.test",
+      "amount_cents": 120,
+      "amount_currency": "EUR",
+      "created_at": "2024-06-30T10:59:51Z",
+      "customer": {
+        "lago_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
+        "external_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
+        "address_line1": "5230 Penfield Ave",
+        "address_line2": null,
+        "city": "Woodland Hills",
+        "country": "US",
+        "created_at": "2022-04-29T08:59:51Z",
+        "updated_at": "2022-04-29T08:59:51Z",
+        "email": "dinesh@piedpiper.test",
+        "legal_name": "Coleman-Blair",
+        "legal_number": "49-008-2965",
+        "logo_url": "http://hooli.com/logo.png",
+        "name": "Gavin Belson",
+        "phone": "1-171-883-3711 x245",
+        "state": "CA",
+        "url": "http://hooli.com",
+        "zipcode": "91364",
+        "currency": "EUR",
+        "timezone": "Europe/Paris",
+        "applicable_timezone": "Europe/Paris",
+        "billing_configuration": {
+          "payment_provider": "stripe",
+          "payment_provider_code": "stripe-eu-1",
+          "provider_customer_id": "cus_12345"
+        },
+        "metadata": []
+      },
+      "invoices": [
+        {
+          "lago_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
+          "sequential_id": 15,
+          "number": "LAG-1234-001-002",
+          "issuing_date": "2022-06-02",
+          "payment_dispute_lost_at": "2022-04-29T08:59:51Z",
+          "payment_due_date": "2022-06-02",
+          "payment_overdue": true,
+          "invoice_type": "one_off",
+          "version_number": 2,
+          "status": "finalized",
+          "payment_status": "pending",
+          "currency": "EUR",
+          "net_payment_term": 0,
+          "fees_amount_cents": 100,
+          "taxes_amount_cents": 20,
+          "coupons_amount_cents": 0,
+          "credit_notes_amount_cents": 0,
+          "sub_total_excluding_taxes_amount_cents": 100,
+          "sub_total_including_taxes_amount_cents": 120,
+          "prepaid_credit_amount_cents": 0,
+          "total_amount_cents": 120
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "current_page": 1
+  }
+}

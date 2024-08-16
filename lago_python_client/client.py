@@ -14,6 +14,7 @@ from .invoiced_usages.clients import InvoicedUsageClient
 from .mrrs.clients import MrrClient
 from .organizations.clients import OrganizationClient
 from .overdue_balances.clients import OverdueBalanceClient
+from .payment_requests.clients import PaymentRequestClient
 from .invoice_collections.clients import InvoiceCollectionClient
 from .plans.clients import PlanClient
 from .subscriptions.clients import SubscriptionClient
@@ -95,6 +96,10 @@ class Client:
     @callable_cached_property
     def overdue_balances(self) -> OverdueBalanceClient:
         return OverdueBalanceClient(self.base_api_url, self.api_key)
+
+    @callable_cached_property
+    def payment_requests(self) -> PaymentRequestClient:
+        return PaymentRequestClient(self.base_api_url, self.api_key)
 
     @callable_cached_property
     def invoice_collections(self) -> InvoiceCollectionClient:
