@@ -2,7 +2,6 @@ from typing import List, Optional
 
 from ..base_model import BaseModel, BaseResponseModel
 from .customer import CustomerResponse
-from .invoice import InvoiceResponse
 
 class PaymentRequestInvoiceResponse(BaseResponseModel):
     lago_id: str
