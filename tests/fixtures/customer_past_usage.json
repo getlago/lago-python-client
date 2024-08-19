@@ -25,7 +25,18 @@
             "code": "usage_metric",
             "aggregation_type": "sum"
           },
-          "groups": []
+          "filters": [
+            {
+              "units": "3.0",
+              "events_count": 1,
+              "amount_cents": 123,
+              "values": {
+                "country": [
+                  "france"
+                ]
+              }
+            }
+          ]
         }
       ]
     }

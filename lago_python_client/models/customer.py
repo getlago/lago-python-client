@@ -18,6 +18,41 @@ class CustomerBillingConfiguration(BaseModel):
     provider_payment_methods: Optional[List[str]]
 
 
+class Address(BaseModel):
+    address_line1: Optional[str]
+    address_line2: Optional[str]
+    city: Optional[str]
+    zipcode: Optional[str]
+    state: Optional[str]
+    country: Optional[str]
+
+
+class IntegrationCustomer(BaseModel):
+    id: Optional[str]
+    external_customer_id: Optional[str]
+    integration_type: Optional[str]
+    integration_code: Optional[str]
+    subsidiary_id: Optional[str]
+    sync_with_provider: Optional[bool]
+
+
+class IntegrationCustomerResponse(BaseModel):
+    lago_id: Optional[str]
+    external_customer_id: Optional[str]
+    type: Optional[str]
+    integration_code: Optional[str]
+    subsidiary_id: Optional[str]
+    sync_with_provider: Optional[bool]
+
+
+class IntegrationCustomersList(BaseModel):
+    __root__: List[IntegrationCustomer]
+
+
+class IntegrationCustomersResponseList(BaseModel):
+    __root__: List[IntegrationCustomerResponse]
+
+
 class Metadata(BaseModel):
     id: Optional[str]
     key: Optional[str]
@@ -61,6 +96,8 @@ class Customer(BaseModel):
     zipcode: Optional[str]
     metadata: Optional[MetadataList]
     billing_configuration: Optional[CustomerBillingConfiguration]
+    shipping_address: Optional[Address]
+    integration_customers: Optional[IntegrationCustomersList]
     tax_codes: Optional[List[str]]
 
 
@@ -89,4 +126,6 @@ class CustomerResponse(BaseResponseModel):
     zipcode: Optional[str]
     metadata: Optional[MetadataResponseList]
     billing_configuration: Optional[CustomerBillingConfiguration]
+    shipping_address: Optional[Address]
+    integration_customers: Optional[IntegrationCustomersResponseList]
     taxes: Optional[TaxesResponse]

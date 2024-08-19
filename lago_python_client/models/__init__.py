@@ -1,5 +1,5 @@
 from .applied_coupon import AppliedCoupon
-from .billable_metric import BillableMetric, BillableMetricGroup
+from .billable_metric import BillableMetric, BillableMetricFilter, BillableMetricFilters
 from .charge import Charge, Charges, ChargesResponse
 from .coupon import Coupon, LimitationConfiguration
 from .credit import CreditResponse, CreditsResponse
@@ -10,7 +10,8 @@ from .organization import Organization, OrganizationBillingConfiguration
 from .event import Event, BatchEvent
 from .fee import Fee
 from .customer import Customer, CustomerBillingConfiguration, Metadata, MetadataList,\
-    MetadataResponse, MetadataResponseList
+    MetadataResponse, MetadataResponseList, IntegrationCustomer, IntegrationCustomerResponse,\
+    IntegrationCustomersResponseList, IntegrationCustomersList, Address
 from .invoice import InvoicePaymentStatusChange, Invoice, InvoiceMetadata, InvoiceMetadataList,\
     OneOffInvoice, InvoiceFeesList, InvoiceFee
 from .invoice_item import InvoiceItemResponse

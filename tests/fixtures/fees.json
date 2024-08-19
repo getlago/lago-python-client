@@ -2,7 +2,7 @@
   "fees": [
     {
       "lago_id": "nil",
-      "lago_group_id": "1a2d9c8d-5875-4688-9854-5ccfd414bc5e",
+      "lago_charge_filter_id": "1a2d9c8d-5875-4688-9854-5ccfd414bc5e",
       "lago_invoice_id": "1a2d9c8d-5875-4688-9854-5ccfd414bc5e",
       "lago_true_up_fee_id": "1a2d9c8d-5875-4688-9854-5ccfd414bc5e",
       "lago_true_up_parent_fee_id": null,
@@ -12,6 +12,7 @@
         "code": "fee_code",
         "name": "Fee Code",
         "invoice_display_name": "charge_invoice_display_name",
+        "charge_filter_invoice_display_name": "charge_filter_invoice_display_name",
         "grouped_by": {
           "agent_name": "aragorn"
         }

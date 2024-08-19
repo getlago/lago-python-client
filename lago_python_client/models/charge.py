@@ -6,14 +6,14 @@ from .tax import TaxesResponse
 from ..base_model import BaseResponseModel
 
 
-class GroupProperties(BaseModel):
-    group_id: Optional[str]
-    values: Optional[Dict[str, Any]]
+class ChargeFilter(BaseModel):
     invoice_display_name: Optional[str]
+    properties: Optional[Dict[str, Any]]
+    values: Optional[Dict[str, List[str]]]
 
 
-class GroupPropertiesList(BaseModel):
-    __root__: List[GroupProperties]
+class ChargeFilters(BaseModel):
+    __root__: List[ChargeFilter]
 
 
 class Charge(BaseModel):
@@ -23,10 +23,11 @@ class Charge(BaseModel):
     pay_in_advance: Optional[bool]
     prorated: Optional[bool]
     invoiceable: Optional[bool]
+    regroup_paid_fees: Optional[str]
     invoice_display_name: Optional[str]
     min_amount_cents: Optional[int]
     properties: Optional[Dict[str, Any]]
-    group_properties: Optional[GroupPropertiesList]
+    filters: Optional[ChargeFilters]
     tax_codes: Optional[List[str]]
 
 
@@ -42,10 +43,11 @@ class ChargeResponse(BaseResponseModel):
     pay_in_advance: Optional[bool]
     prorated: Optional[bool]
     invoiceable: Optional[bool]
+    regroup_paid_fees: Optional[str]
     invoice_display_name: Optional[str]
     min_amount_cents: Optional[int]
     properties: Optional[Dict[str, Any]]
-    group_properties: Optional[GroupPropertiesList]
+    filters: Optional[ChargeFilters]
     taxes: Optional[TaxesResponse]
 
 
@@ -58,7 +60,7 @@ class ChargeOverrides(BaseModel):
     invoice_display_name: Optional[str]
     min_amount_cents: Optional[int]
     properties: Optional[Dict[str, Any]]
-    group_properties: Optional[GroupPropertiesList]
+    filters: Optional[ChargeFilters]
     tax_codes: Optional[List[str]]
 
 

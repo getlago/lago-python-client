@@ -5,7 +5,7 @@ from pytest_httpx import HTTPXMock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
-from lago_python_client.models import BillableMetric, BillableMetricGroup
+from lago_python_client.models import BillableMetric, BillableMetricFilter, BillableMetricFilters
 
 
 def billable_metric_object():
@@ -16,13 +16,13 @@ def billable_metric_object():
         aggregation_type='sum_agg',
         field_name='amount_sum',
         recurring=False,
-        group=group(),
+        filters=filters(),
         weighted_interval='seconds'
     )
 
 
-def group():
-    return BillableMetricGroup(key='country', values=['france', 'italy', 'spain'])
+def filters():
+    return BillableMetricFilters(__root__=[BillableMetricFilter(key='country', values=['france', 'italy', 'spain'])])
 
 
 def mock_response():
@@ -49,7 +49,7 @@ def test_valid_create_billable_metric_request(httpx_mock: HTTPXMock):
 
     assert response.lago_id == 'b7ab2926-1de8-4428-9bcd-779314ac129b'
     assert response.code == 'bm_code'
-    assert response.group == group()
+    assert response.filters == filters()
 
 
 def test_invalid_create_billable_metric_request(httpx_mock: HTTPXMock):

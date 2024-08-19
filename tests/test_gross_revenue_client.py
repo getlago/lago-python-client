@@ -25,3 +25,4 @@ def test_valid_find_all_gross_revenues_request(httpx_mock: HTTPXMock):
     assert response['gross_revenues'][0].currency == 'EUR'
     assert response['gross_revenues'][0].amount_cents == 100
     assert response['gross_revenues'][0].month == '2023-11-01T00:00:00.000Z'
+    assert response['gross_revenues'][0].invoices_count == 1

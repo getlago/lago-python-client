@@ -8,7 +8,6 @@
     "name": "name",
     "rate_amount": "1.5",
     "credits_balance": "10",
-    "balance": "10",
     "balance_cents": 1000,
     "consumed_credits": "2",
     "created_at": "2022-04-29T08:59:51Z",
@@ -18,10 +17,13 @@
     "recurring_transaction_rules": [
       {
         "lago_id": "12345",
-        "rule_type": "interval",
+        "trigger": "interval",
+        "method": "target",
         "interval": "monthly",
         "paid_credits": "105.0",
-        "granted_credits": "105.0"
+        "granted_credits": "105.0",
+        "started_at": null,
+        "target_ongoing_balance": "200.0"
       }
     ],
     "ongoing_balance_cents": 800,
