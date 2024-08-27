@@ -79,7 +79,7 @@ class InvoiceClient(
         )
 
     def retry(self, resource_id: str) -> InvoiceResponse:
-        api_response: Response = send_put_request(
+        api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, resource_id, 'retry'),
