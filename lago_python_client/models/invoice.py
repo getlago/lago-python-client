@@ -6,6 +6,7 @@ from .credit import CreditsResponse
 from .customer import CustomerResponse
 from .fee import FeesResponse
 from .subscription import SubscriptionsResponse
+from .usage_threshold import AppliedUsageThresholdsResponse
 from ..base_model import BaseResponseModel
 
 
@@ -96,3 +97,4 @@ class InvoiceResponse(BaseResponseModel):
     credits: Optional[CreditsResponse]
     metadata: Optional[InvoiceMetadataList]
     applied_taxes: Optional[InvoiceAppliedTaxes]
+    applied_usage_thresholds: Optional[AppliedUsageThresholdsResponse]

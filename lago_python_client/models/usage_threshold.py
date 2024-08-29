@@ -27,3 +27,13 @@ class UsageThresholdResponse(BaseResponseModel):
 
 class UsageThresholdsResponse(BaseResponseModel):
     __root__: List[UsageThresholdResponse]
+
+
+class AppliedUsageThresholdResponse(BaseResponseModel):
+    lifetime_usage_amount_cents: int
+    created_at: str
+    usage_threshold: UsageThresholdResponse
+
+
+class AppliedUsageThresholdsResponse(BaseResponseModel):
+    __root__: List[AppliedUsageThresholdResponse]
