@@ -88,6 +88,7 @@ class InvoiceResponse(BaseResponseModel):
     sub_total_including_taxes_amount_cents: int
     total_amount_cents: int
     prepaid_credit_amount_cents: int
+    progressive_billing_credit_amount_cents: int
     file_url: Optional[str]
     customer: Optional[CustomerResponse]
     subscriptions: Optional[SubscriptionsResponse]

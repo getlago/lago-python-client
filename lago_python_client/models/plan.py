@@ -5,6 +5,7 @@ from lago_python_client.base_model import BaseModel
 from .charge import Charges, ChargesResponse, ChargesOverrides
 from .minimum_commitment import MinimumCommitment, MinimumCommitmentResponse, MinimumCommitmentOverrides
 from .tax import Taxes, TaxesResponse
+from .usage_threshold import UsageThresholds, UsageThresholdsResponse
 from ..base_model import BaseResponseModel
 
 
@@ -22,6 +23,7 @@ class Plan(BaseModel):
     charges: Optional[Charges]
     minimum_commitment: Optional[MinimumCommitment]
     tax_codes: Optional[List[str]]
+    usage_thresholds: Optional[UsageThresholds]
 
 
 class PlanResponse(BaseResponseModel):
@@ -42,6 +44,8 @@ class PlanResponse(BaseResponseModel):
     active_subscriptions_count: int
     draft_invoices_count: int
     taxes: Optional[TaxesResponse]
+    usage_thresholds: Optional[UsageThresholdsResponse]
+
 
 class PlanOverrides(BaseModel):
     name: Optional[str]
@@ -53,3 +57,4 @@ class PlanOverrides(BaseModel):
     charges: Optional[ChargesOverrides]
     minimum_commitment: Optional[MinimumCommitmentOverrides]
     tax_codes: Optional[List[str]]
+    usage_thresholds: Optional[UsageThresholds]

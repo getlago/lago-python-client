@@ -19,6 +19,7 @@ from .minimum_commitment import MinimumCommitment, MinimumCommitmentResponse
 from .subscription import Subscription
 from .customer_usage import Metric, ChargeObject, ChargeUsage, CustomerUsageResponse
 from .tax import Tax, Taxes, TaxResponse, TaxesResponse
+from .usage_threshold import UsageThreshold, UsageThresholds, UsageThresholdResponse, UsageThresholdsResponse
 from .wallet import Wallet, RecurringTransactionRule, RecurringTransactionRuleList, \
     RecurringTransactionRuleResponse, RecurringTransactionRuleResponseList
 from .wallet_transaction import WalletTransaction
