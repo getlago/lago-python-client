@@ -5,7 +5,7 @@ from pytest_httpx import HTTPXMock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
-from lago_python_client.models import Plan, Charge, Charges, MinimumCommitment
+from lago_python_client.models import Plan, Charge, Charges, MinimumCommitment, UsageThreshold, UsageThresholds
 
 
 def plan_object():
@@ -31,6 +31,14 @@ def plan_object():
     )
     charges = Charges(__root__=[charge])
 
+    usage_threshold = UsageThreshold(
+      threshold_display_name="Threshold 1",
+      amount_cents = 20,
+      recurring = False
+    )
+
+    usage_thresholds = UsageThresholds(__root__=[usage_threshold])
+
     minimum_commitment = MinimumCommitment(
         amount_cents=0,
         invoice_display_name='Commitment (C1)'
@@ -46,7 +54,8 @@ def plan_object():
         interval='weekly',
         pay_in_advance=True,
         charges=charges,
-        minimum_commitment=minimum_commitment
+        minimum_commitment=minimum_commitment,
+        usage_thresholds=usage_thresholds,
     )
 
 
@@ -122,6 +131,7 @@ def test_valid_create_plan_request(httpx_mock: HTTPXMock):
     assert response.invoice_display_name == 'test plan 1'
     assert response.charges.__root__[0].invoice_display_name == 'Setup'
     assert response.minimum_commitment.invoice_display_name == 'Minimum commitment (C1)'
+    assert response.usage_thresholds.__root__[0].threshold_display_name == 'Threshold 1'
 
 
 def test_valid_create_graduated_plan_request(httpx_mock: HTTPXMock):

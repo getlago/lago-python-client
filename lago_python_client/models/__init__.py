@@ -23,3 +23,4 @@ from .wallet import Wallet, RecurringTransactionRule, RecurringTransactionRuleLi
     RecurringTransactionRuleResponse, RecurringTransactionRuleResponseList
 from .wallet_transaction import WalletTransaction
 from .webhook_endpoint import WebhookEndpoint
+from .usage_threshold import UsageThreshold, UsageThresholds, UsageThresholdsResponse

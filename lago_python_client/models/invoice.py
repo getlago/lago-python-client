@@ -84,10 +84,12 @@ class InvoiceResponse(BaseResponseModel):
     coupons_amount_cents: int
     taxes_amount_cents: int
     credit_notes_amount_cents: int
+    progressive_billing_credit_amount_cents: int
     sub_total_excluding_taxes_amount_cents: int
     sub_total_including_taxes_amount_cents: int
     total_amount_cents: int
     prepaid_credit_amount_cents: int
+
     file_url: Optional[str]
     customer: Optional[CustomerResponse]
     subscriptions: Optional[SubscriptionsResponse]

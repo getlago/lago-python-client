@@ -29,9 +29,7 @@
         "min_amount_cents": 0,
         "properties": {
           "amount": "0.22",
-          "grouped_by": [
-            "agent_name"
-          ]
+          "grouped_by": ["agent_name"]
         },
         "filters": [
           {
@@ -40,9 +38,7 @@
               "amount": "0.33"
             },
             "values": {
-              "country": [
-                "France"
-              ]
+              "country": ["France"]
             }
           }
         ],
@@ -69,6 +65,14 @@
       "amount_cents": 1000,
       "interval": "weekly"
     },
+    "usage_thresholds": [
+      {
+        "lago_id": "85898fbd-0ec6-40a6-8ef1-f863d4b1668a",
+        "amount_cents": 20,
+        "threshold_display_name": "Threshold 1",
+        "recurring": false
+      }
+    ],
     "taxes": [
       {
         "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac129b",

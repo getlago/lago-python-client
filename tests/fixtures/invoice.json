@@ -16,6 +16,7 @@
     "taxes_amount_cents": 20,
     "coupons_amount_cents": 0,
     "credit_notes_amount_cents": 0,
+    "progressive_billing_credit_amount_cents": 0,
     "sub_total_excluding_taxes_amount_cents": 100,
     "sub_total_including_taxes_amount_cents": 120,
     "prepaid_credit_amount_cents": 0,
@@ -112,9 +113,7 @@
           "name": "User Seats",
           "invoice_display_name": "charge_invoice_display_name",
           "filters": {
-            "region": [
-              "us-east-1"
-            ]
+            "region": ["us-east-1"]
           }
         },
         "amount_cents": 100,
