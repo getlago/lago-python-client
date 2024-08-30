@@ -4,7 +4,6 @@ from lago_python_client.base_model import BaseModel
 
 from .charge import Charges, ChargesResponse, ChargesOverrides
 from .usage_threshold import (
-    UsageThreshold,
     UsageThresholds,
     UsageThresholdsResponse,
     UsageThresholdsOverrides,
@@ -14,7 +13,7 @@ from .minimum_commitment import (
     MinimumCommitmentResponse,
     MinimumCommitmentOverrides,
 )
-from .tax import Taxes, TaxesResponse
+from .tax import TaxesResponse
 from ..base_model import BaseResponseModel
 
 
