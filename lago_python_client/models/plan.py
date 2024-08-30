@@ -1,11 +1,19 @@
 from typing import List, Optional
 
 from lago_python_client.base_model import BaseModel
-from lago_python_client.models.usage_threshold import UsageThreshold
 
 from .charge import Charges, ChargesResponse, ChargesOverrides
-from .usage_threshold import UsageThresholds, UsageThresholdsResponse, UsageThresholdsOverrides
-from .minimum_commitment import MinimumCommitment, MinimumCommitmentResponse, MinimumCommitmentOverrides
+from .usage_threshold import (
+    UsageThreshold,
+    UsageThresholds,
+    UsageThresholdsResponse,
+    UsageThresholdsOverrides,
+)
+from .minimum_commitment import (
+    MinimumCommitment,
+    MinimumCommitmentResponse,
+    MinimumCommitmentOverrides,
+)
 from .tax import Taxes, TaxesResponse
 from ..base_model import BaseResponseModel
 
@@ -46,6 +54,7 @@ class PlanResponse(BaseResponseModel):
     active_subscriptions_count: int
     draft_invoices_count: int
     taxes: Optional[TaxesResponse]
+
 
 class PlanOverrides(BaseModel):
     name: Optional[str]
