@@ -7,6 +7,7 @@ from .customer import CustomerResponse
 from .fee import FeesResponse
 from .subscription import SubscriptionsResponse
 from ..base_model import BaseResponseModel
+from .usage_threshold import UsageThreshold
 
 
 # Deprecated: Will be removed in the future
@@ -66,6 +67,16 @@ class InvoiceAppliedTaxes(BaseResponseModel):
     __root__: List[InvoiceAppliedTax]
 
 
+class InvoiceAppliedUsageThreshold(BaseResponseModel):
+    lifetime_usage_amount_cents: Optional[int]
+    created_at: Optional[str]
+    usage_threshold: Optional[UsageThreshold]
+
+
+class InvoiceAppliedUsageThresholds(BaseResponseModel):
+    __root__: List[InvoiceAppliedUsageThreshold]
+
+
 class InvoiceResponse(BaseResponseModel):
     lago_id: str
     sequential_id: Optional[int]
@@ -97,3 +108,4 @@ class InvoiceResponse(BaseResponseModel):
     credits: Optional[CreditsResponse]
     metadata: Optional[InvoiceMetadataList]
     applied_taxes: Optional[InvoiceAppliedTaxes]
+    applied_usage_thresholds: Optional[InvoiceAppliedUsageThresholds]
