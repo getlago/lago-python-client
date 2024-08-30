@@ -1,6 +1,10 @@
 [build-system]
-requires = [
-    "setuptools>=54",
-    "wheel"
-]
+requires = ["setuptools>=54", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+extend-select = ['E305', 'INP001']
+preview = true

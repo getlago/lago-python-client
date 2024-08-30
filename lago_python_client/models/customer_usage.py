@@ -25,12 +25,14 @@ class ChargeObject(BaseModel):
     charge_model: str
     invoice_display_name: Optional[str]
 
+
 class GroupedUsage(BaseModel):
     amount_cents: int
     events_count: int
     units: float
     grouped_by: Dict[str, str]
     filters: List[ChargeFilterUsage]
+
 
 class ChargeUsage(BaseModel):
     units: float

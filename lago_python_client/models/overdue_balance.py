@@ -1,6 +1,6 @@
-from typing import List, Optional
+from typing import List
 
-from ..base_model import BaseModel, BaseResponseModel
+from ..base_model import BaseResponseModel
 
 
 class OverdueBalanceResponse(BaseResponseModel):

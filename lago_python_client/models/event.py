@@ -16,6 +16,7 @@ class Event(BaseModel):
 class BatchEvent(BaseModel):
     events: List[Event]
 
+
 class EventResponse(BaseResponseModel):
     lago_id: str
     transaction_id: str
@@ -26,6 +27,7 @@ class EventResponse(BaseResponseModel):
     timestamp: str
     properties: Optional[Dict[str, Any]]
     created_at: str
+
 
 class BatchEventResponse(BaseResponseModel):
     events: List[EventResponse]

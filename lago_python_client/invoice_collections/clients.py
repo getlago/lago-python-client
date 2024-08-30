@@ -17,15 +17,15 @@ class InvoiceCollectionClient(
     FindAllCommandMixin[InvoiceCollectionResponse],
     BaseClient,
 ):
-    API_RESOURCE: ClassVar[str] = 'invoice_collections'
+    API_RESOURCE: ClassVar[str] = "invoice_collections"
     RESPONSE_MODEL: ClassVar[Type[InvoiceCollectionResponse]] = InvoiceCollectionResponse
-    ROOT_NAME: ClassVar[str] = 'invoice_collection'
+    ROOT_NAME: ClassVar[str] = "invoice_collection"
 
     def find_all(self, options: Mapping[str, Union[int, str]] = {}) -> Mapping[str, Any]:
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
-                path_parts=('analytics', 'invoice_collection'),
+                path_parts=("analytics", "invoice_collection"),
                 query_pairs=options,
             ),
             headers=make_headers(api_key=self.api_key),

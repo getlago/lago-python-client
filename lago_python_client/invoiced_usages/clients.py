@@ -17,15 +17,15 @@ class InvoicedUsageClient(
     FindAllCommandMixin[InvoicedUsageResponse],
     BaseClient,
 ):
-    API_RESOURCE: ClassVar[str] = 'invoiced_usages'
+    API_RESOURCE: ClassVar[str] = "invoiced_usages"
     RESPONSE_MODEL: ClassVar[Type[InvoicedUsageResponse]] = InvoicedUsageResponse
-    ROOT_NAME: ClassVar[str] = 'invoiced_usage'
+    ROOT_NAME: ClassVar[str] = "invoiced_usage"
 
     def find_all(self, options: Mapping[str, Union[int, str]] = {}) -> Mapping[str, Any]:
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
-                path_parts=('analytics', 'invoiced_usage'),
+                path_parts=("analytics", "invoiced_usage"),
                 query_pairs=options,
             ),
             headers=make_headers(api_key=self.api_key),

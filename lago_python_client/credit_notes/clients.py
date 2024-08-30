@@ -1,10 +1,24 @@
-from typing import ClassVar, Optional, Type, Union
+from typing import ClassVar, Optional, Type
 
 from ..base_client import BaseClient
-from ..mixins import CreateCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
-from ..models.credit_note import CreditNoteResponse, CreditNoteEstimatedResponse, CreditNoteEstimate
+from ..mixins import (
+    CreateCommandMixin,
+    FindAllCommandMixin,
+    FindCommandMixin,
+    UpdateCommandMixin,
+)
+from ..models.credit_note import (
+    CreditNoteResponse,
+    CreditNoteEstimatedResponse,
+    CreditNoteEstimate,
+)
 from ..services.json import to_json
-from ..services.request import make_headers, make_url, send_post_request, send_put_request
+from ..services.request import (
+    make_headers,
+    make_url,
+    send_post_request,
+    send_put_request,
+)
 from ..services.response import get_response_data, prepare_object_response, Response
 
 
@@ -15,16 +29,16 @@ class CreditNoteClient(
     UpdateCommandMixin[CreditNoteResponse],
     BaseClient,
 ):
-    API_RESOURCE: ClassVar[str] = 'credit_notes'
-    ESTIMATE_API_RESOURCE: ClassVar[str] = 'estimated_credit_note'
+    API_RESOURCE: ClassVar[str] = "credit_notes"
+    ESTIMATE_API_RESOURCE: ClassVar[str] = "estimated_credit_note"
     RESPONSE_MODEL: ClassVar[Type[CreditNoteResponse]] = CreditNoteResponse
-    ROOT_NAME: ClassVar[str] = 'credit_note'
+    ROOT_NAME: ClassVar[str] = "credit_note"
 
     def download(self, resource_id: str) -> Optional[CreditNoteResponse]:
         api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
-                path_parts=(self.API_RESOURCE, resource_id, 'download'),
+                path_parts=(self.API_RESOURCE, resource_id, "download"),
             ),
             headers=make_headers(api_key=self.api_key),
         )
@@ -42,7 +56,7 @@ class CreditNoteClient(
         api_response: Response = send_put_request(
             url=make_url(
                 origin=self.base_url,
-                path_parts=(self.API_RESOURCE, resource_id, 'void'),
+                path_parts=(self.API_RESOURCE, resource_id, "void"),
             ),
             headers=make_headers(api_key=self.api_key),
         )
@@ -56,11 +70,13 @@ class CreditNoteClient(
         api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
-                path_parts=(self.API_RESOURCE, 'estimate'),
+                path_parts=(self.API_RESOURCE, "estimate"),
             ),
-            content=to_json({
-                self.ROOT_NAME: input_object.dict(),
-            }),
+            content=to_json(
+                {
+                    self.ROOT_NAME: input_object.dict(),
+                }
+            ),
             headers=make_headers(api_key=self.api_key),
         )
 

@@ -1,5 +1,7 @@
 import sys
-from typing import Any, ClassVar, Type, Union
+from typing import Any, ClassVar, Type, Union, Optional
+
+import httpx
 
 from ..base_client import BaseClient
 from ..mixins import FindAllCommandMixin
@@ -17,15 +19,19 @@ class OverdueBalanceClient(
     FindAllCommandMixin[OverdueBalanceResponse],
     BaseClient,
 ):
-    API_RESOURCE: ClassVar[str] = 'overdue_balances'
+    API_RESOURCE: ClassVar[str] = "overdue_balances"
     RESPONSE_MODEL: ClassVar[Type[OverdueBalanceResponse]] = OverdueBalanceResponse
-    ROOT_NAME: ClassVar[str] = 'overdue_balance'
+    ROOT_NAME: ClassVar[str] = "overdue_balance"
 
-    def find_all(self, options: Mapping[str, Union[int, str]] = {}) -> Mapping[str, Any]:
+    def find_all(
+        self,
+        options: Mapping[str, Union[int, str]] = {},
+        timeout: Optional[httpx.Timeout] = None,
+    ) -> Mapping[str, Any]:
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
-                path_parts=('analytics', 'overdue_balance'),
+                path_parts=("analytics", "overdue_balance"),
                 query_pairs=options,
             ),
             headers=make_headers(api_key=self.api_key),

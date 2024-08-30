@@ -6,6 +6,7 @@ from ..base_model import BaseResponseModel
 
 from .tax import TaxesResponse
 
+
 class AddOn(BaseModel):
     name: Optional[str]
     invoice_display_name: Optional[str]

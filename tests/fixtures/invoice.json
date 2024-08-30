@@ -16,6 +16,7 @@
     "taxes_amount_cents": 20,
     "coupons_amount_cents": 0,
     "credit_notes_amount_cents": 0,
+    "progressive_billing_credit_amount_cents": 0,
     "sub_total_excluding_taxes_amount_cents": 100,
     "sub_total_including_taxes_amount_cents": 120,
     "prepaid_credit_amount_cents": 0,
@@ -25,6 +26,18 @@
         "key": "key",
         "value": "value",
         "display_in_invoice": true
+      }
+    ],
+    "applied_usage_thresholds": [
+      {
+        "lifetime_usage_amount_cents": 120,
+        "created_at": "2022-04-29T08:59:51Z",
+        "usage_threshold": {
+          "id": "7b6a2799-6db5-4f82-8362-1483b65f8f90",
+          "threshold_display_name": "Threshold 1",
+          "amount_cents": 100,
+          "recurring": false
+        }
       }
     ],
     "applied_taxes": [
@@ -112,9 +125,7 @@
           "name": "User Seats",
           "invoice_display_name": "charge_invoice_display_name",
           "filters": {
-            "region": [
-              "us-east-1"
-            ]
+            "region": ["us-east-1"]
           }
         },
         "amount_cents": 100,

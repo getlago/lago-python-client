@@ -1,4 +1,5 @@
 """Test JSON services."""
+
 from httpx import Response
 import pytest
 
@@ -9,7 +10,7 @@ from lago_python_client.services.json import from_json, to_json
 def test_from_json():
     """Deserialize data from json string."""
     # Given some data
-    expected_data = {'a': {'b': 'c'}}
+    expected_data = {"a": {"b": "c"}}
     # And same data serialized in json format stored as string,
     json_string = '{"a":{"b":"c"}}'
     # ... or bytes,
@@ -29,7 +30,7 @@ def test_from_json():
     # ... or raise exception
     with pytest.raises(LagoApiError) as cm:
         from_json(json_none)
-    assert cm.value.detail == 'Input must be bytes, bytearray, memoryview, or str'
+    assert cm.value.detail == "Input must be bytes, bytearray, memoryview, or str"
     with pytest.raises(LagoApiError):
         from_json(json_string_shit_happens)
 
@@ -37,7 +38,7 @@ def test_from_json():
 def test_to_json():
     """Serialize data to json bytestring."""
     # Given some data
-    initial_data = {'a': {'b': 'c'}}
+    initial_data = {"a": {"b": "c"}}
     # And same data serialized in json format
     expected_json_string = b'{"a":{"b":"c"}}'
 
