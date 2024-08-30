@@ -1,5 +1,6 @@
 import sys
 from typing import Union
+
 try:
     from typing import Final
 except ImportError:  # Python 3.7
@@ -15,19 +16,26 @@ if sys.version_info >= (3, 9):
 else:
     from typing import Mapping, Sequence
 
-URI_TEMPLATE: Final[str] = '{uri_path}{uri_query}'
-QUERY_TEMPLATE: Final[str] = '?{query}'
+URI_TEMPLATE: Final[str] = "{uri_path}{uri_query}"
+QUERY_TEMPLATE: Final[str] = "?{query}"
 
 
-def make_url(*, origin: str, path_parts: Sequence[str], query_pairs: Mapping[str, Union[int, str]] = {}) -> str:
+def make_url(
+    *,
+    origin: str,
+    path_parts: Sequence[str],
+    query_pairs: Mapping[str, Union[int, str]] = {},
+) -> str:
     """Return url."""
     return urljoin(
         origin,
         URI_TEMPLATE.format(
-            uri_path='/'.join(path_parts),
+            uri_path="/".join(path_parts),
             uri_query=QUERY_TEMPLATE.format(
                 query=urlencode(query_pairs),
-            ) if query_pairs else '',
+            )
+            if query_pairs
+            else "",
         ),
     )
 
@@ -35,9 +43,9 @@ def make_url(*, origin: str, path_parts: Sequence[str], query_pairs: Mapping[str
 def make_headers(*, api_key: str) -> Mapping[str, str]:
     """Return headers."""
     return {
-        'Content-type': 'application/json',
-        'Authorization': "Bearer {api_key}".format(api_key=api_key),
-        'User-agent': 'Lago Python v{version}'.format(version=LAGO_VERSION),
+        "Content-type": "application/json",
+        "Authorization": "Bearer {api_key}".format(api_key=api_key),
+        "User-agent": "Lago Python v{version}".format(version=LAGO_VERSION),
     }
 
 

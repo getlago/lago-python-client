@@ -16,7 +16,18 @@ else:
     from typing import Mapping, Sequence
 
 Serializable = Union[
-    str, Mapping[Any, Any], Sequence[Any], Tuple[Any], int, float, bool, datetime, date, time, UUID, None,
+    str,
+    Mapping[Any, Any],
+    Sequence[Any],
+    Tuple[Any],
+    int,
+    float,
+    bool,
+    datetime,
+    date,
+    time,
+    UUID,
+    None,
 ]  # And dataclass, TypedDict and ndarray
 Deserializable = Union[bytes, bytearray, memoryview, str]
 DeserializedData = Union[Mapping[str, Any], Sequence[Any], int, float, str, bool, None]
@@ -30,7 +41,7 @@ def to_json(data_container: Serializable) -> bytes:
 @typeclass  # type: ignore
 def from_json(json_container) -> DeserializedData:
     """Deserialize data from json format."""
-    raise TypeError('Type {0} is not supported'.format(type(json_container)))
+    raise TypeError("Type {0} is not supported".format(type(json_container)))
 
 
 @from_json.instance(bytes)  # type: ignore
@@ -58,7 +69,7 @@ def _from_json_none(json_container: None) -> NoReturn:
         status_code=HTTPStatus.INTERNAL_SERVER_ERROR,  # 500
         url=None,
         response=None,
-        detail='Input must be bytes, bytearray, memoryview, or str',
+        detail="Input must be bytes, bytearray, memoryview, or str",
         headers=None,
     )
 

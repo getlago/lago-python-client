@@ -1,7 +1,13 @@
 from typing import ClassVar, Type
 
 from ..base_client import BaseClient
-from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
+from ..mixins import (
+    CreateCommandMixin,
+    DestroyCommandMixin,
+    FindAllCommandMixin,
+    FindCommandMixin,
+    UpdateCommandMixin,
+)
 from ..models.plan import PlanResponse
 
 
@@ -13,6 +19,6 @@ class PlanClient(
     UpdateCommandMixin[PlanResponse],
     BaseClient,
 ):
-    API_RESOURCE: ClassVar[str] = 'plans'
+    API_RESOURCE: ClassVar[str] = "plans"
     RESPONSE_MODEL: ClassVar[Type[PlanResponse]] = PlanResponse
-    ROOT_NAME: ClassVar[str] = 'plan'
+    ROOT_NAME: ClassVar[str] = "plan"

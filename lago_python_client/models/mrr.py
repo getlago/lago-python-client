@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from ..base_model import BaseModel, BaseResponseModel
+from ..base_model import BaseResponseModel
 
 
 class MrrResponse(BaseResponseModel):

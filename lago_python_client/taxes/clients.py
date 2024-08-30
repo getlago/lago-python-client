@@ -1,7 +1,13 @@
 from typing import ClassVar, Type
 
 from ..base_client import BaseClient
-from ..mixins import CreateCommandMixin, DestroyCommandMixin, FindAllCommandMixin, FindCommandMixin, UpdateCommandMixin
+from ..mixins import (
+    CreateCommandMixin,
+    DestroyCommandMixin,
+    FindAllCommandMixin,
+    FindCommandMixin,
+    UpdateCommandMixin,
+)
 from ..models.tax import TaxResponse
 
 
@@ -13,6 +19,6 @@ class TaxClient(
     UpdateCommandMixin[TaxResponse],
     BaseClient,
 ):
-    API_RESOURCE: ClassVar[str] = 'taxes'
+    API_RESOURCE: ClassVar[str] = "taxes"
     RESPONSE_MODEL: ClassVar[Type[TaxResponse]] = TaxResponse
-    ROOT_NAME: ClassVar[str] = 'tax'
+    ROOT_NAME: ClassVar[str] = "tax"

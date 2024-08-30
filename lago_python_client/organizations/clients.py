@@ -6,6 +6,6 @@ from ..models.organization import OrganizationResponse
 
 
 class OrganizationClient(UpdateCommandMixin[OrganizationResponse], BaseClient):
-    API_RESOURCE: ClassVar[str] = 'organizations'
+    API_RESOURCE: ClassVar[str] = "organizations"
     RESPONSE_MODEL: ClassVar[Type[OrganizationResponse]] = OrganizationResponse
-    ROOT_NAME: ClassVar[str] = 'organization'
+    ROOT_NAME: ClassVar[str] = "organization"

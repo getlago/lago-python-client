@@ -1,6 +1,7 @@
 import sys
 from typing import Any, TypeVar
 import warnings
+
 try:
     from functools import cached_property
 except ImportError:
@@ -30,11 +31,13 @@ class Proxy(object):
 
     def __call__(self) -> Any:
         warnings.warn(
-            ''.join((
-                'We are going to deprecate callable properties (`client.<your_tag_name>()`) in future. ',
-                'Please, remove braces. ',
-                'Use `client.<your_tag_name>.<your_operation_name>(...)` instead of `client.<your_tag_name>().<your_operation_name>(...)`',
-            )),
+            "".join(
+                (
+                    "We are going to deprecate callable properties (`client.<your_tag_name>()`) in future. ",
+                    "Please, remove braces. ",
+                    "Use `client.<your_tag_name>.<your_operation_name>(...)` instead of `client.<your_tag_name>().<your_operation_name>(...)`",
+                )
+            ),
             PendingDeprecationWarning,
         )
         return self._obj
@@ -53,8 +56,10 @@ class Proxy(object):
 
 
 if sys.version_info >= (3, 9):
+
     def callable_cached_property(func: Callable[P, T]) -> cached_property[T]:
         return cached_property(lambda s: Proxy(func(s)))  # type: ignore
 else:
+
     def callable_cached_property(func):
         return cached_property(lambda s: Proxy(func(s)))

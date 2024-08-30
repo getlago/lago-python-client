@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Optional
 from .invoice_item import InvoiceItemResponse
 from ..base_model import BaseModel, BaseResponseModel
 
+
 class Fee(BaseModel):
     payment_status: Optional[str]
     invoice_display_name: Optional[str]
@@ -37,7 +38,7 @@ class FeeResponse(BaseResponseModel):
     taxes_amount_cents: Optional[int]
     taxes_rate: Optional[float]
     total_amount_cents: Optional[int]
-    unit_amount_cents: Optional[int] # deprecated
+    unit_amount_cents: Optional[int]  # deprecated
     precise_unit_amount: Optional[str]
     total_amount_currency: Optional[str]
     units: Optional[float]

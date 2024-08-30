@@ -17,15 +17,17 @@ class GrossRevenueClient(
     FindAllCommandMixin[GrossRevenueResponse],
     BaseClient,
 ):
-    API_RESOURCE: ClassVar[str] = 'gross_revenues'
+    API_RESOURCE: ClassVar[str] = "gross_revenues"
     RESPONSE_MODEL: ClassVar[Type[GrossRevenueResponse]] = GrossRevenueResponse
-    ROOT_NAME: ClassVar[str] = 'gross_revenue'
+    ROOT_NAME: ClassVar[str] = "gross_revenue"
 
-    def find_all(self, options: Mapping[str, Union[int, str]] = {}) -> Mapping[str, Any]:
+    def find_all(
+        self, options: Mapping[str, Union[int, str]] = {}
+    ) -> Mapping[str, Any]:
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
-                path_parts=('analytics', 'gross_revenue'),
+                path_parts=("analytics", "gross_revenue"),
                 query_pairs=options,
             ),
             headers=make_headers(api_key=self.api_key),
