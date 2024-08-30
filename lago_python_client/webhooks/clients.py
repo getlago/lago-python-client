@@ -41,8 +41,8 @@ class WebhookClient(BaseClient):
             ),
             headers=make_headers(api_key=self.api_key),
         )
-        response_data: Optional[Union[Mapping[str, Any], Sequence[Any]]] = (
-            get_response_data(response=api_response, key=self.ROOT_NAME)
+        response_data: Optional[Union[Mapping[str, Any], Sequence[Any]]] = get_response_data(
+            response=api_response, key=self.ROOT_NAME
         )
 
         try:

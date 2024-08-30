@@ -187,9 +187,7 @@ def test_valid_find_all_wallet_request_with_options(httpx_mock: HTTPXMock):
         url="https://api.getlago.com/api/v1/wallets?external_customer_id=123&per_page=2&page=1",
         content=mock_collection_response(),
     )
-    response = client.wallets.find_all(
-        {"external_customer_id": 123, "per_page": 2, "page": 1}
-    )
+    response = client.wallets.find_all({"external_customer_id": 123, "per_page": 2, "page": 1})
 
     assert response["wallets"][1].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac1111"
     assert response["meta"]["current_page"] == 1

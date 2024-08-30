@@ -26,9 +26,7 @@ def one_off_invoice_object():
     fee = InvoiceFee(add_on_code="123", description="desc")
     fees_list = InvoiceFeesList(__root__=[fee])
 
-    return OneOffInvoice(
-        customer_external_id="external", currency="EUR", fees=fees_list
-    )
+    return OneOffInvoice(customer_external_id="external", currency="EUR", fees=fees_list)
 
 
 def mock_response(mock="invoice"):
@@ -55,9 +53,7 @@ def test_valid_update_invoice_request(httpx_mock: HTTPXMock):
         url="https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
         content=mock_response(),
     )
-    response = client.invoices.update(
-        update_invoice_object(), "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
-    )
+    response = client.invoices.update(update_invoice_object(), "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba")
 
     assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
     assert response.status == "finalized"
@@ -80,10 +76,7 @@ def test_valid_create_invoice_request(httpx_mock: HTTPXMock):
     assert response.invoice_type == "one_off"
     assert response.fees.__root__[0].invoice_display_name == "fee_invoice_display_name"
     assert response.fees.__root__[0].precise_unit_amount == "9.52"
-    assert (
-        response.fees.__root__[0].item.invoice_display_name
-        == "one_off_invoice_display_name"
-    )
+    assert response.fees.__root__[0].item.invoice_display_name == "one_off_invoice_display_name"
     assert response.fees.__root__[0].amount_details == {}
 
 
@@ -112,9 +105,7 @@ def test_invalid_update_invoice_request(httpx_mock: HTTPXMock):
     )
 
     with pytest.raises(LagoApiError):
-        client.invoices.update(
-            update_invoice_object(), "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
-        )
+        client.invoices.update(update_invoice_object(), "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba")
 
 
 def test_valid_find_invoice_request(httpx_mock: HTTPXMock):

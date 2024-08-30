@@ -9,9 +9,7 @@ from lago_python_client.models import WalletTransaction
 
 
 def wallet_transaction_object():
-    return WalletTransaction(
-        wallet_id="123", paid_credits="10", granted_credits="10", voided_credits="0"
-    )
+    return WalletTransaction(wallet_id="123", paid_credits="10", granted_credits="10", voided_credits="0")
 
 
 def mock_response():
@@ -40,14 +38,8 @@ def test_valid_create_wallet_transaction_request(httpx_mock: HTTPXMock):
     )
     response = client.wallet_transactions.create(wallet_transaction_object())
 
-    assert (
-        response["wallet_transactions"][0].lago_id
-        == "b7ab2926-1de8-4428-9bcd-779314ac1111"
-    )
-    assert (
-        response["wallet_transactions"][1].lago_id
-        == "b7ab2926-1de8-4428-9bcd-779314ac1222"
-    )
+    assert response["wallet_transactions"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac1111"
+    assert response["wallet_transactions"][1].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac1222"
 
 
 def test_invalid_create_wallet_transaction_request(httpx_mock: HTTPXMock):
@@ -74,8 +66,5 @@ def test_valid_find_all_wallet_transactions_request(httpx_mock: HTTPXMock):
     )
     response = client.wallet_transactions.find_all("555")
 
-    assert (
-        response["wallet_transactions"][0].lago_id
-        == "b7ab2926-1de8-4428-9bcd-779314ac1111"
-    )
+    assert response["wallet_transactions"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac1111"
     assert response["meta"]["current_page"] == 1

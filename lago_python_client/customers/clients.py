@@ -40,9 +40,7 @@ class CustomerClient(
     RESPONSE_MODEL: ClassVar[Type[CustomerResponse]] = CustomerResponse
     ROOT_NAME: ClassVar[str] = "customer"
 
-    def current_usage(
-        self, resource_id: str, external_subscription_id: str
-    ) -> CustomerUsageResponse:
+    def current_usage(self, resource_id: str, external_subscription_id: str) -> CustomerUsageResponse:
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
@@ -93,11 +91,7 @@ class CustomerClient(
         )
 
         response_data = get_response_data(response=api_response, key=self.ROOT_NAME)
-        return (
-            response_data.get("portal_url", "")
-            if isinstance(response_data, Mapping)
-            else ""
-        )
+        return response_data.get("portal_url", "") if isinstance(response_data, Mapping) else ""
 
     def checkout_url(self, resource_id: str) -> str:
         api_response: Response = send_post_request(
@@ -109,8 +103,4 @@ class CustomerClient(
         )
 
         response_data = get_response_data(response=api_response, key=self.ROOT_NAME)
-        return (
-            response_data.get("checkout_url", "")
-            if isinstance(response_data, Mapping)
-            else ""
-        )
+        return response_data.get("checkout_url", "") if isinstance(response_data, Mapping) else ""

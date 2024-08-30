@@ -36,9 +36,7 @@ class AppliedCouponClient(
     RESPONSE_MODEL: ClassVar[Type[AppliedCouponResponse]] = AppliedCouponResponse
     ROOT_NAME: ClassVar[str] = "applied_coupon"
 
-    def destroy(
-        self, external_customer_id: str, applied_coupon_id: str
-    ) -> AppliedCouponResponse:
+    def destroy(self, external_customer_id: str, applied_coupon_id: str) -> AppliedCouponResponse:
         api_response: Response = send_delete_request(
             url=make_url(
                 origin=self.base_url,

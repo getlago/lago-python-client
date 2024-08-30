@@ -115,11 +115,5 @@ class InvoiceClient(
             headers=make_headers(api_key=self.api_key),
         )
 
-        response_data = get_response_data(
-            response=api_response, key="invoice_payment_details"
-        )
-        return (
-            response_data.get("payment_url", "")
-            if isinstance(response_data, Mapping)
-            else ""
-        )
+        response_data = get_response_data(response=api_response, key="invoice_payment_details")
+        return response_data.get("payment_url", "") if isinstance(response_data, Mapping) else ""

@@ -38,9 +38,7 @@ def test_make_url():
     }
 
     # When service is applied
-    result = make_url(
-        origin=api_url, path_parts=some_path_parts, query_pairs=query_name_value
-    )
+    result = make_url(origin=api_url, path_parts=some_path_parts, query_pairs=query_name_value)
     # Then
     assert (
         result

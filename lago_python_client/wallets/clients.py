@@ -48,9 +48,7 @@ class WalletClient(
 
 class WalletTransactionClient(BaseClient):
     API_RESOURCE: ClassVar[str] = "wallet_transactions"
-    RESPONSE_MODEL: ClassVar[Type[WalletTransactionResponse]] = (
-        WalletTransactionResponse
-    )
+    RESPONSE_MODEL: ClassVar[Type[WalletTransactionResponse]] = WalletTransactionResponse
     ROOT_NAME: ClassVar[str] = "wallet_transactions"
 
     def create(self, input_object: BaseModel) -> Mapping[str, Any]:
@@ -69,9 +67,7 @@ class WalletTransactionClient(BaseClient):
             data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
 
-    def find_all(
-        self, wallet_id: str, options: Mapping[str, Union[int, str]] = {}
-    ) -> Mapping[str, Any]:
+    def find_all(self, wallet_id: str, options: Mapping[str, Union[int, str]] = {}) -> Mapping[str, Any]:
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,

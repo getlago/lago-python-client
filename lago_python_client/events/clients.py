@@ -23,9 +23,7 @@ else:
     from typing import Mapping
 
 
-class EventClient(
-    CreateCommandMixin[EventResponse], FindCommandMixin[EventResponse], BaseClient
-):
+class EventClient(CreateCommandMixin[EventResponse], FindCommandMixin[EventResponse], BaseClient):
     API_RESOURCE: ClassVar[str] = "events"
     RESPONSE_MODEL: ClassVar[Type[EventResponse]] = EventResponse
     ROOT_NAME: ClassVar[str] = "event"

@@ -68,9 +68,7 @@ def test_valid_find_all_applied_coupon_request(httpx_mock: HTTPXMock):
     )
     response = client.applied_coupons.find_all()
 
-    assert (
-        response["applied_coupons"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
-    )
+    assert response["applied_coupons"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
     assert response["meta"]["current_page"] == 1
 
 
@@ -84,9 +82,7 @@ def test_valid_find_all_applied_coupon_request_with_options(httpx_mock: HTTPXMoc
     )
     response = client.applied_coupons.find_all({"per_page": 2, "page": 1})
 
-    assert (
-        response["applied_coupons"][1].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac2222"
-    )
+    assert response["applied_coupons"][1].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac2222"
     assert response["meta"]["current_page"] == 1
 
 

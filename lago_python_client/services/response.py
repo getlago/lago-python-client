@@ -65,9 +65,7 @@ def verify_response(response: Response) -> Optional[Response]:
     return response
 
 
-def get_response_data(
-    *, response: Response, key: str = ""
-) -> Optional[_MappingOrSequence]:
+def get_response_data(*, response: Response, key: str = "") -> Optional[_MappingOrSequence]:
     """Return verified and unpacked response data."""
     response_or_None: Optional[Response] = verify_response(response)
     if not response_or_None:
@@ -76,9 +74,7 @@ def get_response_data(
 
     # Ensure deserialized_data has correct type: sequence or mapping or raise LagoApiError
     try:
-        mapping_or_sequence_data = typeguard.check_type(
-            deserialized_data, _MappingOrSequence
-        )
+        mapping_or_sequence_data = typeguard.check_type(deserialized_data, _MappingOrSequence)
     except typeguard.TypeCheckError as exc:
         raise LagoApiError(
             status_code=HTTPStatus.INTERNAL_SERVER_ERROR,  # 500
@@ -89,27 +85,21 @@ def get_response_data(
         )
 
     if isinstance(mapping_or_sequence_data, Mapping):
-        return (
-            mapping_or_sequence_data.get(key, {}) if key else mapping_or_sequence_data
-        )
+        return mapping_or_sequence_data.get(key, {}) if key else mapping_or_sequence_data
     elif isinstance(mapping_or_sequence_data, Sequence):
         return mapping_or_sequence_data
     else:
         assert_never(mapping_or_sequence_data)
 
 
-def prepare_object_response(
-    response_model: Type[_M], data: Optional[_MappingOrSequence]
-) -> _M:
+def prepare_object_response(response_model: Type[_M], data: Optional[_MappingOrSequence]) -> _M:
     """Return single object response - Pydantic model instance with provided data."""
     if not data:
         raise LagoApiError(
             status_code=HTTPStatus.INTERNAL_SERVER_ERROR,  # 500
             url=None,
             response=None,
-            detail="Data is required to create instance of {model}".format(
-                model=response_model
-            ),
+            detail="Data is required to create instance of {model}".format(model=response_model),
             headers=None,
         )
 
@@ -123,9 +113,7 @@ def prepare_index_response(
     # Ensure deserialized_data has correct type: mapping with mapping or sequence inside or raise LagoApiError
 
     try:
-        response_data: Mapping[str, _MappingOrSequence] = typeguard.check_type(
-            data, Mapping[str, _MappingOrSequence]
-        )
+        response_data: Mapping[str, _MappingOrSequence] = typeguard.check_type(data, Mapping[str, _MappingOrSequence])
     except typeguard.TypeCheckError as exc:
         raise LagoApiError(
             status_code=HTTPStatus.INTERNAL_SERVER_ERROR,  # 500
@@ -137,8 +125,7 @@ def prepare_index_response(
 
     return {
         api_resource: [
-            prepare_object_response(response_model=response_model, data=el)
-            for el in response_data[api_resource]
+            prepare_object_response(response_model=response_model, data=el) for el in response_data[api_resource]
         ],
         "meta": response_data["meta"],
     }
@@ -153,9 +140,7 @@ def prepare_object_list_response(
     # The only usage - ``WalletTransactionClient.create``
     # Ensure deserialized_data has correct type: sequence with mapping or sequence inside or raise LagoApiError
     try:
-        response_data: Sequence[_MappingOrSequence] = typeguard.check_type(
-            data, Sequence[_MappingOrSequence]
-        )
+        response_data: Sequence[_MappingOrSequence] = typeguard.check_type(data, Sequence[_MappingOrSequence])
     except typeguard.TypeCheckError as exc:
         raise LagoApiError(
             status_code=HTTPStatus.INTERNAL_SERVER_ERROR,  # 500
@@ -166,8 +151,5 @@ def prepare_object_list_response(
         )
 
     return {
-        api_resource: [
-            prepare_object_response(response_model=response_model, data=el)
-            for el in response_data
-        ],
+        api_resource: [prepare_object_response(response_model=response_model, data=el) for el in response_data],
     }

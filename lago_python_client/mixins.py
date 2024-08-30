@@ -181,9 +181,7 @@ class UpdateCommandMixin(Generic[_M]):
         api_response: Response = send_put_request(
             url=make_url(
                 origin=self.base_url,
-                path_parts=(self.API_RESOURCE, identifier)
-                if identifier
-                else (self.API_RESOURCE,),
+                path_parts=(self.API_RESOURCE, identifier) if identifier else (self.API_RESOURCE,),
             ),
             content=to_json(
                 {

@@ -19,9 +19,7 @@ def credit_note_object():
 
     item2 = Item(fee="fee_id_2", amount_cents=5)
 
-    return CreditNote(
-        lago_id="credit_note_id", reason="other", items=Items(__root__=[item1, item2])
-    )
+    return CreditNote(lago_id="credit_note_id", reason="other", items=Items(__root__=[item1, item2]))
 
 
 def credit_note_update_object():

@@ -39,9 +39,7 @@ class Client:
 
     @property
     def base_api_url(self) -> str:
-        return urljoin(
-            self.api_url if self.api_url else Client.BASE_URL, Client.API_PATH
-        )
+        return urljoin(self.api_url if self.api_url else Client.BASE_URL, Client.API_PATH)
 
     @callable_cached_property
     def add_ons(self) -> AddOnClient:

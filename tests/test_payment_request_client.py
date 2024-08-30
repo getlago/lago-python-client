@@ -25,10 +25,7 @@ def test_valid_find_all_payment_requests_request(httpx_mock: HTTPXMock):
     )
     response = client.payment_requests.find_all()
 
-    assert (
-        response["payment_requests"][0].lago_id
-        == "89b6b61e-4dbc-4307-ac96-4abcfa9e3e2d"
-    )
+    assert response["payment_requests"][0].lago_id == "89b6b61e-4dbc-4307-ac96-4abcfa9e3e2d"
     assert response["meta"]["current_page"] == 1
 
 
@@ -42,10 +39,7 @@ def test_valid_find_all_payment_requests_request_with_options(httpx_mock: HTTPXM
     )
     response = client.payment_requests.find_all({"per_page": 2, "page": 1})
 
-    assert (
-        response["payment_requests"][0].lago_id
-        == "89b6b61e-4dbc-4307-ac96-4abcfa9e3e2d"
-    )
+    assert response["payment_requests"][0].lago_id == "89b6b61e-4dbc-4307-ac96-4abcfa9e3e2d"
     assert response["meta"]["current_page"] == 1
 
 

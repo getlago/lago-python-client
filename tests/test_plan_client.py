@@ -42,15 +42,11 @@ def plan_object():
     )
     charges = Charges(__root__=[charge])
 
-    usage_threshold = UsageThreshold(
-        threshold_display_name="Threshold 1", amount_cents=20, recurring=False, id=None
-    )
+    usage_threshold = UsageThreshold(threshold_display_name="Threshold 1", amount_cents=20, recurring=False, id=None)
 
     usage_thresholds = UsageThresholds(__root__=[usage_threshold])
 
-    minimum_commitment = MinimumCommitment(
-        amount_cents=0, invoice_display_name="Commitment (C1)", tax_codes=None
-    )
+    minimum_commitment = MinimumCommitment(amount_cents=0, invoice_display_name="Commitment (C1)", tax_codes=None)
 
     return Plan(
         name="name",
@@ -299,28 +295,10 @@ def test_valid_find_all_plan_request(httpx_mock: HTTPXMock):
 
     assert response["plans"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac1111"
     assert response["plans"][0].invoice_display_name == "test plan 1"
-    assert (
-        response["plans"][0].minimum_commitment.invoice_display_name
-        == "Minimum commitment (C2)"
-    )
-    assert (
-        response["plans"][0].charges.__root__[0].lago_id
-        == "51c1e851-5be6-4343-a0ee-39a81d8b4ee1"
-    )
-    assert (
-        response["plans"][0]
-        .charges.__root__[0]
-        .filters.__root__[0]
-        .properties["amount"]
-        == "0.22"
-    )
-    assert (
-        response["plans"][0]
-        .charges.__root__[0]
-        .filters.__root__[0]
-        .invoice_display_name
-        == "Europe"
-    )
+    assert response["plans"][0].minimum_commitment.invoice_display_name == "Minimum commitment (C2)"
+    assert response["plans"][0].charges.__root__[0].lago_id == "51c1e851-5be6-4343-a0ee-39a81d8b4ee1"
+    assert response["plans"][0].charges.__root__[0].filters.__root__[0].properties["amount"] == "0.22"
+    assert response["plans"][0].charges.__root__[0].filters.__root__[0].invoice_display_name == "Europe"
     assert response["meta"]["current_page"] == 1
 
 

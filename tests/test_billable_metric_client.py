@@ -26,11 +26,7 @@ def billable_metric_object():
 
 
 def filters():
-    return BillableMetricFilters(
-        __root__=[
-            BillableMetricFilter(key="country", values=["france", "italy", "spain"])
-        ]
-    )
+    return BillableMetricFilters(__root__=[BillableMetricFilter(key="country", values=["france", "italy", "spain"])])
 
 
 def mock_response():
@@ -178,10 +174,7 @@ def test_valid_find_all_billable_metric_request(httpx_mock: HTTPXMock):
     )
     response = client.billable_metrics.find_all()
 
-    assert (
-        response["billable_metrics"][0].lago_id
-        == "b7ab2926-1de8-4428-9bcd-779314ac1000"
-    )
+    assert response["billable_metrics"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac1000"
     assert response["meta"]["current_page"] == 1
 
 
@@ -195,10 +188,7 @@ def test_valid_find_all_billable_metric_request_with_options(httpx_mock: HTTPXMo
     )
     response = client.billable_metrics.find_all({"per_page": 2, "page": 1})
 
-    assert (
-        response["billable_metrics"][1].lago_id
-        == "b7ab2926-1de8-4428-9bcd-779314a11111"
-    )
+    assert response["billable_metrics"][1].lago_id == "b7ab2926-1de8-4428-9bcd-779314a11111"
     assert response["meta"]["current_page"] == 1
 
 

@@ -26,9 +26,7 @@ def create_customer():
         subsidiary_id="2",
         sync_with_provider=True,
     )
-    integration_customers_list = IntegrationCustomersList(
-        __root__=[integration_customer]
-    )
+    integration_customers_list = IntegrationCustomersList(__root__=[integration_customer])
 
     return Customer(
         external_id="5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
@@ -93,9 +91,7 @@ def test_valid_create_customers_request(httpx_mock: HTTPXMock):
     assert response.shipping_address.address_line1 == "Test Ave"
     assert response.shipping_address.address_line2 is None
     assert response.shipping_address.state == "XZ"
-    assert (
-        response.integration_customers.__root__[0].external_customer_id == "test-12345"
-    )
+    assert response.integration_customers.__root__[0].external_customer_id == "test-12345"
     assert response.integration_customers.__root__[0].type == "netsuite"
     assert response.metadata.__root__[0].lago_id == "12345"
     assert response.metadata.__root__[0].key == "key"

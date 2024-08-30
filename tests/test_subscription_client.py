@@ -130,9 +130,7 @@ def test_valid_destroy_pending_subscription_request(httpx_mock: HTTPXMock):
 
     httpx_mock.add_response(
         method="DELETE",
-        url="https://api.getlago.com/api/v1/subscriptions/"
-        + identifier
-        + "?status=pending",
+        url="https://api.getlago.com/api/v1/subscriptions/" + identifier + "?status=pending",
         content=mock_response_for_pending(),
     )
     response = client.subscriptions.destroy(identifier, {"status": "pending"})
@@ -196,9 +194,7 @@ def test_valid_find_all_subscription_request_with_options(httpx_mock: HTTPXMock)
     )
     response = client.subscriptions.find_all({"external_customer_id": "123"})
 
-    assert (
-        response["subscriptions"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
-    )
+    assert response["subscriptions"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
     assert response["meta"]["current_page"] == 1
 
 

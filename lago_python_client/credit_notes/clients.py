@@ -82,7 +82,5 @@ class CreditNoteClient(
 
         return prepare_object_response(
             response_model=CreditNoteEstimatedResponse,
-            data=get_response_data(
-                response=api_response, key=self.ESTIMATE_API_RESOURCE
-            ),
+            data=get_response_data(response=api_response, key=self.ESTIMATE_API_RESOURCE),
         )

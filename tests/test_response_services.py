@@ -147,9 +147,7 @@ def test_prepare_index_response():
     }
 
     # When service is applied
-    result = prepare_index_response(
-        api_resource="human", response_model=SomeHumanModel, data=data
-    )
+    result = prepare_index_response(api_resource="human", response_model=SomeHumanModel, data=data)
     # Then
     assert SomeHumanModel(**data["human"][0]) in result["human"]
     assert len(result["human"]) == 3
@@ -166,9 +164,7 @@ def test_prepare_object_list_response():
     ]
 
     # When service is applied
-    result = prepare_object_list_response(
-        api_resource="human", response_model=SomeHumanModel, data=data
-    )
+    result = prepare_object_list_response(api_resource="human", response_model=SomeHumanModel, data=data)
     # Then
     assert SomeHumanModel(**data[0]) == result["human"][0]
     assert len(result["human"]) == 3

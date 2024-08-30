@@ -152,10 +152,7 @@ def test_valid_find_all_webhook_endpoint_request(httpx_mock: HTTPXMock):
     )
     response = client.webhook_endpoints.find_all()
 
-    assert (
-        response["webhook_endpoints"][0].lago_id
-        == "b7ab2926-1de8-4428-9bcd-779314ac129b"
-    )
+    assert response["webhook_endpoints"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
     assert response["meta"]["current_page"] == 1
 
 
