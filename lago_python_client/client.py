@@ -31,15 +31,32 @@ except ImportError:  # Python 3.7
 
 class Client:
     BASE_URL: Final[str] = "https://api.getlago.com/"
+    BASE_INGEST_URL: Final[str] = "https://ingest.getlago.com/"
     API_PATH: Final[str] = "api/v1/"
 
-    def __init__(self, api_key: str = "", api_url: str = "") -> None:
+    def __init__(
+        self, api_key: str = "", api_url: str = "", use_ingest_service: bool = False, ingest_api_url: str = ""
+    ) -> None:
         self.api_key: str = api_key
         self.api_url: str = api_url
+        self.use_ingest_service: bool = use_ingest_service
+        self.ingest_api_url: str = ingest_api_url
 
     @property
     def base_api_url(self) -> str:
         return urljoin(self.api_url if self.api_url else Client.BASE_URL, Client.API_PATH)
+
+    @property
+    def base_ingest_api_url(self) -> str:
+        if not self.use_ingest_service:
+            return self.base_api_url
+
+        if self.ingest_api_url == "":
+            ingest_url = Client.BASE_INGEST_URL
+        else:
+            ingest_url = self.ingest_api_url
+
+        return urljoin(ingest_url, Client.API_PATH)
 
     @callable_cached_property
     def add_ons(self) -> AddOnClient:
@@ -67,7 +84,7 @@ class Client:
 
     @callable_cached_property
     def events(self) -> EventClient:
-        return EventClient(self.base_api_url, self.api_key)
+        return EventClient(self.base_api_url, self.api_key, self.base_ingest_api_url)
 
     @callable_cached_property
     def fees(self) -> FeeClient:

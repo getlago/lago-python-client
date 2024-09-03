@@ -7,9 +7,10 @@ from lago_python_client.base_model import BaseModel
 class BaseClient(ABC):
     """The base class used for each collection client."""
 
-    def __init__(self, base_url: str, api_key: str):
+    def __init__(self, base_url: str, api_key: str, base_ingest_url: str = ""):
         self.base_url = base_url
         self.api_key = api_key
+        self.base_ingest_url = base_ingest_url
 
     @property
     @classmethod
