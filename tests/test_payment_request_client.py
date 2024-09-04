@@ -7,14 +7,12 @@ from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
 from lago_python_client.models import PaymentRequest
 
+
 def payment_request_object():
     return PaymentRequest(
         email="gavin@overdue.test",
         external_customer_id="gavin_001",
-        lago_invoice_ids=[
-            "f8e194df-5d90-4382-b146-c881d2c67f28",
-            "a20b1805-d54c-4e57-873d-721cc153035e"
-        ],
+        lago_invoice_ids=["f8e194df-5d90-4382-b146-c881d2c67f28", "a20b1805-d54c-4e57-873d-721cc153035e"],
     )
 
 
@@ -74,6 +72,7 @@ def test_invalid_find_all_payment_requests_request(httpx_mock: HTTPXMock):
 
     with pytest.raises(LagoApiError):
         client.payment_requests.find_all()
+
 
 def test_valid_create_payment_request_request(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")

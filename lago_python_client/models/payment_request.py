@@ -3,6 +3,7 @@ from typing import List, Optional
 from ..base_model import BaseModel, BaseResponseModel
 from .customer import CustomerResponse
 
+
 class PaymentRequest(BaseModel):
     email: str
     external_customer_id: str

@@ -1,10 +1,7 @@
 from typing import ClassVar, Type
 
 from ..base_client import BaseClient
-from ..mixins import (
-    CreateCommandMixin,
-    FindAllCommandMixin
-)
+from ..mixins import CreateCommandMixin, FindAllCommandMixin
 from ..models.payment_request import PaymentRequestResponse
 
 
