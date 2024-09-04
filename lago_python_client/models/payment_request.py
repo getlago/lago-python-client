@@ -1,7 +1,14 @@
 from typing import List, Optional
 
+from lago_python_client.base_model import BaseModel
+
 from ..base_model import BaseResponseModel
 from .customer import CustomerResponse
+
+class PaymentRequest(BaseModel):
+    email: str
+    external_customer_id: str
+    lago_invoice_ids: List[str]
 
 
 class PaymentRequestInvoiceResponse(BaseResponseModel):
@@ -38,6 +45,7 @@ class PaymentRequestResponse(BaseResponseModel):
     email: str
     amount_cents: int
     amount_currency: str
+    payment_status: str
     created_at: str
     customer: Optional[CustomerResponse]
     invoices: Optional[PaymentRequestInvoicesResponse]
