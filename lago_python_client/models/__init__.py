@@ -82,3 +82,4 @@ from .usage_threshold import (
     UsageThresholds as UsageThresholds,
     UsageThresholdsResponse as UsageThresholdsResponse,
 )
+from .payment_request import PaymentRequest as PaymentRequest
