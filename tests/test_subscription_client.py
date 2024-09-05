@@ -27,6 +27,22 @@ def mock_response():
         return subscription_response.read()
 
 
+def mock_lifetime_usage_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    my_data_path = os.path.join(this_dir, "fixtures/lifetime_usage.json")
+
+    with open(my_data_path, "rb") as subscription_response:
+        return subscription_response.read()
+
+
+def mock_update_lifetime_usage_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    my_data_path = os.path.join(this_dir, "fixtures/update_lifetime_usage.json")
+
+    with open(my_data_path, "rb") as subscription_response:
+        return subscription_response.read()
+
+
 def mock_response_for_pending():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     my_data_path = os.path.join(this_dir, "fixtures/pending_subscription.json")
@@ -210,3 +226,51 @@ def test_invalid_find_all_subscription_request(httpx_mock: HTTPXMock):
 
     with pytest.raises(LagoApiError):
         client.subscriptions.find_all()
+
+
+def test_valid_lifetime_usage_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/lifetime_usage",
+        content=mock_lifetime_usage_response(),
+    )
+    response = client.subscriptions.lifetime_usage(external_id)
+
+    assert response.lago_id == "ef555447-b017-4345-9846-6b814cfb4148"
+    assert response.current_usage_amount_cents == 3000
+    assert response.usage_thresholds[0].amount_cents == 2000
+    assert response.usage_thresholds[0].completion_ratio == 1
+    assert response.usage_thresholds[1].amount_cents == 4000
+    assert response.usage_thresholds[1].completion_ratio == 0.5
+
+
+def test_invalid_lifetime_usage_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "notfound"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/lifetime_usage",
+        status_code=404,
+        content=b"",
+    )
+    with pytest.raises(LagoApiError):
+        client.subscriptions.lifetime_usage(external_id)
+
+
+def test_update_lifetime_usage_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/lifetime_usage",
+        content=mock_update_lifetime_usage_response(),
+    )
+    response = client.subscriptions.update_lifetime_usage(external_id, 2000)
+
+    assert response.lago_id == "ef555447-b017-4345-9846-6b814cfb4148"
+    assert response.external_historical_usage_amount_cents == 2000
