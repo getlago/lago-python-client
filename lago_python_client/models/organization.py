@@ -30,6 +30,7 @@ class Organization(BaseModel):
     tax_identification_number: Optional[str]
     timezone: Optional[str]
     email_settings: Optional[List[str]]
+    finalize_zero_amount_invoice: Optional[bool]
     billing_configuration: Optional[OrganizationBillingConfiguration]
 
 
@@ -53,4 +54,5 @@ class OrganizationResponse(BaseResponseModel):
     tax_identification_number: Optional[str]
     timezone: Optional[str]
     email_settings: Optional[List[str]]
+    finalize_zero_amount_invoice: Optional[bool]
     billing_configuration: Optional[OrganizationBillingConfiguration]
