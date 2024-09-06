@@ -22,6 +22,7 @@
     "net_payment_term": 0,
     "tax_identification_number": "EU123456789",
     "timezone": "America/New_York",
+    "finalize_zero_amount_invoice": true,
     "billing_configuration": {
       "invoice_footer": null,
       "invoice_grace_period": 3,

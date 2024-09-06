@@ -22,6 +22,7 @@
     "timezone": "Europe/Paris",
     "applicable_timezone": "Europe/Paris",
     "net_payment_term": null,
+    "finalize_zero_amount_invoice": "inherit",
     "billing_configuration": {
       "invoice_grace_period": 3,
       "payment_provider": "stripe",
