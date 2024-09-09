@@ -45,6 +45,14 @@ def mock_response():
         return event_response.read()
 
 
+def mock_unprocessable_entity_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(this_dir, "fixtures/event_unprocessable_entity.json")
+
+    with open(data_path, "rb") as unprocessable_entity_response:
+        return unprocessable_entity_response.read()
+
+
 def mock_fees_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(this_dir, "fixtures/fees.json")
@@ -68,13 +76,13 @@ def test_valid_create_events_request_with_string_timestamp(httpx_mock: HTTPXMock
 
 
 def test_invalid_create_events_request(httpx_mock: HTTPXMock):
-    client = Client(api_key="invalid")
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
 
     httpx_mock.add_response(
         method="POST",
         url="https://api.getlago.com/api/v1/events",
-        status_code=401,
-        content=b"",
+        status_code=422,
+        content=mock_unprocessable_entity_response(),
     )
 
     with pytest.raises(LagoApiError):
