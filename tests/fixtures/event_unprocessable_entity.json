@@ -1,0 +1,6 @@
+{
+  "status": 422,
+  "error": "Unprocessable Entity",
+  "code": "validation_errors",
+  "error_details": { "transaction_id": ["value_already_exist"] }
+}
