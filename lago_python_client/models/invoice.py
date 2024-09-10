@@ -6,6 +6,7 @@ from .credit import CreditsResponse
 from .customer import CustomerResponse
 from .fee import FeesResponse
 from .subscription import SubscriptionsResponse
+from .error_detail import ErrorDetailsResponse
 from ..base_model import BaseResponseModel
 from .usage_threshold import UsageThreshold
 
@@ -47,6 +48,7 @@ class OneOffInvoice(BaseModel):
     external_customer_id: Optional[str]
     currency: Optional[str]
     fees: Optional[InvoiceFeesList]
+    error_details: Optional[ErrorDetailsResponse]
 
 
 class InvoiceAppliedTax(BaseResponseModel):
@@ -109,3 +111,4 @@ class InvoiceResponse(BaseResponseModel):
     metadata: Optional[InvoiceMetadataList]
     applied_taxes: Optional[InvoiceAppliedTaxes]
     applied_usage_thresholds: Optional[InvoiceAppliedUsageThresholds]
+    error_details: Optional[ErrorDetailsResponse]

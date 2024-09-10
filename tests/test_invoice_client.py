@@ -205,6 +205,19 @@ def test_valid_refresh_invoice_request(httpx_mock: HTTPXMock):
     assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
 
 
+def test_valid_retry_invoice_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba/retry",
+        content=mock_response(),
+    )
+    response = client.invoices.retry("5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba")
+
+    assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+
+
 def test_valid_lose_dispute_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
 
