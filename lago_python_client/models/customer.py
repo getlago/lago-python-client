@@ -88,7 +88,10 @@ class Customer(BaseModel):
     net_payment_term: Optional[int]
     tax_identification_number: Optional[str]
     logo_url: Optional[str]
-    name: str
+    name: Optional[str]
+    firstname: Optional[str]
+    lastname: Optional[str]
+    customer_type: Optional[str]
     phone: Optional[str]
     state: Optional[str]
     timezone: Optional[str]
@@ -118,7 +121,10 @@ class CustomerResponse(BaseResponseModel):
     net_payment_term: Optional[int]
     tax_identification_number: Optional[str]
     logo_url: Optional[str]
-    name: str
+    name: Optional[str]
+    firstname: Optional[str]
+    lastname: Optional[str]
+    customer_type: Optional[str]
     phone: Optional[str]
     state: Optional[str]
     timezone: Optional[str]
