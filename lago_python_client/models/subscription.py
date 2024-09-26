@@ -36,6 +36,8 @@ class SubscriptionResponse(BaseResponseModel):
     previous_plan_code: Optional[str]
     next_plan_code: Optional[str]
     downgrade_plan_date: Optional[str]
+    current_billing_period_started_at: Optional[str]
+    current_billing_period_ending_at: Optional[str]
 
 
 class SubscriptionsResponse(BaseResponseModel):
