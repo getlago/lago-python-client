@@ -5,6 +5,13 @@ This is a python wrapper for Lago API
 [![PyPI version](https://badge.fury.io/py/lago-python-client.svg)](https://badge.fury.io/py/lago-python-client)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://spdx.org/licenses/MIT.html)
 
+## Current Releases
+
+| Project            | Release Badge                                                                                       |
+|--------------------|-----------------------------------------------------------------------------------------------------|
+| **Lago**           | [![Lago Release](https://img.shields.io/github/v/release/getlago/lago)](https://github.com/getlago/lago/releases) |
+| **Lago Python Client**     | [![Lago Python Client Release](https://img.shields.io/github/v/release/getlago/lago-python-client)](https://github.com/getlago/lago-python-client/releases) |
+
 ## Installation
 
 Install the lago-python-client via pip from PyPI:
