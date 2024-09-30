@@ -5,6 +5,7 @@
     "external_subscription_id": "24691b9a-7330-409d-9dfd-d80582593297",
     "code": "test",
     "timestamp": "2022-04-29T08:59:51Z",
+    "precise_total_amount_cents": "123.45",
     "properties": {
       "custom_field": "custom"
     },

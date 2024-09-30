@@ -10,6 +10,7 @@ class Event(BaseModel):
     external_subscription_id: str
     code: str
     timestamp: Optional[Union[int, str]]
+    precise_total_amount_cents: Optional[str]
     properties: Optional[Dict[str, Any]]
 
 
@@ -25,6 +26,7 @@ class EventResponse(BaseResponseModel):
     external_subscription_id: str
     code: str
     timestamp: str
+    precise_total_amount_cents: Optional[str]
     properties: Optional[Dict[str, Any]]
     created_at: str
 
