@@ -28,6 +28,7 @@ class FeeAppliedTaxes(BaseResponseModel):
 
 class FeeResponse(BaseResponseModel):
     lago_id: Optional[str]
+    lago_charge_id: Optional[str]
     lago_charge_filter_id: Optional[str]
     lago_invoice_id: Optional[str]
     lago_true_up_fee_id: Optional[str]
