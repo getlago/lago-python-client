@@ -118,6 +118,7 @@
     "fees": [
       {
         "lago_id": "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
+        "lago_charge_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
         "invoice_display_name": "fee_invoice_display_name",
         "item": {
           "type": "charge",
