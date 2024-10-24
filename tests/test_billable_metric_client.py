@@ -9,6 +9,8 @@ from lago_python_client.models import (
     BillableMetric,
     BillableMetricFilter,
     BillableMetricFilters,
+    BillableMetricEvaluateExpression,
+    BillableMetricEvaluateExpressionEvent,
 )
 
 
@@ -22,6 +24,17 @@ def billable_metric_object():
         recurring=False,
         filters=filters(),
         weighted_interval="seconds",
+    )
+
+
+def billable_metric_evaluate_expression_object():
+    return BillableMetricEvaluateExpression(
+        expression="round(event.properties.value * event.properties.units)",
+        event=BillableMetricEvaluateExpressionEvent(
+            code="event_code",
+            timestamp=1651240791,
+            properties={"value": 10, "units": 2},
+        ),
     )
 
 
@@ -43,6 +56,14 @@ def mock_collection_response():
 
     with open(data_path, "rb") as billable_metric_response:
         return billable_metric_response.read()
+
+
+def mock_evaluate_expression_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(this_dir, "fixtures/billable_metric_evaluate_expression.json")
+
+    with open(data_path, "rb") as evaluate_expression_response:
+        return evaluate_expression_response.read()
 
 
 def test_valid_create_billable_metric_request(httpx_mock: HTTPXMock):
@@ -204,3 +225,16 @@ def test_invalid_find_all_billable_metric_request(httpx_mock: HTTPXMock):
 
     with pytest.raises(LagoApiError):
         client.billable_metrics.find_all()
+
+
+def test_valid_evaluate_billable_metric_expression(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/billable_metrics/evaluate_expression",
+        content=mock_evaluate_expression_response(),
+    )
+    response = client.billable_metrics.evaluate_expression(billable_metric_evaluate_expression_object())
+
+    assert response.value == "2.0"

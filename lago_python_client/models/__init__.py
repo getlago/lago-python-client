@@ -3,6 +3,9 @@ from .billable_metric import (
     BillableMetric as BillableMetric,
     BillableMetricFilter as BillableMetricFilter,
     BillableMetricFilters as BillableMetricFilters,
+    BillableMetricEvaluateExpressionEvent as BillableMetricEvaluateExpressionEvent,
+    BillableMetricEvaluateExpression as BillableMetricEvaluateExpression,
+    BillableMetricEvaluateExpressionResponse as BillableMetricEvaluateExpressionResponse,
 )
 from .charge import (
     Charge as Charge,
