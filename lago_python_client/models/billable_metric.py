@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from lago_python_client.base_model import BaseModel
 
@@ -21,6 +21,7 @@ class BillableMetric(BaseModel):
     recurring: Optional[bool]
     aggregation_type: Optional[str]
     weighted_interval: Optional[str]
+    expression: Optional[str]
     field_name: Optional[str]
     filters: Optional[BillableMetricFilters]
 
@@ -33,9 +34,25 @@ class BillableMetricResponse(BaseResponseModel):
     recurring: Optional[bool]
     aggregation_type: Optional[str]
     weighted_interval: Optional[str]
+    expression: Optional[str]
     field_name: Optional[str]
     created_at: str
     filters: BillableMetricFilters
     active_subscriptions_count: int
     draft_invoices_count: int
     plans_count: int
+
+
+class BillableMetricEvaluateExpressionEvent(BaseModel):
+    code: Optional[str]
+    timestamp: Optional[Union[str, int]]
+    properties: Optional[Dict[str, Any]]
+
+
+class BillableMetricEvaluateExpression(BaseModel):
+    expression: str
+    event: BillableMetricEvaluateExpressionEvent
+
+
+class BillableMetricEvaluateExpressionResponse(BaseResponseModel):
+    value: Union[str, int, float]
