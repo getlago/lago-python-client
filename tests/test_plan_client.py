@@ -63,6 +63,7 @@ def plan_object():
         trial_period=None,
         bill_charges_monthly=None,
         tax_codes=None,
+        cascade_updates=None,
     )
 
 
