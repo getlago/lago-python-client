@@ -127,7 +127,7 @@ def prepare_index_response(
         api_resource: [
             prepare_object_response(response_model=response_model, data=el) for el in response_data[api_resource]
         ],
-        "meta": response_data["meta"],
+        "meta": response_data.get("meta", None),
     }
 
 
