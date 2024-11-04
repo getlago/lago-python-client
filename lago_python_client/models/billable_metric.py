@@ -19,6 +19,8 @@ class BillableMetric(BaseModel):
     code: Optional[str]
     description: Optional[str]
     recurring: Optional[bool]
+    rounding_function: Optional[str]
+    rounding_precision: Optional[int]
     aggregation_type: Optional[str]
     weighted_interval: Optional[str]
     expression: Optional[str]
@@ -32,6 +34,8 @@ class BillableMetricResponse(BaseResponseModel):
     code: str
     description: Optional[str]
     recurring: Optional[bool]
+    rounding_function: Optional[str]
+    rounding_precision: Optional[int]
     aggregation_type: Optional[str]
     weighted_interval: Optional[str]
     expression: Optional[str]
