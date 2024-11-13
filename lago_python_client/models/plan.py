@@ -32,6 +32,7 @@ class Plan(BaseModel):
     minimum_commitment: Optional[MinimumCommitment]
     usage_thresholds: Optional[UsageThresholds]
     tax_codes: Optional[List[str]]
+    cascade_updates: Optional[bool]
 
 
 class PlanResponse(BaseResponseModel):
