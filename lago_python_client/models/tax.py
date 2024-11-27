@@ -23,10 +23,10 @@ class TaxResponse(BaseResponseModel):
     code: str
     rate: float
     description: Optional[str]
-    add_ons_count: int
-    customers_count: int
-    plans_count: int
-    charges_count: int
+    add_ons_count: Optional[int]
+    customers_count: Optional[int]
+    plans_count: Optional[int]
+    charges_count: Optional[int]
     applied_to_organization: bool
     created_at: str
 
