@@ -51,8 +51,8 @@ class PlanResponse(BaseResponseModel):
     charges: Optional[ChargesResponse]
     minimum_commitment: Optional[MinimumCommitmentResponse]
     usage_thresholds: Optional[UsageThresholdsResponse]
-    active_subscriptions_count: int
-    draft_invoices_count: int
+    active_subscriptions_count: Optional[int]
+    draft_invoices_count: Optional[int]
     taxes: Optional[TaxesResponse]
 
 
