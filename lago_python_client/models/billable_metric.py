@@ -42,9 +42,6 @@ class BillableMetricResponse(BaseResponseModel):
     field_name: Optional[str]
     created_at: str
     filters: BillableMetricFilters
-    active_subscriptions_count: int
-    draft_invoices_count: int
-    plans_count: int
 
 
 class BillableMetricEvaluateExpressionEvent(BaseModel):
