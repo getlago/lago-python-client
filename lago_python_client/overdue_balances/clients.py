@@ -1,12 +1,12 @@
 import sys
-from typing import Any, ClassVar, Type, Union, Optional
+from typing import Any, ClassVar, Type, Optional
 
 import httpx
 
 from ..base_client import BaseClient
 from ..mixins import FindAllCommandMixin
 from ..models.overdue_balance import OverdueBalanceResponse
-from ..services.request import make_headers, make_url, send_get_request
+from ..services.request import make_headers, make_url, send_get_request, QueryPairs
 from ..services.response import get_response_data, prepare_index_response, Response
 
 if sys.version_info >= (3, 9):
@@ -25,7 +25,7 @@ class OverdueBalanceClient(
 
     def find_all(
         self,
-        options: Mapping[str, Union[int, str]] = {},
+        options: QueryPairs = {},
         timeout: Optional[httpx.Timeout] = None,
     ) -> Mapping[str, Any]:
         api_response: Response = send_get_request(

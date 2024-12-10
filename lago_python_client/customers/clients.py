@@ -1,5 +1,5 @@
 import sys
-from typing import Any, Mapping, ClassVar, Type, Union
+from typing import Any, Mapping, ClassVar, Type
 
 from ..base_client import BaseClient
 from ..mixins import (
@@ -10,12 +10,7 @@ from ..mixins import (
 )
 from ..models.customer import CustomerResponse
 from ..models.customer_usage import CustomerUsageResponse
-from ..services.request import (
-    make_headers,
-    make_url,
-    send_get_request,
-    send_post_request,
-)
+from ..services.request import make_headers, make_url, send_get_request, send_post_request, QueryPairs
 from ..services.response import (
     get_response_data,
     prepare_index_response,
@@ -61,7 +56,7 @@ class CustomerClient(
         self,
         resource_id: str,
         external_subscription_id: str,
-        options: Mapping[str, Union[int, str]] = {},
+        options: QueryPairs = {},
     ) -> Mapping[str, Any]:
         api_response: Response = send_get_request(
             url=make_url(
