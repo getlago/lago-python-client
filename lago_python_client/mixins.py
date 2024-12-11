@@ -1,5 +1,5 @@
 import sys
-from typing import Any, Generic, Optional, Type, TypeVar, Union
+from typing import Any, Generic, Optional, Type, TypeVar
 
 import httpx
 
@@ -12,6 +12,7 @@ from lago_python_client.base_model import BaseModel
 
 from .services.json import to_json
 from .services.request import (
+    QueryPairs,
     make_headers,
     make_url,
     send_delete_request,
@@ -89,7 +90,7 @@ class DestroyCommandMixin(Generic[_M]):
     def destroy(
         self: _ClientMixin[_M],
         resource_id: str,
-        options: Mapping[str, Union[int, str]] = {},
+        options: QueryPairs = {},
         timeout: Optional[httpx.Timeout] = None,
     ) -> BaseModel:
         """Execute `destroy` command."""
@@ -116,7 +117,7 @@ class FindAllCommandMixin(Generic[_M]):
 
     def find_all(
         self: _ClientMixin[_M],
-        options: Mapping[str, Union[int, str]] = {},
+        options: QueryPairs = {},
         timeout: Optional[httpx.Timeout] = None,
     ) -> Mapping[str, Any]:
         """Execute `find all` command."""
@@ -145,7 +146,7 @@ class FindCommandMixin(Generic[_M]):
     def find(
         self: _ClientMixin[_M],
         resource_id: str,
-        params: Mapping[str, str] = {},
+        params: QueryPairs = {},
         timeout: Optional[httpx.Timeout] = None,
     ) -> _M:
         """Execute `find` command."""
