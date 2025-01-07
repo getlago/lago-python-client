@@ -1,5 +1,5 @@
 import sys
-from typing import Any, ClassVar, Type, Union
+from typing import Any, ClassVar, Type
 
 from lago_python_client.base_model import BaseModel
 
@@ -14,12 +14,7 @@ from ..mixins import (
 from ..models.wallet import WalletResponse
 from ..models.wallet_transaction import WalletTransactionResponse
 from ..services.json import to_json
-from ..services.request import (
-    make_headers,
-    make_url,
-    send_get_request,
-    send_post_request,
-)
+from ..services.request import make_headers, make_url, send_get_request, send_post_request, QueryPairs
 from ..services.response import (
     get_response_data,
     prepare_object_list_response,
@@ -67,7 +62,7 @@ class WalletTransactionClient(BaseClient):
             data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
 
-    def find_all(self, wallet_id: str, options: Mapping[str, Union[int, str]] = {}) -> Mapping[str, Any]:
+    def find_all(self, wallet_id: str, options: QueryPairs = {}) -> Mapping[str, Any]:
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,

@@ -1,10 +1,10 @@
 import sys
-from typing import Any, ClassVar, Type, Union
+from typing import Any, ClassVar, Type
 
 from ..base_client import BaseClient
 from ..mixins import FindAllCommandMixin
 from ..models.gross_revenue import GrossRevenueResponse
-from ..services.request import make_headers, make_url, send_get_request
+from ..services.request import make_headers, make_url, send_get_request, QueryPairs
 from ..services.response import get_response_data, prepare_index_response, Response
 
 if sys.version_info >= (3, 9):
@@ -21,7 +21,7 @@ class GrossRevenueClient(
     RESPONSE_MODEL: ClassVar[Type[GrossRevenueResponse]] = GrossRevenueResponse
     ROOT_NAME: ClassVar[str] = "gross_revenue"
 
-    def find_all(self, options: Mapping[str, Union[int, str]] = {}) -> Mapping[str, Any]:
+    def find_all(self, options: QueryPairs = {}) -> Mapping[str, Any]:
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,

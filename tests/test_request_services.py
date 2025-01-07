@@ -76,3 +76,14 @@ def test_send_post_request():
 def test_send_put_request():
     """Ensure `send_put_request` service use httpx."""
     assert send_put_request == httpx.put
+
+
+def test_make_url_with_list_query_params():
+    base_url = "http://example.com"
+    url = make_url(origin=base_url, path_parts=("test",), query_pairs={"status[]": ["active", "terminated"]})
+    assert url == "http://example.com/test?status%5B%5D=active&status%5B%5D=terminated"
+
+    url = make_url(
+        origin=base_url, path_parts=("test",), query_pairs=(("status[]", "active"), ("status[]", "terminated"))
+    )
+    assert url == "http://example.com/test?status%5B%5D=active&status%5B%5D=terminated"

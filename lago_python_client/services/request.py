@@ -19,12 +19,14 @@ else:
 URI_TEMPLATE: Final[str] = "{uri_path}{uri_query}"
 QUERY_TEMPLATE: Final[str] = "?{query}"
 
+QueryPairs = Union[Mapping[str, Union[int, str, list[str]]], Sequence[tuple[str, Union[int, str]]]]
+
 
 def make_url(
     *,
     origin: str,
     path_parts: Sequence[str],
-    query_pairs: Mapping[str, Union[int, str]] = {},
+    query_pairs: QueryPairs = {},
 ) -> str:
     """Return url."""
     return urljoin(
@@ -32,7 +34,7 @@ def make_url(
         URI_TEMPLATE.format(
             uri_path="/".join(path_parts),
             uri_query=QUERY_TEMPLATE.format(
-                query=urlencode(query_pairs),
+                query=urlencode(query_pairs, doseq=True),
             )
             if query_pairs
             else "",
