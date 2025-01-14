@@ -68,6 +68,7 @@ class InvoiceAppliedTax(BaseResponseModel):
 class InvoiceAppliedTaxes(BaseResponseModel):
     __root__: List[InvoiceAppliedTax]
 
+
 class InvoiceAppliedInvoiceCustomSection(BaseResponseModel):
     lago_id: Optional[str]
     lago_invoice_id: Optional[str]

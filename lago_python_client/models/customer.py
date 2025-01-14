@@ -74,6 +74,7 @@ class MetadataList(BaseModel):
 class MetadataResponseList(BaseModel):
     __root__: List[MetadataResponse]
 
+
 class InvoiceCustomSection(BaseModel):
     lago_id: Optional[str]
     code: Optional[str]
@@ -83,6 +84,7 @@ class InvoiceCustomSection(BaseModel):
     display_name: Optional[str]
     selected_for_organization: Optional[bool]
     created_at: Optional[str]
+
 
 class InvoiceCustomSectionsResponseList(BaseModel):
     __root__: List[InvoiceCustomSection]
