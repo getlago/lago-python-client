@@ -75,6 +75,21 @@ class MetadataResponseList(BaseModel):
     __root__: List[MetadataResponse]
 
 
+class InvoiceCustomSection(BaseModel):
+    lago_id: Optional[str]
+    code: Optional[str]
+    name: Optional[str]
+    description: Optional[str]
+    details: Optional[str]
+    display_name: Optional[str]
+    applied_to_organization: Optional[bool]
+    created_at: Optional[str]
+
+
+class InvoiceCustomSectionsResponseList(BaseModel):
+    __root__: List[InvoiceCustomSection]
+
+
 class Customer(BaseModel):
     external_id: str
     address_line1: Optional[str]
@@ -103,6 +118,8 @@ class Customer(BaseModel):
     shipping_address: Optional[Address]
     integration_customers: Optional[IntegrationCustomersList]
     tax_codes: Optional[List[str]]
+    skip_invoice_custom_sections: Optional[bool]
+    invoice_custom_section_codes: Optional[List[str]]
 
 
 class CustomerResponse(BaseResponseModel):
@@ -137,3 +154,5 @@ class CustomerResponse(BaseResponseModel):
     shipping_address: Optional[Address]
     integration_customers: Optional[IntegrationCustomersResponseList]
     taxes: Optional[TaxesResponse]
+    skip_invoice_custom_sections: Optional[bool]
+    applicable_invoice_custom_sections: Optional[InvoiceCustomSectionsResponseList]
