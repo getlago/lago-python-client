@@ -68,6 +68,18 @@ class InvoiceAppliedTax(BaseResponseModel):
 class InvoiceAppliedTaxes(BaseResponseModel):
     __root__: List[InvoiceAppliedTax]
 
+class InvoiceAppliedInvoiceCustomSection(BaseResponseModel):
+    lago_id: Optional[str]
+    lago_invoice_id: Optional[str]
+    code: Optional[str]
+    details: Optional[str]
+    display_name: Optional[str]
+    created_at: Optional[str]
+
+
+class InvoiceAppliedInvoiceCustomSections(BaseResponseModel):
+    __root__: List[InvoiceAppliedInvoiceCustomSection]
+
 
 class InvoiceAppliedUsageThreshold(BaseResponseModel):
     lifetime_usage_amount_cents: Optional[int]
@@ -110,5 +122,6 @@ class InvoiceResponse(BaseResponseModel):
     credits: Optional[CreditsResponse]
     metadata: Optional[InvoiceMetadataList]
     applied_taxes: Optional[InvoiceAppliedTaxes]
+    applied_invoice_custom_sections: Optional[InvoiceAppliedInvoiceCustomSections]
     applied_usage_thresholds: Optional[InvoiceAppliedUsageThresholds]
     error_details: Optional[ErrorDetailsResponse]

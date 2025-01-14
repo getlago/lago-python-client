@@ -52,6 +52,8 @@ def create_customer():
         ),
         integration_customers=integration_customers_list,
         metadata=metadata_list,
+        skip_invoice_custom_sections=False,
+        applicable_invoice_custom_sections=[],
     )
 
 
@@ -96,6 +98,8 @@ def test_valid_create_customers_request(httpx_mock: HTTPXMock):
     assert response.metadata.__root__[0].lago_id == "12345"
     assert response.metadata.__root__[0].key == "key"
     assert response.metadata.__root__[0].value == "value"
+    assert response.skip_invoice_custom_sections is False
+    assert response.applicable_invoice_custom_sections == []
 
 
 def test_invalid_create_customers_request(httpx_mock: HTTPXMock):
