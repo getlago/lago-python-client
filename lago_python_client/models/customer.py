@@ -82,7 +82,7 @@ class InvoiceCustomSection(BaseModel):
     description: Optional[str]
     details: Optional[str]
     display_name: Optional[str]
-    selected_for_organization: Optional[bool]
+    applied_to_organization: Optional[bool]
     created_at: Optional[str]
 
 
