@@ -97,6 +97,18 @@
         }
       ]
     },
+    "billing_periods": [
+      {
+        "lago_subscription_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
+        "external_subscription_id": "LAG-EXT-1234",
+        "lago_plan_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
+        "subscription_from_datetime": "2025-02-00T00:00:00Z",
+        "subscription_to_datetime": "2025-02-28T23:59:59Z",
+        "charges_from_datetime": "2025-01-00T00:00:00Z",
+        "charges_to_datetime": "2025-01-31T23:59:59Z",
+        "invoicing_reason": "subscription_periodic"
+      }
+    ],
     "subscriptions": [
       {
         "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac129b",
