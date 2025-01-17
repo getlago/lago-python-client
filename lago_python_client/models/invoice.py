@@ -2,6 +2,7 @@ from typing import List, Optional
 
 from lago_python_client.base_model import BaseModel
 
+from .billing_period import BillingPeriodsResponse
 from .credit import CreditsResponse
 from .customer import CustomerResponse
 from .fee import FeesResponse
@@ -118,6 +119,7 @@ class InvoiceResponse(BaseResponseModel):
 
     file_url: Optional[str]
     customer: Optional[CustomerResponse]
+    billing_periods: Optional[BillingPeriodsResponse]
     subscriptions: Optional[SubscriptionsResponse]
     fees: Optional[FeesResponse]
     credits: Optional[CreditsResponse]
