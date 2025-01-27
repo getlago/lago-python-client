@@ -18,11 +18,7 @@ from .charge import (
     ChargeFilters as ChargeFilters,
     ChargeFilter as ChargeFilter,
 )
-from .coupon import (
-    Coupon as Coupon,
-    CouponsList as CouponsList,
-    LimitationConfiguration as LimitationConfiguration
-)
+from .coupon import Coupon as Coupon, CouponsList as CouponsList, LimitationConfiguration as LimitationConfiguration
 from .credit import CreditResponse as CreditResponse, CreditsResponse as CreditsResponse
 from .credit_note import (
     Item as Item,
