@@ -6,7 +6,9 @@ from pytest_httpx import HTTPXMock
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
 from lago_python_client.models import (
+    Customer,
     Invoice,
+    InvoicePreview,
     InvoiceMetadata,
     InvoiceMetadataList,
     OneOffInvoice,
@@ -27,6 +29,12 @@ def one_off_invoice_object():
     fees_list = InvoiceFeesList(__root__=[fee])
 
     return OneOffInvoice(customer_external_id="external", currency="EUR", fees=fees_list)
+
+
+def invoice_preview():
+    customer = Customer(name="John Doe", external_id="test1")
+
+    return InvoicePreview(customer=customer, plan_code="test", billing_time="anniversary", subscription_at="2025-01-24")
 
 
 def mock_response(mock="invoice"):
@@ -268,3 +276,18 @@ def test_valid_payment_url_request(httpx_mock: HTTPXMock):
     response = client.invoices.payment_url("5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba")
 
     assert response == "https://checkout.stripe.com/c/pay/cs_test_a1cuqFkXvH"
+
+
+def test_valid_preview_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/invoices/preview",
+        content=mock_response(),
+    )
+    response = client.invoices.preview(invoice_preview())
+
+    assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+    assert response.status == "finalized"
+    assert response.payment_status == "failed"

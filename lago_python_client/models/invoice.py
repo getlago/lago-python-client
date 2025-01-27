@@ -3,8 +3,9 @@ from typing import List, Optional
 from lago_python_client.base_model import BaseModel
 
 from .billing_period import BillingPeriodsResponse
+from .coupon import CouponsList
 from .credit import CreditsResponse
-from .customer import CustomerResponse
+from .customer import Customer, CustomerResponse
 from .fee import FeesResponse
 from .subscription import SubscriptionsResponse
 from .error_detail import ErrorDetailsResponse
@@ -50,6 +51,14 @@ class OneOffInvoice(BaseModel):
     currency: Optional[str]
     fees: Optional[InvoiceFeesList]
     error_details: Optional[ErrorDetailsResponse]
+
+
+class InvoicePreview(BaseModel):
+    plan_code: Optional[str]
+    billing_time: Optional[str]
+    subscription_at: Optional[str]
+    coupons: Optional[CouponsList]
+    customer: Optional[Customer]
 
 
 class InvoiceAppliedTax(BaseResponseModel):

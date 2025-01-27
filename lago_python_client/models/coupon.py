@@ -46,3 +46,7 @@ class CouponResponse(BaseResponseModel):
     limited_plans: Optional[bool]
     billable_metric_codes: Optional[List[Any]]
     limited_billable_metrics: Optional[bool]
+
+
+class CouponsList(BaseModel):
+    __root__: List[Coupon]
