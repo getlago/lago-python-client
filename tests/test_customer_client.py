@@ -128,6 +128,7 @@ def test_valid_current_usage(httpx_mock: HTTPXMock):
     assert len(response.charges_usage[0].filters) == 1
     assert response.charges_usage[0].filters[0].values["country"] == ["france"]
 
+
 def test_valid_current_usage_without_taxes(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
 

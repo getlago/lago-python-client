@@ -35,7 +35,9 @@ class CustomerClient(
     RESPONSE_MODEL: ClassVar[Type[CustomerResponse]] = CustomerResponse
     ROOT_NAME: ClassVar[str] = "customer"
 
-    def current_usage(self, resource_id: str, external_subscription_id: str, apply_taxes: bool = True) -> CustomerUsageResponse:
+    def current_usage(
+        self, resource_id: str, external_subscription_id: str, apply_taxes: bool = True
+    ) -> CustomerUsageResponse:
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
