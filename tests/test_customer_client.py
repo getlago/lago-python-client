@@ -117,7 +117,7 @@ def test_valid_current_usage(httpx_mock: HTTPXMock):
 
     httpx_mock.add_response(
         method="GET",
-        url="https://api.getlago.com/api/v1/customers/external_customer_id/current_usage?external_subscription_id=123&apply_taxes=true",
+        url="https://api.getlago.com/api/v1/customers/external_customer_id/current_usage?external_subscription_id=123",
         content=mock_response("customer_usage"),
     )
     response = client.customers.current_usage("external_customer_id", "123")
@@ -137,7 +137,7 @@ def test_valid_current_usage_without_taxes(httpx_mock: HTTPXMock):
         url="https://api.getlago.com/api/v1/customers/external_customer_id/current_usage?external_subscription_id=123&apply_taxes=false",
         content=mock_response("customer_usage"),
     )
-    response = client.customers.current_usage("external_customer_id", "123", False)
+    response = client.customers.current_usage("external_customer_id", "123", "false")
 
     assert response.from_datetime == "2022-07-01T00:00:00Z"
     assert len(response.charges_usage) == 1
@@ -151,7 +151,7 @@ def test_invalid_current_usage(httpx_mock: HTTPXMock):
 
     httpx_mock.add_response(
         method="GET",
-        url="https://api.getlago.com/api/v1/customers/invalid_customer/current_usage?external_subscription_id=123&apply_taxes=true",
+        url="https://api.getlago.com/api/v1/customers/invalid_customer/current_usage?external_subscription_id=123",
         status_code=404,
         content=b"",
     )

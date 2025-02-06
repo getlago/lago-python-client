@@ -1,5 +1,5 @@
 import sys
-from typing import Any, Mapping, ClassVar, Type
+from typing import Any, Mapping, ClassVar, Type, Optional
 
 from ..base_client import BaseClient
 from ..mixins import (
@@ -36,16 +36,17 @@ class CustomerClient(
     ROOT_NAME: ClassVar[str] = "customer"
 
     def current_usage(
-        self, resource_id: str, external_subscription_id: str, apply_taxes: bool = True
+        self, resource_id: str, external_subscription_id: str, apply_taxes: Optional[str] = None
     ) -> CustomerUsageResponse:
+        query_params = {"external_subscription_id": external_subscription_id}
+        if apply_taxes is not None:
+            query_params["apply_taxes"] = apply_taxes
+
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, resource_id, "current_usage"),
-                query_pairs={
-                    "external_subscription_id": external_subscription_id,
-                    "apply_taxes": str(apply_taxes).lower(),
-                },
+                query_pairs=query_params,
             ),
             headers=make_headers(api_key=self.api_key),
         )
