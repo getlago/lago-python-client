@@ -35,13 +35,14 @@ class CustomerClient(
     RESPONSE_MODEL: ClassVar[Type[CustomerResponse]] = CustomerResponse
     ROOT_NAME: ClassVar[str] = "customer"
 
-    def current_usage(self, resource_id: str, external_subscription_id: str) -> CustomerUsageResponse:
+    def current_usage(self, resource_id: str, external_subscription_id: str, apply_taxes: bool = True) -> CustomerUsageResponse:
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, resource_id, "current_usage"),
                 query_pairs={
                     "external_subscription_id": external_subscription_id,
+                    "apply_taxes": str(apply_taxes).lower(),
                 },
             ),
             headers=make_headers(api_key=self.api_key),
