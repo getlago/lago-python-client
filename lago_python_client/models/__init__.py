@@ -91,4 +91,5 @@ from .usage_threshold import (
     UsageThresholdsResponse as UsageThresholdsResponse,
 )
 from .payment_request import PaymentRequest as PaymentRequest
+from .payment import Payment as Payment
 from .lifetime_usage import LifetimeUsageResponse as LifetimeUsageResponse

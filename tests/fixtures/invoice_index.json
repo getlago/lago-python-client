@@ -22,6 +22,7 @@
       "sub_total_including_taxes_amount_cents": 120,
       "prepaid_credit_amount_cents": 0,
       "total_amount_cents": 120,
+      "total_due_amount_cents": 120,
       "applied_taxes": [
         {
           "lago_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
@@ -59,6 +60,7 @@
       "sub_total_including_taxes_amount_cents": 120,
       "prepaid_credit_amount_cents": 0,
       "total_amount_cents": 120,
+      "total_due_amount_cents": 120,
       "applied_taxes": [
         {
           "lago_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
