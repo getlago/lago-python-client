@@ -57,7 +57,8 @@
           "sub_total_excluding_taxes_amount_cents": 100,
           "sub_total_including_taxes_amount_cents": 120,
           "prepaid_credit_amount_cents": 0,
-          "total_amount_cents": 120
+          "total_amount_cents": 120,
+          "total_due_amount_cents": 120
         }
       ]
     }

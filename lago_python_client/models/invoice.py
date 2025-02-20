@@ -124,6 +124,7 @@ class InvoiceResponse(BaseResponseModel):
     sub_total_excluding_taxes_amount_cents: int
     sub_total_including_taxes_amount_cents: int
     total_amount_cents: int
+    total_due_amount_cents: int
     prepaid_credit_amount_cents: int
 
     file_url: Optional[str]

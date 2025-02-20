@@ -1,0 +1,20 @@
+{
+  "payments": [
+    {
+      "lago_id": "8e5d5ec2-bdc7-4c43-a944-5ababae775d4",
+      "invoice_ids": [
+        "ed267c66-8170-4d23-83e8-6d6e4fc735ef"
+      ],
+      "amount_cents": 100,
+      "amount_currency": "USD",
+      "payment_status": "succeeded",
+      "type": "manual",
+      "reference": "123",
+      "external_payment_id": null,
+      "created_at": "2025-02-18T18:31:13Z"
+    }
+  ],
+  "meta": {
+    "current_page": 1
+  }
+}
