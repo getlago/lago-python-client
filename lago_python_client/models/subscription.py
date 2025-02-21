@@ -16,6 +16,10 @@ class Subscription(BaseModel):
     plan_overrides: Optional[PlanOverrides]
 
 
+class Subscriptions(BaseModel):
+    external_ids: Optional[List[str]]
+
+
 class SubscriptionResponse(BaseResponseModel):
     lago_id: str
     lago_customer_id: Optional[str]

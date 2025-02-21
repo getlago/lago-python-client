@@ -7,7 +7,7 @@ from .coupon import CouponsList
 from .credit import CreditsResponse
 from .customer import Customer, CustomerResponse
 from .fee import FeesResponse
-from .subscription import SubscriptionsResponse
+from .subscription import Subscriptions, SubscriptionsResponse
 from .error_detail import ErrorDetailsResponse
 from ..base_model import BaseResponseModel
 from .usage_threshold import UsageThreshold
@@ -59,6 +59,7 @@ class InvoicePreview(BaseModel):
     subscription_at: Optional[str]
     coupons: Optional[CouponsList]
     customer: Optional[Customer]
+    subscriptions: Optional[Subscriptions]
 
 
 class InvoiceAppliedTax(BaseResponseModel):
