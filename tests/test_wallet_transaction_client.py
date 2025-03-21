@@ -40,6 +40,10 @@ def test_valid_create_wallet_transaction_request(httpx_mock: HTTPXMock):
 
     assert response["wallet_transactions"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac1111"
     assert response["wallet_transactions"][1].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac1222"
+    assert response["wallet_transactions"][2].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac1333"
+    assert response["wallet_transactions"][0].status == "settled"
+    assert response["wallet_transactions"][2].status == "failed"
+    assert response["wallet_transactions"][2].failed_at == "2022-04-29T08:59:51Z"
 
 
 def test_invalid_create_wallet_transaction_request(httpx_mock: HTTPXMock):
