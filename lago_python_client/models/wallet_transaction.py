@@ -23,5 +23,6 @@ class WalletTransactionResponse(BaseResponseModel):
     amount: str
     credit_amount: str
     settled_at: Optional[str]
+    failed_at: Optional[str]
     created_at: str
     metadata: Optional[List[Dict[str, str]]]
