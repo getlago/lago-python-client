@@ -18,6 +18,8 @@ class Subscription(BaseModel):
 
 class Subscriptions(BaseModel):
     external_ids: Optional[List[str]]
+    plan_code: Optional[str]
+    terminated_at: Optional[str]
 
 
 class SubscriptionResponse(BaseResponseModel):
