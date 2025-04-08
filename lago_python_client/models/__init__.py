@@ -90,6 +90,10 @@ from .usage_threshold import (
     UsageThresholds as UsageThresholds,
     UsageThresholdsResponse as UsageThresholdsResponse,
 )
+from .payment_receipt import (
+    PaymentReceiptResponse as PaymentReceiptResponse,
+    PaymentReceiptsResponse as PaymentReceiptsResponse,
+)
 from .payment_request import PaymentRequest as PaymentRequest
 from .payment import Payment as Payment
 from .lifetime_usage import LifetimeUsageResponse as LifetimeUsageResponse
