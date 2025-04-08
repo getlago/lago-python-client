@@ -1,0 +1,9 @@
+{
+  "wallet_transaction_payment_details": {
+    "lago_customer_id": "631edc95-f26a-4eda-b364-3fa8d9db0bec",
+    "external_customer_id": "Test55-7",
+    "payment_provider": "stripe",
+    "lago_wallet_transaction_id": "dc970e9b-270e-44d4-a984-93c598f8abb7",
+    "payment_url": "https://checkout.stripe.com/c/pay/cs_test_a1cuqFkXvH"
+  }
+}
