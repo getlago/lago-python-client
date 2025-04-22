@@ -59,6 +59,7 @@ class FeeResponse(BaseResponseModel):
     from_date: Optional[str]
     to_date: Optional[str]
     amount_details: Optional[Dict[str, Any]]
+    billing_entity_code: Optional[str]
 
     item: Optional[InvoiceItemResponse]
     applied_taxes: Optional[FeeAppliedTaxes]

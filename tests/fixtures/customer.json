@@ -2,6 +2,7 @@
   "customer": {
     "lago_id": "99a6094e-199b-4101-896a-54e927ce7bd7",
     "external_id": "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
+    "billing_entity_code": "test-company",
     "address_line1": "5230 Penfield Ave",
     "address_line2": null,
     "city": "Woodland Hills",
@@ -33,7 +34,10 @@
       "provider_customer_id": "cus_12345",
       "sync_with_provider": true,
       "document_locale": "fr",
-      "provider_payment_methods": ["card", "sepa_debit"]
+      "provider_payment_methods": [
+        "card",
+        "sepa_debit"
+      ]
     },
     "shipping_address": {
       "city": "Paris",

@@ -1,6 +1,7 @@
 {
   "invoice": {
     "lago_id": "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
+    "billing_entity_code": "test-company",
     "sequential_id": 15,
     "number": "LAG-1234-001-002",
     "issuing_date": "2022-06-02",
@@ -139,7 +140,9 @@
           "name": "User Seats",
           "invoice_display_name": "charge_invoice_display_name",
           "filters": {
-            "region": ["us-east-1"]
+            "region": [
+              "us-east-1"
+            ]
           }
         },
         "amount_cents": 100,

@@ -120,6 +120,7 @@ class Customer(BaseModel):
     tax_codes: Optional[List[str]]
     skip_invoice_custom_sections: Optional[bool]
     invoice_custom_section_codes: Optional[List[str]]
+    billing_entity_code: Optional[str]
 
 
 class CustomerResponse(BaseResponseModel):
@@ -156,3 +157,4 @@ class CustomerResponse(BaseResponseModel):
     taxes: Optional[TaxesResponse]
     skip_invoice_custom_sections: Optional[bool]
     applicable_invoice_custom_sections: Optional[InvoiceCustomSectionsResponseList]
+    billing_entity_code: Optional[str]
