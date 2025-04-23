@@ -30,6 +30,7 @@ def create_customer():
 
     return Customer(
         external_id="5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
+        billing_entity_code="test-company",
         name="Gavin Belson",
         currency="EUR",
         tax_identification_number="EU123456789",
@@ -74,6 +75,7 @@ def test_valid_create_customers_request(httpx_mock: HTTPXMock):
     response = client.customers.create(create_customer())
 
     assert response.external_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+    assert response.billing_entity_code == "test-company"
     assert response.name == "Gavin Belson"
     assert response.email == "dinesh@piedpiper.test"
     assert response.currency == "EUR"

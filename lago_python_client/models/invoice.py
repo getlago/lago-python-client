@@ -139,3 +139,4 @@ class InvoiceResponse(BaseResponseModel):
     applied_invoice_custom_sections: Optional[InvoiceAppliedInvoiceCustomSections]
     applied_usage_thresholds: Optional[InvoiceAppliedUsageThresholds]
     error_details: Optional[ErrorDetailsResponse]
+    billing_entity_code: Optional[str]
