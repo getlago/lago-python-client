@@ -1,3 +1,4 @@
+from .activity_log import ActivityLog as ActivityLog, ActivityLogResponse as ActivityLogResponse
 from .applied_coupon import AppliedCoupon as AppliedCoupon
 from .billable_metric import (
     BillableMetric as BillableMetric,
