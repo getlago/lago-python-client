@@ -1,0 +1,21 @@
+{
+  "activity_log": {
+    "activity_id": "1262046f-ea6e-423b-8bf7-3a985232f91b",
+    "activity_type": "billable_metric.created",
+    "activity_source": "api",
+    "activity_object": {
+      "foo": "bar",
+      "baz": "qux"
+    },
+    "activity_object_changes": {
+      "foo": "bar"
+    },
+    "user_email": "duane.wolf@goodwin-upton.example",
+    "resource_id": "fd417abf-4273-42bf-bf93-fc3f93d4e987",
+    "resource_type": "BillableMetric",
+    "external_customer_id": "0c60aa34-74aa-470d-9d9c-409c79d05d56",
+    "external_subscription_id": "b0a3fa29-5ba8-4363-b45e-0ea4c700acf8",
+    "logged_at": "2025-05-05T15:06:21Z",
+    "created_at": "2025-05-05T15:06:21Z"
+  }
+}

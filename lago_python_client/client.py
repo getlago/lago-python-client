@@ -24,6 +24,7 @@ from .taxes.clients import TaxClient
 from .wallets.clients import WalletClient, WalletTransactionClient
 from .webhooks.clients import WebhookClient
 from .webhook_endpoints.clients import WebhookEndpointClient
+from .activity_logs.clients import ActivityLogClient
 
 try:
     from typing import Final
@@ -159,3 +160,7 @@ class Client:
     @callable_cached_property
     def webhook_endpoints(self) -> WebhookEndpointClient:
         return WebhookEndpointClient(self.base_api_url, self.api_key)
+
+    @callable_cached_property
+    def activity_logs(self) -> ActivityLogClient:
+        return ActivityLogClient(self.base_api_url, self.api_key)
