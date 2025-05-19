@@ -67,7 +67,7 @@ def create_billing_entity_input():
         finalize_zero_amount_invoice=True,
         net_payment_term=30,
         eu_tax_management=False,
-        logo="https://example.com/logo.png",
+        logo_url="https://example.com/logo.png",
         legal_name="Test Company Legal Name",
         legal_number="123456789",
         tax_identification_number="TAX123456",
@@ -98,7 +98,7 @@ def update_billing_entity_input():
         finalize_zero_amount_invoice=True,
         net_payment_term=15,
         eu_tax_management=True,
-        logo="https://example.com/updated-logo.png",
+        logo_url="https://example.com/updated-logo.png",
         legal_name="Updated Company Legal Name",
         legal_number="987654321",
         tax_identification_number="TAX654321",
@@ -195,7 +195,7 @@ def test_valid_find_billing_entity_request(httpx_mock: HTTPXMock):
     assert response.finalize_zero_amount_invoice is True
     assert response.net_payment_term == 30
     assert response.eu_tax_management is False
-    assert response.logo == "https://example.com/logo.png"
+    assert response.logo_url == "https://example.com/logo.png"
     assert response.legal_name == "Test Company Legal Name"
     assert response.legal_number == "123456789"
     assert response.tax_identification_number == "TAX123456"
@@ -252,7 +252,7 @@ def test_valid_find_all_billing_entities_request(httpx_mock: HTTPXMock):
     assert response.billing_entities[0].finalize_zero_amount_invoice is True
     assert response.billing_entities[0].net_payment_term == 30
     assert response.billing_entities[0].eu_tax_management is False
-    assert response.billing_entities[0].logo == "https://example.com/logo.png"
+    assert response.billing_entities[0].logo_url == "https://example.com/logo.png"
     assert response.billing_entities[0].legal_name == "Test Company Legal Name"
     assert response.billing_entities[0].legal_number == "123456789"
     assert response.billing_entities[0].tax_identification_number == "TAX123456"
@@ -282,7 +282,7 @@ def test_valid_find_all_billing_entities_request(httpx_mock: HTTPXMock):
     assert response.billing_entities[1].finalize_zero_amount_invoice is True
     assert response.billing_entities[1].net_payment_term == 30
     assert response.billing_entities[1].eu_tax_management is True
-    assert response.billing_entities[1].logo == "https://example.com/logo2.png"
+    assert response.billing_entities[1].logo_url == "https://example.com/logo2.png"
     assert response.billing_entities[1].legal_name == "Test Company 2 Legal Name"
     assert response.billing_entities[1].legal_number == "987654321"
     assert response.billing_entities[1].tax_identification_number == "TAX654321"
@@ -338,7 +338,7 @@ def test_valid_update_billing_entity_request(httpx_mock: HTTPXMock):
     assert response.finalize_zero_amount_invoice is True
     assert response.net_payment_term == 30
     assert response.eu_tax_management is False
-    assert response.logo == "https://example.com/logo.png"
+    assert response.logo_url == "https://example.com/logo.png"
     assert response.legal_name == "Test Company Legal Name"
     assert response.legal_number == "123456789"
     assert response.tax_identification_number == "TAX123456"

@@ -35,7 +35,7 @@ class BillingEntity(BaseModel):
     created_at: datetime
     updated_at: datetime
 
-class BillingEntityResponse(BaseModel):
+class BillingEntityResponse(BaseResponseModel):
     lago_id: str
     code: str
     name: str
