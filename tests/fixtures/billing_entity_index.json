@@ -1,0 +1,80 @@
+{
+    "billing_entities": [
+        {
+            "lago_id": "123e4567-e89b-12d3-a456-426614174000",
+            "code": "test-company-1",
+            "name": "Test Company 1",
+            "address_line1": "123 Test Street",
+            "address_line2": "Suite 100",
+            "city": "Test City",
+            "state": "TS",
+            "zipcode": "12345",
+            "country": "US",
+            "email": "test1@company.com",
+            "phone": "+1234567890",
+            "default_currency": "USD",
+            "timezone": "UTC",
+            "document_numbering": "sequential",
+            "document_number_prefix": "TEST1-",
+            "finalize_zero_amount_invoice": true,
+            "net_payment_term": 30,
+            "eu_tax_management": false,
+            "logo_url": "https://example.com/logo.png",
+            "legal_name": "Test Company 1 Legal Name",
+            "legal_number": "123456789",
+            "tax_identification_number": "TAX123456",
+            "tax_codes": [
+                "VAT",
+                "GST"
+            ],
+            "email_settings": [
+                "invoice.finalized",
+                "payment_receipt.created"
+            ],
+            "billing_configuration": {
+                "invoice_footer": "Thank you for your business",
+                "invoice_grace_period": 3,
+                "document_locale": "en"
+            },
+            "created_at": "2024-03-20T10:00:00Z",
+            "updated_at": "2024-03-20T10:00:00Z"
+        },
+        {
+            "lago_id": "123e4567-e89b-12d3-a456-426614174001",
+            "code": "test-company-2",
+            "name": "Test Company 2",
+            "address_line1": "456 Test Avenue",
+            "address_line2": "Suite 200",
+            "city": "Test City",
+            "state": "TS",
+            "zipcode": "12345",
+            "country": "FR",
+            "email": "test2@company.com",
+            "phone": "+1987654321",
+            "default_currency": "EUR",
+            "timezone": "UTC",
+            "document_numbering": "sequential",
+            "document_number_prefix": "TEST2-",
+            "finalize_zero_amount_invoice": true,
+            "net_payment_term": 30,
+            "eu_tax_management": true,
+            "logo_url": "https://example.com/logo_2.png",
+            "legal_name": "Test Company 2 Legal Name",
+            "legal_number": "987654321",
+            "tax_identification_number": "TAX654321",
+            "tax_codes": [
+                "VAT"
+            ],
+            "email_settings": [
+                "invoice.finalized"
+            ],
+            "billing_configuration": {
+                "invoice_footer": "Thank you for your business",
+                "invoice_grace_period": 3,
+                "document_locale": "fr"
+            },
+            "created_at": "2024-03-20T10:00:00Z",
+            "updated_at": "2024-03-20T10:00:00Z"
+        }
+    ]
+}

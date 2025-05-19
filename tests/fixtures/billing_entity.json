@@ -1,0 +1,41 @@
+{
+    "billing_entity": {
+        "lago_id": "123e4567-e89b-12d3-a456-426614174000",
+        "code": "test-company",
+        "name": "Test Company",
+        "address_line1": "123 Test Street",
+        "address_line2": "Suite 100",
+        "city": "Test City",
+        "state": "TS",
+        "zipcode": "12345",
+        "country": "US",
+        "email": "test@company.com",
+        "phone": "+1234567890",
+        "default_currency": "USD",
+        "timezone": "UTC",
+        "document_numbering": "sequential",
+        "document_number_prefix": "TEST-",
+        "finalize_zero_amount_invoice": true,
+        "net_payment_term": 30,
+        "eu_tax_management": false,
+        "logo_url": "https://example.com/logo.png",
+        "legal_name": "Test Company Legal Name",
+        "legal_number": "123456789",
+        "tax_identification_number": "TAX123456",
+        "tax_codes": [
+            "VAT",
+            "GST"
+        ],
+        "email_settings": [
+            "invoice.finalized",
+            "payment_receipt.created"
+        ],
+        "billing_configuration": {
+            "invoice_footer": "Thank you for your business",
+            "invoice_grace_period": 3,
+            "document_locale": "en"
+        },
+        "created_at": "2024-03-20T10:00:00Z",
+        "updated_at": "2024-03-20T10:00:00Z"
+    }
+}

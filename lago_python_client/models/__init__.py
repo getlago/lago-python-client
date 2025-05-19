@@ -7,6 +7,11 @@ from .billable_metric import (
     BillableMetricEvaluateExpression as BillableMetricEvaluateExpression,
     BillableMetricEvaluateExpressionResponse as BillableMetricEvaluateExpressionResponse,
 )
+from .billing_entity import (
+    BillingEntity as BillingEntity,
+    BillingEntityResponse as BillingEntityResponse,
+    BillingEntityBillingConfiguration as BillingEntityBillingConfiguration,
+)
 from .billing_period import (
     BillingPeriodResponse as BillingPeriodResponse,
     BillingPeriodsResponse as BillingPeriodsResponse,
