@@ -9,6 +9,7 @@ from .billable_metric import (
 )
 from .billing_entity import (
     BillingEntity as BillingEntity,
+    BillingEntityUpdate as BillingEntityUpdate,
     BillingEntityResponse as BillingEntityResponse,
     BillingEntityBillingConfiguration as BillingEntityBillingConfiguration,
 )

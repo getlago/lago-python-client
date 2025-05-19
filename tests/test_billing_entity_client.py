@@ -2,10 +2,11 @@ import os
 
 import pytest
 from pytest_httpx import HTTPXMock
+from datetime import datetime, timezone
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
-from lago_python_client.models import BillingEntity, BillingEntityBillingConfiguration
+from lago_python_client.models import BillingEntity, BillingEntityUpdate, BillingEntityBillingConfiguration
 
 def billing_entity_object():
     return BillingEntity(
@@ -71,7 +72,7 @@ def create_billing_entity_input():
         legal_name="Test Company Legal Name",
         legal_number="123456789",
         tax_identification_number="TAX123456",
-        email_settings=["invoice.finalized"],
+        email_settings=["invoice.finalized", "payment_receipt.created"],
         billing_configuration=BillingEntityBillingConfiguration(
             invoice_footer="Thank you for your business",
             invoice_grace_period=3,
@@ -81,7 +82,7 @@ def create_billing_entity_input():
 
 
 def update_billing_entity_input():
-    return BillingEntity(
+    return BillingEntityUpdate(
         name="Updated Company Name",
         address_line1="456 Test Avenue",
         address_line2="Suite 200",
@@ -145,12 +146,12 @@ def test_valid_create_billing_entity_request(httpx_mock: HTTPXMock):
     assert response.legal_number == "123456789"
     assert response.tax_identification_number == "TAX123456"
     assert response.tax_codes == ["VAT", "GST"]
-    assert response.email_settings == ["invoice.finalized"]
+    assert response.email_settings == ["invoice.finalized", "payment_receipt.created"]
     assert response.billing_configuration.invoice_footer == "Thank you for your business"
     assert response.billing_configuration.invoice_grace_period == 3
     assert response.billing_configuration.document_locale == "en"
-    assert response.created_at == "2024-03-20T10:00:00Z"
-    assert response.updated_at == "2024-03-20T10:00:00Z"
+    assert response.created_at == datetime(2024, 3, 20, 10, 0, tzinfo=timezone.utc)
+    assert response.updated_at == datetime(2024, 3, 20, 10, 0, tzinfo=timezone.utc)
 
 
 def test_invalid_create_billing_entity_request(httpx_mock: HTTPXMock):
@@ -200,12 +201,12 @@ def test_valid_find_billing_entity_request(httpx_mock: HTTPXMock):
     assert response.legal_number == "123456789"
     assert response.tax_identification_number == "TAX123456"
     assert response.tax_codes == ["VAT", "GST"]
-    assert response.email_settings == ["invoice.finalized"]
+    assert response.email_settings == ["invoice.finalized", "payment_receipt.created"]
     assert response.billing_configuration.invoice_footer == "Thank you for your business"
     assert response.billing_configuration.invoice_grace_period == 3
     assert response.billing_configuration.document_locale == "en"
-    assert response.created_at == "2024-03-20T10:00:00Z"
-    assert response.updated_at == "2024-03-20T10:00:00Z"
+    assert response.created_at == datetime(2024, 3, 20, 10, 0, tzinfo=timezone.utc)
+    assert response.updated_at == datetime(2024, 3, 20, 10, 0, tzinfo=timezone.utc)
 
 
 def test_invalid_find_billing_entity_request(httpx_mock: HTTPXMock):
@@ -232,67 +233,67 @@ def test_valid_find_all_billing_entities_request(httpx_mock: HTTPXMock):
     )
     response = client.billing_entities.find_all()
 
-    assert len(response.billing_entities) == 2
+    assert len(response["billing_entities"]) == 2
     
-    assert response.billing_entities[0].lago_id == "123e4567-e89b-12d3-a456-426614174000"
-    assert response.billing_entities[0].code == "test-company"
-    assert response.billing_entities[0].name == "Test Company"
-    assert response.billing_entities[0].address_line1 == "123 Test Street"
-    assert response.billing_entities[0].address_line2 == "Suite 100"
-    assert response.billing_entities[0].city == "Test City"
-    assert response.billing_entities[0].state == "TS"
-    assert response.billing_entities[0].zipcode == "12345"
-    assert response.billing_entities[0].country == "US"
-    assert response.billing_entities[0].email == "test@company.com"
-    assert response.billing_entities[0].phone == "+1234567890"
-    assert response.billing_entities[0].default_currency == "USD"
-    assert response.billing_entities[0].timezone == "UTC"
-    assert response.billing_entities[0].document_numbering == "sequential"
-    assert response.billing_entities[0].document_number_prefix == "TEST-"
-    assert response.billing_entities[0].finalize_zero_amount_invoice is True
-    assert response.billing_entities[0].net_payment_term == 30
-    assert response.billing_entities[0].eu_tax_management is False
-    assert response.billing_entities[0].logo_url == "https://example.com/logo.png"
-    assert response.billing_entities[0].legal_name == "Test Company Legal Name"
-    assert response.billing_entities[0].legal_number == "123456789"
-    assert response.billing_entities[0].tax_identification_number == "TAX123456"
-    assert response.billing_entities[0].tax_codes == ["VAT", "GST"]
-    assert response.billing_entities[0].email_settings == ["invoice.finalized", "payment_receipt.created"]
-    assert response.billing_entities[0].billing_configuration.invoice_footer == "Thank you for your business"
-    assert response.billing_entities[0].billing_configuration.invoice_grace_period == 3
-    assert response.billing_entities[0].billing_configuration.document_locale == "en"
-    assert response.billing_entities[0].created_at == "2024-03-20T10:00:00Z"
-    assert response.billing_entities[0].updated_at == "2024-03-20T10:00:00Z"
+    assert response["billing_entities"][0].lago_id == "123e4567-e89b-12d3-a456-426614174000"
+    assert response["billing_entities"][0].code == "test-company-1"
+    assert response["billing_entities"][0].name == "Test Company 1"
+    assert response["billing_entities"][0].address_line1 == "123 Test Street"
+    assert response["billing_entities"][0].address_line2 == "Suite 100"
+    assert response["billing_entities"][0].city == "Test City"
+    assert response["billing_entities"][0].state == "TS"
+    assert response["billing_entities"][0].zipcode == "12345"
+    assert response["billing_entities"][0].country == "US"
+    assert response["billing_entities"][0].email == "test1@company.com"
+    assert response["billing_entities"][0].phone == "+1234567890"
+    assert response["billing_entities"][0].default_currency == "USD"
+    assert response["billing_entities"][0].timezone == "UTC"
+    assert response["billing_entities"][0].document_numbering == "sequential"
+    assert response["billing_entities"][0].document_number_prefix == "TEST1-"
+    assert response["billing_entities"][0].finalize_zero_amount_invoice is True
+    assert response["billing_entities"][0].net_payment_term == 30
+    assert response["billing_entities"][0].eu_tax_management is False
+    assert response["billing_entities"][0].logo_url == "https://example.com/logo.png"
+    assert response["billing_entities"][0].legal_name == "Test Company 1 Legal Name"
+    assert response["billing_entities"][0].legal_number == "123456789"
+    assert response["billing_entities"][0].tax_identification_number == "TAX123456"
+    assert response["billing_entities"][0].tax_codes == ["VAT", "GST"]
+    assert response["billing_entities"][0].email_settings == ["invoice.finalized", "payment_receipt.created"]
+    assert response["billing_entities"][0].billing_configuration.invoice_footer == "Thank you for your business"
+    assert response["billing_entities"][0].billing_configuration.invoice_grace_period == 3
+    assert response["billing_entities"][0].billing_configuration.document_locale == "en"
+    assert response["billing_entities"][1].created_at == datetime(2024, 3, 20, 10, 0, tzinfo=timezone.utc)
+    assert response["billing_entities"][1].updated_at == datetime(2024, 3, 20, 10, 0, tzinfo=timezone.utc)
 
-    assert response.billing_entities[1].lago_id == "123e4567-e89b-12d3-a456-426614174001"
-    assert response.billing_entities[1].code == "test-company-2"
-    assert response.billing_entities[1].name == "Test Company 2"
-    assert response.billing_entities[1].address_line1 == "456 Test Avenue"
-    assert response.billing_entities[1].address_line2 == "Suite 200"
-    assert response.billing_entities[1].city == "Test City"
-    assert response.billing_entities[1].state == "TS"
-    assert response.billing_entities[1].zipcode == "12345"
-    assert response.billing_entities[1].country == "US"
-    assert response.billing_entities[1].email == "test2@company.com"
-    assert response.billing_entities[1].phone == "+1987654321"
-    assert response.billing_entities[1].default_currency == "EUR"
-    assert response.billing_entities[1].timezone == "UTC"
-    assert response.billing_entities[1].document_numbering == "sequential"
-    assert response.billing_entities[1].document_number_prefix == "TEST2-"
-    assert response.billing_entities[1].finalize_zero_amount_invoice is True
-    assert response.billing_entities[1].net_payment_term == 30
-    assert response.billing_entities[1].eu_tax_management is True
-    assert response.billing_entities[1].logo_url == "https://example.com/logo2.png"
-    assert response.billing_entities[1].legal_name == "Test Company 2 Legal Name"
-    assert response.billing_entities[1].legal_number == "987654321"
-    assert response.billing_entities[1].tax_identification_number == "TAX654321"
-    assert response.billing_entities[1].tax_codes == ["VAT"]
-    assert response.billing_entities[1].email_settings == ["invoice.finalized"]
-    assert response.billing_entities[1].billing_configuration.invoice_footer == "Thank you for your business"
-    assert response.billing_entities[1].billing_configuration.invoice_grace_period == 3
-    assert response.billing_entities[1].billing_configuration.document_locale == "fr"
-    assert response.billing_entities[1].created_at == "2024-03-20T10:00:00Z"
-    assert response.billing_entities[1].updated_at == "2024-03-20T10:00:00Z"
+    assert response["billing_entities"][1].lago_id == "123e4567-e89b-12d3-a456-426614174001"
+    assert response["billing_entities"][1].code == "test-company-2"
+    assert response["billing_entities"][1].name == "Test Company 2"
+    assert response["billing_entities"][1].address_line1 == "456 Test Avenue"
+    assert response["billing_entities"][1].address_line2 == "Suite 200"
+    assert response["billing_entities"][1].city == "Test City"
+    assert response["billing_entities"][1].state == "TS"
+    assert response["billing_entities"][1].zipcode == "12345"
+    assert response["billing_entities"][1].country == "FR"
+    assert response["billing_entities"][1].email == "test2@company.com"
+    assert response["billing_entities"][1].phone == "+1987654321"
+    assert response["billing_entities"][1].default_currency == "EUR"
+    assert response["billing_entities"][1].timezone == "UTC"
+    assert response["billing_entities"][1].document_numbering == "sequential"
+    assert response["billing_entities"][1].document_number_prefix == "TEST2-"
+    assert response["billing_entities"][1].finalize_zero_amount_invoice is True
+    assert response["billing_entities"][1].net_payment_term == 30
+    assert response["billing_entities"][1].eu_tax_management is True
+    assert response["billing_entities"][1].logo_url == "https://example.com/logo_2.png"
+    assert response["billing_entities"][1].legal_name == "Test Company 2 Legal Name"
+    assert response["billing_entities"][1].legal_number == "987654321"
+    assert response["billing_entities"][1].tax_identification_number == "TAX654321"
+    assert response["billing_entities"][1].tax_codes == ["VAT"]
+    assert response["billing_entities"][1].email_settings == ["invoice.finalized"]
+    assert response["billing_entities"][1].billing_configuration.invoice_footer == "Thank you for your business"
+    assert response["billing_entities"][1].billing_configuration.invoice_grace_period == 3
+    assert response["billing_entities"][1].billing_configuration.document_locale == "fr"
+    assert response["billing_entities"][1].created_at == datetime(2024, 3, 20, 10, 0, tzinfo=timezone.utc)
+    assert response["billing_entities"][1].updated_at == datetime(2024, 3, 20, 10, 0, tzinfo=timezone.utc)
 
 
 def test_invalid_find_all_billing_entities_request(httpx_mock: HTTPXMock):
@@ -318,7 +319,7 @@ def test_valid_update_billing_entity_request(httpx_mock: HTTPXMock):
         url="https://api.getlago.com/api/v1/billing_entities/" + billing_entity_code,
         content=mock_response(),
     )
-    response = client.billing_entities.update(billing_entity_code, update_billing_entity_input())
+    response = client.billing_entities.update(update_billing_entity_input(), billing_entity_code)
 
     assert response.lago_id == "123e4567-e89b-12d3-a456-426614174000"
     assert response.code == "test-company"
@@ -347,19 +348,20 @@ def test_valid_update_billing_entity_request(httpx_mock: HTTPXMock):
     assert response.billing_configuration.invoice_footer == "Thank you for your business"
     assert response.billing_configuration.invoice_grace_period == 3
     assert response.billing_configuration.document_locale == "en"
-    assert response.created_at == "2024-03-20T10:00:00Z"
-    assert response.updated_at == "2024-03-20T10:00:00Z"
+    assert response.created_at == datetime(2024, 3, 20, 10, 0, tzinfo=timezone.utc)
+    assert response.updated_at == datetime(2024, 3, 20, 10, 0, tzinfo=timezone.utc)
 
 
 def test_invalid_update_billing_entity_request(httpx_mock: HTTPXMock):
     client = Client(api_key="invalid")
+    billing_entity_code = "test-company"
 
     httpx_mock.add_response(
         method="PUT",
-        url="https://api.getlago.com/api/v1/billing_entities/test-company",
+        url="https://api.getlago.com/api/v1/billing_entities/" + billing_entity_code,
         status_code=401,
         content=b"",
     )
 
     with pytest.raises(LagoApiError):
-        client.billing_entities.update("test-company", update_billing_entity_input()) 
+        client.billing_entities.update(update_billing_entity_input(), billing_entity_code)
