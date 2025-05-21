@@ -23,7 +23,7 @@ class TaxResponse(BaseResponseModel):
     code: str
     rate: float
     description: Optional[str]
-    applied_to_organization: bool
+    applied_to_organization: Optional[bool]
     created_at: str
 
 

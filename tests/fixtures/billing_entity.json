@@ -39,6 +39,7 @@
             "invoice.finalized",
             "payment_receipt.created"
         ],
+        "is_default": true,
         "created_at": "2024-03-20T10:00:00Z",
         "updated_at": "2024-03-20T10:00:00Z"
     }
