@@ -14,7 +14,7 @@
             "phone": "+1234567890",
             "default_currency": "USD",
             "timezone": "UTC",
-            "document_numbering": "sequential",
+            "document_numbering": "per_customer",
             "document_number_prefix": "TEST1-",
             "finalize_zero_amount_invoice": true,
             "net_payment_term": 30,
@@ -22,20 +22,24 @@
             "logo_url": "https://example.com/logo.png",
             "legal_name": "Test Company 1 Legal Name",
             "legal_number": "123456789",
+            "invoice_footer": "Thank you for your business",
+            "invoice_grace_period": 3,
+            "document_locale": "en",
             "tax_identification_number": "TAX123456",
-            "tax_codes": [
-                "VAT",
-                "GST"
+            "taxes": [
+                {
+                    "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac129b",
+                    "name": "tax_name",
+                    "code": "tax_code",
+                    "rate": 15.0,
+                    "description": "tax_desc",
+                    "created_at": "2022-04-29T08:59:51Z"
+                }
             ],
             "email_settings": [
                 "invoice.finalized",
                 "payment_receipt.created"
             ],
-            "billing_configuration": {
-                "invoice_footer": "Thank you for your business",
-                "invoice_grace_period": 3,
-                "document_locale": "en"
-            },
             "created_at": "2024-03-20T10:00:00Z",
             "updated_at": "2024-03-20T10:00:00Z"
         },
@@ -53,7 +57,7 @@
             "phone": "+1987654321",
             "default_currency": "EUR",
             "timezone": "UTC",
-            "document_numbering": "sequential",
+            "document_numbering": "per_billing_entity",
             "document_number_prefix": "TEST2-",
             "finalize_zero_amount_invoice": true,
             "net_payment_term": 30,
@@ -61,20 +65,40 @@
             "logo_url": "https://example.com/logo_2.png",
             "legal_name": "Test Company 2 Legal Name",
             "legal_number": "987654321",
+            "invoice_footer": "Thank you for your business",
+            "invoice_grace_period": 3,
+            "document_locale": "fr",
             "tax_identification_number": "TAX654321",
-            "tax_codes": [
-                "VAT"
+            "taxes": [
+                {
+                    "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac129b",
+                    "name": "tax_name",
+                    "code": "tax_code",
+                    "rate": 15.0,
+                    "description": "tax_desc",
+                    "created_at": "2022-04-29T08:59:51Z"
+                },
+                {
+                    "lago_id": "986212f2-25dd-431c-a3cf-421588b40489",
+                    "name": "tax_name_2",
+                    "code": "tax_code_2",
+                    "rate": 27.5,
+                    "description": "tax_description_2",
+                    "created_at": "2022-04-29T08:59:51Z"
+                }
             ],
             "email_settings": [
                 "invoice.finalized"
             ],
-            "billing_configuration": {
-                "invoice_footer": "Thank you for your business",
-                "invoice_grace_period": 3,
-                "document_locale": "fr"
-            },
             "created_at": "2024-03-20T10:00:00Z",
             "updated_at": "2024-03-20T10:00:00Z"
         }
-    ]
+    ],
+    "meta": {
+        "current_page": 1,
+        "next_page": 2,
+        "prev_page": null,
+        "total_pages": 8,
+        "total_count": 73
+    }
 }

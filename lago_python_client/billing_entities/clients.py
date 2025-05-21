@@ -20,4 +20,4 @@ class BillingEntityClient(
 ):
     API_RESOURCE: ClassVar[str] = "billing_entities"
     RESPONSE_MODEL: ClassVar[Type[BillingEntityResponse]] = BillingEntityResponse
-    ROOT_NAME: ClassVar[str] = "billing_entity" 
+    ROOT_NAME: ClassVar[str] = "billing_entity"

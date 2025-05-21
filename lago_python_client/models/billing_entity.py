@@ -81,8 +81,12 @@ class BillingEntityResponse(BaseResponseModel):
     legal_name: Optional[str]
     legal_number: Optional[str]
     tax_identification_number: Optional[str]
-    tax_codes: Optional[List[str]]
+    is_default: bool
+    logo_url: Optional[str]
+    document_locale: Optional[str]
+    invoice_footer: Optional[str]
+    invoice_grace_period: Optional[int]
     email_settings: Optional[List[str]]
-    billing_configuration: Optional[BillingEntityBillingConfiguration]
+    taxes: Optional[List[TaxResponse]]
     created_at: datetime
     updated_at: datetime
