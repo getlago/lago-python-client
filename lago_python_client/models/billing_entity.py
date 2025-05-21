@@ -3,10 +3,12 @@ from ..base_model import BaseModel, BaseResponseModel
 from .tax import TaxesResponse
 from datetime import datetime
 
+
 class BillingEntityBillingConfiguration(BaseModel):
     invoice_footer: Optional[str]
     invoice_grace_period: Optional[int]
     document_locale: Optional[str]
+
 
 class BillingEntity(BaseModel):
     code: str
@@ -32,6 +34,7 @@ class BillingEntity(BaseModel):
     tax_identification_number: Optional[str]
     email_settings: Optional[List[str]]
     billing_configuration: Optional[BillingEntityBillingConfiguration]
+
 
 class BillingEntityUpdate(BaseModel):
     name: str

@@ -11,6 +11,7 @@ from ..models.billing_entity import (
     BillingEntityResponse,
 )
 
+
 class BillingEntityClient(
     CreateCommandMixin[BillingEntityResponse],
     FindAllCommandMixin[BillingEntityResponse],

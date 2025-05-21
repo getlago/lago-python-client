@@ -79,6 +79,7 @@ def update_billing_entity_input():
         ),
     )
 
+
 def test_valid_create_billing_entity_request(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
 
