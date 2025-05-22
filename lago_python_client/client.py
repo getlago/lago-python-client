@@ -2,6 +2,7 @@ from urllib.parse import urljoin
 
 from .add_ons.clients import AddOnClient
 from .billable_metrics.clients import BillableMetricClient
+from .billing_entities.clients import BillingEntityClient
 from .coupons.clients import AppliedCouponClient, CouponClient
 from .credit_notes.clients import CreditNoteClient
 from .customers.clients import CustomerClient
@@ -67,6 +68,10 @@ class Client:
     @callable_cached_property
     def billable_metrics(self) -> BillableMetricClient:
         return BillableMetricClient(self.base_api_url, self.api_key)
+
+    @callable_cached_property
+    def billing_entities(self) -> BillingEntityClient:
+        return BillingEntityClient(self.base_api_url, self.api_key)
 
     @callable_cached_property
     def coupons(self) -> CouponClient:

@@ -32,7 +32,7 @@ Check the [lago API reference](https://doc.getlago.com/docs/api/intro)
 
 ```bash
 python -m pip install --upgrade pip setuptools wheel
-python -m pip install .[test]
+python -m pip install '.[test]'
 ```
 
 ### Run tests
