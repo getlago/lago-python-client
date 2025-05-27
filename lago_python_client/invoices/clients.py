@@ -107,6 +107,20 @@ class InvoiceClient(
             data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
 
+    def void(self, resource_id: str) -> InvoiceResponse:
+        api_response: Response = send_post_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, "void"),
+            ),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=get_response_data(response=api_response, key=self.ROOT_NAME),
+        )
+
     def lose_dispute(self, resource_id: str) -> InvoiceResponse:
         api_response: Response = send_put_request(
             url=make_url(
