@@ -27,7 +27,7 @@
         "min_amount_cents": 0,
         "properties": {
           "amount": "0.22",
-          "grouped_by": ["agent_name"]
+          "pricing_group_keys": ["agent_name"]
         },
         "filters": [
           {
