@@ -1,7 +1,9 @@
 from typing import Optional, List
+from datetime import datetime
+
 from ..base_model import BaseModel, BaseResponseModel
 from .tax import TaxesResponse
-from datetime import datetime
+from .invoice_custom_section import InvoiceCustomSectionsResponseList
 
 
 class BillingEntityBillingConfiguration(BaseModel):
@@ -60,6 +62,7 @@ class BillingEntityUpdate(BaseModel):
     tax_codes: Optional[List[str]]
     email_settings: Optional[List[str]]
     billing_configuration: Optional[BillingEntityBillingConfiguration]
+    invoice_custom_section_codes: Optional[List[str]]
 
 
 class BillingEntityResponse(BaseResponseModel):
@@ -92,5 +95,6 @@ class BillingEntityResponse(BaseResponseModel):
     invoice_grace_period: Optional[int]
     email_settings: Optional[List[str]]
     taxes: Optional[TaxesResponse]
+    selected_invoice_custom_sections: Optional[InvoiceCustomSectionsResponseList]
     created_at: datetime
     updated_at: datetime
