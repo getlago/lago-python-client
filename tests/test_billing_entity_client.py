@@ -77,6 +77,7 @@ def update_billing_entity_input():
             invoice_grace_period=5,
             document_locale="fr",
         ),
+        invoice_custom_section_codes=["custom_section_1", "custom_section_2"],
     )
 
 

@@ -95,6 +95,7 @@ def test_valid_create_customers_request(httpx_mock: HTTPXMock):
     assert response.shipping_address.state == "XZ"
     assert response.integration_customers.__root__[0].external_customer_id == "test-12345"
     assert response.integration_customers.__root__[0].type == "netsuite"
+    assert response.applicable_invoice_custom_sections.__root__[0].code == "custom_section_code"
     assert response.metadata.__root__[0].lago_id == "12345"
     assert response.metadata.__root__[0].key == "key"
     assert response.metadata.__root__[0].value == "value"

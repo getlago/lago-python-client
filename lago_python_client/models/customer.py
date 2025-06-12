@@ -5,6 +5,7 @@ from lago_python_client.base_model import BaseModel
 from ..base_model import BaseResponseModel
 
 from .tax import TaxesResponse
+from .invoice_custom_section import InvoiceCustomSectionsResponseList
 
 
 class CustomerBillingConfiguration(BaseModel):
@@ -73,21 +74,6 @@ class MetadataList(BaseModel):
 
 class MetadataResponseList(BaseModel):
     __root__: List[MetadataResponse]
-
-
-class InvoiceCustomSection(BaseModel):
-    lago_id: Optional[str]
-    code: Optional[str]
-    name: Optional[str]
-    description: Optional[str]
-    details: Optional[str]
-    display_name: Optional[str]
-    applied_to_organization: Optional[bool]
-    created_at: Optional[str]
-
-
-class InvoiceCustomSectionsResponseList(BaseModel):
-    __root__: List[InvoiceCustomSection]
 
 
 class Customer(BaseModel):
