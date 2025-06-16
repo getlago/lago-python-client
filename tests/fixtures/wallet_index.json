@@ -30,7 +30,10 @@
           "started_at": null,
           "target_ongoing_balance": null
         }
-      ]
+      ],
+      "applies_to": {
+        "fee_types": ["charge"]
+      }
     },
     {
       "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac1111",
@@ -51,7 +54,10 @@
       "ongoing_usage_balance_cents": 200,
       "credits_ongoing_balance": "8.0",
       "credits_ongoing_usage_balance": "2.0",
-      "recurring_transaction_rules": []
+      "recurring_transaction_rules": [],
+      "applies_to": {
+        "fee_types": ["charge"]
+      }
     }
   ],
   "meta": {

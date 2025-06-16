@@ -9,6 +9,7 @@ from lago_python_client.models import (
     Wallet,
     RecurringTransactionRule,
     RecurringTransactionRuleList,
+    AppliesTo,
 )
 
 
@@ -22,6 +23,7 @@ def wallet_object():
         target_ongoing_balance="105.0",
     )
     rules_list = RecurringTransactionRuleList(__root__=[rule])
+    applies_to = AppliesTo(fee_types=["charge"])
     return Wallet(
         name="name",
         external_customer_id="12345",
@@ -29,6 +31,7 @@ def wallet_object():
         paid_credits="10",
         granted_credits="10",
         recurring_transaction_rules=rules_list,
+        applies_to=applies_to,
     )
 
 
@@ -62,6 +65,7 @@ def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
     assert response.recurring_transaction_rules.__root__[0].lago_id == "12345"
     assert response.recurring_transaction_rules.__root__[0].trigger == "interval"
     assert response.recurring_transaction_rules.__root__[0].interval == "monthly"
+    assert response.applies_to.fee_types[0] == "charge"
 
 
 def test_invalid_create_wallet_request(httpx_mock: HTTPXMock):
