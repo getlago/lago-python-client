@@ -29,6 +29,9 @@
     "ongoing_balance_cents": 800,
     "ongoing_usage_balance_cents": 200,
     "credits_ongoing_balance": "8.0",
-    "credits_ongoing_usage_balance": "2.0"
+    "credits_ongoing_usage_balance": "2.0",
+    "applies_to": {
+      "fee_types": ["charge"]
+    }
   }
 }

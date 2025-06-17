@@ -88,6 +88,7 @@ from .wallet import (
     RecurringTransactionRuleList as RecurringTransactionRuleList,
     RecurringTransactionRuleResponse as RecurringTransactionRuleResponse,
     RecurringTransactionRuleResponseList as RecurringTransactionRuleResponseList,
+    AppliesTo as AppliesTo,
 )
 from .wallet_transaction import WalletTransaction as WalletTransaction
 from .webhook_endpoint import WebhookEndpoint as WebhookEndpoint

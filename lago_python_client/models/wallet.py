@@ -43,6 +43,10 @@ class RecurringTransactionRuleResponseList(BaseModel):
     __root__: List[RecurringTransactionRuleResponse]
 
 
+class AppliesTo(BaseModel):
+    fee_types: Optional[List[str]]
+
+
 class Wallet(BaseModel):
     external_customer_id: Optional[str]
     rate_amount: Optional[str]
@@ -53,6 +57,7 @@ class Wallet(BaseModel):
     currency: Optional[str]
     recurring_transaction_rules: Optional[RecurringTransactionRuleList]
     transaction_metadata: Optional[List[Dict[str, str]]]
+    applies_to: Optional[AppliesTo]
 
 
 class WalletResponse(BaseResponseModel):
@@ -76,3 +81,4 @@ class WalletResponse(BaseResponseModel):
     ongoing_usage_balance_cents: int
     credits_ongoing_balance: str
     credits_ongoing_usage_balance: str
+    applies_to: Optional[AppliesTo]
