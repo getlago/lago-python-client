@@ -300,7 +300,7 @@ def test_valid_void_invoice_request_no_options(httpx_mock: HTTPXMock):
         url="https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba/void",
         content=mock_response(mock="voided_invoice"),
     )
-    response = client.invoices.void("5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba")
+    response = client.invoices.void_invoice("5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba")
 
     assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
     assert response.status == "voided"
@@ -318,7 +318,7 @@ def test_valid_void_invoice_request_with_options(httpx_mock: HTTPXMock):
         "refund_amount": 1000,
         "credit_amount": 10,
     }
-    response = client.invoices.void("5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba", options)
+    response = client.invoices.void_invoice("5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba", options)
 
     assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
     assert response.status == "voided"

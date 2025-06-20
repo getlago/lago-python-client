@@ -148,7 +148,7 @@ class InvoiceClient(
             data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
 
-    def void(self, resource_id: str, options: Mapping[str, Any] = {}) -> InvoiceResponse:
+    def void_invoice(self, resource_id: str, options: Mapping[str, Any] = {}) -> InvoiceResponse:
         api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
