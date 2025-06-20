@@ -1,4 +1,4 @@
-from typing import ClassVar, Optional, Type, Mapping
+from typing import ClassVar, Optional, Type, Mapping, Any
 
 from ..base_client import BaseClient
 from ..mixins import (
@@ -145,5 +145,20 @@ class InvoiceClient(
 
         return prepare_object_response(
             response_model=InvoiceResponse,
+            data=get_response_data(response=api_response, key=self.ROOT_NAME),
+        )
+
+    def void(self, resource_id: str, options: Mapping[str, Any] = {}) -> InvoiceResponse:
+        api_response: Response = send_post_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, "void"),
+            ),
+            content=to_json(options) if options else None,
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
             data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
