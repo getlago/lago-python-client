@@ -159,6 +159,6 @@ class InvoiceClient(
         )
 
         return prepare_object_response(
-            response_model=self.RESPONSE_MODEL,
+            response_model=InvoiceResponse,
             data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
