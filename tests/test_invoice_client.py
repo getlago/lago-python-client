@@ -304,3 +304,36 @@ def test_valid_preview_request(httpx_mock: HTTPXMock):
     assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
     assert response.status == "finalized"
     assert response.payment_status == "failed"
+
+
+def test_valid_void_invoice_request_no_options(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba/void",
+        content=mock_response(mock="voided_invoice"),
+    )
+    response = client.invoices.void_invoice("5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba")
+
+    assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+    assert response.status == "voided"
+
+
+def test_valid_void_invoice_request_with_options(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba/void",
+        content=mock_response(mock="voided_invoice"),
+    )
+    options = {
+        "generate_credit_note": True,
+        "refund_amount": 1000,
+        "credit_amount": 10,
+    }
+    response = client.invoices.void_invoice("5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba", options)
+
+    assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+    assert response.status == "voided"
