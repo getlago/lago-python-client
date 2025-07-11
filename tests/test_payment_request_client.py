@@ -49,7 +49,7 @@ def test_valid_find_payment_request_request(httpx_mock: HTTPXMock):
 
 
 def test_invalid_find_payment_request_request(httpx_mock: HTTPXMock):
-    client = Client(api_key="invalid")
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
     payment_request_id = "invalid"
 
     httpx_mock.add_response(
