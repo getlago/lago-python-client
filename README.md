@@ -7,10 +7,10 @@ This is a python wrapper for Lago API
 
 ## Current Releases
 
-| Project            | Release Badge                                                                                       |
-|--------------------|-----------------------------------------------------------------------------------------------------|
-| **Lago**           | [![Lago Release](https://img.shields.io/github/v/release/getlago/lago)](https://github.com/getlago/lago/releases) |
-| **Lago Python Client**     | [![Lago Python Client Release](https://img.shields.io/github/v/release/getlago/lago-python-client)](https://github.com/getlago/lago-python-client/releases) |
+| Project                | Release Badge                                                                                                                                               |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Lago**               | [![Lago Release](https://img.shields.io/github/v/release/getlago/lago)](https://github.com/getlago/lago/releases)                                           |
+| **Lago Python Client** | [![Lago Python Client Release](https://img.shields.io/github/v/release/getlago/lago-python-client)](https://github.com/getlago/lago-python-client/releases) |
 
 ## Installation
 
@@ -32,13 +32,19 @@ Check the [lago API reference](https://doc.getlago.com/docs/api/intro)
 
 ```bash
 python -m pip install --upgrade pip setuptools wheel
-python -m pip install '.[test]'
+python -m pip install '.[test,lint]'
 ```
 
 ### Run tests
 
 ```bash
 pytest
+```
+
+### Lint
+
+```bash
+ruff format
 ```
 
 ## Documentation
