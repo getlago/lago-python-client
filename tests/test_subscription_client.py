@@ -154,6 +154,7 @@ def test_valid_destroy_subscription_with_on_termination_credit_note_request(http
     assert response.external_customer_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
     assert response.status == "active"
     assert response.plan_code == "eartha lynch"
+    assert response.on_termination_credit_note == "skip"
 
 
 def test_valid_destroy_pending_subscription_request(httpx_mock: HTTPXMock):
