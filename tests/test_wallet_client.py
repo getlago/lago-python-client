@@ -23,7 +23,10 @@ def wallet_object():
         target_ongoing_balance="105.0",
     )
     rules_list = RecurringTransactionRuleList(__root__=[rule])
-    applies_to = AppliesTo(fee_types=["charge"])
+    applies_to = AppliesTo(
+        fee_types=["charge"],
+        billable_metric_codes=["usage"],
+    )
     return Wallet(
         name="name",
         external_customer_id="12345",
@@ -66,6 +69,7 @@ def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
     assert response.recurring_transaction_rules.__root__[0].trigger == "interval"
     assert response.recurring_transaction_rules.__root__[0].interval == "monthly"
     assert response.applies_to.fee_types[0] == "charge"
+    assert response.applies_to.billable_metric_codes[0] == "usage"
 
 
 def test_invalid_create_wallet_request(httpx_mock: HTTPXMock):

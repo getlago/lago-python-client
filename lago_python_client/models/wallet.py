@@ -45,6 +45,7 @@ class RecurringTransactionRuleResponseList(BaseModel):
 
 class AppliesTo(BaseModel):
     fee_types: Optional[List[str]]
+    billable_metric_codes: Optional[List[str]]
 
 
 class Wallet(BaseModel):
