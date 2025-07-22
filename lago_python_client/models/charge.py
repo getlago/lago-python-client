@@ -12,6 +12,11 @@ class ChargeFilter(BaseModel):
     values: Optional[Dict[str, List[str]]]
 
 
+class AppliedPricingUnit(BaseModel):
+    code: Optional[str]
+    conversion_rate: Optional[float]
+
+
 class ChargeFilters(BaseModel):
     __root__: List[ChargeFilter]
 
@@ -29,6 +34,7 @@ class Charge(BaseModel):
     properties: Optional[Dict[str, Any]]
     filters: Optional[ChargeFilters]
     tax_codes: Optional[List[str]]
+    applied_pricing_unit: Optional[AppliedPricingUnit]
 
 
 class Charges(BaseModel):
