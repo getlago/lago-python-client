@@ -12,6 +12,7 @@
     "billing_time": "anniversary",
     "terminated_at": null,
     "on_termination_credit_note": "skip",
+    "on_termination_invoice": "skip",
     "subscription_at": "2022-04-29T08:59:51Z",
     "previous_plan_code": null,
     "next_plan_code": null,

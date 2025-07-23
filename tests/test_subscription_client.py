@@ -140,21 +140,26 @@ def test_valid_destroy_subscription_request(httpx_mock: HTTPXMock):
     assert response.plan_code == "eartha lynch"
 
 
-def test_valid_destroy_subscription_with_on_termination_credit_note_request(httpx_mock: HTTPXMock):
+def test_valid_destroy_subscription_with_on_termination_actions_request(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
     identifier = "sub_id"
 
     httpx_mock.add_response(
         method="DELETE",
-        url="https://api.getlago.com/api/v1/subscriptions/" + identifier + "?on_termination_credit_note=skip",
+        url="https://api.getlago.com/api/v1/subscriptions/"
+        + identifier
+        + "?on_termination_credit_note=skip&on_termination_invoice=skip",
         content=mock_response(),
     )
-    response = client.subscriptions.destroy(identifier, {"on_termination_credit_note": "skip"})
+    response = client.subscriptions.destroy(
+        identifier, {"on_termination_credit_note": "skip", "on_termination_invoice": "skip"}
+    )
 
     assert response.external_customer_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
     assert response.status == "active"
     assert response.plan_code == "eartha lynch"
     assert response.on_termination_credit_note == "skip"
+    assert response.on_termination_invoice == "skip"
 
 
 def test_valid_destroy_pending_subscription_request(httpx_mock: HTTPXMock):

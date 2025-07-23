@@ -45,6 +45,7 @@ class SubscriptionResponse(BaseResponseModel):
     current_billing_period_started_at: Optional[str]
     current_billing_period_ending_at: Optional[str]
     on_termination_credit_note: Optional[str]
+    on_termination_invoice: Optional[str]
 
 
 class SubscriptionsResponse(BaseResponseModel):
