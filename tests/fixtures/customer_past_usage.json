@@ -25,6 +25,11 @@
             "code": "usage_metric",
             "aggregation_type": "sum"
           },
+          "pricing_unit_details": {
+            "amount_cents": 123,
+            "short_name": "CR",
+            "conversion_rate": 1.0
+          },
           "filters": [
             {
               "units": "3.0",
@@ -34,6 +39,11 @@
                 "country": [
                   "france"
                 ]
+              },
+              "pricing_unit_details": {
+                "amount_cents": 123,
+                "short_name": "CR",
+                "conversion_rate": 1.0
               }
             }
           ]

@@ -26,6 +26,17 @@ class FeeAppliedTaxes(BaseResponseModel):
     __root__: List[FeeAppliedTax]
 
 
+class PricingUnitDetails(BaseResponseModel):
+    lago_pricing_unit_id: Optional[str]
+    pricing_unit_code: Optional[str]
+    short_name: Optional[str]
+    amount_cents: Optional[int]
+    precise_amount_cents: Optional[str]
+    unit_amount_cents: Optional[int]
+    precise_unit_amount: Optional[str]
+    conversion_rate: Optional[float]
+
+
 class FeeResponse(BaseResponseModel):
     lago_id: Optional[str]
     lago_charge_id: Optional[str]
@@ -59,6 +70,7 @@ class FeeResponse(BaseResponseModel):
     from_date: Optional[str]
     to_date: Optional[str]
     amount_details: Optional[Dict[str, Any]]
+    pricing_unit_details: Optional[PricingUnitDetails]
     billing_entity_code: Optional[str]
 
     item: Optional[InvoiceItemResponse]

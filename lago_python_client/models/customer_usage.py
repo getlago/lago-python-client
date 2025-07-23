@@ -12,12 +12,19 @@ class Metric(BaseModel):
     aggregation_type: str
 
 
+class PricingUnitDetails(BaseModel):
+    amount_cents: int
+    short_name: str
+    conversion_rate: float
+
+
 class ChargeFilterUsage(BaseModel):
     invoice_display_name: Optional[str]
     values: Dict[str, List[str]]
     units: str
     amount_cents: int
     events_count: int
+    pricing_unit_details: Optional[PricingUnitDetails]
 
 
 class ChargeObject(BaseModel):
@@ -32,6 +39,7 @@ class GroupedUsage(BaseModel):
     units: float
     grouped_by: Dict[str, str]
     filters: List[ChargeFilterUsage]
+    pricing_unit_details: Optional[PricingUnitDetails]
 
 
 class ChargeUsage(BaseModel):
@@ -43,6 +51,7 @@ class ChargeUsage(BaseModel):
     billable_metric: Metric
     filters: List[ChargeFilterUsage]
     grouped_usage: Optional[List[GroupedUsage]]
+    pricing_unit_details: Optional[PricingUnitDetails]
 
 
 class CustomerUsageResponse(BaseResponseModel):
