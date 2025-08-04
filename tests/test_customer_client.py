@@ -126,7 +126,7 @@ def test_valid_current_usage(httpx_mock: HTTPXMock):
 
     assert response.from_datetime == "2022-07-01T00:00:00Z"
     assert len(response.charges_usage) == 1
-    assert response.charges_usage[0].units == 1.0
+    assert response.charges_usage[0].units == "1.0"
     assert len(response.charges_usage[0].filters) == 1
     assert response.charges_usage[0].filters[0].values["country"] == ["france"]
 
@@ -143,7 +143,7 @@ def test_valid_current_usage_without_taxes(httpx_mock: HTTPXMock):
 
     assert response.from_datetime == "2022-07-01T00:00:00Z"
     assert len(response.charges_usage) == 1
-    assert response.charges_usage[0].units == 1.0
+    assert response.charges_usage[0].units == "1.0"
     assert len(response.charges_usage[0].filters) == 1
     assert response.charges_usage[0].filters[0].values["country"] == ["france"]
 
@@ -175,7 +175,7 @@ def test_valid_past_usage(httpx_mock: HTTPXMock):
     assert len(response["usage_periods"]) == 1
     assert response["usage_periods"][0].from_datetime == "2022-07-01T00:00:00Z"
     assert len(response["usage_periods"][0].charges_usage) == 1
-    assert response["usage_periods"][0].charges_usage[0].units == 1.0
+    assert response["usage_periods"][0].charges_usage[0].units == "1.0"
     assert len(response["usage_periods"][0].charges_usage[0].filters) == 1
 
 

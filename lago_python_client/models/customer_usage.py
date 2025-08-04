@@ -22,7 +22,9 @@ class ChargeFilterUsage(BaseModel):
     invoice_display_name: Optional[str]
     values: Dict[str, List[str]]
     units: str
+    projected_units: str
     amount_cents: int
+    projected_amount_cents: int
     events_count: int
     pricing_unit_details: Optional[PricingUnitDetails]
 
@@ -35,17 +37,21 @@ class ChargeObject(BaseModel):
 
 class GroupedUsage(BaseModel):
     amount_cents: int
+    projected_amount_cents: int
     events_count: int
-    units: float
+    units: str
+    projected_units: str
     grouped_by: Dict[str, str]
     filters: List[ChargeFilterUsage]
     pricing_unit_details: Optional[PricingUnitDetails]
 
 
 class ChargeUsage(BaseModel):
-    units: float
+    units: str
+    projected_units: str
     events_count: int
     amount_cents: int
+    projected_amount_cents: int
     amount_currency: str
     charge: ChargeObject
     billable_metric: Metric
@@ -61,6 +67,7 @@ class CustomerUsageResponse(BaseResponseModel):
     invoice_id: Optional[str]
     currency: str
     amount_cents: int
+    projected_amount_cents: int
     total_amount_cents: int
     taxes_amount_cents: int
     charges_usage: List[ChargeUsage]
