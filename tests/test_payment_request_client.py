@@ -32,6 +32,37 @@ def mock_collection_response():
         return payment_requests_response.read()
 
 
+def test_valid_find_payment_request_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    payment_request_id = "89b6b61e-4dbc-4307-ac96-4abcfa9e3e2d"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/payment_requests/" + payment_request_id,
+        content=mock_response(),
+    )
+    response = client.payment_requests.find(payment_request_id)
+
+    assert response.lago_id == "89b6b61e-4dbc-4307-ac96-4abcfa9e3e2d"
+    assert response.amount_cents == 19955
+    assert response.amount_currency == "EUR"
+
+
+def test_invalid_find_payment_request_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    payment_request_id = "invalid"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/payment_requests/" + payment_request_id,
+        status_code=404,
+        content=b"",
+    )
+
+    with pytest.raises(LagoApiError):
+        client.payment_requests.find(payment_request_id)
+
+
 def test_valid_find_all_payment_requests_request(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
 
