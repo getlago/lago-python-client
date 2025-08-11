@@ -56,7 +56,7 @@ class CustomerClient(
             response_model=CustomerUsageResponse,
             data=get_response_data(response=api_response, key="customer_usage"),
         )
-    
+
     def projected_usage(
         self, resource_id: str, external_subscription_id: str, apply_taxes: Optional[str] = None
     ) -> CustomerProjectedUsageResponse:
