@@ -6,13 +6,16 @@
     "invoice_id": null,
     "currency": "EUR",
     "amount_cents": 123,
+    "projected_amount_cents": 256,
     "total_amount_cents": 123,
     "taxes_amount_cents": 0,
     "charges_usage": [
       {
         "units": "1.0",
+        "projected_units": "2.0",
         "events_count": 1,
         "amount_cents": 123,
+        "projected_amount_cents": 256,
         "amount_currency": "EUR",
         "charge": {
           "lago_id": "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
@@ -33,8 +36,10 @@
         "filters": [
           {
             "units": "3.0",
+            "projected_units": "4.0",
             "events_count": 1,
             "amount_cents": 123,
+            "projected_amount_cents": 256,
             "values": {
               "country": [
                 "france"
@@ -50,8 +55,10 @@
         "grouped_usage": [
           {
             "amount_cents": 123,
+            "projected_amount_cents": 256,
             "events_count": 1,
             "units": "3.0",
+            "projected_units": "4.0",
             "grouped_by": {
               "agent_name": "aragorn"
             },
@@ -63,8 +70,10 @@
             "filters": [
               {
                 "units": "3.0",
+                "projected_units": "4.0",
                 "events_count": 1,
                 "amount_cents": 123,
+                "projected_amount_cents": 256,
                 "values": {
                   "country": [
                     "france"

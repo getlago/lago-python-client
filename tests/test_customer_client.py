@@ -130,6 +130,27 @@ def test_valid_current_usage(httpx_mock: HTTPXMock):
     assert len(response.charges_usage[0].filters) == 1
     assert response.charges_usage[0].filters[0].values["country"] == ["france"]
 
+def test_valid_projected_usage(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/customers/external_customer_id/projected_usage?external_subscription_id=123",
+        content=mock_response("customer_projected_usage"),
+    )
+    response = client.customers.projected_usage("external_customer_id", "123")
+
+    assert response.from_datetime == "2022-07-01T00:00:00Z"
+    assert len(response.charges_usage) == 1
+    assert response.charges_usage[0].units == "1.0"
+    assert response.charges_usage[0].projected_units == "2.0"
+    assert response.charges_usage[0].amount_cents == 123
+    assert response.charges_usage[0].projected_amount_cents == 256
+    assert response.charges_usage[0].amount_currency == "EUR"
+    assert response.charges_usage[0].charge.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+    assert response.charges_usage[0].charge.charge_model == "graduated"
+    assert response.charges_usage[0].charge.invoice_display_name == "add_on_invoice_display_name"
+    assert response.charges_usage[0].billable_metric.lago_id == "99a6094e-199b-4101-896a-54e927ce7bd7"
 
 def test_valid_current_usage_without_taxes(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")

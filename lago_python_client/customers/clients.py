@@ -10,6 +10,7 @@ from ..mixins import (
 )
 from ..models.customer import CustomerResponse
 from ..models.customer_usage import CustomerUsageResponse
+from ..models.customer_projected_usage import CustomerProjectedUsageResponse
 from ..services.request import make_headers, make_url, send_get_request, send_post_request, QueryPairs
 from ..services.response import (
     get_response_data,
@@ -54,6 +55,27 @@ class CustomerClient(
         return prepare_object_response(
             response_model=CustomerUsageResponse,
             data=get_response_data(response=api_response, key="customer_usage"),
+        )
+    
+    def projected_usage(
+        self, resource_id: str, external_subscription_id: str, apply_taxes: Optional[str] = None
+    ) -> CustomerProjectedUsageResponse:
+        query_params = {"external_subscription_id": external_subscription_id}
+        if apply_taxes is not None:
+            query_params["apply_taxes"] = apply_taxes
+
+        api_response: Response = send_get_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, "projected_usage"),
+                query_pairs=query_params,
+            ),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        return prepare_object_response(
+            response_model=CustomerProjectedUsageResponse,
+            data=get_response_data(response=api_response, key="customer_projected_usage"),
         )
 
     def past_usage(
