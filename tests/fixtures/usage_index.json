@@ -1,0 +1,24 @@
+{
+  "usages": [
+    {
+      "organization_id": "123-123-123-123-123",
+      "start_of_period_dt": "2025-02-25",
+      "end_of_period_dt": "2025-02-25",
+      "amount_currency": "USD",
+      "amount_cents": 110,
+      "billable_metric_code": "app_test",
+      "units": 11.123,
+      "is_billable_metric_deleted": false
+    },
+    {
+      "organization_id": "123-123-123-123-123",
+      "start_of_period_dt": "2025-02-26",
+      "end_of_period_dt": "2025-02-26",
+      "amount_currency": "USD",
+      "amount_cents": 120,
+      "billable_metric_code": "app_test",
+      "units": 12.542,
+      "is_billable_metric_deleted": false
+    }
+  ]
+}
