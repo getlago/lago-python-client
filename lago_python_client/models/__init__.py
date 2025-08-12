@@ -67,6 +67,10 @@ from .invoice import (
     InvoiceFee as InvoiceFee,
 )
 from .invoice_item import InvoiceItemResponse as InvoiceItemResponse
+from .invoice_custom_section import (
+    InvoiceCustomSectionResponse as InvoiceCustomSectionResponse,
+    InvoiceCustomSectionsResponseList as InvoiceCustomSectionsResponseList,
+)
 from .minimum_commitment import (
     MinimumCommitment as MinimumCommitment,
     MinimumCommitmentResponse as MinimumCommitmentResponse,
