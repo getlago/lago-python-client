@@ -18,11 +18,13 @@ class PricingUnitDetails(BaseModel):
     conversion_rate: float
 
 
-class ChargeFilterUsage(BaseModel):
+class ProjectedChargeFilterUsage(BaseModel):
     invoice_display_name: Optional[str]
     values: Dict[str, List[str]]
     units: str
+    projected_units: str
     amount_cents: int
+    projected_amount_cents: int
     events_count: int
     pricing_unit_details: Optional[PricingUnitDetails]
 
@@ -33,34 +35,39 @@ class ChargeObject(BaseModel):
     invoice_display_name: Optional[str]
 
 
-class GroupedUsage(BaseModel):
+class ProjectedGroupedUsage(BaseModel):
     amount_cents: int
+    projected_amount_cents: int
     events_count: int
     units: str
+    projected_units: str
     grouped_by: Dict[str, str]
-    filters: List[ChargeFilterUsage]
+    filters: List[ProjectedChargeFilterUsage]
     pricing_unit_details: Optional[PricingUnitDetails]
 
 
-class ChargeUsage(BaseModel):
+class ProjectedChargeUsage(BaseModel):
     units: str
+    projected_units: str
     events_count: int
     amount_cents: int
+    projected_amount_cents: int
     amount_currency: str
     charge: ChargeObject
     billable_metric: Metric
-    filters: List[ChargeFilterUsage]
-    grouped_usage: Optional[List[GroupedUsage]]
+    filters: List[ProjectedChargeFilterUsage]
+    grouped_usage: Optional[List[ProjectedGroupedUsage]]
     pricing_unit_details: Optional[PricingUnitDetails]
 
 
-class CustomerUsageResponse(BaseResponseModel):
+class CustomerProjectedUsageResponse(BaseResponseModel):
     from_datetime: str
     to_datetime: str
     issuing_date: str
     invoice_id: Optional[str]
     currency: str
     amount_cents: int
+    projected_amount_cents: int
     total_amount_cents: int
     taxes_amount_cents: int
-    charges_usage: List[ChargeUsage]
+    charges_usage: List[ProjectedChargeUsage]
