@@ -13,7 +13,7 @@ except ImportError:  # Python 3.7
 
 from httpx import Response as Response  # not a typo! implicit reexport
 from lago_python_client.base_model import BaseModel
-import typeguard
+from typeguard import check_type, CollectionCheckStrategy, TypeCheckError
 
 from ..exceptions import LagoApiError
 from ..services.json import DeserializedData, from_json
@@ -24,8 +24,6 @@ else:
     from typing import Mapping, Sequence
 
 _M = TypeVar("_M", bound=BaseModel)
-
-typeguard.config.collection_check_strategy = typeguard.CollectionCheckStrategy.ALL_ITEMS
 
 RESPONSE_SUCCESS_CODES: Final[Set[int]] = {
     HTTPStatus.OK,  # 200
@@ -74,8 +72,10 @@ def get_response_data(*, response: Response, key: str = "") -> Optional[_Mapping
 
     # Ensure deserialized_data has correct type: sequence or mapping or raise LagoApiError
     try:
-        mapping_or_sequence_data = typeguard.check_type(deserialized_data, _MappingOrSequence)
-    except typeguard.TypeCheckError as exc:
+        mapping_or_sequence_data = check_type(
+            deserialized_data, _MappingOrSequence, collection_check_strategy=CollectionCheckStrategy.ALL_ITEMS
+        )
+    except TypeCheckError as exc:
         raise LagoApiError(
             status_code=HTTPStatus.INTERNAL_SERVER_ERROR,  # 500
             url=None,
@@ -113,8 +113,10 @@ def prepare_index_response(
     # Ensure deserialized_data has correct type: mapping with mapping or sequence inside or raise LagoApiError
 
     try:
-        response_data: Mapping[str, _MappingOrSequence] = typeguard.check_type(data, Mapping[str, _MappingOrSequence])
-    except typeguard.TypeCheckError as exc:
+        response_data: Mapping[str, _MappingOrSequence] = check_type(
+            data, Mapping[str, _MappingOrSequence], collection_check_strategy=CollectionCheckStrategy.ALL_ITEMS
+        )
+    except TypeCheckError as exc:
         raise LagoApiError(
             status_code=HTTPStatus.INTERNAL_SERVER_ERROR,  # 500
             url=None,
@@ -140,8 +142,10 @@ def prepare_object_list_response(
     # The only usage - ``WalletTransactionClient.create``
     # Ensure deserialized_data has correct type: sequence with mapping or sequence inside or raise LagoApiError
     try:
-        response_data: Sequence[_MappingOrSequence] = typeguard.check_type(data, Sequence[_MappingOrSequence])
-    except typeguard.TypeCheckError as exc:
+        response_data: Sequence[_MappingOrSequence] = check_type(
+            data, Sequence[_MappingOrSequence], collection_check_strategy=CollectionCheckStrategy.ALL_ITEMS
+        )
+    except TypeCheckError as exc:
         raise LagoApiError(
             status_code=HTTPStatus.INTERNAL_SERVER_ERROR,  # 500
             url=None,

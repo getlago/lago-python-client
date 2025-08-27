@@ -9,7 +9,7 @@ except ImportError:
     from typing_extensions import TypedDict
 
 from lago_python_client.base_model import BaseModel
-import typeguard
+from typeguard import check_type, CollectionCheckStrategy, TypeCheckError
 
 from ..base_client import BaseClient
 from ..exceptions import LagoApiError
@@ -20,8 +20,6 @@ if sys.version_info >= (3, 9):
     from collections.abc import Mapping, Sequence
 else:
     from typing import Mapping, Sequence
-
-typeguard.config.collection_check_strategy = typeguard.CollectionCheckStrategy.ALL_ITEMS
 
 
 class _ResponseWithPublicKeyInside(TypedDict):
@@ -46,10 +44,10 @@ class WebhookClient(BaseClient):
         )
 
         try:
-            checked_response_data: _ResponseWithPublicKeyInside = typeguard.check_type(
-                response_data, _ResponseWithPublicKeyInside
+            checked_response_data: _ResponseWithPublicKeyInside = check_type(
+                response_data, _ResponseWithPublicKeyInside, collection_check_strategy=CollectionCheckStrategy.ALL_ITEMS
             )  # type: ignore
-        except typeguard.TypeCheckError:
+        except TypeCheckError:
             raise LagoApiError(
                 status_code=HTTPStatus.INTERNAL_SERVER_ERROR,  # 500
                 url=None,
