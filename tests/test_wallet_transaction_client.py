@@ -9,7 +9,9 @@ from lago_python_client.models import WalletTransaction
 
 
 def wallet_transaction_object():
-    return WalletTransaction(wallet_id="123", paid_credits="10", granted_credits="10", voided_credits="0")
+    return WalletTransaction(
+        wallet_id="123", paid_credits="10", granted_credits="10", voided_credits="0", name="Transaction Name"
+    )
 
 
 def mock_response():
@@ -52,6 +54,9 @@ def test_valid_create_wallet_transaction_request(httpx_mock: HTTPXMock):
     assert response["wallet_transactions"][0].status == "settled"
     assert response["wallet_transactions"][2].status == "failed"
     assert response["wallet_transactions"][2].failed_at == "2022-04-29T08:59:51Z"
+    assert response["wallet_transactions"][0].name == "Transaction Name"
+    assert response["wallet_transactions"][1].name == "Transaction Name"
+    assert response["wallet_transactions"][2].name == "Transaction Name"
 
 
 def test_invalid_create_wallet_transaction_request(httpx_mock: HTTPXMock):

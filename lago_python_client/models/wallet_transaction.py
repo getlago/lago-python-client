@@ -11,6 +11,7 @@ class WalletTransaction(BaseModel):
     granted_credits: Optional[str]
     voided_credits: Optional[str]
     metadata: Optional[List[Dict[str, str]]]
+    name: Optional[str]
 
 
 class WalletTransactionResponse(BaseResponseModel):
@@ -26,3 +27,4 @@ class WalletTransactionResponse(BaseResponseModel):
     failed_at: Optional[str]
     created_at: str
     metadata: Optional[List[Dict[str, str]]]
+    name: Optional[str]
