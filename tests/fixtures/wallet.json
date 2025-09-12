@@ -23,7 +23,8 @@
         "paid_credits": "105.0",
         "granted_credits": "105.0",
         "started_at": null,
-        "target_ongoing_balance": "200.0"
+        "target_ongoing_balance": "200.0",
+        "transaction_name": "Recurring Transaction Rule"
       }
     ],
     "ongoing_balance_cents": 800,

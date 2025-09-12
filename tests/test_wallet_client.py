@@ -21,6 +21,7 @@ def wallet_object():
         granted_credits="105.0",
         method="target",
         target_ongoing_balance="105.0",
+        transaction_name="Recurring Transaction Rule",
     )
     rules_list = RecurringTransactionRuleList(__root__=[rule])
     applies_to = AppliesTo(
