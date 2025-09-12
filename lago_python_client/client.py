@@ -6,6 +6,7 @@ from .billing_entities.clients import BillingEntityClient
 from .coupons.clients import AppliedCouponClient, CouponClient
 from .credit_notes.clients import CreditNoteClient
 from .customers.clients import CustomerClient
+from .customers.invoices_clients import CustomerInvoicesClient
 from .events.clients import EventClient
 from .fees.clients import FeeClient
 from .functools_ext import callable_cached_property
@@ -91,6 +92,10 @@ class Client:
     @callable_cached_property
     def customers(self) -> CustomerClient:
         return CustomerClient(self.base_api_url, self.api_key)
+
+    @callable_cached_property
+    def customer_invoices(self) -> CustomerInvoicesClient:
+        return CustomerInvoicesClient(self.base_api_url, self.api_key)
 
     @callable_cached_property
     def events(self) -> EventClient:
