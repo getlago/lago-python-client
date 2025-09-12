@@ -1,18 +1,10 @@
-import os
-
 import pytest
 from pytest_httpx import HTTPXMock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
 
-
-def mock_response(mock="invoice"):
-    this_dir = os.path.dirname(os.path.abspath(__file__))
-    my_data_path = os.path.join(this_dir, "fixtures/" + mock + ".json")
-
-    with open(my_data_path, "rb") as invoice_response:
-        return invoice_response.read()
+from .utils.mixin import mock_response
 
 
 def test_valid_find_all_customer_invoices_request(httpx_mock: HTTPXMock):
