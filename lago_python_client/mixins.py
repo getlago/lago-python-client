@@ -38,6 +38,8 @@ _M = TypeVar("_M", bound=BaseModel)
 
 class _ClientMixin(Protocol[_PM]):
     @property
+    def PARENT_API_RESOURCE(self) -> str: ...
+    @property
     def API_RESOURCE(self) -> str: ...
     @property
     def RESPONSE_MODEL(self) -> Type[_PM]: ...
@@ -133,6 +135,36 @@ class FindAllCommandMixin(Generic[_M]):
         )
 
         # Process response data
+        return prepare_index_response(
+            api_resource=self.API_RESOURCE,
+            response_model=self.RESPONSE_MODEL,
+            data=get_response_data(response=api_response),
+        )
+
+
+class FindAllChildrenCommandMixin(Generic[_M]):
+    """Client mixin with `find_all` command scoped to a parent resource."""
+
+    def find_all(
+        self: _ClientMixin[_M],
+        resource_id: str,
+        options: QueryPairs = {},
+        timetour: Optional[httpx.Timeout] = None,
+    ) -> Mapping[str, Any]:
+        """Execute `find_all` child command."""
+        # Send request and save response
+        api_response: Response = send_get_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(
+                    self.PARENT_API_RESOURCE,
+                    resource_id,
+                    self.API_RESOURCE,
+                ),
+                query_pairs=options,
+            ),
+        )
+
         return prepare_index_response(
             api_resource=self.API_RESOURCE,
             response_model=self.RESPONSE_MODEL,
