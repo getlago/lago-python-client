@@ -59,6 +59,7 @@ class Wallet(BaseModel):
     recurring_transaction_rules: Optional[RecurringTransactionRuleList]
     transaction_metadata: Optional[List[Dict[str, str]]]
     applies_to: Optional[AppliesTo]
+    invoice_requires_successful_payment: Optional[bool]
 
 
 class WalletResponse(BaseResponseModel):
@@ -83,3 +84,4 @@ class WalletResponse(BaseResponseModel):
     credits_ongoing_balance: str
     credits_ongoing_usage_balance: str
     applies_to: Optional[AppliesTo]
+    invoice_requires_successful_payment: Optional[bool]

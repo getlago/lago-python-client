@@ -35,6 +35,7 @@ def wallet_object():
         granted_credits="10",
         recurring_transaction_rules=rules_list,
         applies_to=applies_to,
+        invoice_requires_successful_payment=False,
     )
 
 
