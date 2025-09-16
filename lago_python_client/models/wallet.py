@@ -36,6 +36,7 @@ class RecurringTransactionRuleResponse(BaseModel):
     transaction_metadata: Optional[List[Dict[str, str]]]
     transaction_name: Optional[str]
 
+
 class RecurringTransactionRuleList(BaseModel):
     __root__: List[RecurringTransactionRule]
 
