@@ -10,7 +10,12 @@ from lago_python_client.models import WalletTransaction
 
 def wallet_transaction_object():
     return WalletTransaction(
-        wallet_id="123", paid_credits="10", granted_credits="10", voided_credits="0", name="Transaction Name"
+        wallet_id="123",
+        paid_credits="10",
+        granted_credits="10",
+        voided_credits="0",
+        name="Transaction Name",
+        invoice_requires_successful_payment=False,
     )
 
 

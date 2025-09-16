@@ -10,6 +10,7 @@ class WalletTransaction(BaseModel):
     paid_credits: Optional[str]
     granted_credits: Optional[str]
     voided_credits: Optional[str]
+    invoice_requires_successful_payment: Optional[bool]
     metadata: Optional[List[Dict[str, str]]]
     name: Optional[str]
 
@@ -28,3 +29,4 @@ class WalletTransactionResponse(BaseResponseModel):
     created_at: str
     metadata: Optional[List[Dict[str, str]]]
     name: Optional[str]
+    invoice_requires_successful_payment: Optional[bool]
