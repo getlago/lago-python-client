@@ -17,6 +17,7 @@ class RecurringTransactionRule(BaseModel):
     expiration_at: Optional[str]
     target_ongoing_balance: Optional[str]
     transaction_metadata: Optional[List[Dict[str, str]]]
+    transaction_name: Optional[str]
 
 
 class RecurringTransactionRuleResponse(BaseModel):
@@ -33,6 +34,7 @@ class RecurringTransactionRuleResponse(BaseModel):
     target_ongoing_balance: Optional[str]
     created_at: Optional[str]
     transaction_metadata: Optional[List[Dict[str, str]]]
+    transaction_name: Optional[str]
 
 
 class RecurringTransactionRuleList(BaseModel):
