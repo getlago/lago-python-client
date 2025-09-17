@@ -37,6 +37,7 @@ def wallet_object():
         recurring_transaction_rules=rules_list,
         applies_to=applies_to,
         invoice_requires_successful_payment=False,
+        transaction_name="Transaction Name",
     )
 
 
@@ -63,6 +64,37 @@ def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
         method="POST",
         url="https://api.getlago.com/api/v1/wallets",
         content=mock_response(),
+        match_json={
+            "wallet": {
+                "external_customer_id": "12345",
+                "rate_amount": "1",
+                "name": "name",
+                "paid_credits": "10",
+                "granted_credits": "10",
+                "expiration_at": None,
+                "currency": None,
+                "recurring_transaction_rules": [
+                    {
+                        "lago_id": None,
+                        "interval": "monthly",
+                        "threshold_credits": None,
+                        "trigger": "interval",
+                        "method": "target",
+                        "paid_credits": "105.0",
+                        "granted_credits": "105.0",
+                        "started_at": None,
+                        "expiration_at": None,
+                        "target_ongoing_balance": "105.0",
+                        "transaction_metadata": None,
+                        "transaction_name": "Recurring Transaction Rule",
+                    }
+                ],
+                "transaction_metadata": None,
+                "invoice_requires_successful_payment": False,
+                "transaction_name": "Transaction Name",
+                "applies_to": {"fee_types": ["charge"], "billable_metric_codes": ["usage"]},
+            }
+        },
     )
     response = client.wallets.create(wallet_object())
 

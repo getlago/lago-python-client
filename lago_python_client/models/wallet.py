@@ -60,6 +60,7 @@ class Wallet(BaseModel):
     currency: Optional[str]
     recurring_transaction_rules: Optional[RecurringTransactionRuleList]
     transaction_metadata: Optional[List[Dict[str, str]]]
+    transaction_name: Optional[str]
     applies_to: Optional[AppliesTo]
     invoice_requires_successful_payment: Optional[bool]
 
