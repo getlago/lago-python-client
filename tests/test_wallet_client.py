@@ -76,6 +76,9 @@ def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
                 "granted_credits": "10",
                 "expiration_at": None,
                 "currency": None,
+                "paid_top_up_max_amount_cents": 10000,
+                "paid_top_up_min_amount_cents": 500,
+                "ignore_paid_top_up_limits_on_creation": None,
                 "recurring_transaction_rules": [
                     {
                         "lago_id": None,
@@ -90,6 +93,7 @@ def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
                         "target_ongoing_balance": "105.0",
                         "transaction_metadata": None,
                         "transaction_name": "Recurring Transaction Rule",
+                        "ignore_paid_top_up_limits": True,
                     }
                 ],
                 "transaction_metadata": None,
