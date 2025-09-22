@@ -41,7 +41,7 @@ class ProjectedGroupedUsage(BaseModel):
     events_count: int
     units: str
     projected_units: str
-    grouped_by: Dict[str, str]
+    grouped_by: Dict[str, str | None]
     filters: List[ProjectedChargeFilterUsage]
     pricing_unit_details: Optional[PricingUnitDetails]
 
