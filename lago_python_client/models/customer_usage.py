@@ -37,7 +37,7 @@ class GroupedUsage(BaseModel):
     amount_cents: int
     events_count: int
     units: str
-    grouped_by: Dict[str, str]
+    grouped_by: Dict[str, Optional[str]]
     filters: List[ChargeFilterUsage]
     pricing_unit_details: Optional[PricingUnitDetails]
 
