@@ -22,6 +22,7 @@ def wallet_object():
         method="target",
         target_ongoing_balance="105.0",
         transaction_name="Recurring Transaction Rule",
+        ignore_paid_top_up_limits=True,
     )
     rules_list = RecurringTransactionRuleList(__root__=[rule])
     applies_to = AppliesTo(
@@ -38,6 +39,8 @@ def wallet_object():
         applies_to=applies_to,
         invoice_requires_successful_payment=False,
         transaction_name="Transaction Name",
+        paid_top_up_max_amount_cents=10000,
+        paid_top_up_min_amount_cents=500,
     )
 
 
@@ -73,6 +76,9 @@ def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
                 "granted_credits": "10",
                 "expiration_at": None,
                 "currency": None,
+                "paid_top_up_max_amount_cents": 10000,
+                "paid_top_up_min_amount_cents": 500,
+                "ignore_paid_top_up_limits_on_creation": None,
                 "recurring_transaction_rules": [
                     {
                         "lago_id": None,
@@ -87,6 +93,7 @@ def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
                         "target_ongoing_balance": "105.0",
                         "transaction_metadata": None,
                         "transaction_name": "Recurring Transaction Rule",
+                        "ignore_paid_top_up_limits": True,
                     }
                 ],
                 "transaction_metadata": None,
@@ -102,8 +109,11 @@ def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
     assert response.recurring_transaction_rules.__root__[0].lago_id == "12345"
     assert response.recurring_transaction_rules.__root__[0].trigger == "interval"
     assert response.recurring_transaction_rules.__root__[0].interval == "monthly"
+    assert response.recurring_transaction_rules.__root__[0].ignore_paid_top_up_limits is True
     assert response.applies_to.fee_types[0] == "charge"
     assert response.applies_to.billable_metric_codes[0] == "usage"
+    assert response.paid_top_up_max_amount_cents == 10000
+    assert response.paid_top_up_min_amount_cents == 500
 
 
 def test_invalid_create_wallet_request(httpx_mock: HTTPXMock):

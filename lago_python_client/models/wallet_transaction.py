@@ -13,6 +13,7 @@ class WalletTransaction(BaseModel):
     invoice_requires_successful_payment: Optional[bool]
     metadata: Optional[List[Dict[str, str]]]
     name: Optional[str]
+    ignore_paid_top_up_limits: Optional[bool]
 
 
 class WalletTransactionResponse(BaseResponseModel):

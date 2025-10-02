@@ -18,6 +18,7 @@ class RecurringTransactionRule(BaseModel):
     target_ongoing_balance: Optional[str]
     transaction_metadata: Optional[List[Dict[str, str]]]
     transaction_name: Optional[str]
+    ignore_paid_top_up_limits: Optional[bool]
 
 
 class RecurringTransactionRuleResponse(BaseModel):
@@ -35,6 +36,7 @@ class RecurringTransactionRuleResponse(BaseModel):
     created_at: Optional[str]
     transaction_metadata: Optional[List[Dict[str, str]]]
     transaction_name: Optional[str]
+    ignore_paid_top_up_limits: Optional[bool]
 
 
 class RecurringTransactionRuleList(BaseModel):
@@ -63,6 +65,9 @@ class Wallet(BaseModel):
     transaction_name: Optional[str]
     applies_to: Optional[AppliesTo]
     invoice_requires_successful_payment: Optional[bool]
+    paid_top_up_max_amount_cents: Optional[int]
+    paid_top_up_min_amount_cents: Optional[int]
+    ignore_paid_top_up_limits_on_creation: Optional[bool]
 
 
 class WalletResponse(BaseResponseModel):
@@ -88,3 +93,5 @@ class WalletResponse(BaseResponseModel):
     credits_ongoing_usage_balance: str
     applies_to: Optional[AppliesTo]
     invoice_requires_successful_payment: Optional[bool]
+    paid_top_up_max_amount_cents: Optional[int]
+    paid_top_up_min_amount_cents: Optional[int]
