@@ -57,6 +57,7 @@ class FeeResponse(BaseResponseModel):
     taxes_precise_amount: Optional[str]
     total_amount_currency: Optional[str]
     units: Optional[float]
+    total_aggregated_units: Optional[float]
     events_count: Optional[int]
     payment_status: Optional[str]
     created_at: Optional[str]
