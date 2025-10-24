@@ -21,6 +21,7 @@ class PricingUnitDetails(BaseModel):
 class ChargeFilterUsage(BaseModel):
     invoice_display_name: Optional[str]
     values: Dict[str, List[str]]
+    total_aggregated_units: str
     units: str
     amount_cents: int
     events_count: int
@@ -37,6 +38,7 @@ class GroupedUsage(BaseModel):
     amount_cents: int
     events_count: int
     units: str
+    total_aggregated_units: str
     grouped_by: Dict[str, Optional[str]]
     filters: List[ChargeFilterUsage]
     pricing_unit_details: Optional[PricingUnitDetails]
@@ -44,6 +46,7 @@ class GroupedUsage(BaseModel):
 
 class ChargeUsage(BaseModel):
     units: str
+    total_aggregated_units: str
     events_count: int
     amount_cents: int
     amount_currency: str
