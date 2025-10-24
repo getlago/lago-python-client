@@ -22,6 +22,7 @@
     "amount_currency": "EUR",
     "taxes_amount_cents": 20,
     "taxes_rate": "20.0",
+    "total_aggregated_units": "10.0",
     "total_amount_cents": 140,
     "total_amount_currency": "EUR",
     "units": "10.0",
