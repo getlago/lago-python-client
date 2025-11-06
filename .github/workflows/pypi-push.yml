@@ -1,6 +1,9 @@
 name: Push to Pypi
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
 
 permissions:
   contents: read
