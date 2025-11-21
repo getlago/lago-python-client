@@ -9,6 +9,8 @@ from .invoice_custom_section import InvoiceCustomSectionsResponseList
 class BillingEntityBillingConfiguration(BaseModel):
     invoice_footer: Optional[str]
     invoice_grace_period: Optional[int]
+    subscription_invoice_issuing_date_anchor: Optional[str]
+    subscription_invoice_issuing_date_adjustment: Optional[str]
     document_locale: Optional[str]
 
 
@@ -93,6 +95,8 @@ class BillingEntityResponse(BaseResponseModel):
     document_locale: Optional[str]
     invoice_footer: Optional[str]
     invoice_grace_period: Optional[int]
+    subscription_invoice_issuing_date_anchor: Optional[str]
+    subscription_invoice_issuing_date_adjustment: Optional[str]
     email_settings: Optional[List[str]]
     taxes: Optional[TaxesResponse]
     selected_invoice_custom_sections: Optional[InvoiceCustomSectionsResponseList]
