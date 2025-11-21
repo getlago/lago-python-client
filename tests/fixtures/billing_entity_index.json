@@ -24,6 +24,8 @@
             "legal_number": "123456789",
             "invoice_footer": "Thank you for your business",
             "invoice_grace_period": 3,
+            "subscription_invoice_issuing_date_anchor": "current_period_end",
+            "subscription_invoice_issuing_date_adjustment": "keep_anchor",
             "document_locale": "en",
             "tax_identification_number": "TAX123456",
             "email_settings": [

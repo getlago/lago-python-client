@@ -10,6 +10,8 @@ from .invoice_custom_section import InvoiceCustomSectionsResponseList
 
 class CustomerBillingConfiguration(BaseModel):
     invoice_grace_period: Optional[int]
+    subscription_invoice_issuing_date_anchor: Optional[str]
+    subscription_invoice_issuing_date_adjustment: Optional[str]
     payment_provider: Optional[str]
     payment_provider_code: Optional[str]
     provider_customer_id: Optional[str]
