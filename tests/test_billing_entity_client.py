@@ -43,6 +43,8 @@ def create_billing_entity_input():
         billing_configuration=BillingEntityBillingConfiguration(
             invoice_footer="Thank you for your business",
             invoice_grace_period=3,
+            subscription_invoice_issuing_date_anchor="current_period_end",
+            subscription_invoice_issuing_date_adjustment="keep_anchor",
             document_locale="en",
         ),
     )
@@ -75,6 +77,8 @@ def update_billing_entity_input():
         billing_configuration=BillingEntityBillingConfiguration(
             invoice_footer="Updated footer",
             invoice_grace_period=5,
+            subscription_invoice_issuing_date_anchor="current_period_end",
+            subscription_invoice_issuing_date_adjustment="keep_anchor",
             document_locale="fr",
         ),
         invoice_custom_section_codes=["custom_section_1", "custom_section_2"],

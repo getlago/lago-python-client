@@ -37,6 +37,8 @@ def create_customer():
         net_payment_term=None,
         billing_configuration=CustomerBillingConfiguration(
             invoice_grace_period=3,
+            subscription_invoice_issuing_date_anchor="current_period_end",
+            subscription_invoice_issuing_date_adjustment="keep_anchor",
             payment_provider="stripe",
             payment_provider_code="stripe-eu-1",
             provider_customer_id="cus_12345",
@@ -82,6 +84,8 @@ def test_valid_create_customers_request(httpx_mock: HTTPXMock):
     assert response.tax_identification_number == "EU123456789"
     assert response.net_payment_term is None
     assert response.billing_configuration.invoice_grace_period == 3
+    assert response.billing_configuration.subscription_invoice_issuing_date_anchor == "current_period_end"
+    assert response.billing_configuration.subscription_invoice_issuing_date_adjustment == "keep_anchor"
     assert response.billing_configuration.payment_provider == "stripe"
     assert response.billing_configuration.payment_provider_code == "stripe-eu-1"
     assert response.billing_configuration.provider_customer_id == "cus_12345"
