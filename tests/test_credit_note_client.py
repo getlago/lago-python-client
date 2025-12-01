@@ -192,3 +192,68 @@ def test_valid_estimate_credit_note_request(httpx_mock: HTTPXMock):
     response = client.credit_notes.estimate(estimate_credit_note())
 
     assert response.lago_invoice_id == "1a901a90-1a90-1a90-1a90-1a901a901a90"
+
+
+def mock_metadata_response():
+    return b'{"metadata": {"foo": "bar", "baz": null}}'
+
+
+def mock_null_metadata_response():
+    return b'{"metadata": null}'
+
+
+def test_valid_replace_metadata_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    credit_note_id = "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/credit_notes/" + credit_note_id + "/metadata",
+        content=mock_metadata_response(),
+    )
+    response = client.credit_notes.replace_metadata(credit_note_id, {"foo": "bar", "baz": None})
+
+    assert response == {"foo": "bar", "baz": None}
+
+
+def test_valid_merge_metadata_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    credit_note_id = "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+
+    httpx_mock.add_response(
+        method="PATCH",
+        url="https://api.getlago.com/api/v1/credit_notes/" + credit_note_id + "/metadata",
+        content=mock_metadata_response(),
+    )
+    response = client.credit_notes.merge_metadata(credit_note_id, {"foo": "qux"})
+
+    assert response == {"foo": "bar", "baz": None}
+
+
+def test_valid_delete_all_metadata_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    credit_note_id = "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+
+    httpx_mock.add_response(
+        method="DELETE",
+        url="https://api.getlago.com/api/v1/credit_notes/" + credit_note_id + "/metadata",
+        content=mock_null_metadata_response(),
+    )
+    response = client.credit_notes.delete_all_metadata(credit_note_id)
+
+    assert response is None
+
+
+def test_valid_delete_metadata_key_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    credit_note_id = "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+    key = "foo"
+
+    httpx_mock.add_response(
+        method="DELETE",
+        url="https://api.getlago.com/api/v1/credit_notes/" + credit_note_id + "/metadata/" + key,
+        content=b'{"metadata": {"baz": "qux"}}',
+    )
+    response = client.credit_notes.delete_metadata_key(credit_note_id, key)
+
+    assert response == {"baz": "qux"}

@@ -54,4 +54,5 @@ def make_headers(*, api_key: str) -> Mapping[str, str]:
 send_get_request = httpx.get
 send_post_request = httpx.post
 send_put_request = httpx.put
+send_patch_request = httpx.patch
 send_delete_request = httpx.delete
