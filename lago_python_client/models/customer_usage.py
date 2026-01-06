@@ -20,7 +20,7 @@ class PricingUnitDetails(BaseModel):
 
 class ChargeFilterUsage(BaseModel):
     invoice_display_name: Optional[str]
-    values: Dict[str, List[str]]
+    values: Dict[str, List[str]] | None
     total_aggregated_units: str
     units: str
     amount_cents: int
