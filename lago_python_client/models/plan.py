@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 from lago_python_client.base_model import BaseModel
 
@@ -40,7 +40,7 @@ class Plan(BaseModel):
     usage_thresholds: Optional[UsageThresholds]
     tax_codes: Optional[List[str]]
     cascade_updates: Optional[bool]
-    metadata: Optional[Dict[str, Optional[str]]]
+    metadata: Optional[Dict[str, Any]]
 
 
 class PlanResponse(BaseResponseModel):
@@ -62,7 +62,7 @@ class PlanResponse(BaseResponseModel):
     minimum_commitment: Optional[MinimumCommitmentResponse]
     usage_thresholds: Optional[UsageThresholdsResponse]
     taxes: Optional[TaxesResponse]
-    metadata: Optional[Dict[str, Optional[str]]]
+    metadata: Optional[Dict[str, Any]]
 
 
 class PlanOverrides(BaseModel):
@@ -77,4 +77,4 @@ class PlanOverrides(BaseModel):
     minimum_commitment: Optional[MinimumCommitmentOverrides]
     usage_thresholds: Optional[UsageThresholdsOverrides]
     tax_codes: Optional[List[str]]
-    metadata: Optional[Dict[str, Optional[str]]]
+    metadata: Optional[Dict[str, Any]]
