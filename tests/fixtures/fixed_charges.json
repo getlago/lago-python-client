@@ -1,0 +1,68 @@
+{
+  "fixed_charges": [
+    {
+      "lago_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
+      "lago_add_on_id": "2b902b90-2b90-2b90-2b90-2b902b902b90",
+      "invoice_display_name": "Setup Fee",
+      "add_on_code": "setup_fee",
+      "created_at": "2024-01-15T10:00:00Z",
+      "code": "setup",
+      "charge_model": "standard",
+      "pay_in_advance": true,
+      "prorated": false,
+      "properties": {
+        "amount": "500"
+      },
+      "units": 1.0,
+      "lago_parent_id": null,
+      "taxes": [
+        {
+          "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac129b",
+          "name": "tax_name",
+          "code": "tax_code",
+          "rate": 15.0,
+          "description": "tax_desc",
+          "applied_to_organization": false,
+          "created_at": "2022-04-29T08:59:51Z"
+        }
+      ]
+    },
+    {
+      "lago_id": "3c903c90-3c90-3c90-3c90-3c903c903c90",
+      "lago_add_on_id": "4d904d90-4d90-4d90-4d90-4d904d904d90",
+      "invoice_display_name": "Monthly Support",
+      "add_on_code": "monthly_support",
+      "created_at": "2024-01-15T10:00:00Z",
+      "code": null,
+      "charge_model": "graduated",
+      "pay_in_advance": false,
+      "prorated": true,
+      "properties": {
+        "graduated_ranges": [
+          {
+            "from_value": 0,
+            "to_value": 10,
+            "flat_amount": "0",
+            "per_unit_amount": "100"
+          },
+          {
+            "from_value": 11,
+            "to_value": null,
+            "flat_amount": "50",
+            "per_unit_amount": "80"
+          }
+        ]
+      },
+      "units": 5.0,
+      "lago_parent_id": null,
+      "taxes": []
+    }
+  ],
+  "meta": {
+    "current_page": 1,
+    "next_page": null,
+    "prev_page": null,
+    "total_pages": 1,
+    "total_count": 2
+  }
+}

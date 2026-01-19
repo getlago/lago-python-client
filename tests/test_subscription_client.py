@@ -296,3 +296,107 @@ def test_update_lifetime_usage_request(httpx_mock: HTTPXMock):
 
     assert response.lago_id == "ef555447-b017-4345-9846-6b814cfb4148"
     assert response.external_historical_usage_amount_cents == 2000
+
+
+def mock_fixed_charges_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    my_data_path = os.path.join(this_dir, "fixtures/fixed_charges.json")
+
+    with open(my_data_path, "rb") as fixed_charges_response:
+        return fixed_charges_response.read()
+
+
+def test_valid_find_all_fixed_charges_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_external_123"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/fixed_charges",
+        content=mock_fixed_charges_response(),
+    )
+    response = client.subscriptions.find_all_fixed_charges(external_id)
+
+    assert len(response["fixed_charges"]) == 2
+    assert response["fixed_charges"][0].lago_id == "1a901a90-1a90-1a90-1a90-1a901a901a90"
+    assert response["fixed_charges"][0].invoice_display_name == "Setup Fee"
+    assert response["fixed_charges"][0].charge_model == "standard"
+    assert response["fixed_charges"][0].pay_in_advance is True
+    assert response["fixed_charges"][0].prorated is False
+    assert response["fixed_charges"][0].properties.amount == "500"
+    assert response["fixed_charges"][0].units == 1.0
+    assert response["fixed_charges"][1].lago_id == "3c903c90-3c90-3c90-3c90-3c903c903c90"
+    assert response["fixed_charges"][1].charge_model == "graduated"
+    assert response["fixed_charges"][1].properties.graduated_ranges[0].from_value == 0
+    assert response["fixed_charges"][1].properties.graduated_ranges[0].per_unit_amount == "100"
+    assert response["meta"]["current_page"] == 1
+
+
+def test_invalid_find_all_fixed_charges_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "invalid_sub"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/fixed_charges",
+        status_code=404,
+        content=b"",
+    )
+    with pytest.raises(LagoApiError):
+        client.subscriptions.find_all_fixed_charges(external_id)
+
+
+def test_fixed_charge_response_model_parsing():
+    from lago_python_client.models.fixed_charge import FixedChargeResponse, FixedChargePropertiesResponse
+
+    # Test standard charge model
+    standard_data = {
+        "lago_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
+        "lago_add_on_id": "2b902b90-2b90-2b90-2b90-2b902b902b90",
+        "invoice_display_name": "Setup Fee",
+        "add_on_code": "setup_fee",
+        "created_at": "2024-01-15T10:00:00Z",
+        "code": "setup",
+        "charge_model": "standard",
+        "pay_in_advance": True,
+        "prorated": False,
+        "properties": {"amount": "500"},
+        "units": 1.0,
+        "lago_parent_id": None,
+        "taxes": [],
+    }
+
+    response = FixedChargeResponse(**standard_data)
+    assert response.lago_id == "1a901a90-1a90-1a90-1a90-1a901a901a90"
+    assert response.charge_model == "standard"
+    assert response.properties.amount == "500"
+    assert response.pay_in_advance is True
+
+    # Test graduated charge model
+    graduated_data = {
+        "lago_id": "3c903c90-3c90-3c90-3c90-3c903c903c90",
+        "lago_add_on_id": "4d904d90-4d90-4d90-4d90-4d904d904d90",
+        "invoice_display_name": "Support Tiers",
+        "add_on_code": "support",
+        "created_at": "2024-01-15T10:00:00Z",
+        "code": None,
+        "charge_model": "graduated",
+        "pay_in_advance": False,
+        "prorated": True,
+        "properties": {
+            "graduated_ranges": [
+                {"from_value": 0, "to_value": 10, "flat_amount": "0", "per_unit_amount": "100"},
+                {"from_value": 11, "to_value": None, "flat_amount": "50", "per_unit_amount": "80"},
+            ]
+        },
+        "units": 5.0,
+        "lago_parent_id": None,
+        "taxes": [],
+    }
+
+    response = FixedChargeResponse(**graduated_data)
+    assert response.charge_model == "graduated"
+    assert len(response.properties.graduated_ranges) == 2
+    assert response.properties.graduated_ranges[0].from_value == 0
+    assert response.properties.graduated_ranges[0].per_unit_amount == "100"
+    assert response.properties.graduated_ranges[1].to_value is None

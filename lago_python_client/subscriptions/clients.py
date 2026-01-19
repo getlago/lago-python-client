@@ -1,4 +1,4 @@
-from typing import ClassVar, Type
+from typing import Any, ClassVar, Mapping, Type
 
 from ..base_client import BaseClient
 from ..mixins import (
@@ -8,6 +8,7 @@ from ..mixins import (
     FindCommandMixin,
     UpdateCommandMixin,
 )
+from ..models.fixed_charge import FixedChargeResponse, FixedChargesResponse
 from ..models.lifetime_usage import LifetimeUsageResponse
 from ..models.subscription import SubscriptionResponse
 from ..services.request import (
@@ -19,6 +20,7 @@ from ..services.request import (
 from ..services.response import (
     Response,
     get_response_data,
+    prepare_index_response,
     prepare_object_response,
 )
 from ..services.json import to_json
@@ -67,4 +69,19 @@ class SubscriptionClient(
         return prepare_object_response(
             response_model=LifetimeUsageResponse,
             data=get_response_data(response=api_response, key="lifetime_usage"),
+        )
+
+    def find_all_fixed_charges(self, external_id: str) -> Mapping[str, Any]:
+        api_response: Response = send_get_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, external_id, "fixed_charges"),
+            ),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        return prepare_index_response(
+            api_resource="fixed_charges",
+            response_model=FixedChargeResponse,
+            data=get_response_data(response=api_response),
         )
