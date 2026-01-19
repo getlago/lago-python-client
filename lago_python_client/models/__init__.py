@@ -27,6 +27,16 @@ from .charge import (
     ChargeFilter as ChargeFilter,
 )
 from .coupon import Coupon as Coupon, CouponsList as CouponsList, LimitationConfiguration as LimitationConfiguration
+from .fixed_charge import (
+    FixedCharge as FixedCharge,
+    FixedCharges as FixedCharges,
+    FixedChargeResponse as FixedChargeResponse,
+    FixedChargesResponse as FixedChargesResponse,
+    FixedChargeProperties as FixedChargeProperties,
+    FixedChargeGraduatedRange as FixedChargeGraduatedRange,
+    FixedChargeOverrides as FixedChargeOverrides,
+    FixedChargesOverrides as FixedChargesOverrides,
+)
 from .credit import CreditResponse as CreditResponse, CreditsResponse as CreditsResponse
 from .credit_note import (
     Item as Item,

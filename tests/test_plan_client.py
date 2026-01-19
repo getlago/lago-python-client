@@ -14,6 +14,9 @@ from lago_python_client.models import (
     MinimumCommitment,
     UsageThreshold,
     UsageThresholds,
+    FixedCharge,
+    FixedCharges,
+    FixedChargeProperties,
 )
 
 
@@ -114,6 +117,42 @@ def graduated_plan_object():
         interval="weekly",
         pay_in_advance=True,
         charges=charges,
+    )
+
+
+def plan_with_fixed_charges_object():
+    fixed_charge = FixedCharge(
+        id=None,
+        add_on_id="add_on_123",
+        charge_model="standard",
+        invoice_display_name="Setup Fee",
+        units=1.0,
+        pay_in_advance=True,
+        prorated=False,
+        properties=FixedChargeProperties(amount="500"),
+        tax_codes=None,
+        apply_units_immediately=None,
+    )
+    fixed_charges = FixedCharges(__root__=[fixed_charge])
+
+    return Plan(
+        invoice_display_name=None,
+        tax_codes=None,
+        bill_charges_monthly=None,
+        bill_fixed_charges_monthly=True,
+        trial_period=None,
+        minimum_commitment=None,
+        usage_thresholds=None,
+        name="plan_with_fixed_charges",
+        code="plan_fixed",
+        amount_cents=10000,
+        amount_currency="USD",
+        description="Plan with fixed charges",
+        interval="monthly",
+        pay_in_advance=False,
+        charges=None,
+        fixed_charges=fixed_charges,
+        cascade_updates=None,
     )
 
 
@@ -329,3 +368,20 @@ def test_invalid_find_all_plan_request(httpx_mock: HTTPXMock):
 
     with pytest.raises(LagoApiError):
         client.plans.find_all()
+
+
+def test_plan_with_fixed_charges_serialization():
+    plan = plan_with_fixed_charges_object()
+    plan_dict = plan.dict()
+
+    assert plan_dict["name"] == "plan_with_fixed_charges"
+    assert plan_dict["code"] == "plan_fixed"
+    assert plan_dict["bill_fixed_charges_monthly"] is True
+    # When serialized, __root__ models become lists directly
+    assert plan_dict["fixed_charges"][0]["add_on_id"] == "add_on_123"
+    assert plan_dict["fixed_charges"][0]["charge_model"] == "standard"
+    assert plan_dict["fixed_charges"][0]["invoice_display_name"] == "Setup Fee"
+    assert plan_dict["fixed_charges"][0]["units"] == 1.0
+    assert plan_dict["fixed_charges"][0]["pay_in_advance"] is True
+    assert plan_dict["fixed_charges"][0]["prorated"] is False
+    assert plan_dict["fixed_charges"][0]["properties"]["amount"] == "500"
