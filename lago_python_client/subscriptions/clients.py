@@ -8,7 +8,7 @@ from ..mixins import (
     FindCommandMixin,
     UpdateCommandMixin,
 )
-from ..models.fixed_charge import FixedChargeResponse, FixedChargesResponse
+from ..models.fixed_charge import FixedChargeResponse
 from ..models.lifetime_usage import LifetimeUsageResponse
 from ..models.subscription import SubscriptionResponse
 from ..services.request import (

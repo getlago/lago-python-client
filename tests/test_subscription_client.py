@@ -347,7 +347,7 @@ def test_invalid_find_all_fixed_charges_request(httpx_mock: HTTPXMock):
 
 
 def test_fixed_charge_response_model_parsing():
-    from lago_python_client.models.fixed_charge import FixedChargeResponse, FixedChargePropertiesResponse
+    from lago_python_client.models.fixed_charge import FixedChargeResponse
 
     # Test standard charge model
     standard_data = {
