@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 
 from lago_python_client.base_model import BaseModel
 
@@ -58,7 +58,7 @@ class CreditNoteResponse(BaseResponseModel):
     updated_at: Optional[str]
     items: Optional[ItemsResponse]
     applied_taxes: Optional[CreditNoteAppliedTaxes]
-    metadata: Optional[Dict[str, Any]]
+    metadata: Optional[Dict[str, Optional[str]]]
 
 
 class Item(BaseModel):
@@ -73,12 +73,12 @@ class Items(BaseModel):
 class CreditNote(BaseModel):
     reason: Optional[str]
     items: Optional[Items]
-    metadata: Optional[Dict[str, Any]]
+    metadata: Optional[Dict[str, Optional[str]]]
 
 
 class CreditNoteUpdate(BaseModel):
     refund_status: Optional[str]
-    metadata: Optional[Dict[str, Any]]
+    metadata: Optional[Dict[str, Optional[str]]]
 
 
 class EstimatedItemResponse(BaseResponseModel):
