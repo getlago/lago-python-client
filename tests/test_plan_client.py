@@ -371,6 +371,14 @@ def test_invalid_find_all_plan_request(httpx_mock: HTTPXMock):
         client.plans.find_all()
 
 
+def mock_metadata_response():
+    return b'{"metadata": {"foo": "bar", "baz": null}}'
+
+
+def mock_null_metadata_response():
+    return b'{"metadata": null}'
+
+
 def test_plan_with_fixed_charges_serialization():
     plan = plan_with_fixed_charges_object()
     plan_dict = plan.dict()
@@ -386,13 +394,6 @@ def test_plan_with_fixed_charges_serialization():
     assert plan_dict["fixed_charges"][0]["pay_in_advance"] is True
     assert plan_dict["fixed_charges"][0]["prorated"] is False
     assert plan_dict["fixed_charges"][0]["properties"]["amount"] == "500"
-
-def mock_metadata_response():
-    return b'{"metadata": {"foo": "bar", "baz": null}}'
-
-
-def mock_null_metadata_response():
-    return b'{"metadata": null}'
 
 
 def test_valid_replace_metadata_request(httpx_mock: HTTPXMock):
