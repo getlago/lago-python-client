@@ -386,3 +386,67 @@ def test_plan_with_fixed_charges_serialization():
     assert plan_dict["fixed_charges"][0]["pay_in_advance"] is True
     assert plan_dict["fixed_charges"][0]["prorated"] is False
     assert plan_dict["fixed_charges"][0]["properties"]["amount"] == "500"
+
+def mock_metadata_response():
+    return b'{"metadata": {"foo": "bar", "baz": null}}'
+
+
+def mock_null_metadata_response():
+    return b'{"metadata": null}'
+
+
+def test_valid_replace_metadata_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    plan_code = "plan_code"
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/plans/" + plan_code + "/metadata",
+        content=mock_metadata_response(),
+    )
+    response = client.plans.replace_metadata(plan_code, {"foo": "bar", "baz": None})
+
+    assert response == {"foo": "bar", "baz": None}
+
+
+def test_valid_merge_metadata_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    plan_code = "plan_code"
+
+    httpx_mock.add_response(
+        method="PATCH",
+        url="https://api.getlago.com/api/v1/plans/" + plan_code + "/metadata",
+        content=mock_metadata_response(),
+    )
+    response = client.plans.merge_metadata(plan_code, {"foo": "qux"})
+
+    assert response == {"foo": "bar", "baz": None}
+
+
+def test_valid_delete_all_metadata_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    plan_code = "plan_code"
+
+    httpx_mock.add_response(
+        method="DELETE",
+        url="https://api.getlago.com/api/v1/plans/" + plan_code + "/metadata",
+        content=mock_null_metadata_response(),
+    )
+    response = client.plans.delete_all_metadata(plan_code)
+
+    assert response is None
+
+
+def test_valid_delete_metadata_key_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    plan_code = "plan_code"
+    key = "foo"
+
+    httpx_mock.add_response(
+        method="DELETE",
+        url="https://api.getlago.com/api/v1/plans/" + plan_code + "/metadata/" + key,
+        content=b'{"metadata": {"baz": "qux"}}',
+    )
+    response = client.plans.delete_metadata_key(plan_code, key)
+
+    assert response == {"baz": "qux"}
