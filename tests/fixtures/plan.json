@@ -77,6 +77,10 @@
         "applied_to_organization": false,
         "created_at": "2022-04-29T08:59:51Z"
       }
-    ]
+    ],
+    "metadata": {
+      "key1": "value1",
+      "key2": null
+    }
   }
 }

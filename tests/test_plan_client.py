@@ -196,6 +196,7 @@ def test_valid_create_plan_request(httpx_mock: HTTPXMock):
     assert response.charges.__root__[0].invoice_display_name == "Setup"
     assert response.minimum_commitment.invoice_display_name == "Minimum commitment (C1)"
     assert response.usage_thresholds.__root__[0].threshold_display_name == "Threshold 1"
+    assert response.metadata == {"key1": "value1", "key2": None}
 
 
 def test_valid_create_graduated_plan_request(httpx_mock: HTTPXMock):
