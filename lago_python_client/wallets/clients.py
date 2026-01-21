@@ -1,5 +1,5 @@
 import sys
-from typing import Any, ClassVar, Type
+from typing import Any, ClassVar, Dict, Optional, Type
 
 from lago_python_client.base_model import BaseModel
 
@@ -14,7 +14,15 @@ from ..mixins import (
 from ..models.wallet import WalletResponse
 from ..models.wallet_transaction import WalletTransactionResponse
 from ..services.json import to_json
-from ..services.request import make_headers, make_url, send_get_request, send_post_request, QueryPairs
+from ..services.request import (
+    make_headers,
+    make_url,
+    send_delete_request,
+    send_get_request,
+    send_patch_request,
+    send_post_request,
+    QueryPairs,
+)
 from ..services.response import (
     get_response_data,
     prepare_object_list_response,
@@ -39,6 +47,56 @@ class WalletClient(
     API_RESOURCE: ClassVar[str] = "wallets"
     RESPONSE_MODEL: ClassVar[Type[WalletResponse]] = WalletResponse
     ROOT_NAME: ClassVar[str] = "wallet"
+
+    def replace_metadata(
+        self, resource_id: str, metadata: Dict[str, Optional[str]]
+    ) -> Optional[Dict[str, Optional[str]]]:
+        api_response: Response = send_post_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, "metadata"),
+            ),
+            content=to_json({"metadata": metadata}),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        return get_response_data(response=api_response, key="metadata")
+
+    def merge_metadata(
+        self, resource_id: str, metadata: Dict[str, Optional[str]]
+    ) -> Optional[Dict[str, Optional[str]]]:
+        api_response: Response = send_patch_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, "metadata"),
+            ),
+            content=to_json({"metadata": metadata}),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        return get_response_data(response=api_response, key="metadata")
+
+    def delete_all_metadata(self, resource_id: str) -> Optional[Dict[str, Optional[str]]]:
+        api_response: Response = send_delete_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, "metadata"),
+            ),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        return get_response_data(response=api_response, key="metadata")
+
+    def delete_metadata_key(self, resource_id: str, key: str) -> Optional[Dict[str, Optional[str]]]:
+        api_response: Response = send_delete_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, "metadata", key),
+            ),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        return get_response_data(response=api_response, key="metadata")
 
 
 class WalletTransactionClient(BaseClient):

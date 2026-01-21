@@ -100,6 +100,7 @@ def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
                 "invoice_requires_successful_payment": False,
                 "transaction_name": "Transaction Name",
                 "applies_to": {"fee_types": ["charge"], "billable_metric_codes": ["usage"]},
+                "metadata": None,
             }
         },
     )
@@ -257,3 +258,68 @@ def test_invalid_find_all_wallet_request(httpx_mock: HTTPXMock):
 
     with pytest.raises(LagoApiError):
         client.wallets.find_all()
+
+
+def mock_metadata_response():
+    return b'{"metadata": {"foo": "bar", "baz": null}}'
+
+
+def mock_null_metadata_response():
+    return b'{"metadata": null}'
+
+
+def test_valid_replace_metadata_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    wallet_id = "b7ab2926-1de8-4428-9bcd-779314ac129b"
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/wallets/" + wallet_id + "/metadata",
+        content=mock_metadata_response(),
+    )
+    response = client.wallets.replace_metadata(wallet_id, {"foo": "bar", "baz": None})
+
+    assert response == {"foo": "bar", "baz": None}
+
+
+def test_valid_merge_metadata_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    wallet_id = "b7ab2926-1de8-4428-9bcd-779314ac129b"
+
+    httpx_mock.add_response(
+        method="PATCH",
+        url="https://api.getlago.com/api/v1/wallets/" + wallet_id + "/metadata",
+        content=mock_metadata_response(),
+    )
+    response = client.wallets.merge_metadata(wallet_id, {"foo": "qux"})
+
+    assert response == {"foo": "bar", "baz": None}
+
+
+def test_valid_delete_all_metadata_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    wallet_id = "b7ab2926-1de8-4428-9bcd-779314ac129b"
+
+    httpx_mock.add_response(
+        method="DELETE",
+        url="https://api.getlago.com/api/v1/wallets/" + wallet_id + "/metadata",
+        content=mock_null_metadata_response(),
+    )
+    response = client.wallets.delete_all_metadata(wallet_id)
+
+    assert response is None
+
+
+def test_valid_delete_metadata_key_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    wallet_id = "b7ab2926-1de8-4428-9bcd-779314ac129b"
+    key = "foo"
+
+    httpx_mock.add_response(
+        method="DELETE",
+        url="https://api.getlago.com/api/v1/wallets/" + wallet_id + "/metadata/" + key,
+        content=b'{"metadata": {"baz": "qux"}}',
+    )
+    response = client.wallets.delete_metadata_key(wallet_id, key)
+
+    assert response == {"baz": "qux"}

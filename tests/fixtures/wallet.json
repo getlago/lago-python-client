@@ -37,6 +37,10 @@
     "applies_to": {
       "fee_types": ["charge"],
       "billable_metric_codes": ["usage"]
+    },
+    "metadata": {
+      "key1": "value1",
+      "key2": null
     }
   }
 }
