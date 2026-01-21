@@ -49,6 +49,7 @@ class CreditNoteResponse(BaseResponseModel):
     credit_amount_cents: int
     balance_amount_cents: int
     refund_amount_cents: int
+    offset_amount_cents: int
     taxes_amount_cents: str
     taxes_rate: float
     sub_total_excluding_taxes_amount_cents: int
@@ -111,6 +112,7 @@ class CreditNoteEstimatedResponse(BaseResponseModel):
     currency: str
     max_creditable_amount_cents: int
     max_refundable_amount_cents: int
+    max_offsettable_amount_cents: int
     taxes_amount_cents: str
     taxes_rate: float
     sub_total_excluding_taxes_amount_cents: int

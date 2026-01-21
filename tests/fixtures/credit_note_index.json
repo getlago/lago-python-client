@@ -14,6 +14,7 @@
       "credit_amount_cents": 100,
       "balance_amount_cents": 100,
       "refund_amount_cents": 100,
+      "offset_amount_cents": 100,
       "taxes_amount_cents": 40,
       "taxes_rate": "20.4",
       "sub_total_excluding_taxes_amount_cents": 200,

@@ -5,6 +5,7 @@
     "currency": "EUR",
     "max_creditable_amount_cents": 100,
     "max_refundable_amount_cents": 100,
+    "max_offsettable_amount_cents": 100,
     "taxes_amount_cents": 40,
     "taxes_rate": "20.0",
     "sub_total_excluding_taxes_amount_cents": 200,
