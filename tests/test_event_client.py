@@ -45,6 +45,14 @@ def mock_response():
         return event_response.read()
 
 
+def mock_response_without_ids():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(this_dir, "fixtures/event_without_ids.json")
+
+    with open(data_path, "rb") as event_response:
+        return event_response.read()
+
+
 def mock_unprocessable_entity_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(this_dir, "fixtures/event_unprocessable_entity.json")
@@ -133,6 +141,22 @@ def test_valid_find_event_request(httpx_mock: HTTPXMock):
     response = client.events.find(event_id)
 
     assert response.lago_id == event_id
+
+
+def test_valid_find_event_without_optional_fields(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    transaction_id = "1a2d9c8d-5875-4688-9854-5ccfd414bc5e"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/events/" + transaction_id,
+        content=mock_response_without_ids(),
+    )
+    response = client.events.find(transaction_id)
+
+    assert response.lago_id is None
+    assert response.created_at is None
+    assert response.transaction_id == transaction_id
 
 
 def test_invalid_find_events_request(httpx_mock: HTTPXMock):

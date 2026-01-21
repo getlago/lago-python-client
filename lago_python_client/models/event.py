@@ -19,7 +19,7 @@ class BatchEvent(BaseModel):
 
 
 class EventResponse(BaseResponseModel):
-    lago_id: str
+    lago_id: Optional[str]
     transaction_id: str
     lago_customer_id: Optional[str]
     lago_subscription_id: Optional[str]
@@ -28,7 +28,7 @@ class EventResponse(BaseResponseModel):
     timestamp: str
     precise_total_amount_cents: Optional[str]
     properties: Optional[Dict[str, Any]]
-    created_at: str
+    created_at: Optional[str]
 
 
 class BatchEventResponse(BaseResponseModel):
