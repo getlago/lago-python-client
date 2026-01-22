@@ -6,6 +6,7 @@
     "status": "active",
     "currency": "EUR",
     "name": "name",
+    "priority": 30,
     "rate_amount": "1.5",
     "credits_balance": "10",
     "balance_cents": 1000,
