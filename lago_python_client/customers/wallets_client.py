@@ -6,7 +6,14 @@ from ..models.wallet import WalletResponse
 from ..client import CustomerClient
 
 
-class CustomerWalletsClient(FindAllChildrenCommandMixin, BaseClient):
+class CustomerWalletsClient(
+    CreateCommandMixin[WalletResponse],
+    DestroyCommandMixin[WalletResponse],
+    FindAllCommandMixin[WalletResponse],
+    FindCommandMixin[WalletResponse],
+    UpdateCommandMixin[WalletResponse],
+    BaseClient
+):
     PARENT_API_RESOURCE: ClassVar[str] = CustomerClient.API_RESOURCE
     API_RESOURCE: ClassVar[str] = "wallets"
     RESPONSE_MODEL: ClassVar[Type[WalletResponse]] = WalletResponse
