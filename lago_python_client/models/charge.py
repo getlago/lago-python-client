@@ -35,6 +35,7 @@ class Charge(BaseModel):
     filters: Optional[ChargeFilters]
     tax_codes: Optional[List[str]]
     applied_pricing_unit: Optional[AppliedPricingUnit]
+    accepts_target_wallet: Optional[bool]
 
 
 class Charges(BaseModel):
@@ -55,6 +56,7 @@ class ChargeResponse(BaseResponseModel):
     properties: Optional[Dict[str, Any]]
     filters: Optional[ChargeFilters]
     taxes: Optional[TaxesResponse]
+    accepts_target_wallet: Optional[bool]
 
 
 class ChargesResponse(BaseResponseModel):
