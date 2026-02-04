@@ -51,6 +51,14 @@ def mock_response():
         return credit_note_response.read()
 
 
+def mock_response_with_customer():
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(current_dir, "fixtures/credit_note_with_customer.json")
+
+    with open(data_path, "rb") as credit_note_response:
+        return credit_note_response.read()
+
+
 def mock_collection_response():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(current_dir, "fixtures/credit_note_index.json")
@@ -74,11 +82,12 @@ def test_valid_find_credit_note_request(httpx_mock: HTTPXMock):
     httpx_mock.add_response(
         method="GET",
         url="https://api.getlago.com/api/v1/credit_notes/" + identifier,
-        content=mock_response(),
+        content=mock_response_with_customer(),
     )
     response = client.credit_notes.find(identifier)
 
     assert response.lago_id == identifier
+    assert response.customer.lago_id == "99a6094e-199b-4101-896a-54e927ce7bd7"
 
 
 def test_invalid_find_invoice_request(httpx_mock: HTTPXMock):
@@ -129,12 +138,13 @@ def test_valid_create_credit_note_request(httpx_mock: HTTPXMock):
     httpx_mock.add_response(
         method="POST",
         url="https://api.getlago.com/api/v1/credit_notes",
-        content=mock_response(),
+        content=mock_response_with_customer(),
     )
     response = client.credit_notes.create(credit_note_object())
 
     assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
     assert response.refund_status == "pending"
+    assert response.customer.lago_id == "99a6094e-199b-4101-896a-54e927ce7bd7"
 
 
 def test_invalid_create_credit_note_request(httpx_mock: HTTPXMock):
@@ -158,12 +168,13 @@ def test_valid_update_credit_note_request(httpx_mock: HTTPXMock):
     httpx_mock.add_response(
         method="PUT",
         url="https://api.getlago.com/api/v1/credit_notes/" + credit_note_id,
-        content=mock_response(),
+        content=mock_response_with_customer(),
     )
     response = client.credit_notes.update(credit_note_update_object(), credit_note_id)
 
     assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
     assert response.refund_status == "pending"
+    assert response.customer.lago_id == "99a6094e-199b-4101-896a-54e927ce7bd7"
 
 
 def test_valid_void_credit_note_request(httpx_mock: HTTPXMock):
@@ -173,12 +184,13 @@ def test_valid_void_credit_note_request(httpx_mock: HTTPXMock):
     httpx_mock.add_response(
         method="PUT",
         url="https://api.getlago.com/api/v1/credit_notes/" + credit_note_id + "/void",
-        content=mock_response(),
+        content=mock_response_with_customer(),
     )
     response = client.credit_notes.void(credit_note_id)
 
     assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
     assert response.refund_status == "pending"
+    assert response.customer.lago_id == "99a6094e-199b-4101-896a-54e927ce7bd7"
 
 
 def test_valid_estimate_credit_note_request(httpx_mock: HTTPXMock):

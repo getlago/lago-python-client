@@ -1,6 +1,7 @@
 from typing import Dict, List, Optional
 
 from lago_python_client.base_model import BaseModel
+from .customer import CustomerResponse
 
 from .fee import FeeResponse
 from ..base_model import BaseResponseModel
@@ -60,6 +61,7 @@ class CreditNoteResponse(BaseResponseModel):
     items: Optional[ItemsResponse]
     applied_taxes: Optional[CreditNoteAppliedTaxes]
     metadata: Optional[Dict[str, Optional[str]]]
+    customer: Optional[CustomerResponse]
 
 
 class Item(BaseModel):
