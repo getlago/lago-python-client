@@ -9,7 +9,12 @@ from lago_python_client.models import WebhookEndpoint
 
 
 def webhook_endpoint_object():
-    return WebhookEndpoint(webhook_url="https://foo.bar", signature_algo="hmac")
+    return WebhookEndpoint(
+        webhook_url="https://foo.bar",
+        signature_algo="hmac",
+        name="My Webhook Endpoint",
+        event_types=["customer.created"],
+    )
 
 
 def mock_response():
