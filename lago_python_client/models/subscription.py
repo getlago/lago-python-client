@@ -29,6 +29,8 @@ class SubscriptionResponse(BaseResponseModel):
     canceled_at: Optional[str]
     created_at: Optional[str]
     plan_code: Optional[str]
+    plan_amount_cents: Optional[str]
+    plan_amount_currency: Optional[str]
     started_at: Optional[str]
     status: Optional[str]
     name: Optional[str]
