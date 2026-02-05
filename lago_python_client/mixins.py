@@ -68,7 +68,7 @@ class CreateCommandMixin(Generic[_M]):
             ),
             content=to_json(
                 {
-                    self.ROOT_NAME: input_object.dict(),
+                    self.ROOT_NAME: input_object.to_create_payload(),
                 }
             ),
             headers=make_headers(api_key=self.api_key),
@@ -218,7 +218,7 @@ class UpdateCommandMixin(Generic[_M]):
             ),
             content=to_json(
                 {
-                    self.ROOT_NAME: input_object.dict(exclude_none=True),
+                    self.ROOT_NAME: input_object.to_update_payload(),
                 }
             ),
             headers=make_headers(api_key=self.api_key),
