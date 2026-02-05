@@ -56,6 +56,7 @@ class Wallet(BaseModel):
     external_customer_id: Optional[str]
     rate_amount: Optional[str]
     name: Optional[str]
+    code: Optional[str]
     priority: Optional[int]
     paid_credits: Optional[str]
     granted_credits: Optional[str]
@@ -79,6 +80,7 @@ class WalletResponse(BaseResponseModel):
     status: str
     currency: str
     name: Optional[str]
+    code: Optional[str]
     priority: Optional[int]
     rate_amount: str
     credits_balance: str
