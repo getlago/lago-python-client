@@ -31,6 +31,7 @@ def wallet_object():
     )
     return Wallet(
         name="name",
+        code="wallet_code",
         priority=30,
         external_customer_id="12345",
         rate_amount="1",
@@ -73,6 +74,7 @@ def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
                 "external_customer_id": "12345",
                 "rate_amount": "1",
                 "name": "name",
+                "code": "wallet_code",
                 "priority": 30,
                 "paid_credits": "10",
                 "granted_credits": "10",
