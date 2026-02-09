@@ -6,6 +6,7 @@
     "status": "active",
     "currency": "EUR",
     "name": "name",
+    "code": "wallet_code",
     "priority": 30,
     "rate_amount": "1.5",
     "credits_balance": "10",
