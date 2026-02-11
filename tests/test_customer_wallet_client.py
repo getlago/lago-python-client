@@ -14,6 +14,7 @@ from lago_python_client.models import (
 
 from .utils.mixin import mock_response
 
+
 def wallet_object():
     rule = RecurringTransactionRule(
         trigger="interval",

@@ -14,20 +14,25 @@ from ..mixins import (
 
 from .wallets.metadata_client import CustomerWalletMetadataClient
 
+
 class CustomerWalletClient(
     NestedCreateCommandMixin[WalletResponse],
     NestedUpdateCommandMixin[WalletResponse],
     NestedDestroyCommandMixin[WalletResponse],
     NestedFindCommandMixin[WalletResponse],
     NestedFindAllCommandMixin[WalletResponse],
-    BaseClient
+    BaseClient,
 ):
     API_RESOURCE: ClassVar[str] = "wallets"
     RESPONSE_MODEL: ClassVar[Type[WalletResponse]] = WalletResponse
     ROOT_NAME: ClassVar[str] = "wallet"
 
     def api_resource(self, customer_id: str) -> tuple[str]:
-        return ("customers", customer_id, "wallets",)
+        return (
+            "customers",
+            customer_id,
+            "wallets",
+        )
 
     @callable_cached_property
     def metadata(self) -> CustomerWalletMetadataClient:
