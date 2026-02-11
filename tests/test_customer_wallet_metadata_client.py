@@ -1,10 +1,6 @@
-import os
-
-import pytest
 from pytest_httpx import HTTPXMock
 
 from lago_python_client.client import Client
-from lago_python_client.exceptions import LagoApiError
 
 
 def mock_metadata_response():

@@ -1,7 +1,4 @@
-import sys
 from typing import Dict, Optional, ClassVar
-
-from lago_python_client.base_model import BaseModel
 
 from ...base_client import BaseClient
 from ...services.json import to_json
@@ -11,7 +8,6 @@ from ...services.request import (
     send_delete_request,
     send_patch_request,
     send_post_request,
-    QueryPairs,
 )
 from ...services.response import (
     get_response_data,

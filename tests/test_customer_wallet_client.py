@@ -1,5 +1,3 @@
-import os
-
 import pytest
 from pytest_httpx import HTTPXMock
 
