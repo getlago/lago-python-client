@@ -1,6 +1,7 @@
 from typing import List, Optional
 
 from lago_python_client.base_model import BaseModel
+from .payment_method import PaymentMethod
 from .plan import PlanOverrides
 from ..base_model import BaseResponseModel
 
@@ -14,6 +15,7 @@ class Subscription(BaseModel):
     billing_time: Optional[str]
     ending_at: Optional[str]
     plan_overrides: Optional[PlanOverrides]
+    payment_method: Optional[PaymentMethod]
 
 
 class Subscriptions(BaseModel):
@@ -48,6 +50,7 @@ class SubscriptionResponse(BaseResponseModel):
     current_billing_period_ending_at: Optional[str]
     on_termination_credit_note: Optional[str]
     on_termination_invoice: Optional[str]
+    payment_method: Optional[PaymentMethod]
 
 
 class SubscriptionsResponse(BaseResponseModel):

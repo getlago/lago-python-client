@@ -119,4 +119,5 @@ from .payment_receipt import (
 )
 from .payment_request import PaymentRequest as PaymentRequest
 from .payment import Payment as Payment
+from .payment_method import PaymentMethod as PaymentMethod, PaymentMethodResponse as PaymentMethodResponse
 from .lifetime_usage import LifetimeUsageResponse as LifetimeUsageResponse

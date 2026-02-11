@@ -7,6 +7,7 @@ from .coupon import CouponsList
 from .credit import CreditsResponse
 from .customer import Customer, CustomerResponse
 from .fee import FeesResponse
+from .payment_method import PaymentMethod
 from .subscription import Subscriptions, SubscriptionsResponse
 from .error_detail import ErrorDetailsResponse
 from ..base_model import BaseResponseModel
@@ -53,6 +54,7 @@ class OneOffInvoice(BaseModel):
     currency: Optional[str]
     fees: Optional[InvoiceFeesList]
     error_details: Optional[ErrorDetailsResponse]
+    payment_method: Optional[PaymentMethod]
 
 
 class InvoicePreview(BaseModel):
