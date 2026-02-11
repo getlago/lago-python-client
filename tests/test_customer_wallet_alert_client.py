@@ -35,7 +35,7 @@ def test_valid_create_customer_wallet_alert_request(httpx_mock: HTTPXMock):
 
     assert response.lago_id == "1a901a90-1a90-1a90-1a90-1a901a901a90"
     assert response.lago_organization_id == "1a901a90-1a90-1a90-1a90-1a901a901a90"
-    assert response.external_subscription_id == None
+    assert response.external_subscription_id is None
     assert response.lago_wallet_id == "1a901a90-1a90-1a90-1a90-1a901a901a90"
     assert response.wallet_code == "wallet_code"
     assert response.code == "wallet_balance_alert"
@@ -46,7 +46,7 @@ def test_valid_create_customer_wallet_alert_request(httpx_mock: HTTPXMock):
     assert response.thresholds == AlertThresholdList(
         __root__=[AlertThreshold(code="warn", value=10000, recurring=False)]
     )
-    assert response.billable_metric == None
+    assert response.billable_metric is None
 
 
 def test_invalid_create_customer_wallet_alert_request(httpx_mock: HTTPXMock):
