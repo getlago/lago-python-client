@@ -240,9 +240,9 @@ class NestedCreateCommandMixin(Generic[_M]):
         timeout: Optional[httpx.Timeout] = None,
     ) -> Optional[_M]:
         """Execute `create` command."""
-        # Send request and save response
         *parent_ids, input_object = args
 
+        # Send request and save response
         api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
@@ -276,9 +276,9 @@ class NestedUpdateCommandMixin(Generic[_M]):
         timeout: Optional[httpx.Timeout] = None,
     ) -> _M:
         """Execute `update` command."""
-        # Send request and save response
         *parent_ids, resource_id, input_object = args
 
+        # Send request and save response
         api_response: Response = send_put_request(
             url=make_url(
                 origin=self.base_url,
@@ -308,9 +308,9 @@ class NestedDestroyCommandMixin(Generic[_M]):
         timeout: Optional[httpx.Timeout] = None,
     ) -> BaseModel:
         """Execute `destroy` command."""
-        # Send request and save response
         *parent_ids, resource_id = args
 
+        # Send request and save response
         api_response: Response = send_delete_request(
             url=make_url(
                 origin=self.base_url,
@@ -335,9 +335,9 @@ class NestedFindCommandMixin(Generic[_M]):
         timeout: Optional[httpx.Timeout] = None,
     ) -> _M:
         """Execute `find` command."""
-        # Send request and save response
         *parent_ids, resource_id = args
 
+        # Send request and save response
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
