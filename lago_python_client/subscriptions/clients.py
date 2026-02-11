@@ -8,13 +8,16 @@ from ..mixins import (
     FindCommandMixin,
     UpdateCommandMixin,
 )
+from ..models.alert import AlertResponse, BatchAlertInput
 from ..models.fixed_charge import FixedChargeResponse
 from ..models.lifetime_usage import LifetimeUsageResponse
 from ..models.subscription import SubscriptionResponse
 from ..services.request import (
     make_headers,
     make_url,
+    send_delete_request,
     send_get_request,
+    send_post_request,
     send_put_request,
 )
 from ..services.response import (
@@ -22,6 +25,7 @@ from ..services.response import (
     get_response_data,
     prepare_index_response,
     prepare_object_response,
+    verify_response,
 )
 from ..services.json import to_json
 
@@ -70,6 +74,32 @@ class SubscriptionClient(
             response_model=LifetimeUsageResponse,
             data=get_response_data(response=api_response, key="lifetime_usage"),
         )
+
+    def batch_create_alerts(self, external_id: str, input_object: BatchAlertInput) -> Mapping[str, Any]:
+        api_response: Response = send_post_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, external_id, "alerts"),
+            ),
+            content=to_json(input_object.dict()),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        return prepare_index_response(
+            api_resource="alerts",
+            response_model=AlertResponse,
+            data=get_response_data(response=api_response),
+        )
+
+    def delete_all_alerts(self, external_id: str) -> None:
+        api_response: Response = send_delete_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, external_id, "alerts"),
+            ),
+            headers=make_headers(api_key=self.api_key),
+        )
+        verify_response(api_response)
 
     def find_all_fixed_charges(self, external_id: str) -> Mapping[str, Any]:
         api_response: Response = send_get_request(
