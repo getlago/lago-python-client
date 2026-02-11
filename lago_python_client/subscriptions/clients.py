@@ -75,7 +75,7 @@ class SubscriptionClient(
             data=get_response_data(response=api_response, key="lifetime_usage"),
         )
 
-    def batch_create_alerts(self, external_id: str, input_object: BatchAlertInput) -> Mapping[str, Any]:
+    def create_alerts(self, external_id: str, input_object: BatchAlertInput) -> Mapping[str, Any]:
         api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
@@ -91,7 +91,7 @@ class SubscriptionClient(
             data=get_response_data(response=api_response),
         )
 
-    def delete_all_alerts(self, external_id: str) -> None:
+    def delete_alerts(self, external_id: str) -> None:
         api_response: Response = send_delete_request(
             url=make_url(
                 origin=self.base_url,

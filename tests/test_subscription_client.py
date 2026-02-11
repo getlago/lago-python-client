@@ -411,7 +411,7 @@ def mock_subscription_alerts_response():
         return alerts_response.read()
 
 
-def test_valid_batch_create_alerts_request(httpx_mock: HTTPXMock):
+def test_valid_create_alerts_request(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
     external_id = "sub_1234"
 
@@ -438,7 +438,7 @@ def test_valid_batch_create_alerts_request(httpx_mock: HTTPXMock):
         ]
     )
 
-    response = client.subscriptions.batch_create_alerts(external_id, input_object)
+    response = client.subscriptions.create_alerts(external_id, input_object)
 
     assert len(response["alerts"]) == 2
     assert response["alerts"][0].lago_id == "1a901a90-1a90-1a90-1a90-1a901a901a90"
@@ -448,7 +448,7 @@ def test_valid_batch_create_alerts_request(httpx_mock: HTTPXMock):
     assert response["alerts"][1].code == "alert2"
 
 
-def test_invalid_batch_create_alerts_request(httpx_mock: HTTPXMock):
+def test_invalid_create_alerts_request(httpx_mock: HTTPXMock):
     client = Client(api_key="invalid")
     external_id = "sub_1234"
 
@@ -462,10 +462,10 @@ def test_invalid_batch_create_alerts_request(httpx_mock: HTTPXMock):
     input_object = BatchAlertInput(alerts=[])
 
     with pytest.raises(LagoApiError):
-        client.subscriptions.batch_create_alerts(external_id, input_object)
+        client.subscriptions.create_alerts(external_id, input_object)
 
 
-def test_valid_delete_all_alerts_request(httpx_mock: HTTPXMock):
+def test_valid_delete_alerts_request(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
     external_id = "sub_1234"
 
@@ -476,11 +476,11 @@ def test_valid_delete_all_alerts_request(httpx_mock: HTTPXMock):
         content=b"",
     )
 
-    result = client.subscriptions.delete_all_alerts(external_id)
+    result = client.subscriptions.delete_alerts(external_id)
     assert result is None
 
 
-def test_invalid_delete_all_alerts_request(httpx_mock: HTTPXMock):
+def test_invalid_delete_alerts_request(httpx_mock: HTTPXMock):
     client = Client(api_key="invalid")
     external_id = "invalid_sub"
 
@@ -492,4 +492,4 @@ def test_invalid_delete_all_alerts_request(httpx_mock: HTTPXMock):
     )
 
     with pytest.raises(LagoApiError):
-        client.subscriptions.delete_all_alerts(external_id)
+        client.subscriptions.delete_alerts(external_id)
