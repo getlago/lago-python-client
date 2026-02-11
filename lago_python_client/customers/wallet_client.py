@@ -13,6 +13,7 @@ from ..mixins import (
 )
 
 from .wallets.metadata_client import CustomerWalletMetadataClient
+from .wallets.alert_client import CustomerWalletAlertClient
 
 
 class CustomerWalletClient(
@@ -37,3 +38,7 @@ class CustomerWalletClient(
     @callable_cached_property
     def metadata(self) -> CustomerWalletMetadataClient:
         return CustomerWalletMetadataClient(self.base_url, self.api_key)
+
+    @callable_cached_property
+    def alerts(self) -> CustomerWalletAlertClient:
+        return CustomerWalletAlertClient(self.base_url, self.api_key)

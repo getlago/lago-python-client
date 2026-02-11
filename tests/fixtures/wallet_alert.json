@@ -1,0 +1,26 @@
+{
+  "alert": {
+    "lago_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
+    "lago_organization_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
+    "external_subscription_id": null,
+    "external_customer_id": "customer_id",
+    "lago_wallet_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
+    "wallet_code": "wallet_code",
+    "code": "wallet_balance_alert",
+    "name": "Balance Amount Alert",
+    "alert_type": "wallet_balance_amount",
+    "direction": "increasing",
+    "previous_value": 1000,
+    "thresholds": [
+      {
+        "code": "warn",
+        "value": 10000,
+        "recurring": false
+      }
+    ],
+    "billable_metric": null,
+    "created_at": "2025-03-20T10:00:00Z",
+    "last_processed_at": "2025-05-19T10:04:21Z"
+  }
+}
+
