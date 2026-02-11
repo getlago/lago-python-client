@@ -71,9 +71,7 @@ def test_valid_destroy_customer_payment_method_request(httpx_mock: HTTPXMock):
         url="https://api.getlago.com/api/v1/customers/external_customer_id/payment_methods/a1b2c3d4-e5f6-7890-abcd-ef1234567890",
         content=mock_response(mock="payment_method"),
     )
-    response = client.customer_payment_methods.destroy(
-        "external_customer_id", "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
-    )
+    response = client.customer_payment_methods.destroy("external_customer_id", "a1b2c3d4-e5f6-7890-abcd-ef1234567890")
 
     assert response.lago_id == "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
     assert response.is_default is True
