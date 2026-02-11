@@ -6,7 +6,7 @@ from pytest_httpx import HTTPXMock
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
 from lago_python_client.models import Subscription
-from lago_python_client.models.alert import AlertInput, AlertThresholdInput, BatchAlertInput
+from lago_python_client.models.alert import Alert, AlertThreshold, AlertsList
 
 
 def create_subscription():
@@ -421,19 +421,19 @@ def test_valid_create_alerts_request(httpx_mock: HTTPXMock):
         content=mock_subscription_alerts_response(),
     )
 
-    input_object = BatchAlertInput(
+    input_object = AlertsList(
         alerts=[
-            AlertInput(
+            Alert(
                 alert_type="current_usage_amount",
                 code="alert1",
                 name="First Alert",
-                thresholds=[AlertThresholdInput(code="warn", value="1000")],
+                thresholds=[AlertThreshold(code="warn", value="1000")],
             ),
-            AlertInput(
+            Alert(
                 alert_type="billable_metric_current_usage_amount",
                 code="alert2",
                 billable_metric_code="storage",
-                thresholds=[AlertThresholdInput(value="2000")],
+                thresholds=[AlertThreshold(value="2000")],
             ),
         ]
     )
@@ -459,7 +459,7 @@ def test_invalid_create_alerts_request(httpx_mock: HTTPXMock):
         content=b"",
     )
 
-    input_object = BatchAlertInput(alerts=[])
+    input_object = AlertsList(alerts=[])
 
     with pytest.raises(LagoApiError):
         client.subscriptions.create_alerts(external_id, input_object)

@@ -1,30 +1,39 @@
 from typing import List, Optional
 
 from ..base_model import BaseModel, BaseResponseModel
+from .billable_metric import BillableMetricResponse
 
 
-class AlertThresholdInput(BaseModel):
-    code: Optional[str] = None
+class AlertThreshold(BaseModel):
+    code: Optional[str]
     value: str
-    recurring: Optional[bool] = None
+    recurring: Optional[bool]
 
 
-class AlertInput(BaseModel):
+class AlertThresholdList(BaseModel):
+    __root__: List[AlertThreshold]
+
+
+class Alert(BaseModel):
     alert_type: str
     code: str
-    name: Optional[str] = None
-    billable_metric_code: Optional[str] = None
-    thresholds: List[AlertThresholdInput]
+    name: Optional[str]
+    billable_metric_code: Optional[str]
+    thresholds: AlertThresholdList
 
 
-class BatchAlertInput(BaseModel):
-    alerts: List[AlertInput]
+class AlertsList(BaseModel):
+    alerts: List[Alert]
 
 
 class AlertThresholdResponse(BaseResponseModel):
     code: Optional[str]
     value: str
     recurring: bool
+
+
+class AlertThresholdResponseList(BaseResponseModel):
+    __root__: List[AlertThresholdResponse]
 
 
 class AlertResponse(BaseResponseModel):
@@ -36,5 +45,10 @@ class AlertResponse(BaseResponseModel):
     name: Optional[str]
     previous_value: Optional[str]
     last_processed_at: Optional[str]
-    thresholds: Optional[List[AlertThresholdResponse]]
-    created_at: Optional[str]
+    thresholds: AlertThresholdResponseList
+    created_at: str
+    billable_metric: Optional[BillableMetricResponse]
+
+
+class AlertsResponseList(BaseResponseModel):
+    alerts: List[AlertResponse]

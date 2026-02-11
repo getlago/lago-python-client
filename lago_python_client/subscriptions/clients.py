@@ -8,7 +8,7 @@ from ..mixins import (
     FindCommandMixin,
     UpdateCommandMixin,
 )
-from ..models.alert import AlertResponse, BatchAlertInput
+from ..models.alert import AlertResponse, AlertsList
 from ..models.fixed_charge import FixedChargeResponse
 from ..models.lifetime_usage import LifetimeUsageResponse
 from ..models.subscription import SubscriptionResponse
@@ -75,7 +75,7 @@ class SubscriptionClient(
             data=get_response_data(response=api_response, key="lifetime_usage"),
         )
 
-    def create_alerts(self, external_id: str, input_object: BatchAlertInput) -> Mapping[str, Any]:
+    def create_alerts(self, external_id: str, input_object: AlertsList) -> Mapping[str, Any]:
         api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
