@@ -15,11 +15,11 @@ class AlertThresholdList(BaseModel):
 
 
 class Alert(BaseModel):
-    alert_type: str
-    code: str
+    alert_type: Optional[str]
+    code: Optional[str]
     name: Optional[str]
+    thresholds: Optional[AlertThresholdList]
     billable_metric_code: Optional[str]
-    thresholds: AlertThresholdList
 
 
 class AlertsList(BaseModel):
@@ -39,10 +39,13 @@ class AlertThresholdResponseList(BaseResponseModel):
 class AlertResponse(BaseResponseModel):
     lago_id: str
     lago_organization_id: str
-    external_subscription_id: str
+    external_subscription_id: Optional[str]
+    lago_wallet_id: Optional[str]
+    wallet_code: Optional[str]
     alert_type: str
     code: str
     name: Optional[str]
+    direction: Optional[str]
     previous_value: Optional[str]
     last_processed_at: Optional[str]
     thresholds: AlertThresholdResponseList
