@@ -20,7 +20,7 @@ from ..services.response import (
     prepare_index_response,
     prepare_object_response,
 )
-from .wallets_client import CustomerWalletsClient
+from .wallet_client import CustomerWalletClient
 
 
 class CustomerClient(
@@ -35,8 +35,8 @@ class CustomerClient(
     ROOT_NAME: ClassVar[str] = "customer"
 
     @callable_cached_property
-    def wallets(self) -> CustomerWalletsClient:
-        return CustomerWalletsClient(self.base_url, self.api_key)
+    def wallets(self) -> CustomerWalletClient:
+        return CustomerWalletClient(self.base_url, self.api_key)
 
     def current_usage(
         self,
