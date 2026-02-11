@@ -3,18 +3,27 @@ from typing import ClassVar, Type
 from ..base_client import BaseClient
 from ..mixins import FindAllChildrenCommandMixin
 from ..models.wallet import WalletResponse
-from ..client import CustomerClient
 
+from ..mixins import (
+    NestedCreateCommandMixin,
+    NestedUpdateCommandMixin,
+    NestedDestroyCommandMixin,
+    NestedFindCommandMixin,
+    NestedFindAllCommandMixin,
+)
 
 class CustomerWalletsClient(
-    CreateCommandMixin[WalletResponse],
-    DestroyCommandMixin[WalletResponse],
-    FindAllCommandMixin[WalletResponse],
-    FindCommandMixin[WalletResponse],
-    UpdateCommandMixin[WalletResponse],
+    NestedCreateCommandMixin[WalletResponse],
+    NestedUpdateCommandMixin[WalletResponse],
+    NestedDestroyCommandMixin[WalletResponse],
+    NestedFindCommandMixin[WalletResponse],
+    NestedFindAllCommandMixin[WalletResponse],
     BaseClient
 ):
-    PARENT_API_RESOURCE: ClassVar[str] = CustomerClient.API_RESOURCE
     API_RESOURCE: ClassVar[str] = "wallets"
+    PARENT_RESOURCES: ClassVar[tuple[str]] = ("customer_id")
     RESPONSE_MODEL: ClassVar[Type[WalletResponse]] = WalletResponse
     ROOT_NAME: ClassVar[str] = "wallet"
+
+    def api_resource(self, customer_id: str) -> tuple[str]:
+        return ("customers", customer_id, "wallets",)

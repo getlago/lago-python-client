@@ -230,3 +230,153 @@ class UpdateCommandMixin(Generic[_M]):
             response_model=self.RESPONSE_MODEL,
             data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
+
+class NestedCreateCommandMixin(Generic[_M]):
+    """Client mixin with `create` command."""
+
+    def create(
+        self: _ClientMixin[_M],
+        *args: str | BaseModel,
+        timeout: Optional[httpx.Timeout] = None,
+    ) -> Optional[_M]:
+        """Execute `create` command."""
+        # Send request and save response
+        *parent_ids, input_object = args
+
+        api_response: Response = send_post_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=self.api_resource(*parent_ids)
+            ),
+            content=to_json(
+                {
+                    self.ROOT_NAME: input_object.dict(),
+                }
+            ),
+            headers=make_headers(api_key=self.api_key),
+            timeout=timeout,
+        )
+
+        # Process response data
+        response_data = get_response_data(response=api_response, key=self.ROOT_NAME)
+        if not response_data:
+            return None
+
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=response_data,
+        )
+
+class NestedUpdateCommandMixin(Generic[_M]):
+    """Client mixin with `update` command."""
+
+    def update(
+        self: _ClientMixin[_M],
+        *args: str | BaseModel,
+        timeout: Optional[httpx.Timeout] = None,
+    ) -> _M:
+        """Execute `update` command."""
+        # Send request and save response
+        *parent_ids, resource_id, input_object = args
+
+        api_response: Response = send_put_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=self.api_resource(*parent_ids) + (resource_id,),
+            ),
+            content=to_json(
+                {
+                    self.ROOT_NAME: input_object.dict(exclude_none=True),
+                }
+            ),
+            headers=make_headers(api_key=self.api_key),
+            timeout=timeout,
+        )
+
+        # Process response data
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=get_response_data(response=api_response, key=self.ROOT_NAME),
+        )
+
+class NestedDestroyCommandMixin(Generic[_M]):
+    """Client mixin with `destroy` command."""
+
+    def destroy(
+        self: _ClientMixin[_M],
+        *args: str,
+        timeout: Optional[httpx.Timeout] = None,
+    ) -> BaseModel:
+        """Execute `destroy` command."""
+        # Send request and save response
+        *parent_ids, resource_id = args
+
+        api_response: Response = send_delete_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=self.api_resource(*parent_ids) + (resource_id,),
+            ),
+            headers=make_headers(api_key=self.api_key),
+            timeout=timeout,
+        )
+
+        # Process response data
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=get_response_data(response=api_response, key=self.ROOT_NAME),
+        )
+
+class NestedFindCommandMixin(Generic[_M]):
+    """Client mixin with `find` command."""
+
+    def find(
+        self: _ClientMixin[_M],
+        *args: str,
+        timeout: Optional[httpx.Timeout] = None,
+    ) -> _M:
+        """Execute `find` command."""
+        # Send request and save response
+        *parent_ids, resource_id = args
+
+        api_response: Response = send_get_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=self.api_resource(*parent_ids) + (resource_id,),
+            ),
+            headers=make_headers(api_key=self.api_key),
+            timeout=timeout,
+        )
+
+        # Process response data
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=get_response_data(response=api_response, key=self.ROOT_NAME),
+        )
+
+class NestedFindAllCommandMixin(Generic[_M]):
+    """Client mixin with `find_all` command."""
+
+    def find_all(
+        self: _ClientMixin[_M],
+        *parent_ids: str,
+        options: QueryPairs = {},
+        timeout: Optional[httpx.Timeout] = None,
+    ) -> Mapping[str, Any]:
+        """Execute `find all` command."""
+        # Send request and save response
+        api_response: Response = send_get_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=self.api_resource(*parent_ids),
+                query_pairs=options,
+            ),
+            headers=make_headers(api_key=self.api_key),
+            timeout=timeout,
+        )
+
+        # Process response data
+        return prepare_index_response(
+            api_resource=self.API_RESOURCE,
+            response_model=self.RESPONSE_MODEL,
+            data=get_response_data(response=api_response),
+        )

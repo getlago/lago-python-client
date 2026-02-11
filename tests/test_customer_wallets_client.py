@@ -1,3 +1,5 @@
+import os
+
 import pytest
 from pytest_httpx import HTTPXMock
 
@@ -30,7 +32,8 @@ def wallet_object():
     )
     return Wallet(
         name="name",
-        external_customer_id="12345",
+        code="wallet_code",
+        priority=30,
         rate_amount="1",
         paid_credits="10",
         granted_credits="10",
@@ -43,34 +46,20 @@ def wallet_object():
     )
 
 
-def mock_response():
-    this_dir = os.path.dirname(os.path.abspath(__file__))
-    data_path = os.path.join(this_dir, "fixtures/wallet.json")
-
-    with open(data_path, "rb") as wallet_response:
-        return wallet_response.read()
-
-
-def mock_collection_response():
-    this_dir = os.path.dirname(os.path.abspath(__file__))
-    data_path = os.path.join(this_dir, "fixtures/wallet_index.json")
-
-    with open(data_path, "rb") as wallet_response:
-        return wallet_response.read()
-
-
 def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
 
     httpx_mock.add_response(
         method="POST",
-        url="https://api.getlago.com/api/v1/customers/external_customer_id/wallets",
-        content=mock_response(),
+        url="https://api.getlago.com/api/v1/customers/customer_id/wallets",
+        content=mock_response("wallet"),
         match_json={
             "wallet": {
-                "external_customer_id": "external_customer_id",
+                "external_customer_id": None,
                 "rate_amount": "1",
                 "name": "name",
+                "code": "wallet_code",
+                "priority": 30,
                 "paid_credits": "10",
                 "granted_credits": "10",
                 "expiration_at": None,
@@ -99,11 +88,11 @@ def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
                 "invoice_requires_successful_payment": False,
                 "transaction_name": "Transaction Name",
                 "applies_to": {"fee_types": ["charge"], "billable_metric_codes": ["usage"]},
+                "metadata": None,
             }
         },
     )
-    response = client.wallets.create(wallet_object())
-    response = client.customer_wallets.create(resource_id="external_customer_id", options={"per_page": 2, "page": 1})
+    response = client.customers.wallets.create("customer_id", wallet_object())
 
     assert response.lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
     assert response.recurring_transaction_rules.__root__[0].lago_id == "12345"
@@ -121,13 +110,13 @@ def test_invalid_create_wallet_request(httpx_mock: HTTPXMock):
 
     httpx_mock.add_response(
         method="POST",
-        url="https://api.getlago.com/api/v1/wallets",
+        url="https://api.getlago.com/api/v1/customers/customer_id/wallets",
         status_code=401,
         content=b"",
     )
 
     with pytest.raises(LagoApiError):
-        client.wallets.create(wallet_object())
+        client.customers.wallets.create("customer_id", wallet_object())
 
 
 def test_valid_update_wallet_request(httpx_mock: HTTPXMock):
@@ -136,10 +125,10 @@ def test_valid_update_wallet_request(httpx_mock: HTTPXMock):
 
     httpx_mock.add_response(
         method="PUT",
-        url="https://api.getlago.com/api/v1/wallets/" + arg,
-        content=mock_response(),
+        url="https://api.getlago.com/api/v1/customers/customer_id/wallets/" + arg,
+        content=mock_response("wallet"),
     )
-    response = client.wallets.update(wallet_object(), arg)
+    response = client.customers.wallets.update("customer_id", arg, wallet_object())
 
     assert response.lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
 
@@ -150,13 +139,13 @@ def test_invalid_update_wallet_request(httpx_mock: HTTPXMock):
 
     httpx_mock.add_response(
         method="PUT",
-        url="https://api.getlago.com/api/v1/wallets/" + arg,
+        url="https://api.getlago.com/api/v1/customers/customer_id/wallets/" + arg,
         status_code=401,
         content=b"",
     )
 
     with pytest.raises(LagoApiError):
-        client.wallets.update(wallet_object(), arg)
+        client.customers.wallets.update("customer_id", arg, wallet_object())
 
 
 def test_valid_find_wallet_request(httpx_mock: HTTPXMock):
@@ -165,10 +154,10 @@ def test_valid_find_wallet_request(httpx_mock: HTTPXMock):
 
     httpx_mock.add_response(
         method="GET",
-        url="https://api.getlago.com/api/v1/wallets/" + arg,
-        content=mock_response(),
+        url="https://api.getlago.com/api/v1/customers/customer_id/wallets/" + arg,
+        content=mock_response("wallet"),
     )
-    response = client.wallets.find(arg)
+    response = client.customers.wallets.find("customer_id", arg)
 
     assert response.lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
 
@@ -179,13 +168,13 @@ def test_invalid_find_wallet_request(httpx_mock: HTTPXMock):
 
     httpx_mock.add_response(
         method="GET",
-        url="https://api.getlago.com/api/v1/wallets/" + arg,
+        url="https://api.getlago.com/api/v1/customers/customer_id/wallets/" + arg,
         status_code=404,
         content=b"",
     )
 
     with pytest.raises(LagoApiError):
-        client.wallets.find(arg)
+        client.customers.wallets.find("customer_id", arg)
 
 
 def test_valid_destroy_customer_wallet_request(httpx_mock: HTTPXMock):
@@ -194,10 +183,10 @@ def test_valid_destroy_customer_wallet_request(httpx_mock: HTTPXMock):
 
     httpx_mock.add_response(
         method="DELETE",
-        url="https://api.getlago.com/api/v1/customers/external_customer_id/wallets/" + arg,
-        content=mock_response(),
+        url="https://api.getlago.com/api/v1/customers/customer_id/wallets/" + arg,
+        content=mock_response("wallet"),
     )
-    response = client.customer_wallets.destroy(resource_id="external_customer_id")
+    response = client.customers.wallets.destroy("customer_id", arg)
 
     assert response.lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
 
@@ -208,13 +197,13 @@ def test_invalid_destroy_customer_wallet_request(httpx_mock: HTTPXMock):
 
     httpx_mock.add_response(
         method="DELETE",
-        url="https://api.getlago.com/api/v1/wallets/" + arg,
+        url="https://api.getlago.com/api/v1/customers/customer_id/wallets/" + arg,
         status_code=404,
         content=b"",
     )
 
     with pytest.raises(LagoApiError):
-        client.wallets.destroy(arg)
+        client.customers.wallets.destroy("customer_id", arg)
 
 
 def test_valid_find_all_customer_wallets_request(httpx_mock: HTTPXMock):
@@ -222,10 +211,10 @@ def test_valid_find_all_customer_wallets_request(httpx_mock: HTTPXMock):
 
     httpx_mock.add_response(
         method="GET",
-        url="https://api.getlago.com/api/v1/customers/external_customer_id/wallets",
-        content=mock_response(mock="wallet_index"),
+        url="https://api.getlago.com/api/v1/customers/customer_id/wallets",
+        content=mock_response("wallet_index"),
     )
-    response = client.customer_wallets.find_all(resource_id="external_customer_id")
+    response = client.customers.wallets.find_all("customer_id")
 
     assert response["wallets"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
     assert response["meta"]["current_page"] == 1
@@ -236,10 +225,10 @@ def test_valid_find_all_customer_wallets_request_with_options(httpx_mock: HTTPXM
 
     httpx_mock.add_response(
         method="GET",
-        url="https://api.getlago.com/api/v1/customers/external_customer_id/wallets?per_page=2&page=1",
-        content=mock_response(mock="wallet_index"),
+        url="https://api.getlago.com/api/v1/customers/customer_id/wallets?per_page=2&page=1",
+        content=mock_response("wallet_index"),
     )
-    response = client.customer_wallets.find_all(resource_id="external_customer_id", options={"per_page": 2, "page": 1})
+    response = client.customers.wallets.find_all("customer_id", options={"per_page": 2, "page": 1})
 
     assert response["wallets"][1].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac1111"
     assert response["meta"]["current_page"] == 1
@@ -250,10 +239,10 @@ def test_invalid_find_all_wallet_request(httpx_mock: HTTPXMock):
 
     httpx_mock.add_response(
         method="GET",
-        url="https://api.getlago.com/api/v1/customers/external_customer_id/wallets",
+        url="https://api.getlago.com/api/v1/customers/customer_id/wallets",
         status_code=404,
         content=b"",
     )
 
     with pytest.raises(LagoApiError):
-        client.customer_wallets.find_all(resource_id="external_customer_id")
+        client.customers.wallets.find_all("customer_id")
