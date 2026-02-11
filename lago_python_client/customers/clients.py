@@ -19,7 +19,7 @@ from ..services.response import (
     prepare_object_response,
     Response,
 )
-from .wallets_client import CustomerWalletsClient
+from .wallet_client import CustomerWalletClient
 
 if sys.version_info >= (3, 9):
     from collections.abc import Mapping
@@ -39,8 +39,8 @@ class CustomerClient(
     ROOT_NAME: ClassVar[str] = "customer"
 
     @callable_cached_property
-    def wallets(self) -> CustomerWalletsClient:
-        return CustomerWalletsClient(self.base_url, self.api_key)
+    def wallets(self) -> CustomerWalletClient:
+        return CustomerWalletClient(self.base_url, self.api_key)
 
     def current_usage(
         self, resource_id: str, external_subscription_id: str, apply_taxes: Optional[str] = None
