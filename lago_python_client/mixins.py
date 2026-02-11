@@ -231,6 +231,7 @@ class UpdateCommandMixin(Generic[_M]):
             data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
 
+
 class NestedCreateCommandMixin(Generic[_M]):
     """Client mixin with `create` command."""
 
@@ -244,10 +245,7 @@ class NestedCreateCommandMixin(Generic[_M]):
 
         # Send request and save response
         api_response: Response = send_post_request(
-            url=make_url(
-                origin=self.base_url,
-                path_parts=self.api_resource(*parent_ids)
-            ),
+            url=make_url(origin=self.base_url, path_parts=self.api_resource(*parent_ids)),
             content=to_json(
                 {
                     self.ROOT_NAME: input_object.dict(),
@@ -266,6 +264,7 @@ class NestedCreateCommandMixin(Generic[_M]):
             response_model=self.RESPONSE_MODEL,
             data=response_data,
         )
+
 
 class NestedUpdateCommandMixin(Generic[_M]):
     """Client mixin with `update` command."""
@@ -299,6 +298,7 @@ class NestedUpdateCommandMixin(Generic[_M]):
             data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
 
+
 class NestedDestroyCommandMixin(Generic[_M]):
     """Client mixin with `destroy` command."""
 
@@ -326,6 +326,7 @@ class NestedDestroyCommandMixin(Generic[_M]):
             data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
 
+
 class NestedFindCommandMixin(Generic[_M]):
     """Client mixin with `find` command."""
 
@@ -352,6 +353,7 @@ class NestedFindCommandMixin(Generic[_M]):
             response_model=self.RESPONSE_MODEL,
             data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
+
 
 class NestedFindAllCommandMixin(Generic[_M]):
     """Client mixin with `find_all` command."""
