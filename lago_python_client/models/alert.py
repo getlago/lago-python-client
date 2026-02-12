@@ -15,10 +15,10 @@ class AlertThresholdList(BaseModel):
 
 
 class Alert(BaseModel):
-    alert_type: Optional[str]
-    code: Optional[str]
+    alert_type: str
+    code: str
     name: Optional[str]
-    thresholds: Optional[AlertThresholdList]
+    thresholds: AlertThresholdList
     billable_metric_code: Optional[str]
 
 
