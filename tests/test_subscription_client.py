@@ -6,6 +6,7 @@ from pytest_httpx import HTTPXMock
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
 from lago_python_client.models import Subscription, PaymentMethod
+from lago_python_client.models.alert import Alert, AlertThreshold, AlertsList
 
 
 def create_subscription():
@@ -480,3 +481,95 @@ def test_fixed_charge_response_model_parsing():
     assert response.properties.graduated_ranges[0].from_value == 0
     assert response.properties.graduated_ranges[0].per_unit_amount == "100"
     assert response.properties.graduated_ranges[1].to_value is None
+
+
+def mock_subscription_alerts_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    my_data_path = os.path.join(this_dir, "fixtures/subscription_alerts.json")
+
+    with open(my_data_path, "rb") as alerts_response:
+        return alerts_response.read()
+
+
+def test_valid_create_alerts_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_1234"
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/alerts",
+        content=mock_subscription_alerts_response(),
+    )
+
+    input_object = AlertsList(
+        alerts=[
+            Alert(
+                alert_type="current_usage_amount",
+                code="alert1",
+                name="First Alert",
+                thresholds=[AlertThreshold(code="warn", value="1000")],
+            ),
+            Alert(
+                alert_type="billable_metric_current_usage_amount",
+                code="alert2",
+                billable_metric_code="storage",
+                thresholds=[AlertThreshold(value="2000")],
+            ),
+        ]
+    )
+
+    response = client.subscriptions.create_alerts(external_id, input_object)
+
+    assert len(response["alerts"]) == 2
+    assert response["alerts"][0].lago_id == "1a901a90-1a90-1a90-1a90-1a901a901a90"
+    assert response["alerts"][0].code == "alert1"
+    assert response["alerts"][0].alert_type == "current_usage_amount"
+    assert response["alerts"][1].lago_id == "3c903c90-3c90-3c90-3c90-3c903c903c90"
+    assert response["alerts"][1].code == "alert2"
+
+
+def test_invalid_create_alerts_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="invalid")
+    external_id = "sub_1234"
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/alerts",
+        status_code=422,
+        content=b"",
+    )
+
+    input_object = AlertsList(alerts=[])
+
+    with pytest.raises(LagoApiError):
+        client.subscriptions.create_alerts(external_id, input_object)
+
+
+def test_valid_delete_alerts_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_1234"
+
+    httpx_mock.add_response(
+        method="DELETE",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/alerts",
+        status_code=200,
+        content=b"",
+    )
+
+    result = client.subscriptions.delete_alerts(external_id)
+    assert result is None
+
+
+def test_invalid_delete_alerts_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="invalid")
+    external_id = "invalid_sub"
+
+    httpx_mock.add_response(
+        method="DELETE",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/alerts",
+        status_code=404,
+        content=b"",
+    )
+
+    with pytest.raises(LagoApiError):
+        client.subscriptions.delete_alerts(external_id)
