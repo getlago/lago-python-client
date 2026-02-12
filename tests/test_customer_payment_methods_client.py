@@ -50,17 +50,20 @@ def test_valid_find_all_customer_payment_methods_request_with_options(httpx_mock
 
 
 def test_invalid_find_all_customer_payment_methods_request(httpx_mock: HTTPXMock):
-    client = Client(api_key="invalid")
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
 
     httpx_mock.add_response(
         method="GET",
-        url="https://api.getlago.com/api/v1/customers/external_customer_id/payment_methods",
+        url="https://api.getlago.com/api/v1/customers/invalid_customer_id/payment_methods",
         status_code=404,
-        content=b"",
+        content=b'{"status": 404, "error": "Not Found", "code": "customer_not_found"}',
     )
 
-    with pytest.raises(LagoApiError):
-        client.customer_payment_methods.find_all(resource_id="external_customer_id")
+    with pytest.raises(LagoApiError) as exc_info:
+        client.customer_payment_methods.find_all(resource_id="invalid_customer_id")
+
+    assert exc_info.value.status_code == 404
+    assert exc_info.value.response["code"] == "customer_not_found"
 
 
 def test_valid_destroy_customer_payment_method_request(httpx_mock: HTTPXMock):
@@ -83,17 +86,20 @@ def test_valid_destroy_customer_payment_method_request(httpx_mock: HTTPXMock):
 
 
 def test_invalid_destroy_customer_payment_method_request(httpx_mock: HTTPXMock):
-    client = Client(api_key="invalid")
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
 
     httpx_mock.add_response(
         method="DELETE",
         url="https://api.getlago.com/api/v1/customers/external_customer_id/payment_methods/invalid_id",
         status_code=404,
-        content=b"",
+        content=b'{"status": 404, "error": "Not Found", "code": "payment_method_not_found"}',
     )
 
-    with pytest.raises(LagoApiError):
+    with pytest.raises(LagoApiError) as exc_info:
         client.customer_payment_methods.destroy("external_customer_id", "invalid_id")
+
+    assert exc_info.value.status_code == 404
+    assert exc_info.value.response["code"] == "payment_method_not_found"
 
 
 def test_valid_set_as_default_customer_payment_method_request(httpx_mock: HTTPXMock):
@@ -118,14 +124,17 @@ def test_valid_set_as_default_customer_payment_method_request(httpx_mock: HTTPXM
 
 
 def test_invalid_set_as_default_customer_payment_method_request(httpx_mock: HTTPXMock):
-    client = Client(api_key="invalid")
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
 
     httpx_mock.add_response(
         method="PUT",
         url="https://api.getlago.com/api/v1/customers/external_customer_id/payment_methods/invalid_id/set_as_default",
         status_code=404,
-        content=b"",
+        content=b'{"status": 404, "error": "Not Found", "code": "payment_method_not_found"}',
     )
 
-    with pytest.raises(LagoApiError):
+    with pytest.raises(LagoApiError) as exc_info:
         client.customer_payment_methods.set_as_default("external_customer_id", "invalid_id")
+
+    assert exc_info.value.status_code == 404
+    assert exc_info.value.response["code"] == "payment_method_not_found"
