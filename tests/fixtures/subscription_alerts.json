@@ -1,0 +1,40 @@
+{
+  "alerts": [
+    {
+      "lago_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
+      "lago_organization_id": "2b902b90-2b90-2b90-2b90-2b902b902b90",
+      "external_subscription_id": "sub_1234",
+      "alert_type": "current_usage_amount",
+      "code": "alert1",
+      "name": "First Alert",
+      "previous_value": "0.0",
+      "last_processed_at": null,
+      "thresholds": [
+        {
+          "code": "warn",
+          "value": "1000.0",
+          "recurring": false
+        }
+      ],
+      "created_at": "2025-03-20T10:00:00Z"
+    },
+    {
+      "lago_id": "3c903c90-3c90-3c90-3c90-3c903c903c90",
+      "lago_organization_id": "2b902b90-2b90-2b90-2b90-2b902b902b90",
+      "external_subscription_id": "sub_1234",
+      "alert_type": "billable_metric_current_usage_amount",
+      "code": "alert2",
+      "name": "Second Alert",
+      "previous_value": "0.0",
+      "last_processed_at": null,
+      "thresholds": [
+        {
+          "code": null,
+          "value": "2000.0",
+          "recurring": false
+        }
+      ],
+      "created_at": "2025-03-20T10:00:00Z"
+    }
+  ]
+}
