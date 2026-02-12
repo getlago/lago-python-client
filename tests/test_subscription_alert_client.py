@@ -13,7 +13,7 @@ from .utils.mixin import mock_response
 
 
 def alert_object():
-    threshold = AlertThreshold(code="warn", value=10000)
+    threshold = AlertThreshold(code="warn", value=10000, recurring=False)
 
     return Alert(
         alert_type="billable_metric_current_usage_amount",

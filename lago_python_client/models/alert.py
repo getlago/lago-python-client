@@ -5,9 +5,9 @@ from .billable_metric import BillableMetricResponse
 
 
 class AlertThreshold(BaseModel):
-    code: Optional[str]
-    value: Optional[str]
-    recurring: Optional[bool]
+    code: str
+    value: str
+    recurring: bool
 
 
 class AlertThresholdList(BaseModel):
@@ -15,10 +15,10 @@ class AlertThresholdList(BaseModel):
 
 
 class Alert(BaseModel):
-    alert_type: Optional[str]
-    code: Optional[str]
+    alert_type: str
+    code: str
     name: Optional[str]
-    thresholds: Optional[AlertThresholdList]
+    thresholds: AlertThresholdList
     billable_metric_code: Optional[str]
 
 
