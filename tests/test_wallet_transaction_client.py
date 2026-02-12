@@ -87,6 +87,29 @@ def test_valid_create_wallet_transaction_request_with_payment_method(httpx_mock:
     assert response["wallet_transactions"][2].payment_method.payment_method_id == "pm_123"
 
 
+def test_invalid_create_wallet_transaction_request_with_payment_method(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    payment_method = PaymentMethod(payment_method_type="provider", payment_method_id="invalid-id")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/wallet_transactions",
+        status_code=422,
+        json={
+            "status": 422,
+            "error": "Unprocessable Entity",
+            "code": "validation_errors",
+            "error_details": {"payment_method": ["invalid_payment_method"]},
+        },
+    )
+
+    transaction = wallet_transaction_object()
+    transaction.payment_method = payment_method
+
+    with pytest.raises(LagoApiError):
+        client.wallet_transactions.create(transaction)
+
+
 def test_invalid_create_wallet_transaction_request(httpx_mock: HTTPXMock):
     client = Client(api_key="invalid")
 

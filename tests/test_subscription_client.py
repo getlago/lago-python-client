@@ -112,13 +112,17 @@ def test_invalid_create_subscriptions_request(httpx_mock: HTTPXMock):
 
 def test_invalid_create_subscriptions_request_with_payment_method(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
-    payment_method = PaymentMethod(payment_method_type="invalid_type", payment_method_id="invalid-id")
+    payment_method = PaymentMethod(payment_method_type="provider", payment_method_id="invalid-id")
 
     httpx_mock.add_response(
         method="POST",
         url="https://api.getlago.com/api/v1/subscriptions",
-        status_code=422,
-        content=b"",
+        status_code=404,
+        json={
+            "status": 404,
+            "error": "Not Found",
+            "code": "resource_not_found",
+        },
     )
 
     subscription = create_subscription()
@@ -182,13 +186,18 @@ def test_invalid_update_subscription_request(httpx_mock: HTTPXMock):
 def test_invalid_update_subscription_request_with_payment_method(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
     identifier = "sub_id"
-    payment_method = PaymentMethod(payment_method_type="invalid_type", payment_method_id="invalid-id")
+    payment_method = PaymentMethod(payment_method_type="provider", payment_method_id="invalid-id")
 
     httpx_mock.add_response(
         method="PUT",
         url="https://api.getlago.com/api/v1/subscriptions/" + identifier,
         status_code=422,
-        content=b"",
+        json={
+            "status": 422,
+            "error": "Unprocessable Entity",
+            "code": "validation_errors",
+            "error_details": {"payment_method": ["invalid_payment_method"]},
+        },
     )
 
     with pytest.raises(LagoApiError):
