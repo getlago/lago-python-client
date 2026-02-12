@@ -1,6 +1,7 @@
 from typing import ClassVar, Type
 
 from ..base_client import BaseClient
+from ..customers.clients import CustomerClient
 from ..mixins import FindAllChildrenCommandMixin
 from ..models.payment_method import PaymentMethodResponse
 from ..services.request import make_headers, make_url, send_delete_request, send_put_request
@@ -8,7 +9,7 @@ from ..services.response import get_response_data, prepare_object_response, Resp
 
 
 class CustomerPaymentMethodsClient(FindAllChildrenCommandMixin[PaymentMethodResponse], BaseClient):
-    PARENT_API_RESOURCE: ClassVar[str] = "customers"
+    PARENT_API_RESOURCE: ClassVar[str] = CustomerClient.API_RESOURCE
     API_RESOURCE: ClassVar[str] = "payment_methods"
     RESPONSE_MODEL: ClassVar[Type[PaymentMethodResponse]] = PaymentMethodResponse
     ROOT_NAME: ClassVar[str] = "payment_method"
