@@ -20,6 +20,10 @@
     "next_plan_code": null,
     "downgrade_plan_date": null,
     "current_billing_period_started_at": "2022-04-29T08:59:51Z",
-    "current_billing_period_ending_at": "2022-05-29T23:59:59Z"
+    "current_billing_period_ending_at": "2022-05-29T23:59:59Z",
+    "payment_method": {
+      "payment_method_type": "card",
+      "payment_method_id": "pm_123"
+    }
   }
 }

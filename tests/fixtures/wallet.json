@@ -27,7 +27,11 @@
         "started_at": null,
         "target_ongoing_balance": "200.0",
         "transaction_name": "Recurring Transaction Rule",
-        "ignore_paid_top_up_limits": true
+        "ignore_paid_top_up_limits": true,
+        "payment_method": {
+          "payment_method_type": "card",
+          "payment_method_id": "pm_123"
+        }
       }
     ],
     "ongoing_balance_cents": 800,
@@ -43,6 +47,10 @@
     "metadata": {
       "key1": "value1",
       "key2": null
+    },
+    "payment_method": {
+      "payment_method_type": "card",
+      "payment_method_id": "pm_123"
     }
   }
 }
