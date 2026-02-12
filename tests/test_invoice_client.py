@@ -303,11 +303,12 @@ def test_valid_retry_payment_invoice_request_with_payment_method(httpx_mock: HTT
     httpx_mock.add_response(
         method="POST",
         url="https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba/retry_payment",
-        content=mock_response(),
+        status_code=200,
+        content=b"",
     )
     response = client.invoices.retry_payment("5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba", payment_method=payment_method)
 
-    assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+    assert response is None
 
 
 def test_valid_payment_url_request(httpx_mock: HTTPXMock):
