@@ -1,5 +1,6 @@
 from typing import Any, ClassVar, Mapping, Type
 
+from ..functools_ext import callable_cached_property
 from ..base_client import BaseClient
 from ..mixins import (
     CreateCommandMixin,
@@ -29,6 +30,8 @@ from ..services.response import (
 )
 from ..services.json import to_json
 
+from .alert_client import SubscriptionAlertClient
+
 
 class SubscriptionClient(
     CreateCommandMixin[SubscriptionResponse],
@@ -41,6 +44,10 @@ class SubscriptionClient(
     API_RESOURCE: ClassVar[str] = "subscriptions"
     RESPONSE_MODEL: ClassVar[Type[SubscriptionResponse]] = SubscriptionResponse
     ROOT_NAME: ClassVar[str] = "subscription"
+
+    @callable_cached_property
+    def alerts(self) -> SubscriptionAlertClient:
+        return SubscriptionAlertClient(self.base_url, self.api_key)
 
     def lifetime_usage(self, resource_id: str) -> LifetimeUsageResponse:
         api_response: Response = send_get_request(
