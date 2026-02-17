@@ -19,7 +19,7 @@ def alert_object():
         alert_type="billable_metric_current_usage_amount",
         code="storage_threshold_alert",
         name="Storage Usage Alert",
-        billable_metric_cod="storage",
+        billable_metric_code="storage",
         thresholds=AlertThresholdList(__root__=[threshold]),
     )
 
@@ -42,7 +42,7 @@ def test_valid_create_subscription_alert_request(httpx_mock: HTTPXMock):
     assert response.code == "storage_threshold_alert"
     assert response.name == "Storage Usage Alert"
     assert response.alert_type == "billable_metric_current_usage_amount"
-    assert response.previous_value == 1000
+    assert response.previous_value == "1000"
     assert response.billable_metric.code == "storage"
     assert response.thresholds == AlertThresholdList(
         __root__=[AlertThreshold(code="warn", value=99.0, recurring=False)]
