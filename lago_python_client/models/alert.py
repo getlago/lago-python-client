@@ -45,6 +45,7 @@ class AlertResponse(BaseResponseModel):
     alert_type: str
     code: str
     name: Optional[str]
+    direction: Optional[str]
     previous_value: Optional[str]
     last_processed_at: Optional[str]
     thresholds: AlertThresholdResponseList

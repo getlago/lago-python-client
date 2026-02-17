@@ -42,7 +42,7 @@ def test_valid_create_customer_wallet_alert_request(httpx_mock: HTTPXMock):
     assert response.name == "Balance Amount Alert"
     assert response.alert_type == "wallet_balance_amount"
     assert response.direction == "increasing"
-    assert response.previous_value == 1000
+    assert response.previous_value == "1000"
     assert response.thresholds == AlertThresholdList(
         __root__=[AlertThreshold(code="warn", value=10000, recurring=False)]
     )
