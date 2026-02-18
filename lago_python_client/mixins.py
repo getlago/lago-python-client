@@ -68,7 +68,7 @@ class CreateCommandMixin(Generic[_M]):
             ),
             content=to_json(
                 {
-                    self.ROOT_NAME: input_object.dict(),
+                    self.ROOT_NAME: input_object.dict(exclude_none=True),
                 }
             ),
             headers=make_headers(api_key=self.api_key),
