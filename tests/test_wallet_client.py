@@ -78,33 +78,23 @@ def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
                 "priority": 30,
                 "paid_credits": "10",
                 "granted_credits": "10",
-                "expiration_at": None,
-                "currency": None,
                 "paid_top_up_max_amount_cents": 10000,
                 "paid_top_up_min_amount_cents": 500,
-                "ignore_paid_top_up_limits_on_creation": None,
                 "recurring_transaction_rules": [
                     {
-                        "lago_id": None,
                         "interval": "monthly",
-                        "threshold_credits": None,
                         "trigger": "interval",
                         "method": "target",
                         "paid_credits": "105.0",
                         "granted_credits": "105.0",
-                        "started_at": None,
-                        "expiration_at": None,
                         "target_ongoing_balance": "105.0",
-                        "transaction_metadata": None,
                         "transaction_name": "Recurring Transaction Rule",
                         "ignore_paid_top_up_limits": True,
                     }
                 ],
-                "transaction_metadata": None,
                 "invoice_requires_successful_payment": False,
                 "transaction_name": "Transaction Name",
                 "applies_to": {"fee_types": ["charge"], "billable_metric_codes": ["usage"]},
-                "metadata": None,
             }
         },
     )
