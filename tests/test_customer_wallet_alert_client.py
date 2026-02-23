@@ -267,7 +267,6 @@ def test_valid_destroy_all_request(httpx_mock: HTTPXMock):
 
 def test_invalid_destroy_all_request(httpx_mock: HTTPXMock):
     client = Client(api_key="invalid")
-    code = "invalid"
 
     httpx_mock.add_response(
         method="DELETE",
