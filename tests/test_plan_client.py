@@ -451,3 +451,328 @@ def test_valid_delete_metadata_key_request(httpx_mock: HTTPXMock):
     response = client.plans.delete_metadata_key(plan_code, key)
 
     assert response == {"baz": "qux"}
+
+
+# --- Charges ---
+
+
+def mock_plan_charge_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(this_dir, "fixtures/plan_charge.json")
+
+    with open(data_path, "rb") as f:
+        return f.read()
+
+
+def mock_plan_charges_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(this_dir, "fixtures/plan_charges.json")
+
+    with open(data_path, "rb") as f:
+        return f.read()
+
+
+def test_valid_find_all_charges_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    plan_code = "plan_code"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/plans/" + plan_code + "/charges",
+        content=mock_plan_charges_response(),
+    )
+    response = client.plans.find_all_charges(plan_code)
+
+    assert len(response["charges"]) == 1
+    assert response["charges"][0].lago_id == "51c1e851-5be6-4343-a0ee-39a81d8b4ee1"
+    assert response["charges"][0].code == "charge_code"
+    assert response["charges"][0].charge_model == "standard"
+    assert response["meta"]["current_page"] == 1
+
+
+def test_valid_find_charge_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    plan_code = "plan_code"
+    charge_code = "charge_code"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/plans/" + plan_code + "/charges/" + charge_code,
+        content=mock_plan_charge_response(),
+    )
+    response = client.plans.find_charge(plan_code, charge_code)
+
+    assert response.lago_id == "51c1e851-5be6-4343-a0ee-39a81d8b4ee1"
+    assert response.code == "charge_code"
+    assert response.charge_model == "standard"
+    assert response.invoice_display_name == "Setup"
+
+
+def test_valid_create_charge_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    plan_code = "plan_code"
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/plans/" + plan_code + "/charges",
+        content=mock_plan_charge_response(),
+    )
+    charge = Charge(
+        billable_metric_id="a6947936-628f-4945-8857-db6858ee7941",
+        charge_model="standard",
+        pay_in_advance=True,
+        invoiceable=True,
+        properties={"amount": "0.22"},
+    )
+    response = client.plans.create_charge(plan_code, charge)
+
+    assert response.lago_id == "51c1e851-5be6-4343-a0ee-39a81d8b4ee1"
+    assert response.charge_model == "standard"
+
+
+def test_valid_update_charge_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    plan_code = "plan_code"
+    charge_code = "charge_code"
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/plans/" + plan_code + "/charges/" + charge_code,
+        content=mock_plan_charge_response(),
+    )
+    charge = Charge(invoice_display_name="Updated Setup")
+    response = client.plans.update_charge(plan_code, charge_code, charge)
+
+    assert response.lago_id == "51c1e851-5be6-4343-a0ee-39a81d8b4ee1"
+
+
+def test_valid_destroy_charge_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    plan_code = "plan_code"
+    charge_code = "charge_code"
+
+    httpx_mock.add_response(
+        method="DELETE",
+        url="https://api.getlago.com/api/v1/plans/" + plan_code + "/charges/" + charge_code,
+        content=mock_plan_charge_response(),
+    )
+    response = client.plans.destroy_charge(plan_code, charge_code)
+
+    assert response.lago_id == "51c1e851-5be6-4343-a0ee-39a81d8b4ee1"
+
+
+# --- Fixed Charges ---
+
+
+def mock_plan_fixed_charge_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(this_dir, "fixtures/plan_fixed_charge.json")
+
+    with open(data_path, "rb") as f:
+        return f.read()
+
+
+def mock_plan_fixed_charges_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(this_dir, "fixtures/plan_fixed_charges.json")
+
+    with open(data_path, "rb") as f:
+        return f.read()
+
+
+def test_valid_find_all_fixed_charges_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    plan_code = "plan_code"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/plans/" + plan_code + "/fixed_charges",
+        content=mock_plan_fixed_charges_response(),
+    )
+    response = client.plans.find_all_fixed_charges(plan_code)
+
+    assert len(response["fixed_charges"]) == 1
+    assert response["fixed_charges"][0].lago_id == "fc901a90-1a90-1a90-1a90-1a901a901a90"
+    assert response["fixed_charges"][0].charge_model == "standard"
+    assert response["fixed_charges"][0].invoice_display_name == "Setup Fee"
+    assert response["meta"]["current_page"] == 1
+
+
+def test_valid_find_fixed_charge_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    plan_code = "plan_code"
+    fixed_charge_code = "fixed_setup"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/plans/" + plan_code + "/fixed_charges/" + fixed_charge_code,
+        content=mock_plan_fixed_charge_response(),
+    )
+    response = client.plans.find_fixed_charge(plan_code, fixed_charge_code)
+
+    assert response.lago_id == "fc901a90-1a90-1a90-1a90-1a901a901a90"
+    assert response.add_on_code == "setup_fee"
+    assert response.charge_model == "standard"
+    assert response.properties.amount == "500"
+
+
+def test_valid_create_fixed_charge_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    plan_code = "plan_code"
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/plans/" + plan_code + "/fixed_charges",
+        content=mock_plan_fixed_charge_response(),
+    )
+    fixed_charge = FixedCharge(
+        add_on_id="ao901a90-1a90-1a90-1a90-1a901a901a90",
+        charge_model="standard",
+        invoice_display_name="Setup Fee",
+        units=1.0,
+        properties=FixedChargeProperties(amount="500"),
+    )
+    response = client.plans.create_fixed_charge(plan_code, fixed_charge)
+
+    assert response.lago_id == "fc901a90-1a90-1a90-1a90-1a901a901a90"
+    assert response.charge_model == "standard"
+
+
+def test_valid_update_fixed_charge_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    plan_code = "plan_code"
+    fixed_charge_code = "fixed_setup"
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/plans/" + plan_code + "/fixed_charges/" + fixed_charge_code,
+        content=mock_plan_fixed_charge_response(),
+    )
+    fixed_charge = FixedCharge(invoice_display_name="Updated Setup Fee")
+    response = client.plans.update_fixed_charge(plan_code, fixed_charge_code, fixed_charge)
+
+    assert response.lago_id == "fc901a90-1a90-1a90-1a90-1a901a901a90"
+
+
+def test_valid_destroy_fixed_charge_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    plan_code = "plan_code"
+    fixed_charge_code = "fixed_setup"
+
+    httpx_mock.add_response(
+        method="DELETE",
+        url="https://api.getlago.com/api/v1/plans/" + plan_code + "/fixed_charges/" + fixed_charge_code,
+        content=mock_plan_fixed_charge_response(),
+    )
+    response = client.plans.destroy_fixed_charge(plan_code, fixed_charge_code)
+
+    assert response.lago_id == "fc901a90-1a90-1a90-1a90-1a901a901a90"
+
+
+# --- Charge Filters ---
+
+
+def mock_plan_charge_filter_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(this_dir, "fixtures/plan_charge_filter.json")
+
+    with open(data_path, "rb") as f:
+        return f.read()
+
+
+def mock_plan_charge_filters_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(this_dir, "fixtures/plan_charge_filters.json")
+
+    with open(data_path, "rb") as f:
+        return f.read()
+
+
+def test_valid_find_all_charge_filters_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    plan_code = "plan_code"
+    charge_code = "charge_code"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/plans/" + plan_code + "/charges/" + charge_code + "/filters",
+        content=mock_plan_charge_filters_response(),
+    )
+    response = client.plans.find_all_charge_filters(plan_code, charge_code)
+
+    assert len(response["filters"]) == 1
+    assert response["filters"][0].lago_id == "f1901a90-1a90-1a90-1a90-1a901a901a90"
+    assert response["filters"][0].invoice_display_name == "From France"
+    assert response["meta"]["current_page"] == 1
+
+
+def test_valid_find_charge_filter_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    plan_code = "plan_code"
+    charge_code = "charge_code"
+    filter_id = "f1901a90-1a90-1a90-1a90-1a901a901a90"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/plans/" + plan_code + "/charges/" + charge_code + "/filters/" + filter_id,
+        content=mock_plan_charge_filter_response(),
+    )
+    response = client.plans.find_charge_filter(plan_code, charge_code, filter_id)
+
+    assert response.lago_id == "f1901a90-1a90-1a90-1a90-1a901a901a90"
+    assert response.invoice_display_name == "From France"
+    assert response.values == {"country": ["France"]}
+
+
+def test_valid_create_charge_filter_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    plan_code = "plan_code"
+    charge_code = "charge_code"
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/plans/" + plan_code + "/charges/" + charge_code + "/filters",
+        content=mock_plan_charge_filter_response(),
+    )
+    filter_input = ChargeFilter(
+        invoice_display_name="From France",
+        properties={"amount": "0.33"},
+        values={"country": ["France"]},
+    )
+    response = client.plans.create_charge_filter(plan_code, charge_code, filter_input)
+
+    assert response.lago_id == "f1901a90-1a90-1a90-1a90-1a901a901a90"
+    assert response.invoice_display_name == "From France"
+
+
+def test_valid_update_charge_filter_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    plan_code = "plan_code"
+    charge_code = "charge_code"
+    filter_id = "f1901a90-1a90-1a90-1a90-1a901a901a90"
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/plans/" + plan_code + "/charges/" + charge_code + "/filters/" + filter_id,
+        content=mock_plan_charge_filter_response(),
+    )
+    filter_input = ChargeFilter(invoice_display_name="Updated France")
+    response = client.plans.update_charge_filter(plan_code, charge_code, filter_id, filter_input)
+
+    assert response.lago_id == "f1901a90-1a90-1a90-1a90-1a901a901a90"
+
+
+def test_valid_destroy_charge_filter_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    plan_code = "plan_code"
+    charge_code = "charge_code"
+    filter_id = "f1901a90-1a90-1a90-1a90-1a901a901a90"
+
+    httpx_mock.add_response(
+        method="DELETE",
+        url="https://api.getlago.com/api/v1/plans/" + plan_code + "/charges/" + charge_code + "/filters/" + filter_id,
+        content=mock_plan_charge_filter_response(),
+    )
+    response = client.plans.destroy_charge_filter(plan_code, charge_code, filter_id)
+
+    assert response.lago_id == "f1901a90-1a90-1a90-1a90-1a901a901a90"

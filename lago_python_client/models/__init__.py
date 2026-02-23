@@ -32,9 +32,11 @@ from .billing_period import (
 from .charge import (
     Charge as Charge,
     Charges as Charges,
+    ChargeResponse as ChargeResponse,
     ChargesResponse as ChargesResponse,
     ChargeFilters as ChargeFilters,
     ChargeFilter as ChargeFilter,
+    ChargeFilterResponse as ChargeFilterResponse,
 )
 from .coupon import Coupon as Coupon, CouponsList as CouponsList, LimitationConfiguration as LimitationConfiguration
 from .fixed_charge import (
