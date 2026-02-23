@@ -5,7 +5,7 @@ from pytest_httpx import HTTPXMock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
-from lago_python_client.models import Subscription
+from lago_python_client.models import Charge, ChargeFilter, FixedCharge, Subscription
 from lago_python_client.models.alert import Alert, AlertsList, AlertThreshold
 
 
@@ -493,3 +493,243 @@ def test_invalid_delete_alerts_request(httpx_mock: HTTPXMock):
 
     with pytest.raises(LagoApiError):
         client.subscriptions.delete_alerts(external_id)
+
+
+# --- Charges ---
+
+
+def mock_subscription_charge_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(this_dir, "fixtures/charge.json")
+
+    with open(data_path, "rb") as f:
+        return f.read()
+
+
+def mock_subscription_charges_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(this_dir, "fixtures/charges.json")
+
+    with open(data_path, "rb") as f:
+        return f.read()
+
+
+def test_valid_find_all_charges_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_external_123"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/charges",
+        content=mock_subscription_charges_response(),
+    )
+    response = client.subscriptions.find_all_charges(external_id)
+
+    assert len(response["charges"]) == 1
+    assert response["charges"][0].lago_id == "51c1e851-5be6-4343-a0ee-39a81d8b4ee1"
+    assert response["charges"][0].code == "charge_code"
+    assert response["charges"][0].charge_model == "standard"
+    assert response["meta"]["current_page"] == 1
+
+
+def test_valid_find_charge_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_external_123"
+    charge_code = "charge_code"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/charges/" + charge_code,
+        content=mock_subscription_charge_response(),
+    )
+    response = client.subscriptions.find_charge(external_id, charge_code)
+
+    assert response.lago_id == "51c1e851-5be6-4343-a0ee-39a81d8b4ee1"
+    assert response.code == "charge_code"
+    assert response.charge_model == "standard"
+    assert response.invoice_display_name == "Setup"
+
+
+def test_valid_update_charge_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_external_123"
+    charge_code = "charge_code"
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/charges/" + charge_code,
+        content=mock_subscription_charge_response(),
+    )
+    charge = Charge(invoice_display_name="Updated Setup")
+    response = client.subscriptions.update_charge(external_id, charge_code, charge)
+
+    assert response.lago_id == "51c1e851-5be6-4343-a0ee-39a81d8b4ee1"
+
+
+# --- Fixed Charges (get single, update) ---
+
+
+def mock_subscription_fixed_charge_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(this_dir, "fixtures/fixed_charge.json")
+
+    with open(data_path, "rb") as f:
+        return f.read()
+
+
+def test_valid_find_fixed_charge_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_external_123"
+    fixed_charge_code = "fixed_setup"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/fixed_charges/" + fixed_charge_code,
+        content=mock_subscription_fixed_charge_response(),
+    )
+    response = client.subscriptions.find_fixed_charge(external_id, fixed_charge_code)
+
+    assert response.lago_id == "fc901a90-1a90-1a90-1a90-1a901a901a90"
+    assert response.add_on_code == "setup_fee"
+    assert response.charge_model == "standard"
+    assert response.properties.amount == "500"
+
+
+def test_valid_update_fixed_charge_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_external_123"
+    fixed_charge_code = "fixed_setup"
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/fixed_charges/" + fixed_charge_code,
+        content=mock_subscription_fixed_charge_response(),
+    )
+    fixed_charge = FixedCharge(invoice_display_name="Updated Fee")
+    response = client.subscriptions.update_fixed_charge(external_id, fixed_charge_code, fixed_charge)
+
+    assert response.lago_id == "fc901a90-1a90-1a90-1a90-1a901a901a90"
+
+
+# --- Charge Filters ---
+
+
+def mock_subscription_charge_filter_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(this_dir, "fixtures/charge_filter.json")
+
+    with open(data_path, "rb") as f:
+        return f.read()
+
+
+def mock_subscription_charge_filters_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(this_dir, "fixtures/charge_filters.json")
+
+    with open(data_path, "rb") as f:
+        return f.read()
+
+
+def test_valid_find_all_charge_filters_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_external_123"
+    charge_code = "charge_code"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/charges/" + charge_code + "/filters",
+        content=mock_subscription_charge_filters_response(),
+    )
+    response = client.subscriptions.find_all_charge_filters(external_id, charge_code)
+
+    assert len(response["filters"]) == 1
+    assert response["filters"][0].lago_id == "f1901a90-1a90-1a90-1a90-1a901a901a90"
+    assert response["filters"][0].invoice_display_name == "From France"
+    assert response["meta"]["current_page"] == 1
+
+
+def test_valid_find_charge_filter_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_external_123"
+    charge_code = "charge_code"
+    filter_id = "f1901a90-1a90-1a90-1a90-1a901a901a90"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/subscriptions/"
+        + external_id
+        + "/charges/"
+        + charge_code
+        + "/filters/"
+        + filter_id,
+        content=mock_subscription_charge_filter_response(),
+    )
+    response = client.subscriptions.find_charge_filter(external_id, charge_code, filter_id)
+
+    assert response.lago_id == "f1901a90-1a90-1a90-1a90-1a901a901a90"
+    assert response.invoice_display_name == "From France"
+    assert response.values == {"country": ["France"]}
+
+
+def test_valid_create_charge_filter_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_external_123"
+    charge_code = "charge_code"
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/charges/" + charge_code + "/filters",
+        content=mock_subscription_charge_filter_response(),
+    )
+    filter_input = ChargeFilter(
+        invoice_display_name="From France",
+        properties={"amount": "0.33"},
+        values={"country": ["France"]},
+    )
+    response = client.subscriptions.create_charge_filter(external_id, charge_code, filter_input)
+
+    assert response.lago_id == "f1901a90-1a90-1a90-1a90-1a901a901a90"
+    assert response.invoice_display_name == "From France"
+
+
+def test_valid_update_charge_filter_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_external_123"
+    charge_code = "charge_code"
+    filter_id = "f1901a90-1a90-1a90-1a90-1a901a901a90"
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/subscriptions/"
+        + external_id
+        + "/charges/"
+        + charge_code
+        + "/filters/"
+        + filter_id,
+        content=mock_subscription_charge_filter_response(),
+    )
+    filter_input = ChargeFilter(invoice_display_name="Updated France")
+    response = client.subscriptions.update_charge_filter(external_id, charge_code, filter_id, filter_input)
+
+    assert response.lago_id == "f1901a90-1a90-1a90-1a90-1a901a901a90"
+
+
+def test_valid_destroy_charge_filter_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_external_123"
+    charge_code = "charge_code"
+    filter_id = "f1901a90-1a90-1a90-1a90-1a901a901a90"
+
+    httpx_mock.add_response(
+        method="DELETE",
+        url="https://api.getlago.com/api/v1/subscriptions/"
+        + external_id
+        + "/charges/"
+        + charge_code
+        + "/filters/"
+        + filter_id,
+        content=mock_subscription_charge_filter_response(),
+    )
+    response = client.subscriptions.destroy_charge_filter(external_id, charge_code, filter_id)
+
+    assert response.lago_id == "f1901a90-1a90-1a90-1a90-1a901a901a90"

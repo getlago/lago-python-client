@@ -10,6 +10,7 @@ class ChargeFilter(BaseModel):
     invoice_display_name: Optional[str]
     properties: Optional[Dict[str, Any]]
     values: Optional[Dict[str, List[str]]]
+    cascade_updates: Optional[bool]
 
 
 class AppliedPricingUnit(BaseModel):
@@ -24,6 +25,7 @@ class ChargeFilters(BaseModel):
 class Charge(BaseModel):
     id: Optional[str]
     billable_metric_id: Optional[str]
+    code: Optional[str]
     charge_model: Optional[str]
     pay_in_advance: Optional[bool]
     prorated: Optional[bool]
@@ -36,6 +38,7 @@ class Charge(BaseModel):
     tax_codes: Optional[List[str]]
     applied_pricing_unit: Optional[AppliedPricingUnit]
     accepts_target_wallet: Optional[bool]
+    cascade_updates: Optional[bool]
 
 
 class Charges(BaseModel):
@@ -46,6 +49,8 @@ class ChargeResponse(BaseResponseModel):
     lago_id: Optional[str]
     lago_billable_metric_id: Optional[str]
     billable_metric_code: Optional[str]
+    code: Optional[str]
+    created_at: Optional[str]
     charge_model: Optional[str]
     pay_in_advance: Optional[bool]
     prorated: Optional[bool]
@@ -57,6 +62,14 @@ class ChargeResponse(BaseResponseModel):
     filters: Optional[ChargeFilters]
     taxes: Optional[TaxesResponse]
     accepts_target_wallet: Optional[bool]
+
+
+class ChargeFilterResponse(BaseResponseModel):
+    lago_id: Optional[str]
+    invoice_display_name: Optional[str]
+    properties: Optional[Dict[str, Any]]
+    values: Optional[Dict[str, List[str]]]
+    created_at: Optional[str]
 
 
 class ChargesResponse(BaseResponseModel):
