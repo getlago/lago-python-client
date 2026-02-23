@@ -5,6 +5,7 @@ from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
 from lago_python_client.models import (
     Alert,
+    AlertsList,
     AlertThreshold,
     AlertThresholdList,
 )
@@ -176,6 +177,7 @@ def test_valid_find_all_customer_wallet_alerts_request_with_options(httpx_mock: 
         "customer_id", "wallet_code", options={"per_page": 2, "page": 1}
     )
 
+    assert len(response) == 2
     assert response["alerts"][0].lago_id == "1a901a90-1a90-1a90-1a90-1a901a901a90"
     assert response["meta"]["current_page"] == 1
 
@@ -192,3 +194,87 @@ def test_invalid_find_all_wallet_alerts_request(httpx_mock: HTTPXMock):
 
     with pytest.raises(LagoApiError):
         client.customers.wallets.alerts.find_all("customer_id", "wallet_code")
+
+
+def test_valid_create_batch_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/customers/customer_id/wallets/wallet_code/alerts",
+        content=mock_response("wallet_alert_index"),
+    )
+
+    input = AlertsList(
+        alerts=[
+            Alert(
+                alert_type="wallet_balance_amount",
+                code="wallet_balance_alert",
+                name="Balance Amount Alert",
+                thresholds=[AlertThreshold(code="warn", value="1000")],
+            ),
+            Alert(
+                alert_type="wallet_credits_balance",
+                code="wallet_credits_alert",
+                name="Credits Balance Alert",
+                thresholds=[AlertThreshold(value="2000")],
+            ),
+        ]
+    )
+
+    response = client.customers.wallets.alerts.create_batch("customer_id", "wallet_code", input)
+
+    assert len(response["alerts"]) == 2
+
+    assert response["alerts"][0].lago_id == "1a901a90-1a90-1a90-1a90-1a901a901a90"
+    assert response["alerts"][0].wallet_code == "wallet_code"
+    assert response["alerts"][0].code == "wallet_balance_alert"
+    assert response["alerts"][0].alert_type == "wallet_balance_amount"
+
+    assert response["alerts"][1].lago_id == "1a921a92-1a92-1a92-1a92-1a921a921a92"
+    assert response["alerts"][1].wallet_code == "wallet_code"
+    assert response["alerts"][1].code == "wallet_credits_alert"
+    assert response["alerts"][1].alert_type == "wallet_credits_balance"
+
+
+def test_invalid_create_batch_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="invalid")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/customers/customer_id/wallets/wallet_code/alerts",
+        status_code=401,
+        content=b"",
+    )
+
+    with pytest.raises(LagoApiError):
+        client.customers.wallets.alerts.create_batch("customer_id", "wallet_code", AlertsList(alerts=[]))
+
+
+def test_valid_destroy_all_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="DELETE",
+        url="https://api.getlago.com/api/v1/customers/customer_id/wallets/wallet_code/alerts",
+        status_code=200,
+        content=b"",
+    )
+
+    response = client.customers.wallets.alerts.destroy_all("customer_id", "wallet_code")
+    assert response is None
+
+
+def test_invalid_destroy_all_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="invalid")
+    code = "invalid"
+
+    httpx_mock.add_response(
+        method="DELETE",
+        url="https://api.getlago.com/api/v1/customers/customer_id/wallets/wallet_code/alerts",
+        status_code=404,
+        content=b"",
+    )
+
+    with pytest.raises(LagoApiError):
+        client.customers.wallets.alerts.destroy_all("customer_id", "wallet_code")
