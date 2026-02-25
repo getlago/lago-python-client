@@ -1,19 +1,14 @@
-from datetime import datetime, date, time
+from collections.abc import Mapping, Sequence
+from datetime import date, datetime, time
 from http import HTTPStatus
-import sys
 from typing import Any, NoReturn, Tuple, Union
 from uuid import UUID
 
+import orjson
 from classes import typeclass
 from httpx import Response
-import orjson
 
 from ..exceptions import LagoApiError
-
-if sys.version_info >= (3, 9):
-    from collections.abc import Mapping, Sequence
-else:
-    from typing import Mapping, Sequence
 
 Serializable = Union[
     str,
@@ -41,7 +36,7 @@ def to_json(data_container: Serializable) -> bytes:
 @typeclass  # type: ignore
 def from_json(json_container) -> DeserializedData:
     """Deserialize data from json format."""
-    raise TypeError("Type {0} is not supported".format(type(json_container)))
+    raise TypeError(f"Type {type(json_container)} is not supported")
 
 
 @from_json.instance(bytes)  # type: ignore

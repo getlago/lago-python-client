@@ -2,8 +2,8 @@ from typing import Optional
 
 from lago_python_client.base_model import BaseModel
 
-from .credit import CreditsResponse
 from ..base_model import BaseResponseModel
+from .credit import CreditsResponse
 
 
 class AppliedCoupon(BaseModel):

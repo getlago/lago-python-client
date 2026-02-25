@@ -1,7 +1,7 @@
 from typing import Any, Dict, List, Optional
 
-from .invoice_item import InvoiceItemResponse
 from ..base_model import BaseModel, BaseResponseModel
+from .invoice_item import InvoiceItemResponse
 
 
 class Fee(BaseModel):

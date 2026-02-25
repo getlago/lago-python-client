@@ -1,5 +1,3 @@
-import sys
-
 import pytest
 
 from lago_python_client.functools_ext import callable_cached_property
@@ -32,10 +30,8 @@ def test_callable_cached_property():
 
     # Then both results are equal
     assert property_result == method_result
-    if sys.version_info >= (3, 8):
-        # And collection objects are stored in cache during first request
-        assert client.collection() == client.collection()
-        assert client.collection == client.collection
-        # ... but only for same `Client` instance
-        assert Client().collection() != Client().collection()
-        assert Client().collection != Client().collection
+    assert client.collection() == client.collection()
+    assert client.collection == client.collection
+    # ... but only for same `Client` instance
+    assert Client().collection() != Client().collection()
+    assert Client().collection != Client().collection

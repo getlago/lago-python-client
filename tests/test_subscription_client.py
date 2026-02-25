@@ -6,7 +6,7 @@ from pytest_httpx import HTTPXMock
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
 from lago_python_client.models import Subscription
-from lago_python_client.models.alert import Alert, AlertThreshold, AlertsList
+from lago_python_client.models.alert import Alert, AlertsList, AlertThreshold
 
 
 def create_subscription():

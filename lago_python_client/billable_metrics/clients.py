@@ -14,7 +14,7 @@ from ..models.billable_metric import (
     BillableMetricResponse,
 )
 from ..services.request import make_headers, make_url, send_post_request
-from ..services.response import Response, prepare_object_response, get_response_data
+from ..services.response import Response, get_response_data, prepare_object_response
 
 
 class BillableMetricClient(

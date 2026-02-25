@@ -2,8 +2,8 @@ from typing import Any, Dict, List, Optional
 
 from lago_python_client.base_model import BaseModel
 
-from .tax import TaxesResponse
 from ..base_model import BaseResponseModel
+from .tax import TaxesResponse
 
 
 class ChargeFilter(BaseModel):

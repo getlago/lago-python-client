@@ -3,7 +3,7 @@ from typing import ClassVar, Type
 from ..base_client import BaseClient
 from ..mixins import FindAllChildrenCommandMixin
 from ..models.subscription import SubscriptionResponse
-from ..client import CustomerClient
+from .clients import CustomerClient
 
 
 class CustomerSubscriptionsClient(FindAllChildrenCommandMixin, BaseClient):

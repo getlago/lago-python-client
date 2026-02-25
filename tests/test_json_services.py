@@ -1,7 +1,7 @@
 """Test JSON services."""
 
-from httpx import Response
 import pytest
+from httpx import Response
 
 from lago_python_client.exceptions import LagoApiError
 from lago_python_client.services.json import from_json, to_json

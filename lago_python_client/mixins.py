@@ -1,4 +1,3 @@
-import sys
 from typing import Any, Generic, Optional, Type, TypeVar
 
 import httpx
@@ -7,6 +6,8 @@ try:
     from typing import Protocol
 except ImportError:  # Python 3.7
     from typing_extensions import Protocol  # type: ignore
+
+from collections.abc import Mapping
 
 from lago_python_client.base_model import BaseModel
 
@@ -21,28 +22,23 @@ from .services.request import (
     send_put_request,
 )
 from .services.response import (
+    Response,
     get_response_data,
     prepare_index_response,
     prepare_object_response,
-    Response,
 )
 
-if sys.version_info >= (3, 9):
-    from collections.abc import Mapping
-else:
-    from typing import Mapping
-
-_PM = TypeVar("_PM", covariant=True)
+_PM_co = TypeVar("_PM_co", covariant=True)
 _M = TypeVar("_M", bound=BaseModel)
 
 
-class _ClientMixin(Protocol[_PM]):
+class _ClientMixin(Protocol[_PM_co]):
     @property
     def PARENT_API_RESOURCE(self) -> str: ...
     @property
     def API_RESOURCE(self) -> str: ...
     @property
-    def RESPONSE_MODEL(self) -> Type[_PM]: ...
+    def RESPONSE_MODEL(self) -> Type[_PM_co]: ...
     @property
     def ROOT_NAME(self) -> str: ...
     @property
@@ -92,11 +88,13 @@ class DestroyCommandMixin(Generic[_M]):
     def destroy(
         self: _ClientMixin[_M],
         resource_id: str,
-        options: QueryPairs = {},
+        options: QueryPairs = None,
         timeout: Optional[httpx.Timeout] = None,
     ) -> BaseModel:
         """Execute `destroy` command."""
         # Send request and save response
+        if options is None:
+            options = {}
         api_response: Response = send_delete_request(
             url=make_url(
                 origin=self.base_url,
@@ -119,11 +117,13 @@ class FindAllCommandMixin(Generic[_M]):
 
     def find_all(
         self: _ClientMixin[_M],
-        options: QueryPairs = {},
+        options: QueryPairs = None,
         timeout: Optional[httpx.Timeout] = None,
     ) -> Mapping[str, Any]:
         """Execute `find all` command."""
         # Send request and save response
+        if options is None:
+            options = {}
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
@@ -148,11 +148,13 @@ class FindAllChildrenCommandMixin(Generic[_M]):
     def find_all(
         self: _ClientMixin[_M],
         resource_id: str,
-        options: QueryPairs = {},
+        options: QueryPairs = None,
         timetour: Optional[httpx.Timeout] = None,
     ) -> Mapping[str, Any]:
         """Execute `find_all` child command."""
         # Send request and save response
+        if options is None:
+            options = {}
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
@@ -178,11 +180,13 @@ class FindCommandMixin(Generic[_M]):
     def find(
         self: _ClientMixin[_M],
         resource_id: str,
-        params: QueryPairs = {},
+        params: QueryPairs = None,
         timeout: Optional[httpx.Timeout] = None,
     ) -> _M:
         """Execute `find` command."""
         # Send request and save response
+        if params is None:
+            params = {}
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,

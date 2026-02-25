@@ -1,6 +1,5 @@
-import sys
-from typing import Any, TypeVar
 import warnings
+from typing import Any, TypeVar
 
 try:
     from functools import cached_property
@@ -10,14 +9,13 @@ try:
     from typing import ParamSpec
 except ImportError:  # Python 3.7, Python 3.8, Python 3.9
     from typing_extensions import ParamSpec
-if sys.version_info >= (3, 9):
-    from collections.abc import Callable
+from collections.abc import Callable
 
 T = TypeVar("T")
 P = ParamSpec("P")
 
 
-class Proxy(object):
+class Proxy:
     def __init__(self, _obj: object) -> None:
         object.__setattr__(self, "_obj", _obj)
 
@@ -31,13 +29,7 @@ class Proxy(object):
 
     def __call__(self) -> Any:
         warnings.warn(
-            "".join(
-                (
-                    "We are going to deprecate callable properties (`client.<your_tag_name>()`) in future. ",
-                    "Please, remove braces. ",
-                    "Use `client.<your_tag_name>.<your_operation_name>(...)` instead of `client.<your_tag_name>().<your_operation_name>(...)`",
-                )
-            ),
+            "We are going to deprecate callable properties (`client.<your_tag_name>()`) in future. Please, remove braces. Use `client.<your_tag_name>.<your_operation_name>(...)` instead of `client.<your_tag_name>().<your_operation_name>(...)`",
             PendingDeprecationWarning,
         )
         return self._obj
@@ -55,11 +47,5 @@ class Proxy(object):
         return hash(self._obj)
 
 
-if sys.version_info >= (3, 9):
-
-    def callable_cached_property(func: Callable[P, T]) -> cached_property[T]:
-        return cached_property(lambda s: Proxy(func(s)))  # type: ignore
-else:
-
-    def callable_cached_property(func):
-        return cached_property(lambda s: Proxy(func(s)))
+def callable_cached_property(func: Callable[P, T]) -> cached_property[T]:
+    return cached_property(lambda s: Proxy(func(s)))

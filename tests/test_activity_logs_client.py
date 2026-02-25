@@ -1,9 +1,8 @@
 import os
+from urllib.parse import urlencode
 
 import pytest
 from pytest_httpx import HTTPXMock
-
-from urllib.parse import urlencode
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError

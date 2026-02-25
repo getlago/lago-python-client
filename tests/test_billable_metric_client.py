@@ -7,10 +7,10 @@ from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
 from lago_python_client.models import (
     BillableMetric,
-    BillableMetricFilter,
-    BillableMetricFilters,
     BillableMetricEvaluateExpression,
     BillableMetricEvaluateExpressionEvent,
+    BillableMetricFilter,
+    BillableMetricFilters,
 )
 
 

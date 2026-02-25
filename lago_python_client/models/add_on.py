@@ -3,7 +3,6 @@ from typing import List, Optional
 from lago_python_client.base_model import BaseModel
 
 from ..base_model import BaseResponseModel
-
 from .tax import TaxesResponse
 
 
