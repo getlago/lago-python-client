@@ -10,7 +10,6 @@ class ActivityLog(BaseModel):
     activity_object: Optional[dict]
     activity_object_changes: Optional[dict]
     activity_source: str
-    activity_type: str
     logged_at: str
     resource_type: str
     created_at: str

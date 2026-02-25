@@ -1,5 +1,4 @@
 from http import HTTPStatus
-import sys
 from typing import Any, Optional, Set, Type, TypeVar, Union
 
 try:
@@ -11,17 +10,15 @@ try:
 except ImportError:  # Python 3.7
     from typing_extensions import Final  # type: ignore
 
-from httpx import Response as Response  # not a typo! implicit reexport
+from collections.abc import Mapping, Sequence
+
+from httpx import Response  # not a typo! implicit reexport
+from typeguard import CollectionCheckStrategy, TypeCheckError, check_type
+
 from lago_python_client.base_model import BaseModel
-from typeguard import check_type, CollectionCheckStrategy, TypeCheckError
 
 from ..exceptions import LagoApiError
 from ..services.json import DeserializedData, from_json
-
-if sys.version_info >= (3, 9):
-    from collections.abc import Mapping, Sequence
-else:
-    from typing import Mapping, Sequence
 
 _M = TypeVar("_M", bound=BaseModel)
 
@@ -99,7 +96,7 @@ def prepare_object_response(response_model: Type[_M], data: Optional[_MappingOrS
             status_code=HTTPStatus.INTERNAL_SERVER_ERROR,  # 500
             url=None,
             response=None,
-            detail="Data is required to create instance of {model}".format(model=response_model),
+            detail=f"Data is required to create instance of {response_model}",
             headers=None,
         )
 

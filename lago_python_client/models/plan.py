@@ -2,24 +2,24 @@ from typing import Dict, List, Optional
 
 from lago_python_client.base_model import BaseModel
 
-from .charge import Charges, ChargesResponse, ChargesOverrides
+from ..base_model import BaseResponseModel
+from .charge import Charges, ChargesOverrides, ChargesResponse
 from .fixed_charge import (
     FixedCharges,
-    FixedChargesResponse,
     FixedChargesOverrides,
-)
-from .usage_threshold import (
-    UsageThresholds,
-    UsageThresholdsResponse,
-    UsageThresholdsOverrides,
+    FixedChargesResponse,
 )
 from .minimum_commitment import (
     MinimumCommitment,
-    MinimumCommitmentResponse,
     MinimumCommitmentOverrides,
+    MinimumCommitmentResponse,
 )
 from .tax import TaxesResponse
-from ..base_model import BaseResponseModel
+from .usage_threshold import (
+    UsageThresholds,
+    UsageThresholdsOverrides,
+    UsageThresholdsResponse,
+)
 
 
 class Plan(BaseModel):

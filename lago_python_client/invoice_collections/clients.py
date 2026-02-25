@@ -1,16 +1,11 @@
-import sys
+from collections.abc import Mapping
 from typing import Any, ClassVar, Type
 
 from ..base_client import BaseClient
 from ..mixins import FindAllCommandMixin
 from ..models.invoice_collection import InvoiceCollectionResponse
-from ..services.request import make_headers, make_url, send_get_request, QueryPairs
-from ..services.response import get_response_data, prepare_index_response, Response
-
-if sys.version_info >= (3, 9):
-    from collections.abc import Mapping
-else:
-    from typing import Mapping
+from ..services.request import QueryPairs, make_headers, make_url, send_get_request
+from ..services.response import Response, get_response_data, prepare_index_response
 
 
 class InvoiceCollectionClient(
@@ -21,7 +16,9 @@ class InvoiceCollectionClient(
     RESPONSE_MODEL: ClassVar[Type[InvoiceCollectionResponse]] = InvoiceCollectionResponse
     ROOT_NAME: ClassVar[str] = "invoice_collection"
 
-    def find_all(self, options: QueryPairs = {}) -> Mapping[str, Any]:
+    def find_all(self, options: QueryPairs = None) -> Mapping[str, Any]:
+        if options is None:
+            options = {}
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,

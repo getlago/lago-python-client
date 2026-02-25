@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import List, Optional
 
 from lago_python_client.base_model import BaseModel
 

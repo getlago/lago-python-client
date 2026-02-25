@@ -6,13 +6,13 @@ from pytest_httpx import HTTPXMock
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
 from lago_python_client.models import (
+    Address,
     Customer,
+    CustomerBillingConfiguration,
     IntegrationCustomer,
     IntegrationCustomersList,
-    CustomerBillingConfiguration,
     Metadata,
     MetadataList,
-    Address,
 )
 
 

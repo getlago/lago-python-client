@@ -2,21 +2,23 @@
 
 from copy import deepcopy
 
-from lago_python_client.base_model import BaseModel
 import pytest
 from httpx import Request, Response
 
+from lago_python_client.base_model import BaseModel
 from lago_python_client.exceptions import LagoApiError
 from lago_python_client.services.response import (
-    Response as ServiceResponse,
     RESPONSE_SUCCESS_CODES,
-    _is_status_code_successful,
     _is_content_exists,
-    verify_response,
+    _is_status_code_successful,
     get_response_data,
-    prepare_object_list_response,
     prepare_index_response,
+    prepare_object_list_response,
     prepare_object_response,
+    verify_response,
+)
+from lago_python_client.services.response import (
+    Response as ServiceResponse,
 )
 
 

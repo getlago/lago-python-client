@@ -1,11 +1,6 @@
+from collections.abc import MutableMapping
 from http import HTTPStatus
-import sys
 from typing import Any, Optional
-
-if sys.version_info < (3, 9):
-    from typing import MutableMapping
-else:
-    from collections.abc import MutableMapping
 
 
 class LagoApiError(Exception):

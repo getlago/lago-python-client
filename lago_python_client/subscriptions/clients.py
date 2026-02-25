@@ -12,6 +12,7 @@ from ..models.alert import AlertResponse, AlertsList
 from ..models.fixed_charge import FixedChargeResponse
 from ..models.lifetime_usage import LifetimeUsageResponse
 from ..models.subscription import SubscriptionResponse
+from ..services.json import to_json
 from ..services.request import (
     make_headers,
     make_url,
@@ -27,7 +28,6 @@ from ..services.response import (
     prepare_object_response,
     verify_response,
 )
-from ..services.json import to_json
 
 
 class SubscriptionClient(
