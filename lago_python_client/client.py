@@ -28,8 +28,12 @@ from .overdue_balances.clients import OverdueBalanceClient
 from .payment_receipts.clients import PaymentReceiptClient
 from .payment_requests.clients import PaymentRequestClient
 from .payments.clients import PaymentClient
+from .plans.charges_client import PlanChargesClient
 from .plans.clients import PlanClient
+from .plans.fixed_charges_client import PlanFixedChargesClient
+from .subscriptions.charges_client import SubscriptionChargesClient
 from .subscriptions.clients import SubscriptionClient
+from .subscriptions.fixed_charges_client import SubscriptionFixedChargesClient
 from .taxes.clients import TaxClient
 from .usages.clients import UsageClient
 from .wallets.clients import WalletClient, WalletTransactionClient
@@ -180,8 +184,24 @@ class Client:
         return PlanClient(self.base_api_url, self.api_key)
 
     @callable_cached_property
+    def plan_charges(self) -> PlanChargesClient:
+        return PlanChargesClient(self.base_api_url, self.api_key)
+
+    @callable_cached_property
+    def plan_fixed_charges(self) -> PlanFixedChargesClient:
+        return PlanFixedChargesClient(self.base_api_url, self.api_key)
+
+    @callable_cached_property
     def subscriptions(self) -> SubscriptionClient:
         return SubscriptionClient(self.base_api_url, self.api_key)
+
+    @callable_cached_property
+    def subscription_charges(self) -> SubscriptionChargesClient:
+        return SubscriptionChargesClient(self.base_api_url, self.api_key)
+
+    @callable_cached_property
+    def subscription_fixed_charges(self) -> SubscriptionFixedChargesClient:
+        return SubscriptionFixedChargesClient(self.base_api_url, self.api_key)
 
     @callable_cached_property
     def taxes(self) -> TaxClient:

@@ -10,8 +10,7 @@ from ..mixins import (
     UpdateCommandMixin,
 )
 from ..models.alert import AlertResponse, AlertsList
-from ..models.charge import ChargeFilterResponse, ChargeResponse
-from ..models.fixed_charge import FixedChargeResponse
+from ..models.charge import ChargeFilterResponse
 from ..models.lifetime_usage import LifetimeUsageResponse
 from ..models.subscription import SubscriptionResponse
 from ..services.json import to_json
@@ -102,104 +101,6 @@ class SubscriptionClient(
             headers=make_headers(api_key=self.api_key),
         )
         verify_response(api_response)
-
-    def find_all_fixed_charges(self, external_id: str, options: Optional[dict] = None) -> Mapping[str, Any]:
-        if options is None:
-            options = {}
-        api_response: Response = send_get_request(
-            url=make_url(
-                origin=self.base_url,
-                path_parts=(self.API_RESOURCE, external_id, "fixed_charges"),
-                query_pairs=options,
-            ),
-            headers=make_headers(api_key=self.api_key),
-        )
-
-        return prepare_index_response(
-            api_resource="fixed_charges",
-            response_model=FixedChargeResponse,
-            data=get_response_data(response=api_response),
-        )
-
-    def find_fixed_charge(self, external_id: str, fixed_charge_code: str) -> FixedChargeResponse:
-        api_response: Response = send_get_request(
-            url=make_url(
-                origin=self.base_url,
-                path_parts=(self.API_RESOURCE, external_id, "fixed_charges", fixed_charge_code),
-            ),
-            headers=make_headers(api_key=self.api_key),
-        )
-
-        return prepare_object_response(
-            response_model=FixedChargeResponse,
-            data=get_response_data(response=api_response, key="fixed_charge"),
-        )
-
-    def update_fixed_charge(
-        self, external_id: str, fixed_charge_code: str, input_object: BaseModel
-    ) -> FixedChargeResponse:
-        api_response: Response = send_put_request(
-            url=make_url(
-                origin=self.base_url,
-                path_parts=(self.API_RESOURCE, external_id, "fixed_charges", fixed_charge_code),
-            ),
-            content=to_json({"fixed_charge": input_object.dict(exclude_none=True)}),
-            headers=make_headers(api_key=self.api_key),
-        )
-
-        return prepare_object_response(
-            response_model=FixedChargeResponse,
-            data=get_response_data(response=api_response, key="fixed_charge"),
-        )
-
-    # Charges
-
-    def find_all_charges(self, external_id: str, options: Optional[dict] = None) -> Mapping[str, Any]:
-        if options is None:
-            options = {}
-        api_response: Response = send_get_request(
-            url=make_url(
-                origin=self.base_url,
-                path_parts=(self.API_RESOURCE, external_id, "charges"),
-                query_pairs=options,
-            ),
-            headers=make_headers(api_key=self.api_key),
-        )
-
-        return prepare_index_response(
-            api_resource="charges",
-            response_model=ChargeResponse,
-            data=get_response_data(response=api_response),
-        )
-
-    def find_charge(self, external_id: str, charge_code: str) -> ChargeResponse:
-        api_response: Response = send_get_request(
-            url=make_url(
-                origin=self.base_url,
-                path_parts=(self.API_RESOURCE, external_id, "charges", charge_code),
-            ),
-            headers=make_headers(api_key=self.api_key),
-        )
-
-        return prepare_object_response(
-            response_model=ChargeResponse,
-            data=get_response_data(response=api_response, key="charge"),
-        )
-
-    def update_charge(self, external_id: str, charge_code: str, input_object: BaseModel) -> ChargeResponse:
-        api_response: Response = send_put_request(
-            url=make_url(
-                origin=self.base_url,
-                path_parts=(self.API_RESOURCE, external_id, "charges", charge_code),
-            ),
-            content=to_json({"charge": input_object.dict(exclude_none=True)}),
-            headers=make_headers(api_key=self.api_key),
-        )
-
-        return prepare_object_response(
-            response_model=ChargeResponse,
-            data=get_response_data(response=api_response, key="charge"),
-        )
 
     # Charge Filters
 
