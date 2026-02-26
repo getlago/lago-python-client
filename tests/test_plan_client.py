@@ -481,7 +481,7 @@ def test_valid_find_all_charges_request(httpx_mock: HTTPXMock):
         url="https://api.getlago.com/api/v1/plans/" + plan_code + "/charges",
         content=mock_plan_charges_response(),
     )
-    response = client.plans.find_all_charges(plan_code)
+    response = client.plan_charges.find_all(plan_code)
 
     assert len(response["charges"]) == 1
     assert response["charges"][0].lago_id == "51c1e851-5be6-4343-a0ee-39a81d8b4ee1"
@@ -500,7 +500,7 @@ def test_valid_find_charge_request(httpx_mock: HTTPXMock):
         url="https://api.getlago.com/api/v1/plans/" + plan_code + "/charges/" + charge_code,
         content=mock_plan_charge_response(),
     )
-    response = client.plans.find_charge(plan_code, charge_code)
+    response = client.plan_charges.find(plan_code, charge_code)
 
     assert response.lago_id == "51c1e851-5be6-4343-a0ee-39a81d8b4ee1"
     assert response.code == "charge_code"
@@ -524,7 +524,7 @@ def test_valid_create_charge_request(httpx_mock: HTTPXMock):
         invoiceable=True,
         properties={"amount": "0.22"},
     )
-    response = client.plans.create_charge(plan_code, charge)
+    response = client.plan_charges.create(plan_code, charge)
 
     assert response.lago_id == "51c1e851-5be6-4343-a0ee-39a81d8b4ee1"
     assert response.charge_model == "standard"
@@ -541,7 +541,7 @@ def test_valid_update_charge_request(httpx_mock: HTTPXMock):
         content=mock_plan_charge_response(),
     )
     charge = Charge(invoice_display_name="Updated Setup")
-    response = client.plans.update_charge(plan_code, charge_code, charge)
+    response = client.plan_charges.update(plan_code, charge_code, charge)
 
     assert response.lago_id == "51c1e851-5be6-4343-a0ee-39a81d8b4ee1"
 
@@ -556,7 +556,7 @@ def test_valid_destroy_charge_request(httpx_mock: HTTPXMock):
         url="https://api.getlago.com/api/v1/plans/" + plan_code + "/charges/" + charge_code,
         content=mock_plan_charge_response(),
     )
-    response = client.plans.destroy_charge(plan_code, charge_code)
+    response = client.plan_charges.destroy(plan_code, charge_code)
 
     assert response.lago_id == "51c1e851-5be6-4343-a0ee-39a81d8b4ee1"
 
@@ -589,7 +589,7 @@ def test_valid_find_all_fixed_charges_request(httpx_mock: HTTPXMock):
         url="https://api.getlago.com/api/v1/plans/" + plan_code + "/fixed_charges",
         content=mock_fixed_charges_response(),
     )
-    response = client.plans.find_all_fixed_charges(plan_code)
+    response = client.plan_fixed_charges.find_all(plan_code)
 
     assert len(response["fixed_charges"]) == 2
     assert response["fixed_charges"][0].lago_id == "1a901a90-1a90-1a90-1a90-1a901a901a90"
@@ -610,7 +610,7 @@ def test_valid_find_fixed_charge_request(httpx_mock: HTTPXMock):
         url="https://api.getlago.com/api/v1/plans/" + plan_code + "/fixed_charges/" + fixed_charge_code,
         content=mock_plan_fixed_charge_response(),
     )
-    response = client.plans.find_fixed_charge(plan_code, fixed_charge_code)
+    response = client.plan_fixed_charges.find(plan_code, fixed_charge_code)
 
     assert response.lago_id == "fc901a90-1a90-1a90-1a90-1a901a901a90"
     assert response.add_on_code == "setup_fee"
@@ -634,7 +634,7 @@ def test_valid_create_fixed_charge_request(httpx_mock: HTTPXMock):
         units=1.0,
         properties=FixedChargeProperties(amount="500"),
     )
-    response = client.plans.create_fixed_charge(plan_code, fixed_charge)
+    response = client.plan_fixed_charges.create(plan_code, fixed_charge)
 
     assert response.lago_id == "fc901a90-1a90-1a90-1a90-1a901a901a90"
     assert response.charge_model == "standard"
@@ -651,7 +651,7 @@ def test_valid_update_fixed_charge_request(httpx_mock: HTTPXMock):
         content=mock_plan_fixed_charge_response(),
     )
     fixed_charge = FixedCharge(invoice_display_name="Updated Setup Fee")
-    response = client.plans.update_fixed_charge(plan_code, fixed_charge_code, fixed_charge)
+    response = client.plan_fixed_charges.update(plan_code, fixed_charge_code, fixed_charge)
 
     assert response.lago_id == "fc901a90-1a90-1a90-1a90-1a901a901a90"
 
@@ -666,7 +666,7 @@ def test_valid_destroy_fixed_charge_request(httpx_mock: HTTPXMock):
         url="https://api.getlago.com/api/v1/plans/" + plan_code + "/fixed_charges/" + fixed_charge_code,
         content=mock_plan_fixed_charge_response(),
     )
-    response = client.plans.destroy_fixed_charge(plan_code, fixed_charge_code)
+    response = client.plan_fixed_charges.destroy(plan_code, fixed_charge_code)
 
     assert response.lago_id == "fc901a90-1a90-1a90-1a90-1a901a901a90"
 

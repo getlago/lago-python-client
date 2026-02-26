@@ -16,3 +16,7 @@ preview = true
 # UP007: Don't convert Optional[X] to X | None
 # UP035: Don't flag typing.Type as deprecated
 ignore = ['FA100', 'UP006', 'UP007', 'UP035']
+
+[tool.ruff.lint.per-file-ignores]
+# Re-export barrel file — keep grouped imports readable
+"lago_python_client/models/__init__.py" = ["I001"]

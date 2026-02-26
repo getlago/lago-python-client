@@ -174,6 +174,120 @@ class FindAllChildrenCommandMixin(Generic[_M]):
         )
 
 
+class FindChildCommandMixin(Generic[_M]):
+    """Client mixin with `find` command scoped to a parent resource."""
+
+    def find(
+        self: _ClientMixin[_M],
+        parent_id: str,
+        child_id: str,
+    ) -> _M:
+        """Execute `find` child command."""
+        api_response: Response = send_get_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(
+                    self.PARENT_API_RESOURCE,
+                    parent_id,
+                    self.API_RESOURCE,
+                    child_id,
+                ),
+            ),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=get_response_data(response=api_response, key=self.ROOT_NAME),
+        )
+
+
+class CreateChildCommandMixin(Generic[_M]):
+    """Client mixin with `create` command scoped to a parent resource."""
+
+    def create(
+        self: _ClientMixin[_M],
+        parent_id: str,
+        input_object: BaseModel,
+    ) -> _M:
+        """Execute `create` child command."""
+        api_response: Response = send_post_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(
+                    self.PARENT_API_RESOURCE,
+                    parent_id,
+                    self.API_RESOURCE,
+                ),
+            ),
+            content=to_json({self.ROOT_NAME: input_object.dict(exclude_none=True)}),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=get_response_data(response=api_response, key=self.ROOT_NAME),
+        )
+
+
+class UpdateChildCommandMixin(Generic[_M]):
+    """Client mixin with `update` command scoped to a parent resource."""
+
+    def update(
+        self: _ClientMixin[_M],
+        parent_id: str,
+        child_id: str,
+        input_object: BaseModel,
+    ) -> _M:
+        """Execute `update` child command."""
+        api_response: Response = send_put_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(
+                    self.PARENT_API_RESOURCE,
+                    parent_id,
+                    self.API_RESOURCE,
+                    child_id,
+                ),
+            ),
+            content=to_json({self.ROOT_NAME: input_object.dict(exclude_none=True)}),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=get_response_data(response=api_response, key=self.ROOT_NAME),
+        )
+
+
+class DestroyChildCommandMixin(Generic[_M]):
+    """Client mixin with `destroy` command scoped to a parent resource."""
+
+    def destroy(
+        self: _ClientMixin[_M],
+        parent_id: str,
+        child_id: str,
+    ) -> _M:
+        """Execute `destroy` child command."""
+        api_response: Response = send_delete_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(
+                    self.PARENT_API_RESOURCE,
+                    parent_id,
+                    self.API_RESOURCE,
+                    child_id,
+                ),
+            ),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        return prepare_object_response(
+            response_model=self.RESPONSE_MODEL,
+            data=get_response_data(response=api_response, key=self.ROOT_NAME),
+        )
+
+
 class FindCommandMixin(Generic[_M]):
     """Client mixin with `find` command."""
 

@@ -316,7 +316,7 @@ def test_valid_find_all_fixed_charges_request(httpx_mock: HTTPXMock):
         url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/fixed_charges",
         content=mock_fixed_charges_response(),
     )
-    response = client.subscriptions.find_all_fixed_charges(external_id)
+    response = client.subscription_fixed_charges.find_all(external_id)
 
     assert len(response["fixed_charges"]) == 2
     assert response["fixed_charges"][0].lago_id == "1a901a90-1a90-1a90-1a90-1a901a901a90"
@@ -344,7 +344,7 @@ def test_invalid_find_all_fixed_charges_request(httpx_mock: HTTPXMock):
         content=b"",
     )
     with pytest.raises(LagoApiError):
-        client.subscriptions.find_all_fixed_charges(external_id)
+        client.subscription_fixed_charges.find_all(external_id)
 
 
 def test_fixed_charge_response_model_parsing():
@@ -523,7 +523,7 @@ def test_valid_find_all_charges_request(httpx_mock: HTTPXMock):
         url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/charges",
         content=mock_subscription_charges_response(),
     )
-    response = client.subscriptions.find_all_charges(external_id)
+    response = client.subscription_charges.find_all(external_id)
 
     assert len(response["charges"]) == 1
     assert response["charges"][0].lago_id == "51c1e851-5be6-4343-a0ee-39a81d8b4ee1"
@@ -542,7 +542,7 @@ def test_valid_find_charge_request(httpx_mock: HTTPXMock):
         url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/charges/" + charge_code,
         content=mock_subscription_charge_response(),
     )
-    response = client.subscriptions.find_charge(external_id, charge_code)
+    response = client.subscription_charges.find(external_id, charge_code)
 
     assert response.lago_id == "51c1e851-5be6-4343-a0ee-39a81d8b4ee1"
     assert response.code == "charge_code"
@@ -561,7 +561,7 @@ def test_valid_update_charge_request(httpx_mock: HTTPXMock):
         content=mock_subscription_charge_response(),
     )
     charge = Charge(invoice_display_name="Updated Setup")
-    response = client.subscriptions.update_charge(external_id, charge_code, charge)
+    response = client.subscription_charges.update(external_id, charge_code, charge)
 
     assert response.lago_id == "51c1e851-5be6-4343-a0ee-39a81d8b4ee1"
 
@@ -587,7 +587,7 @@ def test_valid_find_fixed_charge_request(httpx_mock: HTTPXMock):
         url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/fixed_charges/" + fixed_charge_code,
         content=mock_subscription_fixed_charge_response(),
     )
-    response = client.subscriptions.find_fixed_charge(external_id, fixed_charge_code)
+    response = client.subscription_fixed_charges.find(external_id, fixed_charge_code)
 
     assert response.lago_id == "fc901a90-1a90-1a90-1a90-1a901a901a90"
     assert response.add_on_code == "setup_fee"
@@ -606,7 +606,7 @@ def test_valid_update_fixed_charge_request(httpx_mock: HTTPXMock):
         content=mock_subscription_fixed_charge_response(),
     )
     fixed_charge = FixedCharge(invoice_display_name="Updated Fee")
-    response = client.subscriptions.update_fixed_charge(external_id, fixed_charge_code, fixed_charge)
+    response = client.subscription_fixed_charges.update(external_id, fixed_charge_code, fixed_charge)
 
     assert response.lago_id == "fc901a90-1a90-1a90-1a90-1a901a901a90"
 
