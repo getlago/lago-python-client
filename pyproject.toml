@@ -4,7 +4,19 @@ build-backend = "setuptools.build_meta"
 
 [tool.ruff]
 line-length = 120
+target-version = "py39"
 
 [tool.ruff.lint]
 extend-select = ['E305', 'INP001']
 preview = true
+# Pydantic v1 evaluates annotations at runtime via typing.get_type_hints(),
+# so modern type syntax (X | None, type[X]) fails on Python 3.9:
+# FA100: Don't add `from __future__ import annotations` + convert Optional to X | None
+# UP006: Don't convert typing.Type to type
+# UP007: Don't convert Optional[X] to X | None
+# UP035: Don't flag typing.Type as deprecated
+ignore = ['FA100', 'UP006', 'UP007', 'UP035']
+
+[tool.ruff.lint.per-file-ignores]
+# Re-export barrel file — keep grouped imports readable
+"lago_python_client/models/__init__.py" = ["I001"]

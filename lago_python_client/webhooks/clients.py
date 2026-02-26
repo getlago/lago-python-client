@@ -1,6 +1,5 @@
 import base64
 from http import HTTPStatus
-import sys
 from typing import Any, ClassVar, Optional, Type, Union
 
 try:
@@ -8,18 +7,16 @@ try:
 except ImportError:
     from typing_extensions import TypedDict
 
+from collections.abc import Mapping, Sequence
+
+from typeguard import CollectionCheckStrategy, TypeCheckError, check_type
+
 from lago_python_client.base_model import BaseModel
-from typeguard import check_type, CollectionCheckStrategy, TypeCheckError
 
 from ..base_client import BaseClient
 from ..exceptions import LagoApiError
 from ..services.request import make_headers, make_url, send_get_request
-from ..services.response import get_response_data, Response
-
-if sys.version_info >= (3, 9):
-    from collections.abc import Mapping, Sequence
-else:
-    from typing import Mapping, Sequence
+from ..services.response import Response, get_response_data
 
 
 class _ResponseWithPublicKeyInside(TypedDict):

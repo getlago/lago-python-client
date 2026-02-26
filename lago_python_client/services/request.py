@@ -1,20 +1,15 @@
-import sys
 from typing import Union
 
 try:
     from typing import Final
 except ImportError:  # Python 3.7
     from typing_extensions import Final  # type: ignore
-from urllib.parse import urljoin, urlencode
+from collections.abc import Mapping, Sequence
+from urllib.parse import urlencode, urljoin
 
 import httpx
 
 from ..version import LAGO_VERSION
-
-if sys.version_info >= (3, 9):
-    from collections.abc import Mapping, Sequence
-else:
-    from typing import Mapping, Sequence
 
 URI_TEMPLATE: Final[str] = "{uri_path}{uri_query}"
 QUERY_TEMPLATE: Final[str] = "?{query}"
@@ -26,9 +21,11 @@ def make_url(
     *,
     origin: str,
     path_parts: Sequence[str],
-    query_pairs: QueryPairs = {},
+    query_pairs: QueryPairs = None,
 ) -> str:
     """Return url."""
+    if query_pairs is None:
+        query_pairs = {}
     return urljoin(
         origin,
         URI_TEMPLATE.format(
@@ -46,8 +43,8 @@ def make_headers(*, api_key: str) -> Mapping[str, str]:
     """Return headers."""
     return {
         "Content-type": "application/json",
-        "Authorization": "Bearer {api_key}".format(api_key=api_key),
-        "User-agent": "Lago Python v{version}".format(version=LAGO_VERSION),
+        "Authorization": f"Bearer {api_key}",
+        "User-agent": f"Lago Python v{LAGO_VERSION}",
     }
 
 

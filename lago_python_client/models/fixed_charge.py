@@ -2,8 +2,8 @@ from typing import List, Optional
 
 from lago_python_client.base_model import BaseModel
 
-from .tax import TaxesResponse
 from ..base_model import BaseResponseModel
+from .tax import TaxesResponse
 
 
 class FixedChargeGraduatedRange(BaseModel):
@@ -26,6 +26,7 @@ class FixedChargeProperties(BaseModel):
 class FixedCharge(BaseModel):
     id: Optional[str]
     add_on_id: Optional[str]
+    add_on_code: Optional[str]
     charge_model: Optional[str]
     code: Optional[str]
     invoice_display_name: Optional[str]
@@ -35,6 +36,7 @@ class FixedCharge(BaseModel):
     properties: Optional[FixedChargeProperties]
     tax_codes: Optional[List[str]]
     apply_units_immediately: Optional[bool]
+    cascade_updates: Optional[bool]
 
 
 class FixedCharges(BaseModel):

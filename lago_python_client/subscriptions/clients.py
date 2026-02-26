@@ -1,6 +1,7 @@
-from typing import Any, ClassVar, Mapping, Type
+from typing import Any, ClassVar, Mapping, Optional, Type
 
 from ..base_client import BaseClient
+from ..base_model import BaseModel
 from ..mixins import (
     CreateCommandMixin,
     DestroyCommandMixin,
@@ -9,9 +10,10 @@ from ..mixins import (
     UpdateCommandMixin,
 )
 from ..models.alert import AlertResponse, AlertsList
-from ..models.fixed_charge import FixedChargeResponse
+from ..models.charge import ChargeFilterResponse
 from ..models.lifetime_usage import LifetimeUsageResponse
 from ..models.subscription import SubscriptionResponse
+from ..services.json import to_json
 from ..services.request import (
     make_headers,
     make_url,
@@ -27,7 +29,6 @@ from ..services.response import (
     prepare_object_response,
     verify_response,
 )
-from ..services.json import to_json
 
 
 class SubscriptionClient(
@@ -101,17 +102,84 @@ class SubscriptionClient(
         )
         verify_response(api_response)
 
-    def find_all_fixed_charges(self, external_id: str) -> Mapping[str, Any]:
+    # Charge Filters
+
+    def find_all_charge_filters(
+        self, external_id: str, charge_code: str, options: Optional[dict] = None
+    ) -> Mapping[str, Any]:
+        if options is None:
+            options = {}
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
-                path_parts=(self.API_RESOURCE, external_id, "fixed_charges"),
+                path_parts=(self.API_RESOURCE, external_id, "charges", charge_code, "filters"),
+                query_pairs=options,
             ),
             headers=make_headers(api_key=self.api_key),
         )
 
         return prepare_index_response(
-            api_resource="fixed_charges",
-            response_model=FixedChargeResponse,
+            api_resource="filters",
+            response_model=ChargeFilterResponse,
             data=get_response_data(response=api_response),
+        )
+
+    def find_charge_filter(self, external_id: str, charge_code: str, filter_id: str) -> ChargeFilterResponse:
+        api_response: Response = send_get_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, external_id, "charges", charge_code, "filters", filter_id),
+            ),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        return prepare_object_response(
+            response_model=ChargeFilterResponse,
+            data=get_response_data(response=api_response, key="filter"),
+        )
+
+    def create_charge_filter(self, external_id: str, charge_code: str, input_object: BaseModel) -> ChargeFilterResponse:
+        api_response: Response = send_post_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, external_id, "charges", charge_code, "filters"),
+            ),
+            content=to_json({"filter": input_object.dict(exclude_none=True)}),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        return prepare_object_response(
+            response_model=ChargeFilterResponse,
+            data=get_response_data(response=api_response, key="filter"),
+        )
+
+    def update_charge_filter(
+        self, external_id: str, charge_code: str, filter_id: str, input_object: BaseModel
+    ) -> ChargeFilterResponse:
+        api_response: Response = send_put_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, external_id, "charges", charge_code, "filters", filter_id),
+            ),
+            content=to_json({"filter": input_object.dict(exclude_none=True)}),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        return prepare_object_response(
+            response_model=ChargeFilterResponse,
+            data=get_response_data(response=api_response, key="filter"),
+        )
+
+    def destroy_charge_filter(self, external_id: str, charge_code: str, filter_id: str) -> ChargeFilterResponse:
+        api_response: Response = send_delete_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, external_id, "charges", charge_code, "filters", filter_id),
+            ),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        return prepare_object_response(
+            response_model=ChargeFilterResponse,
+            data=get_response_data(response=api_response, key="filter"),
         )

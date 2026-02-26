@@ -23,7 +23,7 @@ def test_make_headers():
     assert result == {
         "Content-type": "application/json",
         "Authorization": "Bearer test",
-        "User-agent": "Lago Python v{version}".format(version=LAGO_VERSION),
+        "User-agent": f"Lago Python v{LAGO_VERSION}",
     }
 
 

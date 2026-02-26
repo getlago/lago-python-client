@@ -8,12 +8,12 @@ from lago_python_client.exceptions import LagoApiError
 from lago_python_client.models import (
     Customer,
     Invoice,
-    InvoicePreview,
+    InvoiceFee,
+    InvoiceFeesList,
     InvoiceMetadata,
     InvoiceMetadataList,
+    InvoicePreview,
     OneOffInvoice,
-    InvoiceFeesList,
-    InvoiceFee,
     PaymentMethod,
 )
 

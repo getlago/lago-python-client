@@ -1,41 +1,45 @@
 from urllib.parse import urljoin
 
+from .activity_logs.clients import ActivityLogClient
 from .add_ons.clients import AddOnClient
+from .api_logs.clients import ApiLogClient
 from .billable_metrics.clients import BillableMetricClient
 from .billing_entities.clients import BillingEntityClient
 from .coupons.clients import AppliedCouponClient, CouponClient
 from .credit_notes.clients import CreditNoteClient
-from .customers.clients import CustomerClient
 from .customers.applied_coupons_client import CustomerAppliedCouponsClient
+from .customers.clients import CustomerClient
 from .customers.credit_notes_client import CustomerCreditNotesClient
 from .customers.invoices_client import CustomerInvoicesClient
 from .customers.payment_methods_client import CustomerPaymentMethodsClient
-from .customers.payments_client import CustomerPaymentsClient
 from .customers.payment_requests_client import CustomerPaymentRequestsClient
+from .customers.payments_client import CustomerPaymentsClient
 from .customers.subscriptions_client import CustomerSubscriptionsClient
 from .customers.wallets_client import CustomerWalletsClient
 from .events.clients import EventClient
 from .fees.clients import FeeClient
 from .functools_ext import callable_cached_property
 from .gross_revenues.clients import GrossRevenueClient
-from .invoices.clients import InvoiceClient
+from .invoice_collections.clients import InvoiceCollectionClient
 from .invoiced_usages.clients import InvoicedUsageClient
+from .invoices.clients import InvoiceClient
 from .mrrs.clients import MrrClient
 from .organizations.clients import OrganizationClient
 from .overdue_balances.clients import OverdueBalanceClient
 from .payment_receipts.clients import PaymentReceiptClient
 from .payment_requests.clients import PaymentRequestClient
 from .payments.clients import PaymentClient
-from .invoice_collections.clients import InvoiceCollectionClient
+from .plans.charges_client import PlanChargesClient
 from .plans.clients import PlanClient
+from .plans.fixed_charges_client import PlanFixedChargesClient
+from .subscriptions.charges_client import SubscriptionChargesClient
 from .subscriptions.clients import SubscriptionClient
+from .subscriptions.fixed_charges_client import SubscriptionFixedChargesClient
 from .taxes.clients import TaxClient
 from .usages.clients import UsageClient
 from .wallets.clients import WalletClient, WalletTransactionClient
-from .webhooks.clients import WebhookClient
 from .webhook_endpoints.clients import WebhookEndpointClient
-from .activity_logs.clients import ActivityLogClient
-from .api_logs.clients import ApiLogClient
+from .webhooks.clients import WebhookClient
 
 try:
     from typing import Final
@@ -185,8 +189,24 @@ class Client:
         return PlanClient(self.base_api_url, self.api_key)
 
     @callable_cached_property
+    def plan_charges(self) -> PlanChargesClient:
+        return PlanChargesClient(self.base_api_url, self.api_key)
+
+    @callable_cached_property
+    def plan_fixed_charges(self) -> PlanFixedChargesClient:
+        return PlanFixedChargesClient(self.base_api_url, self.api_key)
+
+    @callable_cached_property
     def subscriptions(self) -> SubscriptionClient:
         return SubscriptionClient(self.base_api_url, self.api_key)
+
+    @callable_cached_property
+    def subscription_charges(self) -> SubscriptionChargesClient:
+        return SubscriptionChargesClient(self.base_api_url, self.api_key)
+
+    @callable_cached_property
+    def subscription_fixed_charges(self) -> SubscriptionFixedChargesClient:
+        return SubscriptionFixedChargesClient(self.base_api_url, self.api_key)
 
     @callable_cached_property
     def taxes(self) -> TaxClient:

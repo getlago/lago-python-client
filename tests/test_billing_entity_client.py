@@ -5,7 +5,7 @@ from pytest_httpx import HTTPXMock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
-from lago_python_client.models import BillingEntity, BillingEntityUpdate, BillingEntityBillingConfiguration
+from lago_python_client.models import BillingEntity, BillingEntityBillingConfiguration, BillingEntityUpdate
 
 
 def mock_response(mock="billing_entity"):

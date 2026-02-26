@@ -1,5 +1,5 @@
-import sys
-from typing import Any, Mapping, ClassVar, Type, Optional
+from collections.abc import Mapping
+from typing import Any, ClassVar, Optional, Type
 
 from ..base_client import BaseClient
 from ..mixins import (
@@ -9,20 +9,15 @@ from ..mixins import (
     FindCommandMixin,
 )
 from ..models.customer import CustomerResponse
-from ..models.customer_usage import CustomerUsageResponse
 from ..models.customer_projected_usage import CustomerProjectedUsageResponse
-from ..services.request import make_headers, make_url, send_get_request, send_post_request, QueryPairs
+from ..models.customer_usage import CustomerUsageResponse
+from ..services.request import QueryPairs, make_headers, make_url, send_get_request, send_post_request
 from ..services.response import (
+    Response,
     get_response_data,
     prepare_index_response,
     prepare_object_response,
-    Response,
 )
-
-if sys.version_info >= (3, 9):
-    from collections.abc import Mapping
-else:
-    from typing import Mapping
 
 
 class CustomerClient(
@@ -82,8 +77,10 @@ class CustomerClient(
         self,
         resource_id: str,
         external_subscription_id: str,
-        options: QueryPairs = {},
+        options: QueryPairs = None,
     ) -> Mapping[str, Any]:
+        if options is None:
+            options = {}
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,

@@ -1,10 +1,10 @@
 from typing import Dict, List, Optional
 
 from lago_python_client.base_model import BaseModel
-from .customer import CustomerResponse
 
-from .fee import FeeResponse
 from ..base_model import BaseResponseModel
+from .customer import CustomerResponse
+from .fee import FeeResponse
 
 
 class ItemResponse(BaseResponseModel):

@@ -1,4 +1,4 @@
-import sys
+from collections.abc import Mapping
 from typing import Any, ClassVar, Dict, Optional, Type
 
 from lago_python_client.base_model import BaseModel
@@ -15,25 +15,20 @@ from ..models.wallet import WalletResponse
 from ..models.wallet_transaction import WalletTransactionResponse
 from ..services.json import to_json
 from ..services.request import (
+    QueryPairs,
     make_headers,
     make_url,
     send_delete_request,
     send_get_request,
     send_patch_request,
     send_post_request,
-    QueryPairs,
 )
 from ..services.response import (
-    get_response_data,
-    prepare_object_list_response,
-    prepare_index_response,
     Response,
+    get_response_data,
+    prepare_index_response,
+    prepare_object_list_response,
 )
-
-if sys.version_info >= (3, 9):
-    from collections.abc import Mapping
-else:
-    from typing import Mapping
 
 
 class WalletClient(
@@ -120,7 +115,9 @@ class WalletTransactionClient(BaseClient):
             data=get_response_data(response=api_response, key=self.ROOT_NAME),
         )
 
-    def find_all(self, wallet_id: str, options: QueryPairs = {}) -> Mapping[str, Any]:
+    def find_all(self, wallet_id: str, options: QueryPairs = None) -> Mapping[str, Any]:
+        if options is None:
+            options = {}
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,

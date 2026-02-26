@@ -1,4 +1,4 @@
-import sys
+from collections.abc import Mapping
 from typing import Any, ClassVar, Optional, Type
 
 import httpx
@@ -13,17 +13,12 @@ from ..models.fee import FeeResponse
 from ..services.json import to_json
 from ..services.request import make_headers, make_url, send_post_request
 from ..services.response import (
-    get_response_data,
-    prepare_object_response,
-    prepare_object_list_response,
-    verify_response,
     Response,
+    get_response_data,
+    prepare_object_list_response,
+    prepare_object_response,
+    verify_response,
 )
-
-if sys.version_info >= (3, 9):
-    from collections.abc import Mapping
-else:
-    from typing import Mapping
 
 
 class EventClient(FindCommandMixin[EventResponse], BaseClient):
@@ -66,8 +61,6 @@ class EventClient(FindCommandMixin[EventResponse], BaseClient):
             headers=make_headers(api_key=self.api_key),
         )
         verify_response(api_response)
-
-        return None
 
     def estimate_fees(self, input_object: BaseModel) -> Mapping[str, Any]:
         api_response: Response = send_post_request(

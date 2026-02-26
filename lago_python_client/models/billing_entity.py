@@ -1,9 +1,9 @@
-from typing import Optional, List
 from datetime import datetime
+from typing import List, Optional
 
 from ..base_model import BaseModel, BaseResponseModel
-from .tax import TaxesResponse
 from .invoice_custom_section import InvoiceCustomSectionsResponseList
+from .tax import TaxesResponse
 
 
 class BillingEntityBillingConfiguration(BaseModel):
@@ -91,7 +91,6 @@ class BillingEntityResponse(BaseResponseModel):
     legal_number: Optional[str]
     tax_identification_number: Optional[str]
     is_default: bool
-    logo_url: Optional[str]
     document_locale: Optional[str]
     invoice_footer: Optional[str]
     invoice_grace_period: Optional[int]

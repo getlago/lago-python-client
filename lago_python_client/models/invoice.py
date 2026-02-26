@@ -2,15 +2,15 @@ from typing import List, Optional
 
 from lago_python_client.base_model import BaseModel
 
+from ..base_model import BaseResponseModel
 from .billing_period import BillingPeriodsResponse
 from .coupon import CouponsList
 from .credit import CreditsResponse
 from .customer import Customer, CustomerResponse
+from .error_detail import ErrorDetailsResponse
 from .fee import FeesResponse
 from .payment_method import PaymentMethod
 from .subscription import Subscriptions, SubscriptionsResponse
-from .error_detail import ErrorDetailsResponse
-from ..base_model import BaseResponseModel
 from .usage_threshold import UsageThreshold
 
 

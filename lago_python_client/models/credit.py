@@ -2,8 +2,8 @@ from typing import List, Optional
 
 from lago_python_client.base_model import BaseModel
 
-from .invoice_item import InvoiceItemResponse
 from ..base_model import BaseResponseModel
+from .invoice_item import InvoiceItemResponse
 
 
 class InvoiceShortDetails(BaseModel):

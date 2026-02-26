@@ -1,0 +1,19 @@
+{
+  "fixed_charge": {
+    "lago_id": "fc901a90-1a90-1a90-1a90-1a901a901a90",
+    "lago_add_on_id": "ao901a90-1a90-1a90-1a90-1a901a901a90",
+    "add_on_code": "setup_fee",
+    "code": "fixed_setup",
+    "created_at": "2022-07-01T14:47:14Z",
+    "charge_model": "standard",
+    "pay_in_advance": true,
+    "prorated": false,
+    "invoice_display_name": "Setup Fee",
+    "properties": {
+      "amount": "500"
+    },
+    "units": 1.0,
+    "lago_parent_id": null,
+    "taxes": []
+  }
+}
