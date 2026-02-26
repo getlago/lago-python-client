@@ -7,9 +7,9 @@ from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
 from lago_python_client.models import (
     AppliesTo,
+    PaymentMethod,
     RecurringTransactionRule,
     RecurringTransactionRuleList,
-    PaymentMethod,
     Wallet,
 )
 

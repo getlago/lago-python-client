@@ -5,7 +5,7 @@ from pytest_httpx import HTTPXMock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
-from lago_python_client.models import WalletTransaction, PaymentMethod
+from lago_python_client.models import PaymentMethod, WalletTransaction
 
 
 def wallet_transaction_object():

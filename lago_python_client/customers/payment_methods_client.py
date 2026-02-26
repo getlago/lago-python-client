@@ -5,7 +5,7 @@ from ..customers.clients import CustomerClient
 from ..mixins import FindAllChildrenCommandMixin
 from ..models.payment_method import PaymentMethodResponse
 from ..services.request import make_headers, make_url, send_delete_request, send_put_request
-from ..services.response import get_response_data, prepare_object_response, Response
+from ..services.response import Response, get_response_data, prepare_object_response
 
 
 class CustomerPaymentMethodsClient(FindAllChildrenCommandMixin[PaymentMethodResponse], BaseClient):

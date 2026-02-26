@@ -2,8 +2,8 @@ from typing import Dict, List, Optional
 
 from lago_python_client.base_model import BaseModel
 
-from .payment_method import PaymentMethod
 from ..base_model import BaseResponseModel
+from .payment_method import PaymentMethod
 
 
 class WalletTransaction(BaseModel):

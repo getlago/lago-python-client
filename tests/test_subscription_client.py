@@ -5,7 +5,7 @@ from pytest_httpx import HTTPXMock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
-from lago_python_client.models import Charge, ChargeFilter, FixedCharge, Subscription, PaymentMethod
+from lago_python_client.models import Charge, ChargeFilter, FixedCharge, PaymentMethod, Subscription
 from lago_python_client.models.alert import Alert, AlertsList, AlertThreshold
 
 
