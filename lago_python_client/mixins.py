@@ -31,6 +31,8 @@ from .services.response import (
 _PM_co = TypeVar("_PM_co", covariant=True)
 _M = TypeVar("_M", bound=BaseModel)
 
+DEFAULT_TIMEOUT = httpx.Timeout(10.0)
+
 
 class _ClientMixin(Protocol[_PM_co]):
     @property
@@ -53,7 +55,7 @@ class CreateCommandMixin(Generic[_M]):
     def create(
         self: _ClientMixin[_M],
         input_object: BaseModel,
-        timeout: Optional[httpx.Timeout] = None,
+        timeout: Optional[httpx.Timeout] = DEFAULT_TIMEOUT,
     ) -> Optional[_M]:
         """Execute `create` command."""
         # Send request and save response
@@ -89,7 +91,7 @@ class DestroyCommandMixin(Generic[_M]):
         self: _ClientMixin[_M],
         resource_id: str,
         options: QueryPairs = None,
-        timeout: Optional[httpx.Timeout] = None,
+        timeout: Optional[httpx.Timeout] = DEFAULT_TIMEOUT,
     ) -> BaseModel:
         """Execute `destroy` command."""
         # Send request and save response
@@ -118,7 +120,7 @@ class FindAllCommandMixin(Generic[_M]):
     def find_all(
         self: _ClientMixin[_M],
         options: QueryPairs = None,
-        timeout: Optional[httpx.Timeout] = None,
+        timeout: Optional[httpx.Timeout] = DEFAULT_TIMEOUT,
     ) -> Mapping[str, Any]:
         """Execute `find all` command."""
         # Send request and save response
@@ -311,7 +313,7 @@ class FindCommandMixin(Generic[_M]):
         self: _ClientMixin[_M],
         resource_id: str,
         params: QueryPairs = None,
-        timeout: Optional[httpx.Timeout] = None,
+        timeout: Optional[httpx.Timeout] = DEFAULT_TIMEOUT,
     ) -> _M:
         """Execute `find` command."""
         # Send request and save response
@@ -341,7 +343,7 @@ class UpdateCommandMixin(Generic[_M]):
         self: _ClientMixin[_M],
         input_object: BaseModel,
         identifier: Optional[str] = None,
-        timeout: Optional[httpx.Timeout] = None,
+        timeout: Optional[httpx.Timeout] = DEFAULT_TIMEOUT,
     ) -> _M:
         """Execute `update` command."""
         # Send request and save response
