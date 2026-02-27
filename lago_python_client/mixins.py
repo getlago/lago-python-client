@@ -31,6 +31,8 @@ from .services.response import (
 _PM_co = TypeVar("_PM_co", covariant=True)
 _M = TypeVar("_M", bound=BaseModel)
 
+DEFAULT_TIMEOUT = httpx.Timeout(10.0)
+
 
 class _ClientMixin(Protocol[_PM_co]):
     @property
@@ -53,7 +55,7 @@ class CreateCommandMixin(Generic[_M]):
     def create(
         self: _ClientMixin[_M],
         input_object: BaseModel,
-        timeout: Optional[httpx.Timeout] = None,
+        timeout: Optional[httpx.Timeout] = DEFAULT_TIMEOUT,
     ) -> Optional[_M]:
         """Execute `create` command."""
         # Send request and save response
@@ -89,7 +91,7 @@ class DestroyCommandMixin(Generic[_M]):
         self: _ClientMixin[_M],
         resource_id: str,
         options: QueryPairs = None,
-        timeout: Optional[httpx.Timeout] = None,
+        timeout: Optional[httpx.Timeout] = DEFAULT_TIMEOUT,
     ) -> BaseModel:
         """Execute `destroy` command."""
         # Send request and save response
@@ -118,7 +120,7 @@ class FindAllCommandMixin(Generic[_M]):
     def find_all(
         self: _ClientMixin[_M],
         options: QueryPairs = None,
-        timeout: Optional[httpx.Timeout] = None,
+        timeout: Optional[httpx.Timeout] = DEFAULT_TIMEOUT,
     ) -> Mapping[str, Any]:
         """Execute `find all` command."""
         # Send request and save response
@@ -181,8 +183,11 @@ class FindChildCommandMixin(Generic[_M]):
         self: _ClientMixin[_M],
         parent_id: str,
         child_id: str,
+        options: QueryPairs = None,
     ) -> _M:
         """Execute `find` child command."""
+        if options is None:
+            options = {}
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
@@ -192,6 +197,7 @@ class FindChildCommandMixin(Generic[_M]):
                     self.API_RESOURCE,
                     child_id,
                 ),
+                query_pairs=options,
             ),
             headers=make_headers(api_key=self.api_key),
         )
@@ -209,8 +215,11 @@ class CreateChildCommandMixin(Generic[_M]):
         self: _ClientMixin[_M],
         parent_id: str,
         input_object: BaseModel,
+        options: QueryPairs = None,
     ) -> _M:
         """Execute `create` child command."""
+        if options is None:
+            options = {}
         api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
@@ -219,6 +228,7 @@ class CreateChildCommandMixin(Generic[_M]):
                     parent_id,
                     self.API_RESOURCE,
                 ),
+                query_pairs=options,
             ),
             content=to_json({self.ROOT_NAME: input_object.dict(exclude_none=True)}),
             headers=make_headers(api_key=self.api_key),
@@ -238,8 +248,11 @@ class UpdateChildCommandMixin(Generic[_M]):
         parent_id: str,
         child_id: str,
         input_object: BaseModel,
+        options: QueryPairs = None,
     ) -> _M:
         """Execute `update` child command."""
+        if options is None:
+            options = {}
         api_response: Response = send_put_request(
             url=make_url(
                 origin=self.base_url,
@@ -249,6 +262,7 @@ class UpdateChildCommandMixin(Generic[_M]):
                     self.API_RESOURCE,
                     child_id,
                 ),
+                query_pairs=options,
             ),
             content=to_json({self.ROOT_NAME: input_object.dict(exclude_none=True)}),
             headers=make_headers(api_key=self.api_key),
@@ -267,8 +281,11 @@ class DestroyChildCommandMixin(Generic[_M]):
         self: _ClientMixin[_M],
         parent_id: str,
         child_id: str,
+        options: QueryPairs = None,
     ) -> _M:
         """Execute `destroy` child command."""
+        if options is None:
+            options = {}
         api_response: Response = send_delete_request(
             url=make_url(
                 origin=self.base_url,
@@ -278,6 +295,7 @@ class DestroyChildCommandMixin(Generic[_M]):
                     self.API_RESOURCE,
                     child_id,
                 ),
+                query_pairs=options,
             ),
             headers=make_headers(api_key=self.api_key),
         )
@@ -295,7 +313,7 @@ class FindCommandMixin(Generic[_M]):
         self: _ClientMixin[_M],
         resource_id: str,
         params: QueryPairs = None,
-        timeout: Optional[httpx.Timeout] = None,
+        timeout: Optional[httpx.Timeout] = DEFAULT_TIMEOUT,
     ) -> _M:
         """Execute `find` command."""
         # Send request and save response
@@ -325,7 +343,7 @@ class UpdateCommandMixin(Generic[_M]):
         self: _ClientMixin[_M],
         input_object: BaseModel,
         identifier: Optional[str] = None,
-        timeout: Optional[httpx.Timeout] = None,
+        timeout: Optional[httpx.Timeout] = DEFAULT_TIMEOUT,
     ) -> _M:
         """Execute `update` command."""
         # Send request and save response
