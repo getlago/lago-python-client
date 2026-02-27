@@ -76,11 +76,17 @@ class SubscriptionClient(
             data=get_response_data(response=api_response, key="lifetime_usage"),
         )
 
-    def create_alerts(self, external_id: str, input_object: AlertsList) -> Mapping[str, Any]:
+    def create_alerts(
+        self, external_id: str, input_object: AlertsList, status: Optional[str] = None
+    ) -> Mapping[str, Any]:
+        query_params = {}
+        if status is not None:
+            query_params["status"] = status
         api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, external_id, "alerts"),
+                query_pairs=query_params,
             ),
             content=to_json(input_object.dict()),
             headers=make_headers(api_key=self.api_key),
@@ -92,11 +98,15 @@ class SubscriptionClient(
             data=get_response_data(response=api_response),
         )
 
-    def delete_alerts(self, external_id: str) -> None:
+    def delete_alerts(self, external_id: str, status: Optional[str] = None) -> None:
+        query_params = {}
+        if status is not None:
+            query_params["status"] = status
         api_response: Response = send_delete_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, external_id, "alerts"),
+                query_pairs=query_params,
             ),
             headers=make_headers(api_key=self.api_key),
         )
@@ -124,11 +134,17 @@ class SubscriptionClient(
             data=get_response_data(response=api_response),
         )
 
-    def find_charge_filter(self, external_id: str, charge_code: str, filter_id: str) -> ChargeFilterResponse:
+    def find_charge_filter(
+        self, external_id: str, charge_code: str, filter_id: str, status: Optional[str] = None
+    ) -> ChargeFilterResponse:
+        query_params = {}
+        if status is not None:
+            query_params["status"] = status
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, external_id, "charges", charge_code, "filters", filter_id),
+                query_pairs=query_params,
             ),
             headers=make_headers(api_key=self.api_key),
         )
@@ -138,11 +154,17 @@ class SubscriptionClient(
             data=get_response_data(response=api_response, key="filter"),
         )
 
-    def create_charge_filter(self, external_id: str, charge_code: str, input_object: BaseModel) -> ChargeFilterResponse:
+    def create_charge_filter(
+        self, external_id: str, charge_code: str, input_object: BaseModel, status: Optional[str] = None
+    ) -> ChargeFilterResponse:
+        query_params = {}
+        if status is not None:
+            query_params["status"] = status
         api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, external_id, "charges", charge_code, "filters"),
+                query_pairs=query_params,
             ),
             content=to_json({"filter": input_object.dict(exclude_none=True)}),
             headers=make_headers(api_key=self.api_key),
@@ -154,12 +176,17 @@ class SubscriptionClient(
         )
 
     def update_charge_filter(
-        self, external_id: str, charge_code: str, filter_id: str, input_object: BaseModel
+        self, external_id: str, charge_code: str, filter_id: str, input_object: BaseModel,
+        status: Optional[str] = None,
     ) -> ChargeFilterResponse:
+        query_params = {}
+        if status is not None:
+            query_params["status"] = status
         api_response: Response = send_put_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, external_id, "charges", charge_code, "filters", filter_id),
+                query_pairs=query_params,
             ),
             content=to_json({"filter": input_object.dict(exclude_none=True)}),
             headers=make_headers(api_key=self.api_key),
@@ -170,11 +197,17 @@ class SubscriptionClient(
             data=get_response_data(response=api_response, key="filter"),
         )
 
-    def destroy_charge_filter(self, external_id: str, charge_code: str, filter_id: str) -> ChargeFilterResponse:
+    def destroy_charge_filter(
+        self, external_id: str, charge_code: str, filter_id: str, status: Optional[str] = None
+    ) -> ChargeFilterResponse:
+        query_params = {}
+        if status is not None:
+            query_params["status"] = status
         api_response: Response = send_delete_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, external_id, "charges", charge_code, "filters", filter_id),
+                query_pairs=query_params,
             ),
             headers=make_headers(api_key=self.api_key),
         )

@@ -181,8 +181,11 @@ class FindChildCommandMixin(Generic[_M]):
         self: _ClientMixin[_M],
         parent_id: str,
         child_id: str,
+        options: QueryPairs = None,
     ) -> _M:
         """Execute `find` child command."""
+        if options is None:
+            options = {}
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
@@ -192,6 +195,7 @@ class FindChildCommandMixin(Generic[_M]):
                     self.API_RESOURCE,
                     child_id,
                 ),
+                query_pairs=options,
             ),
             headers=make_headers(api_key=self.api_key),
         )
@@ -209,8 +213,11 @@ class CreateChildCommandMixin(Generic[_M]):
         self: _ClientMixin[_M],
         parent_id: str,
         input_object: BaseModel,
+        options: QueryPairs = None,
     ) -> _M:
         """Execute `create` child command."""
+        if options is None:
+            options = {}
         api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
@@ -219,6 +226,7 @@ class CreateChildCommandMixin(Generic[_M]):
                     parent_id,
                     self.API_RESOURCE,
                 ),
+                query_pairs=options,
             ),
             content=to_json({self.ROOT_NAME: input_object.dict(exclude_none=True)}),
             headers=make_headers(api_key=self.api_key),
@@ -238,8 +246,11 @@ class UpdateChildCommandMixin(Generic[_M]):
         parent_id: str,
         child_id: str,
         input_object: BaseModel,
+        options: QueryPairs = None,
     ) -> _M:
         """Execute `update` child command."""
+        if options is None:
+            options = {}
         api_response: Response = send_put_request(
             url=make_url(
                 origin=self.base_url,
@@ -249,6 +260,7 @@ class UpdateChildCommandMixin(Generic[_M]):
                     self.API_RESOURCE,
                     child_id,
                 ),
+                query_pairs=options,
             ),
             content=to_json({self.ROOT_NAME: input_object.dict(exclude_none=True)}),
             headers=make_headers(api_key=self.api_key),
@@ -267,8 +279,11 @@ class DestroyChildCommandMixin(Generic[_M]):
         self: _ClientMixin[_M],
         parent_id: str,
         child_id: str,
+        options: QueryPairs = None,
     ) -> _M:
         """Execute `destroy` child command."""
+        if options is None:
+            options = {}
         api_response: Response = send_delete_request(
             url=make_url(
                 origin=self.base_url,
@@ -278,6 +293,7 @@ class DestroyChildCommandMixin(Generic[_M]):
                     self.API_RESOURCE,
                     child_id,
                 ),
+                query_pairs=options,
             ),
             headers=make_headers(api_key=self.api_key),
         )

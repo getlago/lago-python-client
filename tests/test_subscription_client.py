@@ -813,3 +813,189 @@ def test_valid_destroy_charge_filter_request(httpx_mock: HTTPXMock):
     response = client.subscriptions.destroy_charge_filter(external_id, charge_code, filter_id)
 
     assert response.lago_id == "f1901a90-1a90-1a90-1a90-1a901a901a90"
+
+
+# --- Status parameter tests ---
+
+
+def test_create_alerts_with_status(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_1234"
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/alerts?status=pending",
+        content=mock_subscription_alerts_response(),
+    )
+
+    input_object = AlertsList(
+        alerts=[
+            Alert(
+                alert_type="current_usage_amount",
+                code="alert1",
+                name="First Alert",
+                thresholds=[AlertThreshold(code="warn", value="1000")],
+            ),
+        ]
+    )
+
+    response = client.subscriptions.create_alerts(external_id, input_object, status="pending")
+    assert len(response["alerts"]) == 2
+
+
+def test_delete_alerts_with_status(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_1234"
+
+    httpx_mock.add_response(
+        method="DELETE",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/alerts?status=pending",
+        status_code=200,
+        content=b"",
+    )
+
+    result = client.subscriptions.delete_alerts(external_id, status="pending")
+    assert result is None
+
+
+def test_find_charge_filter_with_status(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_external_123"
+    charge_code = "charge_code"
+    filter_id = "f1901a90-1a90-1a90-1a90-1a901a901a90"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/subscriptions/"
+        + external_id
+        + "/charges/"
+        + charge_code
+        + "/filters/"
+        + filter_id
+        + "?status=pending",
+        content=mock_subscription_charge_filter_response(),
+    )
+    response = client.subscriptions.find_charge_filter(external_id, charge_code, filter_id, status="pending")
+
+    assert response.lago_id == "f1901a90-1a90-1a90-1a90-1a901a901a90"
+
+
+def test_create_charge_filter_with_status(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_external_123"
+    charge_code = "charge_code"
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/subscriptions/"
+        + external_id
+        + "/charges/"
+        + charge_code
+        + "/filters?status=pending",
+        content=mock_subscription_charge_filter_response(),
+    )
+    filter_input = ChargeFilter(
+        invoice_display_name="From France",
+        properties={"amount": "0.33"},
+        values={"country": ["France"]},
+    )
+    response = client.subscriptions.create_charge_filter(external_id, charge_code, filter_input, status="pending")
+
+    assert response.lago_id == "f1901a90-1a90-1a90-1a90-1a901a901a90"
+
+
+def test_destroy_charge_filter_with_status(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_external_123"
+    charge_code = "charge_code"
+    filter_id = "f1901a90-1a90-1a90-1a90-1a901a901a90"
+
+    httpx_mock.add_response(
+        method="DELETE",
+        url="https://api.getlago.com/api/v1/subscriptions/"
+        + external_id
+        + "/charges/"
+        + charge_code
+        + "/filters/"
+        + filter_id
+        + "?status=pending",
+        content=mock_subscription_charge_filter_response(),
+    )
+    response = client.subscriptions.destroy_charge_filter(external_id, charge_code, filter_id, status="pending")
+
+    assert response.lago_id == "f1901a90-1a90-1a90-1a90-1a901a901a90"
+
+
+def test_find_charge_with_status(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_external_123"
+    charge_code = "charge_code"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/subscriptions/"
+        + external_id
+        + "/charges/"
+        + charge_code
+        + "?status=pending",
+        content=mock_subscription_charge_response(),
+    )
+    response = client.subscription_charges.find(external_id, charge_code, options={"status": "pending"})
+
+    assert response.lago_id == "51c1e851-5be6-4343-a0ee-39a81d8b4ee1"
+
+
+def test_find_all_charges_with_status(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_external_123"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/charges?status=pending",
+        content=mock_subscription_charges_response(),
+    )
+    response = client.subscription_charges.find_all(external_id, options={"status": "pending"})
+
+    assert len(response["charges"]) == 1
+
+
+def test_find_fixed_charge_with_status(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_external_123"
+    fixed_charge_code = "fixed_setup"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/subscriptions/"
+        + external_id
+        + "/fixed_charges/"
+        + fixed_charge_code
+        + "?status=pending",
+        content=mock_subscription_fixed_charge_response(),
+    )
+    response = client.subscription_fixed_charges.find(
+        external_id, fixed_charge_code, options={"status": "pending"}
+    )
+
+    assert response.lago_id == "fc901a90-1a90-1a90-1a90-1a901a901a90"
+
+
+def test_find_all_charge_filters_with_status(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_external_123"
+    charge_code = "charge_code"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/subscriptions/"
+        + external_id
+        + "/charges/"
+        + charge_code
+        + "/filters?status=pending",
+        content=mock_subscription_charge_filters_response(),
+    )
+    response = client.subscriptions.find_all_charge_filters(
+        external_id, charge_code, options={"status": "pending"}
+    )
+
+    assert len(response["filters"]) == 1
