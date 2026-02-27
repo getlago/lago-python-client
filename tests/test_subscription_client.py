@@ -1,10 +1,12 @@
 import os
 
+import httpx
 import pytest
 from pytest_httpx import HTTPXMock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
+from lago_python_client.mixins import DEFAULT_TIMEOUT
 from lago_python_client.models import Charge, ChargeFilter, FixedCharge, PaymentMethod, Subscription
 from lago_python_client.models.alert import Alert, AlertsList, AlertThreshold
 
@@ -999,3 +1001,78 @@ def test_find_all_charge_filters_with_status(httpx_mock: HTTPXMock):
     )
 
     assert len(response["filters"]) == 1
+
+
+# --- Default timeout tests ---
+
+
+def test_default_timeout_value():
+    assert DEFAULT_TIMEOUT == httpx.Timeout(10.0)
+
+
+def test_create_subscription_with_custom_timeout(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/subscriptions",
+        content=mock_response(),
+    )
+    response = client.subscriptions.create(create_subscription(), timeout=httpx.Timeout(30.0))
+
+    assert response.external_customer_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+
+
+def test_find_subscription_with_custom_timeout(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id,
+        content=mock_response(),
+    )
+    response = client.subscriptions.find(external_id, timeout=httpx.Timeout(30.0))
+
+    assert response.lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
+
+
+def test_destroy_subscription_with_custom_timeout(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    identifier = "sub_id"
+
+    httpx_mock.add_response(
+        method="DELETE",
+        url="https://api.getlago.com/api/v1/subscriptions/" + identifier,
+        content=mock_response(),
+    )
+    response = client.subscriptions.destroy(identifier, timeout=httpx.Timeout(30.0))
+
+    assert response.external_customer_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+
+
+def test_find_all_subscriptions_with_custom_timeout(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/subscriptions",
+        content=mock_collection_response(),
+    )
+    response = client.subscriptions.find_all(timeout=httpx.Timeout(30.0))
+
+    assert response["meta"]["current_page"] == 1
+
+
+def test_update_subscription_with_custom_timeout(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    identifier = "sub_id"
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/subscriptions/" + identifier,
+        content=mock_response(),
+    )
+    response = client.subscriptions.update(Subscription(name="name"), identifier, timeout=httpx.Timeout(30.0))
+
+    assert response.external_customer_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
