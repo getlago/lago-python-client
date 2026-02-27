@@ -186,7 +186,7 @@ def test_valid_current_usage_with_filters(httpx_mock: HTTPXMock):
             "https://api.getlago.com/api/v1/customers/external_customer_id/current_usage"
             f"?external_subscription_id=123&filter_by_charge_id={charge_id}"
             "&filter_by_charge_code=storage"
-            '&filter_by_group=%7B%22cloud%22%3A+%22aws%22%7D'
+            "&filter_by_group=%7B%22cloud%22%3A+%22aws%22%7D"
             "&full_usage=true"
         ),
         content=mock_response("customer_usage"),

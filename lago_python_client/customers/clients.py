@@ -1,6 +1,6 @@
 import json
 from collections.abc import Mapping
-from typing import Any, ClassVar, Optional, Type
+from typing import Any, ClassVar, Optional, Type, Union
 
 from ..base_client import BaseClient
 from ..mixins import (
