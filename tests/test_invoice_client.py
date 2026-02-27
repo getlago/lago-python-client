@@ -14,6 +14,7 @@ from lago_python_client.models import (
     InvoiceMetadataList,
     InvoicePreview,
     OneOffInvoice,
+    PaymentMethod,
 )
 
 
@@ -86,6 +87,46 @@ def test_valid_create_invoice_request(httpx_mock: HTTPXMock):
     assert response.fees.__root__[0].precise_unit_amount == "9.52"
     assert response.fees.__root__[0].item.invoice_display_name == "one_off_invoice_display_name"
     assert response.fees.__root__[0].amount_details == {}
+
+
+def test_valid_create_invoice_request_with_payment_method(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    payment_method = PaymentMethod(payment_method_type="card", payment_method_id="pm_123")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/invoices",
+        content=mock_response(mock="one_off_invoice"),
+    )
+    invoice = one_off_invoice_object()
+    invoice.payment_method = payment_method
+    response = client.invoices.create(invoice)
+
+    assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+    assert response.invoice_type == "one_off"
+
+
+def test_invalid_create_invoice_request_with_payment_method(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    payment_method = PaymentMethod(payment_method_type="provider", payment_method_id="invalid-id")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/invoices",
+        status_code=422,
+        json={
+            "status": 422,
+            "error": "Unprocessable Entity",
+            "code": "validation_errors",
+            "error_details": {"payment_method": ["invalid_payment_method"]},
+        },
+    )
+
+    invoice = one_off_invoice_object()
+    invoice.payment_method = payment_method
+
+    with pytest.raises(LagoApiError):
+        client.invoices.create(invoice)
 
 
 def test_invalid_create_invoice_request(httpx_mock: HTTPXMock):
@@ -276,6 +317,21 @@ def test_valid_retry_payment_invoice_request(httpx_mock: HTTPXMock):
     response = client.invoices.retry_payment("5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba")
 
     assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+
+
+def test_valid_retry_payment_invoice_request_with_payment_method(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    payment_method = PaymentMethod(payment_method_type="card", payment_method_id="pm_123")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba/retry_payment",
+        status_code=200,
+        content=b"",
+    )
+    response = client.invoices.retry_payment("5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba", payment_method=payment_method)
+
+    assert response is None
 
 
 def test_valid_payment_url_request(httpx_mock: HTTPXMock):

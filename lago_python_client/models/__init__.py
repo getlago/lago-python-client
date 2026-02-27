@@ -217,6 +217,7 @@ from .payment_receipt import (
     PaymentReceiptsResponse as PaymentReceiptsResponse,
 )
 from .payment_request import PaymentRequest as PaymentRequest
+from .payment_method import PaymentMethod as PaymentMethod, PaymentMethodResponse as PaymentMethodResponse
 from .plan import Plan as Plan
 from .subscription import Subscription as Subscription
 from .tax import (

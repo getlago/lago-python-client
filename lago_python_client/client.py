@@ -11,6 +11,7 @@ from .customers.applied_coupons_client import CustomerAppliedCouponsClient
 from .customers.clients import CustomerClient
 from .customers.credit_notes_client import CustomerCreditNotesClient
 from .customers.invoices_client import CustomerInvoicesClient
+from .customers.payment_methods_client import CustomerPaymentMethodsClient
 from .customers.payment_requests_client import CustomerPaymentRequestsClient
 from .customers.payments_client import CustomerPaymentsClient
 from .customers.subscriptions_client import CustomerSubscriptionsClient
@@ -114,6 +115,10 @@ class Client:
     @callable_cached_property
     def customer_invoices(self) -> CustomerInvoicesClient:
         return CustomerInvoicesClient(self.base_api_url, self.api_key)
+
+    @callable_cached_property
+    def customer_payment_methods(self) -> CustomerPaymentMethodsClient:
+        return CustomerPaymentMethodsClient(self.base_api_url, self.api_key)
 
     @callable_cached_property
     def customer_payments(self) -> CustomerPaymentsClient:

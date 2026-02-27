@@ -3,6 +3,7 @@ from typing import Dict, List, Optional
 from lago_python_client.base_model import BaseModel
 
 from ..base_model import BaseResponseModel
+from .payment_method import PaymentMethod
 
 
 class WalletTransaction(BaseModel):
@@ -14,6 +15,7 @@ class WalletTransaction(BaseModel):
     metadata: Optional[List[Dict[str, str]]]
     name: Optional[str]
     ignore_paid_top_up_limits: Optional[bool]
+    payment_method: Optional[PaymentMethod]
 
 
 class WalletTransactionResponse(BaseResponseModel):
@@ -31,3 +33,4 @@ class WalletTransactionResponse(BaseResponseModel):
     metadata: Optional[List[Dict[str, str]]]
     name: Optional[str]
     invoice_requires_successful_payment: Optional[bool]
+    payment_method: Optional[PaymentMethod]

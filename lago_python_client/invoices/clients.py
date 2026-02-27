@@ -8,6 +8,7 @@ from ..mixins import (
     UpdateCommandMixin,
 )
 from ..models.invoice import InvoicePreview, InvoiceResponse
+from ..models.payment_method import PaymentMethod
 from ..services.json import to_json
 from ..services.request import (
     make_headers,
@@ -47,12 +48,19 @@ class InvoiceClient(
             data=response_data,
         )
 
-    def retry_payment(self, resource_id: str) -> Optional[InvoiceResponse]:
+    def retry_payment(
+        self, resource_id: str, payment_method: Optional[PaymentMethod] = None
+    ) -> Optional[InvoiceResponse]:
+        payload = {}
+        if payment_method:
+            payload["payment_method"] = payment_method.dict(exclude_none=True)
+
         api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, resource_id, "retry_payment"),
             ),
+            content=to_json(payload) if payload else None,
             headers=make_headers(api_key=self.api_key),
         )
 
