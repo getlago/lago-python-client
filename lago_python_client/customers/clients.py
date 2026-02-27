@@ -1,5 +1,6 @@
+import json
 from collections.abc import Mapping
-from typing import Any, ClassVar, Optional, Type
+from typing import Any, ClassVar, Optional, Type, Union
 
 from ..base_client import BaseClient
 from ..mixins import (
@@ -32,11 +33,26 @@ class CustomerClient(
     ROOT_NAME: ClassVar[str] = "customer"
 
     def current_usage(
-        self, resource_id: str, external_subscription_id: str, apply_taxes: Optional[str] = None
+        self,
+        resource_id: str,
+        external_subscription_id: str,
+        apply_taxes: Optional[str] = None,
+        filter_by_charge_id: Optional[str] = None,
+        filter_by_charge_code: Optional[str] = None,
+        filter_by_group: Optional[dict] = None,
+        full_usage: Optional[bool] = None,
     ) -> CustomerUsageResponse:
-        query_params = {"external_subscription_id": external_subscription_id}
+        query_params: dict[str, Union[str, bool]] = {"external_subscription_id": external_subscription_id}
         if apply_taxes is not None:
             query_params["apply_taxes"] = apply_taxes
+        if filter_by_charge_id is not None:
+            query_params["filter_by_charge_id"] = filter_by_charge_id
+        if filter_by_charge_code is not None:
+            query_params["filter_by_charge_code"] = filter_by_charge_code
+        if filter_by_group is not None:
+            query_params["filter_by_group"] = json.dumps(filter_by_group)
+        if full_usage is not None:
+            query_params["full_usage"] = str(full_usage).lower()
 
         api_response: Response = send_get_request(
             url=make_url(
