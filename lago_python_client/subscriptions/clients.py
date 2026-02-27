@@ -176,7 +176,11 @@ class SubscriptionClient(
         )
 
     def update_charge_filter(
-        self, external_id: str, charge_code: str, filter_id: str, input_object: BaseModel,
+        self,
+        external_id: str,
+        charge_code: str,
+        filter_id: str,
+        input_object: BaseModel,
         status: Optional[str] = None,
     ) -> ChargeFilterResponse:
         query_params = {}

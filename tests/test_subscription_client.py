@@ -975,9 +975,7 @@ def test_find_fixed_charge_with_status(httpx_mock: HTTPXMock):
         + "?status=pending",
         content=mock_subscription_fixed_charge_response(),
     )
-    response = client.subscription_fixed_charges.find(
-        external_id, fixed_charge_code, options={"status": "pending"}
-    )
+    response = client.subscription_fixed_charges.find(external_id, fixed_charge_code, options={"status": "pending"})
 
     assert response.lago_id == "fc901a90-1a90-1a90-1a90-1a901a901a90"
 
@@ -996,9 +994,7 @@ def test_find_all_charge_filters_with_status(httpx_mock: HTTPXMock):
         + "/filters?status=pending",
         content=mock_subscription_charge_filters_response(),
     )
-    response = client.subscriptions.find_all_charge_filters(
-        external_id, charge_code, options={"status": "pending"}
-    )
+    response = client.subscriptions.find_all_charge_filters(external_id, charge_code, options={"status": "pending"})
 
     assert len(response["filters"]) == 1
 
