@@ -479,7 +479,7 @@ class NestedFindAllCommandMixin(Generic[_M]):
     def find_all(
         self: _ClientMixin[_M],
         *parent_ids: str,
-        options: QueryPairs = {},
+        options: QueryPairs = None,
         timeout: Optional[httpx.Timeout] = None,
     ) -> Mapping[str, Any]:
         """Execute `find all` command."""

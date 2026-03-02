@@ -2,8 +2,8 @@ import json
 from collections.abc import Mapping
 from typing import Any, ClassVar, Optional, Type, Union
 
-from ..functools_ext import callable_cached_property
 from ..base_client import BaseClient
+from ..functools_ext import callable_cached_property
 from ..mixins import (
     CreateCommandMixin,
     DestroyCommandMixin,

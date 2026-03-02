@@ -1,9 +1,9 @@
 from typing import ClassVar, Type
 
 from ..base_client import BaseClient
+from ..client import CustomerClient
 from ..mixins import FindAllChildrenCommandMixin
 from ..models.wallet import WalletResponse
-from ..client import CustomerClient
 
 
 class CustomerWalletsClient(FindAllChildrenCommandMixin, BaseClient):

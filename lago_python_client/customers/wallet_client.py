@@ -1,17 +1,15 @@
 from typing import ClassVar, Type
 
-from ..functools_ext import callable_cached_property
 from ..base_client import BaseClient
-from ..models.wallet import WalletResponse
-
+from ..functools_ext import callable_cached_property
 from ..mixins import (
     NestedCreateCommandMixin,
-    NestedUpdateCommandMixin,
     NestedDestroyCommandMixin,
-    NestedFindCommandMixin,
     NestedFindAllCommandMixin,
+    NestedFindCommandMixin,
+    NestedUpdateCommandMixin,
 )
-
+from ..models.wallet import WalletResponse
 from .wallets.metadata_client import CustomerWalletMetadataClient
 
 
