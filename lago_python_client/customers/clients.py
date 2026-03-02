@@ -2,6 +2,7 @@ import json
 from collections.abc import Mapping
 from typing import Any, ClassVar, Optional, Type, Union
 
+from ..functools_ext import callable_cached_property
 from ..base_client import BaseClient
 from ..mixins import (
     CreateCommandMixin,
@@ -19,6 +20,7 @@ from ..services.response import (
     prepare_index_response,
     prepare_object_response,
 )
+from .wallets_client import CustomerWalletsClient
 
 
 class CustomerClient(
@@ -31,6 +33,10 @@ class CustomerClient(
     API_RESOURCE: ClassVar[str] = "customers"
     RESPONSE_MODEL: ClassVar[Type[CustomerResponse]] = CustomerResponse
     ROOT_NAME: ClassVar[str] = "customer"
+
+    @callable_cached_property
+    def wallets(self) -> CustomerWalletsClient:
+        return CustomerWalletsClient(self.base_url, self.api_key)
 
     def current_usage(
         self,
