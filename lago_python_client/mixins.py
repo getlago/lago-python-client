@@ -366,7 +366,7 @@ class NestedCreateCommandMixin(Generic[_M]):
             url=make_url(origin=self.base_url, path_parts=self.api_resource(*parent_ids)),
             content=to_json(
                 {
-                    self.ROOT_NAME: input_object.dict(),
+                    self.ROOT_NAME: input_object.dict(exclude_none=True),
                 }
             ),
             headers=make_headers(api_key=self.api_key),
