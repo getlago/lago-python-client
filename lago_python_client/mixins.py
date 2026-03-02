@@ -1,4 +1,4 @@
-from typing import Any, Generic, Optional, Type, TypeVar
+from typing import Any, Generic, Optional, Type, TypeVar, Union
 
 import httpx
 
@@ -355,7 +355,7 @@ class NestedCreateCommandMixin(Generic[_M]):
 
     def create(
         self: _ClientMixin[_M],
-        *args: str | BaseModel,
+        *args: Union[str, BaseModel],
         timeout: Optional[httpx.Timeout] = None,
     ) -> Optional[_M]:
         """Execute `create` command."""
@@ -389,7 +389,7 @@ class NestedUpdateCommandMixin(Generic[_M]):
 
     def update(
         self: _ClientMixin[_M],
-        *args: str | BaseModel,
+        *args: Union[str, BaseModel],
         timeout: Optional[httpx.Timeout] = None,
     ) -> _M:
         """Execute `update` command."""
