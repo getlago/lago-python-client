@@ -151,7 +151,6 @@ def test_valid_payment_url_request(httpx_mock: HTTPXMock):
     assert response == "https://checkout.stripe.com/c/pay/cs_test_a1cuqFkXvH"
 
 
-
 def test_wallet_transaction_response_includes_lago_invoice_id(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
 
