@@ -77,11 +77,11 @@ class SubscriptionClient(
         )
 
     def create_alerts(
-        self, external_id: str, input_object: AlertsList, status: Optional[str] = None
+        self, external_id: str, input_object: AlertsList, subscription_status: Optional[str] = None
     ) -> Mapping[str, Any]:
         query_params = {}
-        if status is not None:
-            query_params["status"] = status
+        if subscription_status is not None:
+            query_params["subscription_status"] = subscription_status
         api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
@@ -98,10 +98,10 @@ class SubscriptionClient(
             data=get_response_data(response=api_response),
         )
 
-    def delete_alerts(self, external_id: str, status: Optional[str] = None) -> None:
+    def delete_alerts(self, external_id: str, subscription_status: Optional[str] = None) -> None:
         query_params = {}
-        if status is not None:
-            query_params["status"] = status
+        if subscription_status is not None:
+            query_params["subscription_status"] = subscription_status
         api_response: Response = send_delete_request(
             url=make_url(
                 origin=self.base_url,
@@ -135,11 +135,11 @@ class SubscriptionClient(
         )
 
     def find_charge_filter(
-        self, external_id: str, charge_code: str, filter_id: str, status: Optional[str] = None
+        self, external_id: str, charge_code: str, filter_id: str, subscription_status: Optional[str] = None
     ) -> ChargeFilterResponse:
         query_params = {}
-        if status is not None:
-            query_params["status"] = status
+        if subscription_status is not None:
+            query_params["subscription_status"] = subscription_status
         api_response: Response = send_get_request(
             url=make_url(
                 origin=self.base_url,
@@ -155,11 +155,11 @@ class SubscriptionClient(
         )
 
     def create_charge_filter(
-        self, external_id: str, charge_code: str, input_object: BaseModel, status: Optional[str] = None
+        self, external_id: str, charge_code: str, input_object: BaseModel, subscription_status: Optional[str] = None
     ) -> ChargeFilterResponse:
         query_params = {}
-        if status is not None:
-            query_params["status"] = status
+        if subscription_status is not None:
+            query_params["subscription_status"] = subscription_status
         api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
@@ -181,11 +181,11 @@ class SubscriptionClient(
         charge_code: str,
         filter_id: str,
         input_object: BaseModel,
-        status: Optional[str] = None,
+        subscription_status: Optional[str] = None,
     ) -> ChargeFilterResponse:
         query_params = {}
-        if status is not None:
-            query_params["status"] = status
+        if subscription_status is not None:
+            query_params["subscription_status"] = subscription_status
         api_response: Response = send_put_request(
             url=make_url(
                 origin=self.base_url,
@@ -202,11 +202,11 @@ class SubscriptionClient(
         )
 
     def destroy_charge_filter(
-        self, external_id: str, charge_code: str, filter_id: str, status: Optional[str] = None
+        self, external_id: str, charge_code: str, filter_id: str, subscription_status: Optional[str] = None
     ) -> ChargeFilterResponse:
         query_params = {}
-        if status is not None:
-            query_params["status"] = status
+        if subscription_status is not None:
+            query_params["subscription_status"] = subscription_status
         api_response: Response = send_delete_request(
             url=make_url(
                 origin=self.base_url,
