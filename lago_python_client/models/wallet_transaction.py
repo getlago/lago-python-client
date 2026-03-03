@@ -21,6 +21,7 @@ class WalletTransaction(BaseModel):
 class WalletTransactionResponse(BaseResponseModel):
     lago_id: str
     lago_wallet_id: str
+    lago_invoice_id: Optional[str]
     status: str
     source: str
     transaction_status: str

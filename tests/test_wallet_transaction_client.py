@@ -149,3 +149,19 @@ def test_valid_payment_url_request(httpx_mock: HTTPXMock):
     response = client.wallet_transactions.payment_url("5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba")
 
     assert response == "https://checkout.stripe.com/c/pay/cs_test_a1cuqFkXvH"
+
+
+
+def test_wallet_transaction_response_includes_lago_invoice_id(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/wallet_transactions",
+        content=mock_response(),
+    )
+    response = client.wallet_transactions.create(wallet_transaction_object())
+
+    assert response["wallet_transactions"][0].lago_invoice_id == "invoice-uuid-1111"
+    assert response["wallet_transactions"][1].lago_invoice_id == "invoice-uuid-2222"
+    assert response["wallet_transactions"][2].lago_invoice_id is None
