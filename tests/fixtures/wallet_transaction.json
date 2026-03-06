@@ -3,6 +3,7 @@
     {
       "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac1111",
       "lago_wallet_id": "12345",
+      "lago_invoice_id":"invoice-uuid-1111",
       "status": "settled",
       "source": "manual",
       "transaction_status": "purchased",
@@ -20,6 +21,7 @@
     {
       "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac1222",
       "lago_wallet_id": "12345",
+      "lago_invoice_id":"invoice-uuid-2222",
       "status": "settled",
       "source": "manual",
       "transaction_status": "purchased",
@@ -37,6 +39,7 @@
     {
       "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac1333",
       "lago_wallet_id": "12345",
+      "lago_invoice_id": null,
       "status": "failed",
       "source": "manual",
       "transaction_status": "purchased",
