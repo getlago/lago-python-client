@@ -131,6 +131,8 @@ class InvoiceResponse(BaseResponseModel):
     total_amount_cents: int
     total_due_amount_cents: int
     prepaid_credit_amount_cents: int
+    prepaid_granted_credit_amount_cents: Optional[int]
+    prepaid_purchased_credit_amount_cents: Optional[int]
 
     file_url: Optional[str]
     customer: Optional[CustomerResponse]

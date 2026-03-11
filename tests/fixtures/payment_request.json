@@ -81,6 +81,8 @@
         "sub_total_excluding_taxes_amount_cents": 10000,
         "sub_total_including_taxes_amount_cents": 12000,
         "prepaid_credit_amount_cents": 0,
+        "prepaid_granted_credit_amount_cents": 0,
+        "prepaid_purchased_credit_amount_cents": 0,
         "total_amount_cents": 12000,
         "progressive_billing_credit_amount_cents": 0,
         "file_url": "https://lago-files/invoice_002.pdf"
@@ -106,6 +108,8 @@
         "sub_total_excluding_taxes_amount_cents": 7000,
         "sub_total_including_taxes_amount_cents": 7955,
         "prepaid_credit_amount_cents": 0,
+        "prepaid_granted_credit_amount_cents": 0,
+        "prepaid_purchased_credit_amount_cents": 0,
         "total_amount_cents": 7955,
         "progressive_billing_credit_amount_cents": 0,
         "file_url": "https://lago-files/invoice_012.pdf"
