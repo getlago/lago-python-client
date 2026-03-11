@@ -12,7 +12,7 @@ from ..mixins import (
     UpdateCommandMixin,
 )
 from ..models.wallet import WalletResponse
-from ..models.wallet_transaction import WalletTransactionResponse
+from ..models.wallet_transaction import WalletTransactionConsumptionResponse, WalletTransactionResponse
 from ..services.json import to_json
 from ..services.request import (
     QueryPairs,
@@ -144,3 +144,39 @@ class WalletTransactionClient(BaseClient):
 
         response_data = get_response_data(response=api_response, key="wallet_transaction_payment_details")
         return response_data.get("payment_url", "") if isinstance(response_data, Mapping) else ""
+
+    def consumptions(self, resource_id: str, options: QueryPairs = None) -> Mapping[str, Any]:
+        if options is None:
+            options = {}
+        api_response: Response = send_get_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, "consumptions"),
+                query_pairs=options,
+            ),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        return prepare_index_response(
+            api_resource="wallet_transaction_consumptions",
+            response_model=WalletTransactionConsumptionResponse,
+            data=get_response_data(response=api_response),
+        )
+
+    def fundings(self, resource_id: str, options: QueryPairs = None) -> Mapping[str, Any]:
+        if options is None:
+            options = {}
+        api_response: Response = send_get_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, "fundings"),
+                query_pairs=options,
+            ),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        return prepare_index_response(
+            api_resource="wallet_transaction_fundings",
+            response_model=WalletTransactionConsumptionResponse,
+            data=get_response_data(response=api_response),
+        )

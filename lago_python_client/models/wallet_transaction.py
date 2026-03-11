@@ -28,6 +28,8 @@ class WalletTransactionResponse(BaseResponseModel):
     transaction_type: str
     amount: str
     credit_amount: str
+    remaining_amount_cents: Optional[int]
+    remaining_credit_amount: Optional[str]
     settled_at: Optional[str]
     failed_at: Optional[str]
     created_at: str
@@ -35,3 +37,11 @@ class WalletTransactionResponse(BaseResponseModel):
     name: Optional[str]
     invoice_requires_successful_payment: Optional[bool]
     payment_method: Optional[PaymentMethod]
+
+
+class WalletTransactionConsumptionResponse(BaseResponseModel):
+    lago_id: str
+    amount_cents: int
+    credit_amount: str
+    created_at: str
+    wallet_transaction: Optional[WalletTransactionResponse]
