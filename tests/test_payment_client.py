@@ -92,6 +92,8 @@ def test_valid_create_payment_request(httpx_mock: HTTPXMock):
     assert response.payment_status == "succeeded"
     assert len(response.invoice_ids) == 1
     assert response.invoice_ids[0] == "f8e194df-5d90-4382-b146-c881d2c67f28"
+    assert len(response.invoice_numbers) == 1
+    assert response.invoice_numbers[0] == "LAG-1234-567-890"
 
 
 def test_invalid_create_payment_request(httpx_mock: HTTPXMock):
