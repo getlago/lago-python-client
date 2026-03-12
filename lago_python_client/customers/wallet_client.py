@@ -10,8 +10,8 @@ from ..mixins import (
     NestedUpdateCommandMixin,
 )
 from ..models.wallet import WalletResponse
-from .wallets.metadata_client import CustomerWalletMetadataClient
 from .wallets.alert_client import CustomerWalletAlertClient
+from .wallets.metadata_client import CustomerWalletMetadataClient
 
 
 class CustomerWalletClient(
