@@ -12,7 +12,11 @@ from ..mixins import (
     UpdateCommandMixin,
 )
 from ..models.wallet import WalletResponse
-from ..models.wallet_transaction import WalletTransactionConsumptionResponse, WalletTransactionFundingResponse, WalletTransactionResponse
+from ..models.wallet_transaction import (
+    WalletTransactionConsumptionResponse,
+    WalletTransactionFundingResponse,
+    WalletTransactionResponse,
+)
 from ..services.json import to_json
 from ..services.request import (
     QueryPairs,

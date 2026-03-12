@@ -168,6 +168,21 @@ def test_wallet_transaction_response_includes_lago_invoice_id(httpx_mock: HTTPXM
     assert response["wallet_transactions"][2].lago_invoice_id is None
 
 
+def test_wallet_transaction_response_includes_lago_voided_invoice_id(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/wallet_transactions",
+        content=mock_response(),
+    )
+    response = client.wallet_transactions.create(wallet_transaction_object())
+
+    assert response["wallet_transactions"][0].lago_voided_invoice_id == "voided-invoice-uuid-1111"
+    assert response["wallet_transactions"][1].lago_voided_invoice_id == "voided-invoice-uuid-2222"
+    assert response["wallet_transactions"][2].lago_voided_invoice_id is None
+
+
 def mock_consumptions_response():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(this_dir, "fixtures/wallet_transaction_consumptions.json")
