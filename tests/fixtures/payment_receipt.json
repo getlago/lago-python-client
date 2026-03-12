@@ -8,6 +8,9 @@
       "invoice_ids": [
           "ed267c66-8170-4d23-83e8-6d6e4fc735ef"
       ],
+      "invoice_numbers": [
+          "LAG-1234-567-891"
+      ],
       "amount_cents": 100,
       "amount_currency": "USD",
       "payment_status": "succeeded",

@@ -13,6 +13,7 @@ class Payment(BaseModel):
 class PaymentResponse(BaseResponseModel):
     lago_id: str
     invoice_ids: List[str]
+    invoice_numbers: List[str]
     amount_cents: int
     amount_currency: str
     payment_status: str
