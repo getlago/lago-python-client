@@ -12,7 +12,7 @@ from ..mixins import (
     UpdateCommandMixin,
 )
 from ..models.wallet import WalletResponse
-from ..models.wallet_transaction import WalletTransactionConsumptionResponse, WalletTransactionResponse
+from ..models.wallet_transaction import WalletTransactionConsumptionResponse, WalletTransactionFundingResponse, WalletTransactionResponse
 from ..services.json import to_json
 from ..services.request import (
     QueryPairs,
@@ -177,6 +177,6 @@ class WalletTransactionClient(BaseClient):
 
         return prepare_index_response(
             api_resource="wallet_transaction_fundings",
-            response_model=WalletTransactionConsumptionResponse,
+            response_model=WalletTransactionFundingResponse,
             data=get_response_data(response=api_response),
         )

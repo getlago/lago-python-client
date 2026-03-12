@@ -46,3 +46,11 @@ class WalletTransactionConsumptionResponse(BaseResponseModel):
     credit_amount: str
     created_at: str
     wallet_transaction: Optional[WalletTransactionResponse]
+
+
+class WalletTransactionFundingResponse(BaseResponseModel):
+    lago_id: str
+    amount_cents: int
+    credit_amount: str
+    created_at: str
+    wallet_transaction: Optional[WalletTransactionResponse]
