@@ -62,6 +62,8 @@ def test_valid_create_wallet_transaction_request(httpx_mock: HTTPXMock):
     assert response["wallet_transactions"][0].name == "Transaction Name"
     assert response["wallet_transactions"][1].name == "Transaction Name"
     assert response["wallet_transactions"][2].name == "Transaction Name"
+    assert response["wallet_transactions"][0].remaining_amount_cents == 5000
+    assert response["wallet_transactions"][0].remaining_credit_amount == "50.0"
 
 
 def test_valid_create_wallet_transaction_request_with_payment_method(httpx_mock: HTTPXMock):
@@ -164,3 +166,74 @@ def test_wallet_transaction_response_includes_lago_invoice_id(httpx_mock: HTTPXM
     assert response["wallet_transactions"][0].lago_invoice_id == "invoice-uuid-1111"
     assert response["wallet_transactions"][1].lago_invoice_id == "invoice-uuid-2222"
     assert response["wallet_transactions"][2].lago_invoice_id is None
+
+
+def test_wallet_transaction_response_includes_lago_voided_invoice_id(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/wallet_transactions",
+        content=mock_response(),
+    )
+    response = client.wallet_transactions.create(wallet_transaction_object())
+
+    assert response["wallet_transactions"][0].lago_voided_invoice_id == "voided-invoice-uuid-1111"
+    assert response["wallet_transactions"][1].lago_voided_invoice_id == "voided-invoice-uuid-2222"
+    assert response["wallet_transactions"][2].lago_voided_invoice_id is None
+
+
+def mock_consumptions_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(this_dir, "fixtures/wallet_transaction_consumptions.json")
+
+    with open(data_path, "rb") as f:
+        return f.read()
+
+
+def mock_fundings_response():
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(this_dir, "fixtures/wallet_transaction_fundings.json")
+
+    with open(data_path, "rb") as f:
+        return f.read()
+
+
+def test_valid_consumptions_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/wallet_transactions/inbound-tx-id/consumptions",
+        content=mock_consumptions_response(),
+    )
+    response = client.wallet_transactions.consumptions("inbound-tx-id")
+
+    consumption = response["wallet_transaction_consumptions"][0]
+    assert consumption.lago_id == "consumption-id-1"
+    assert consumption.amount_cents == 5000
+    assert consumption.credit_amount == "50.0"
+    assert consumption.created_at == "2022-04-29T08:59:51Z"
+    assert consumption.wallet_transaction.lago_id == "outbound-tx-id"
+    assert consumption.wallet_transaction.transaction_type == "outbound"
+    assert response["meta"]["current_page"] == 1
+
+
+def test_valid_fundings_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/wallet_transactions/outbound-tx-id/fundings",
+        content=mock_fundings_response(),
+    )
+    response = client.wallet_transactions.fundings("outbound-tx-id")
+
+    funding = response["wallet_transaction_fundings"][0]
+    assert funding.lago_id == "funding-id-1"
+    assert funding.amount_cents == 3000
+    assert funding.credit_amount == "30.0"
+    assert funding.created_at == "2022-04-29T08:59:51Z"
+    assert funding.wallet_transaction.lago_id == "inbound-tx-id"
+    assert funding.wallet_transaction.transaction_type == "inbound"
+    assert response["meta"]["current_page"] == 1
