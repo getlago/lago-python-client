@@ -543,9 +543,9 @@ def test_valid_create_wallet_with_invoice_custom_section_on_recurring_transactio
         == "ics_rule_001"
     )
     assert (
-        response.recurring_transaction_rules.__root__[0].applied_invoice_custom_sections.__root__[
-            0
-        ].invoice_custom_section_id
+        response.recurring_transaction_rules.__root__[0]
+        .applied_invoice_custom_sections.__root__[0]
+        .invoice_custom_section_id
         == "section_rule_001"
     )
 
