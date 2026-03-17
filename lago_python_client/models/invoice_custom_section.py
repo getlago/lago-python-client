@@ -1,6 +1,23 @@
 from typing import List, Optional
 
+from lago_python_client.base_model import BaseModel
+
 from ..base_model import BaseResponseModel
+
+
+class InvoiceCustomSectionInput(BaseModel):
+    skip_invoice_custom_sections: Optional[bool]
+    invoice_custom_section_codes: Optional[List[str]]
+
+
+class AppliedInvoiceCustomSection(BaseResponseModel):
+    lago_id: Optional[str]
+    invoice_custom_section_id: Optional[str]
+    created_at: Optional[str]
+
+
+class AppliedInvoiceCustomSections(BaseResponseModel):
+    __root__: List[AppliedInvoiceCustomSection]
 
 
 class InvoiceCustomSectionResponse(BaseResponseModel):

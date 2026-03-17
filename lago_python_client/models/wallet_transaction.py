@@ -3,6 +3,7 @@ from typing import Dict, List, Optional
 from lago_python_client.base_model import BaseModel
 
 from ..base_model import BaseResponseModel
+from .invoice_custom_section import AppliedInvoiceCustomSections, InvoiceCustomSectionInput
 from .payment_method import PaymentMethod
 
 
@@ -16,6 +17,7 @@ class WalletTransaction(BaseModel):
     name: Optional[str]
     ignore_paid_top_up_limits: Optional[bool]
     payment_method: Optional[PaymentMethod]
+    invoice_custom_section: Optional[InvoiceCustomSectionInput]
 
 
 class WalletTransactionResponse(BaseResponseModel):
@@ -38,6 +40,7 @@ class WalletTransactionResponse(BaseResponseModel):
     name: Optional[str]
     invoice_requires_successful_payment: Optional[bool]
     payment_method: Optional[PaymentMethod]
+    applied_invoice_custom_sections: Optional[AppliedInvoiceCustomSections]
 
 
 class WalletTransactionConsumptionResponse(BaseResponseModel):

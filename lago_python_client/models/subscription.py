@@ -3,6 +3,7 @@ from typing import List, Optional
 from lago_python_client.base_model import BaseModel
 
 from ..base_model import BaseResponseModel
+from .invoice_custom_section import AppliedInvoiceCustomSections, InvoiceCustomSectionInput
 from .payment_method import PaymentMethod
 from .plan import PlanOverrides
 
@@ -17,6 +18,7 @@ class Subscription(BaseModel):
     ending_at: Optional[str]
     plan_overrides: Optional[PlanOverrides]
     payment_method: Optional[PaymentMethod]
+    invoice_custom_section: Optional[InvoiceCustomSectionInput]
 
 
 class Subscriptions(BaseModel):
@@ -52,6 +54,7 @@ class SubscriptionResponse(BaseResponseModel):
     on_termination_credit_note: Optional[str]
     on_termination_invoice: Optional[str]
     payment_method: Optional[PaymentMethod]
+    applied_invoice_custom_sections: Optional[AppliedInvoiceCustomSections]
 
 
 class SubscriptionsResponse(BaseResponseModel):
