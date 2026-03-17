@@ -5,6 +5,7 @@ from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
 from lago_python_client.models import (
     AppliesTo,
+    InvoiceCustomSectionInput,
     RecurringTransactionRule,
     RecurringTransactionRuleList,
     Wallet,
@@ -234,3 +235,101 @@ def test_invalid_find_all_wallet_request(httpx_mock: HTTPXMock):
 
     with pytest.raises(LagoApiError):
         client.customers.wallets.find_all("customer_id")
+
+
+def test_valid_create_customer_wallet_with_invoice_custom_section(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    invoice_custom_section = InvoiceCustomSectionInput(
+        skip_invoice_custom_sections=False,
+        invoice_custom_section_codes=["section_code_1"],
+    )
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/customers/customer_id/wallets",
+        content=mock_response("wallet"),
+    )
+    wallet = wallet_object()
+    wallet.invoice_custom_section = invoice_custom_section
+    response = client.customers.wallets.create("customer_id", wallet)
+
+    assert response.lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
+    assert response.applied_invoice_custom_sections.__root__[0].lago_id == "ics_wallet_001"
+    assert response.applied_invoice_custom_sections.__root__[0].invoice_custom_section_id == "section_wallet_001"
+    assert response.applied_invoice_custom_sections.__root__[0].created_at == "2022-04-29T08:59:51Z"
+
+
+def test_valid_update_customer_wallet_with_invoice_custom_section(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    wallet_id = "b7ab2926-1de8-4428-9bcd-779314ac129b"
+    invoice_custom_section = InvoiceCustomSectionInput(
+        skip_invoice_custom_sections=False,
+        invoice_custom_section_codes=["section_code_1"],
+    )
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/customers/customer_id/wallets/" + wallet_id,
+        content=mock_response("wallet"),
+    )
+    wallet = wallet_object()
+    wallet.invoice_custom_section = invoice_custom_section
+    response = client.customers.wallets.update("customer_id", wallet_id, wallet)
+
+    assert response.lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
+    assert response.applied_invoice_custom_sections.__root__[0].lago_id == "ics_wallet_001"
+    assert response.applied_invoice_custom_sections.__root__[0].invoice_custom_section_id == "section_wallet_001"
+
+
+def test_valid_create_customer_wallet_with_invoice_custom_section_on_recurring_transaction_rule(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/customers/customer_id/wallets",
+        content=mock_response("wallet"),
+    )
+    response = client.customers.wallets.create("customer_id", wallet_object())
+
+    assert response.lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
+    assert (
+        response.recurring_transaction_rules.__root__[0].applied_invoice_custom_sections.__root__[0].lago_id
+        == "ics_rule_001"
+    )
+    assert (
+        response.recurring_transaction_rules.__root__[0]
+        .applied_invoice_custom_sections.__root__[0]
+        .invoice_custom_section_id
+        == "section_rule_001"
+    )
+
+
+def test_valid_update_customer_wallet_with_invoice_custom_section_on_recurring_transaction_rule(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    wallet_id = "b7ab2926-1de8-4428-9bcd-779314ac129b"
+    invoice_custom_section = InvoiceCustomSectionInput(
+        skip_invoice_custom_sections=False,
+        invoice_custom_section_codes=["section_code_1"],
+    )
+    rule = RecurringTransactionRule(
+        trigger="interval",
+        interval="monthly",
+        paid_credits="105.0",
+        granted_credits="105.0",
+        invoice_custom_section=invoice_custom_section,
+    )
+    rules_list = RecurringTransactionRuleList(__root__=[rule])
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/customers/customer_id/wallets/" + wallet_id,
+        content=mock_response("wallet"),
+    )
+    wallet = Wallet(name="name", recurring_transaction_rules=rules_list)
+    response = client.customers.wallets.update("customer_id", wallet_id, wallet)
+
+    assert response.lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
+    assert (
+        response.recurring_transaction_rules.__root__[0].applied_invoice_custom_sections.__root__[0].lago_id
+        == "ics_rule_001"
+    )
