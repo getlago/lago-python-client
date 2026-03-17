@@ -7,7 +7,14 @@ from pytest_httpx import HTTPXMock
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
 from lago_python_client.mixins import DEFAULT_TIMEOUT
-from lago_python_client.models import Charge, ChargeFilter, FixedCharge, InvoiceCustomSectionInput, PaymentMethod, Subscription
+from lago_python_client.models import (
+    Charge,
+    ChargeFilter,
+    FixedCharge,
+    InvoiceCustomSectionInput,
+    PaymentMethod,
+    Subscription,
+)
 from lago_python_client.models.alert import Alert, AlertsList, AlertThreshold
 
 
