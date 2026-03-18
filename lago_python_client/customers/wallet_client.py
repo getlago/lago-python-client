@@ -10,6 +10,7 @@ from ..mixins import (
     NestedUpdateCommandMixin,
 )
 from ..models.wallet import WalletResponse
+from .wallets.alert_client import CustomerWalletAlertClient
 from .wallets.metadata_client import CustomerWalletMetadataClient
 
 
@@ -35,3 +36,7 @@ class CustomerWalletClient(
     @callable_cached_property
     def metadata(self) -> CustomerWalletMetadataClient:
         return CustomerWalletMetadataClient(self.base_url, self.api_key)
+
+    @callable_cached_property
+    def alerts(self) -> CustomerWalletAlertClient:
+        return CustomerWalletAlertClient(self.base_url, self.api_key)
