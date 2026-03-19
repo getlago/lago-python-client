@@ -144,9 +144,7 @@
           "name": "User Seats",
           "invoice_display_name": "charge_invoice_display_name",
           "filters": {
-            "region": [
-              "us-east-1"
-            ]
+            "region": ["us-east-1"]
           }
         },
         "amount_cents": 100,
@@ -183,6 +181,13 @@
           "code": "free_beer",
           "name": "Free Beer"
         }
+      }
+    ],
+    "error_details": [
+      {
+        "lago_id": "4c904c90-4c90-4c90-4c90-4c904c904c90",
+        "error_code": "tax_error",
+        "details": { "tax_error": ["customerAddressCouldNotResolve: Service failure"] }
       }
     ]
   }
