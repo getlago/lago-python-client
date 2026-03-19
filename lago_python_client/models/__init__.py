@@ -190,6 +190,15 @@ from .invoice import (
     OneOffInvoice as OneOffInvoice,
 )
 from .invoice_custom_section import (
+    AppliedInvoiceCustomSection as AppliedInvoiceCustomSection,
+)
+from .invoice_custom_section import (
+    AppliedInvoiceCustomSections as AppliedInvoiceCustomSections,
+)
+from .invoice_custom_section import (
+    InvoiceCustomSectionInput as InvoiceCustomSectionInput,
+)
+from .invoice_custom_section import (
     InvoiceCustomSectionResponse as InvoiceCustomSectionResponse,
 )
 from .invoice_custom_section import (

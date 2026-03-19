@@ -8,6 +8,7 @@ from lago_python_client.exceptions import LagoApiError
 from lago_python_client.models import (
     Customer,
     Invoice,
+    InvoiceCustomSectionInput,
     InvoiceFee,
     InvoiceFeesList,
     InvoiceMetadata,
@@ -393,3 +394,23 @@ def test_valid_void_invoice_request_with_options(httpx_mock: HTTPXMock):
 
     assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
     assert response.status == "voided"
+
+
+def test_valid_create_one_off_invoice_with_invoice_custom_section(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    invoice_custom_section = InvoiceCustomSectionInput(
+        skip_invoice_custom_sections=False,
+        invoice_custom_section_codes=["section_code_1"],
+    )
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/invoices",
+        content=mock_response(mock="one_off_invoice"),
+    )
+    invoice = one_off_invoice_object()
+    invoice.invoice_custom_section = invoice_custom_section
+    response = client.invoices.create(invoice)
+
+    assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+    assert response.invoice_type == "one_off"

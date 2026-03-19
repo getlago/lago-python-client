@@ -9,6 +9,7 @@ from .credit import CreditsResponse
 from .customer import Customer, CustomerResponse
 from .error_detail import ErrorDetailsResponse
 from .fee import FeesResponse
+from .invoice_custom_section import InvoiceCustomSectionInput
 from .payment_method import PaymentMethod
 from .subscription import Subscriptions, SubscriptionsResponse
 from .usage_threshold import UsageThreshold
@@ -55,6 +56,7 @@ class OneOffInvoice(BaseModel):
     fees: Optional[InvoiceFeesList]
     error_details: Optional[ErrorDetailsResponse]
     payment_method: Optional[PaymentMethod]
+    invoice_custom_section: Optional[InvoiceCustomSectionInput]
 
 
 class InvoicePreview(BaseModel):

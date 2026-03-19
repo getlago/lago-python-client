@@ -7,7 +7,14 @@ from pytest_httpx import HTTPXMock
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
 from lago_python_client.mixins import DEFAULT_TIMEOUT
-from lago_python_client.models import Charge, ChargeFilter, FixedCharge, PaymentMethod, Subscription
+from lago_python_client.models import (
+    Charge,
+    ChargeFilter,
+    FixedCharge,
+    InvoiceCustomSectionInput,
+    PaymentMethod,
+    Subscription,
+)
 from lago_python_client.models.alert import Alert, AlertsList, AlertThreshold
 
 
@@ -1007,6 +1014,53 @@ def test_find_all_charge_filters_with_status(httpx_mock: HTTPXMock):
     )
 
     assert len(response["filters"]) == 1
+
+
+# --- Invoice custom section tests ---
+
+
+def test_valid_create_subscription_with_invoice_custom_section(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    invoice_custom_section = InvoiceCustomSectionInput(
+        skip_invoice_custom_sections=False,
+        invoice_custom_section_codes=["section_code_1"],
+    )
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/subscriptions",
+        content=mock_response(),
+    )
+    subscription = create_subscription()
+    subscription.invoice_custom_section = invoice_custom_section
+    response = client.subscriptions.create(subscription)
+
+    assert response.external_customer_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+    assert response.applied_invoice_custom_sections.__root__[0].lago_id == "ics_12345"
+    assert response.applied_invoice_custom_sections.__root__[0].invoice_custom_section_id == "section_001"
+    assert response.applied_invoice_custom_sections.__root__[0].created_at == "2022-04-29T08:59:51Z"
+
+
+def test_valid_update_subscription_with_invoice_custom_section(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    identifier = "sub_id"
+    invoice_custom_section = InvoiceCustomSectionInput(
+        skip_invoice_custom_sections=False,
+        invoice_custom_section_codes=["section_code_1"],
+    )
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/subscriptions/" + identifier,
+        content=mock_response(),
+    )
+    response = client.subscriptions.update(
+        Subscription(name="name", invoice_custom_section=invoice_custom_section), identifier
+    )
+
+    assert response.external_customer_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+    assert response.applied_invoice_custom_sections.__root__[0].lago_id == "ics_12345"
+    assert response.applied_invoice_custom_sections.__root__[0].invoice_custom_section_id == "section_001"
 
 
 # --- Default timeout tests ---

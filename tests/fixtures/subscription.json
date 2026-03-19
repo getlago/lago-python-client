@@ -24,6 +24,13 @@
     "payment_method": {
       "payment_method_type": "card",
       "payment_method_id": "pm_123"
-    }
+    },
+    "applied_invoice_custom_sections": [
+      {
+        "lago_id": "ics_12345",
+        "invoice_custom_section_id": "section_001",
+        "created_at": "2022-04-29T08:59:51Z"
+      }
+    ]
   }
 }

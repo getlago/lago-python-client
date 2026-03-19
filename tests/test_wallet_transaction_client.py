@@ -5,7 +5,7 @@ from pytest_httpx import HTTPXMock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
-from lago_python_client.models import PaymentMethod, WalletTransaction
+from lago_python_client.models import InvoiceCustomSectionInput, PaymentMethod, WalletTransaction
 
 
 def wallet_transaction_object():
@@ -237,3 +237,31 @@ def test_valid_fundings_request(httpx_mock: HTTPXMock):
     assert funding.wallet_transaction.lago_id == "inbound-tx-id"
     assert funding.wallet_transaction.transaction_type == "inbound"
     assert response["meta"]["current_page"] == 1
+
+
+def test_valid_create_wallet_transaction_with_invoice_custom_section(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    invoice_custom_section = InvoiceCustomSectionInput(
+        skip_invoice_custom_sections=False,
+        invoice_custom_section_codes=["section_code_1"],
+    )
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/wallet_transactions",
+        content=mock_response(),
+    )
+    transaction = wallet_transaction_object()
+    transaction.invoice_custom_section = invoice_custom_section
+    response = client.wallet_transactions.create(transaction)
+
+    assert response["wallet_transactions"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac1111"
+    assert response["wallet_transactions"][0].applied_invoice_custom_sections.__root__[0].lago_id == "ics_tx_001"
+    assert (
+        response["wallet_transactions"][0].applied_invoice_custom_sections.__root__[0].invoice_custom_section_id
+        == "section_tx_001"
+    )
+    assert (
+        response["wallet_transactions"][0].applied_invoice_custom_sections.__root__[0].created_at
+        == "2022-04-29T08:59:51Z"
+    )
