@@ -36,10 +36,7 @@
       "provider_customer_id": "cus_12345",
       "sync_with_provider": true,
       "document_locale": "fr",
-      "provider_payment_methods": [
-        "card",
-        "sepa_debit"
-      ]
+      "provider_payment_methods": ["card", "sepa_debit"]
     },
     "shipping_address": {
       "city": "Paris",
@@ -84,12 +81,19 @@
     ],
     "applicable_invoice_custom_sections": [
       {
-          "lago_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
-          "name": "custom_section_name",
-          "code": "custom_section_code",
-          "description": "custom_section_description",
-          "details": "custom_section_details",
-          "display_name": "custom_section_display_name"
+        "lago_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
+        "name": "custom_section_name",
+        "code": "custom_section_code",
+        "description": "custom_section_description",
+        "details": "custom_section_details",
+        "display_name": "custom_section_display_name"
+      }
+    ],
+    "error_details": [
+      {
+        "lago_id": "4c904c90-4c90-4c90-4c90-4c904c904c90",
+        "error_code": "tax_error",
+        "details": { "tax_error": ["customerAddressCouldNotResolve: Service failure"] }
       }
     ]
   }

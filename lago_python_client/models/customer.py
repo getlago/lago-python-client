@@ -3,6 +3,7 @@ from typing import List, Optional
 from lago_python_client.base_model import BaseModel
 
 from ..base_model import BaseResponseModel
+from .error_detail import ErrorDetailsResponse
 from .invoice_custom_section import InvoiceCustomSectionsResponseList
 from .tax import TaxesResponse
 
@@ -145,3 +146,4 @@ class CustomerResponse(BaseResponseModel):
     skip_invoice_custom_sections: Optional[bool]
     applicable_invoice_custom_sections: Optional[InvoiceCustomSectionsResponseList]
     billing_entity_code: Optional[str]
+    error_details: Optional[ErrorDetailsResponse]

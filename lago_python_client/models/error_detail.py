@@ -6,7 +6,7 @@ from ..base_model import BaseResponseModel
 
 
 class ErrorDetailResponse(BaseModel):
-    organization_id: str
+    lago_id: str
     error_code: str
     details: Optional[Dict[str, Any]]
 
