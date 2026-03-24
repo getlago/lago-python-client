@@ -167,6 +167,8 @@ class FindAllChildrenCommandMixin(Generic[_M]):
                 ),
                 query_pairs=options,
             ),
+            headers=make_headers(api_key=self.api_key),
+            timeout=timetour,
         )
 
         return prepare_index_response(
