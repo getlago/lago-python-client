@@ -64,6 +64,18 @@ def test_valid_create_wallet_transaction_request(httpx_mock: HTTPXMock):
     assert response["wallet_transactions"][2].name == "Transaction Name"
     assert response["wallet_transactions"][0].remaining_amount_cents == 5000
     assert response["wallet_transactions"][0].remaining_credit_amount == "50.0"
+    assert response["wallet_transactions"][0].lago_invoice_id == "invoice-uuid-1111"
+    assert response["wallet_transactions"][1].lago_invoice_id == "invoice-uuid-2222"
+    assert response["wallet_transactions"][2].lago_invoice_id is None
+    assert response["wallet_transactions"][0].lago_voided_invoice_id == "voided-invoice-uuid-1111"
+    assert response["wallet_transactions"][1].lago_voided_invoice_id == "voided-invoice-uuid-2222"
+    assert response["wallet_transactions"][2].lago_voided_invoice_id is None
+    assert response["wallet_transactions"][0].lago_credit_note_id == "credit-note-uuid-1111"
+    assert response["wallet_transactions"][1].lago_credit_note_id == "credit-note-uuid-2222"
+    assert response["wallet_transactions"][2].lago_credit_note_id is None
+    assert response["wallet_transactions"][0].priority == 50
+    assert response["wallet_transactions"][1].priority == 50
+    assert response["wallet_transactions"][2].priority == 50
 
 
 def test_valid_create_wallet_transaction_request_with_payment_method(httpx_mock: HTTPXMock):
@@ -151,36 +163,6 @@ def test_valid_payment_url_request(httpx_mock: HTTPXMock):
     response = client.wallet_transactions.payment_url("5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba")
 
     assert response == "https://checkout.stripe.com/c/pay/cs_test_a1cuqFkXvH"
-
-
-def test_wallet_transaction_response_includes_lago_invoice_id(httpx_mock: HTTPXMock):
-    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
-
-    httpx_mock.add_response(
-        method="POST",
-        url="https://api.getlago.com/api/v1/wallet_transactions",
-        content=mock_response(),
-    )
-    response = client.wallet_transactions.create(wallet_transaction_object())
-
-    assert response["wallet_transactions"][0].lago_invoice_id == "invoice-uuid-1111"
-    assert response["wallet_transactions"][1].lago_invoice_id == "invoice-uuid-2222"
-    assert response["wallet_transactions"][2].lago_invoice_id is None
-
-
-def test_wallet_transaction_response_includes_lago_voided_invoice_id(httpx_mock: HTTPXMock):
-    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
-
-    httpx_mock.add_response(
-        method="POST",
-        url="https://api.getlago.com/api/v1/wallet_transactions",
-        content=mock_response(),
-    )
-    response = client.wallet_transactions.create(wallet_transaction_object())
-
-    assert response["wallet_transactions"][0].lago_voided_invoice_id == "voided-invoice-uuid-1111"
-    assert response["wallet_transactions"][1].lago_voided_invoice_id == "voided-invoice-uuid-2222"
-    assert response["wallet_transactions"][2].lago_voided_invoice_id is None
 
 
 def mock_consumptions_response():

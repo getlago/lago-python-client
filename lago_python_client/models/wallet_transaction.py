@@ -24,6 +24,7 @@ class WalletTransactionResponse(BaseResponseModel):
     lago_id: str
     lago_wallet_id: str
     lago_invoice_id: Optional[str]
+    lago_credit_note_id: Optional[str]
     lago_voided_invoice_id: Optional[str]
     status: str
     source: str
@@ -33,6 +34,7 @@ class WalletTransactionResponse(BaseResponseModel):
     credit_amount: str
     remaining_amount_cents: Optional[int]
     remaining_credit_amount: Optional[str]
+    priority: Optional[int]
     settled_at: Optional[str]
     failed_at: Optional[str]
     created_at: str
