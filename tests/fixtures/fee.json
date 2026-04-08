@@ -26,6 +26,8 @@
     "total_amount_cents": 140,
     "total_amount_currency": "EUR",
     "units": "10.0",
+    "sub_total_excluding_taxes_amount_cents": 120,
+    "sub_total_excluding_taxes_precise_amount_cents": "120.00",
     "events_count": 10,
     "pricing_unit_details": {
       "lago_pricing_unit_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",

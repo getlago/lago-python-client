@@ -53,6 +53,8 @@ class FeeResponse(BaseResponseModel):
     total_amount_cents: Optional[int]
     unit_amount_cents: Optional[int]  # deprecated
     precise_unit_amount: Optional[str]
+    sub_total_excluding_taxes_amount_cents: Optional[int]
+    sub_total_excluding_taxes_precise_amount_cents: Optional[str]
     precise_amount: Optional[str]
     precise_total_amount: Optional[str]
     taxes_precise_amount: Optional[str]
