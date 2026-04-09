@@ -240,7 +240,7 @@ def test_valid_create_wallet_transaction_with_invoice_custom_section(httpx_mock:
     assert response["wallet_transactions"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac1111"
     assert response["wallet_transactions"][0].applied_invoice_custom_sections.__root__[0].lago_id == "ics_tx_001"
     assert (
-        response["wallet_transactions"][0].applied_invoice_custom_sections.__root__[0].invoice_custom_section_id
+        response["wallet_transactions"][0].applied_invoice_custom_sections.__root__[0].invoice_custom_section.lago_id
         == "section_tx_001"
     )
     assert (
