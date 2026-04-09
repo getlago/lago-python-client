@@ -255,7 +255,8 @@ def test_valid_create_customer_wallet_with_invoice_custom_section(httpx_mock: HT
 
     assert response.lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
     assert response.applied_invoice_custom_sections.__root__[0].lago_id == "ics_wallet_001"
-    assert response.applied_invoice_custom_sections.__root__[0].invoice_custom_section_id == "section_wallet_001"
+    assert response.applied_invoice_custom_sections.__root__[0].invoice_custom_section.lago_id == "section_wallet_001"
+    assert response.applied_invoice_custom_sections.__root__[0].invoice_custom_section.name == "Wallet Section Name"
     assert response.applied_invoice_custom_sections.__root__[0].created_at == "2022-04-29T08:59:51Z"
 
 
@@ -278,7 +279,7 @@ def test_valid_update_customer_wallet_with_invoice_custom_section(httpx_mock: HT
 
     assert response.lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
     assert response.applied_invoice_custom_sections.__root__[0].lago_id == "ics_wallet_001"
-    assert response.applied_invoice_custom_sections.__root__[0].invoice_custom_section_id == "section_wallet_001"
+    assert response.applied_invoice_custom_sections.__root__[0].invoice_custom_section.lago_id == "section_wallet_001"
 
 
 def test_valid_create_customer_wallet_with_invoice_custom_section_on_recurring_transaction_rule(httpx_mock: HTTPXMock):
@@ -299,7 +300,7 @@ def test_valid_create_customer_wallet_with_invoice_custom_section_on_recurring_t
     assert (
         response.recurring_transaction_rules.__root__[0]
         .applied_invoice_custom_sections.__root__[0]
-        .invoice_custom_section_id
+        .invoice_custom_section.lago_id
         == "section_rule_001"
     )
 

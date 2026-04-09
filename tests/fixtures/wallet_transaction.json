@@ -25,8 +25,12 @@
       "applied_invoice_custom_sections": [
         {
           "lago_id": "ics_tx_001",
-          "invoice_custom_section_id": "section_tx_001",
-          "created_at": "2022-04-29T08:59:51Z"
+          "created_at": "2022-04-29T08:59:51Z",
+          "invoice_custom_section": {
+            "lago_id": "section_tx_001",
+            "code": "tx_section_code",
+            "name": "TX Section Name"
+          }
         }
       ]
     },

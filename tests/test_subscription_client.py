@@ -1037,7 +1037,8 @@ def test_valid_create_subscription_with_invoice_custom_section(httpx_mock: HTTPX
 
     assert response.external_customer_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
     assert response.applied_invoice_custom_sections.__root__[0].lago_id == "ics_12345"
-    assert response.applied_invoice_custom_sections.__root__[0].invoice_custom_section_id == "section_001"
+    assert response.applied_invoice_custom_sections.__root__[0].invoice_custom_section.lago_id == "section_001"
+    assert response.applied_invoice_custom_sections.__root__[0].invoice_custom_section.name == "Section Name"
     assert response.applied_invoice_custom_sections.__root__[0].created_at == "2022-04-29T08:59:51Z"
 
 
@@ -1060,7 +1061,7 @@ def test_valid_update_subscription_with_invoice_custom_section(httpx_mock: HTTPX
 
     assert response.external_customer_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
     assert response.applied_invoice_custom_sections.__root__[0].lago_id == "ics_12345"
-    assert response.applied_invoice_custom_sections.__root__[0].invoice_custom_section_id == "section_001"
+    assert response.applied_invoice_custom_sections.__root__[0].invoice_custom_section.lago_id == "section_001"
 
 
 # --- Default timeout tests ---
