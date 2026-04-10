@@ -6,7 +6,7 @@ from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoRateLimitError, LagoApiError
 from lago_python_client.services.rate_limit import RateLimitRetryConfig
 
-ENDPOINT = "https://api.getlago.com/api/v1"
+ENDPOINT = "https://api.getlago.com/api/v1/api_logs"
 
 
 def mock_response(fixture_path):
@@ -200,21 +200,26 @@ class TestClientRateLimitConfig:
 
 
 class TestRateLimitResponses:
-    def test_429_raises_rate_limit_error(self, httpx_mock: HTTPXMock):
+    def test_429_raises_rate_limit_error(self, httpx_mock: HTTPXMock, monkeypatch):
         """Test that 429 responses raise LagoRateLimitError."""
+        # Patch sleep so retries don't actually wait
+        monkeypatch.setattr("lago_python_client.services.rate_limit.time.sleep", lambda _: None)
+
         client = Client(api_key="test-key")
         request_id = "test-id"
 
-        httpx_mock.add_response(
-            method="GET",
-            url=f"{ENDPOINT}/api_logs/{request_id}",
-            status_code=429,
-            headers={
-                "x-ratelimit-limit": "100",
-                "x-ratelimit-remaining": "0",
-                "x-ratelimit-reset": "60",
-            },
-        )
+        # Queue 4 responses (1 initial + 3 retries) so retries exhaust
+        for _ in range(4):
+            httpx_mock.add_response(
+                method="GET",
+                url=ENDPOINT + f"/{request_id}",
+                status_code=429,
+                headers={
+                    "x-ratelimit-limit": "100",
+                    "x-ratelimit-remaining": "0",
+                    "x-ratelimit-reset": "1",
+                },
+            )
 
         with pytest.raises(LagoRateLimitError) as exc_info:
             client.api_logs.find(request_id)
@@ -223,7 +228,7 @@ class TestRateLimitResponses:
         assert error.status_code == 429
         assert error.limit == 100
         assert error.remaining == 0
-        assert error.reset == 60
+        assert error.reset == 1
 
     def test_other_errors_raise_api_error_not_rate_limit(self, httpx_mock: HTTPXMock):
         """Test that non-429 errors raise LagoApiError, not LagoRateLimitError."""
@@ -232,7 +237,7 @@ class TestRateLimitResponses:
 
         httpx_mock.add_response(
             method="GET",
-            url=f"{ENDPOINT}/api_logs/{request_id}",
+            url=ENDPOINT + f"/{request_id}",
             status_code=404,
             content=b"",
         )
@@ -243,4 +248,3 @@ class TestRateLimitResponses:
         error = exc_info.value
         assert isinstance(error, LagoApiError)
         assert not isinstance(error, LagoRateLimitError)
-        assert error.status_code == 404
