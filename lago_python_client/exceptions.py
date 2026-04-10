@@ -24,3 +24,45 @@ class LagoApiError(Exception):
     def __repr__(self) -> str:
         class_name = self.__class__.__name__
         return f"{class_name}(response={self.response!r}"
+
+
+class LagoRateLimitError(LagoApiError):
+    """Exception raised when rate limit is exceeded (HTTP 429)."""
+
+    def __init__(
+        self,
+        status_code: int,
+        url: Optional[str],
+        response: Any,
+        detail: Optional[str] = None,
+        headers: Optional[MutableMapping[str, str]] = None,
+    ) -> None:
+        super().__init__(
+            status_code=status_code,
+            url=url,
+            response=response,
+            detail=detail,
+            headers=headers,
+        )
+        # Parse rate limit headers
+        self.limit: Optional[int] = None
+        self.remaining: Optional[int] = None
+        self.reset: Optional[int] = None
+
+        if headers:
+            try:
+                if "x-ratelimit-limit" in headers:
+                    self.limit = int(headers["x-ratelimit-limit"])
+                if "x-ratelimit-remaining" in headers:
+                    self.remaining = int(headers["x-ratelimit-remaining"])
+                if "x-ratelimit-reset" in headers:
+                    self.reset = int(headers["x-ratelimit-reset"])
+            except (ValueError, TypeError):
+                # Silently ignore malformed headers
+                pass
+
+    def __repr__(self) -> str:
+        return (
+            f"LagoRateLimitError(limit={self.limit}, remaining={self.remaining}, "
+            f"reset={self.reset}, url={self.url!r})"
+        )

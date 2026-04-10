@@ -1,5 +1,6 @@
 from urllib.parse import urljoin
 
+from .services.rate_limit import RateLimitRetryConfig
 from .activity_logs.clients import ActivityLogClient
 from .add_ons.clients import AddOnClient
 from .api_logs.clients import ApiLogClient
@@ -53,12 +54,22 @@ class Client:
     API_PATH: Final[str] = "api/v1/"
 
     def __init__(
-        self, api_key: str = "", api_url: str = "", use_ingest_service: bool = False, ingest_api_url: str = ""
+        self,
+        api_key: str = "",
+        api_url: str = "",
+        use_ingest_service: bool = False,
+        ingest_api_url: str = "",
+        max_retries: int = 3,
+        retry_on_rate_limit: bool = True,
     ) -> None:
         self.api_key: str = api_key
         self.api_url: str = api_url
         self.use_ingest_service: bool = use_ingest_service
         self.ingest_api_url: str = ingest_api_url
+        self.rate_limit_retry_config: RateLimitRetryConfig = RateLimitRetryConfig(
+            max_retries=max_retries,
+            retry_on_rate_limit=retry_on_rate_limit,
+        )
 
     @property
     def base_api_url(self) -> str:
@@ -76,166 +87,172 @@ class Client:
 
         return urljoin(ingest_url, Client.API_PATH)
 
+    def _create_client(self, client_class, base_url, api_key, base_ingest_url=""):
+        """Create a client instance with rate limit config."""
+        if base_ingest_url:
+            return client_class(base_url, api_key, base_ingest_url, self.rate_limit_retry_config)
+        return client_class(base_url, api_key, rate_limit_retry_config=self.rate_limit_retry_config)
+
     @callable_cached_property
     def add_ons(self) -> AddOnClient:
-        return AddOnClient(self.base_api_url, self.api_key)
+        return self._create_client(AddOnClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def billable_metrics(self) -> BillableMetricClient:
-        return BillableMetricClient(self.base_api_url, self.api_key)
+        return self._create_client(BillableMetricClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def billing_entities(self) -> BillingEntityClient:
-        return BillingEntityClient(self.base_api_url, self.api_key)
+        return self._create_client(BillingEntityClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def coupons(self) -> CouponClient:
-        return CouponClient(self.base_api_url, self.api_key)
+        return self._create_client(CouponClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def applied_coupons(self) -> AppliedCouponClient:
-        return AppliedCouponClient(self.base_api_url, self.api_key)
+        return self._create_client(AppliedCouponClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def credit_notes(self) -> CreditNoteClient:
-        return CreditNoteClient(self.base_api_url, self.api_key)
+        return self._create_client(CreditNoteClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def customers(self) -> CustomerClient:
-        return CustomerClient(self.base_api_url, self.api_key)
+        return self._create_client(CustomerClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def customer_applied_coupons(self) -> CustomerAppliedCouponsClient:
-        return CustomerAppliedCouponsClient(self.base_api_url, self.api_key)
+        return self._create_client(CustomerAppliedCouponsClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def customer_credit_notes(self) -> CustomerCreditNotesClient:
-        return CustomerCreditNotesClient(self.base_api_url, self.api_key)
+        return self._create_client(CustomerCreditNotesClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def customer_invoices(self) -> CustomerInvoicesClient:
-        return CustomerInvoicesClient(self.base_api_url, self.api_key)
+        return self._create_client(CustomerInvoicesClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def customer_payment_methods(self) -> CustomerPaymentMethodsClient:
-        return CustomerPaymentMethodsClient(self.base_api_url, self.api_key)
+        return self._create_client(CustomerPaymentMethodsClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def customer_payments(self) -> CustomerPaymentsClient:
-        return CustomerPaymentsClient(self.base_api_url, self.api_key)
+        return self._create_client(CustomerPaymentsClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def customer_payment_requests(self) -> CustomerPaymentRequestsClient:
-        return CustomerPaymentRequestsClient(self.base_api_url, self.api_key)
+        return self._create_client(CustomerPaymentRequestsClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def customer_subscriptions(self) -> CustomerSubscriptionsClient:
-        return CustomerSubscriptionsClient(self.base_api_url, self.api_key)
+        return self._create_client(CustomerSubscriptionsClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def customer_wallets(self) -> CustomerWalletsClient:
-        return CustomerWalletsClient(self.base_api_url, self.api_key)
+        return self._create_client(CustomerWalletsClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def events(self) -> EventClient:
-        return EventClient(self.base_api_url, self.api_key, self.base_ingest_api_url)
+        return self._create_client(EventClient, self.base_api_url, self.api_key, self.base_ingest_api_url)
 
     @callable_cached_property
     def fees(self) -> FeeClient:
-        return FeeClient(self.base_api_url, self.api_key)
+        return self._create_client(FeeClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def gross_revenues(self) -> GrossRevenueClient:
-        return GrossRevenueClient(self.base_api_url, self.api_key)
+        return self._create_client(GrossRevenueClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def invoices(self) -> InvoiceClient:
-        return InvoiceClient(self.base_api_url, self.api_key)
+        return self._create_client(InvoiceClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def invoiced_usages(self) -> InvoicedUsageClient:
-        return InvoicedUsageClient(self.base_api_url, self.api_key)
+        return self._create_client(InvoicedUsageClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def mrrs(self) -> MrrClient:
-        return MrrClient(self.base_api_url, self.api_key)
+        return self._create_client(MrrClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def organizations(self) -> OrganizationClient:
-        return OrganizationClient(self.base_api_url, self.api_key)
+        return self._create_client(OrganizationClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def overdue_balances(self) -> OverdueBalanceClient:
-        return OverdueBalanceClient(self.base_api_url, self.api_key)
+        return self._create_client(OverdueBalanceClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def payment_receipts(self) -> PaymentReceiptClient:
-        return PaymentReceiptClient(self.base_api_url, self.api_key)
+        return self._create_client(PaymentReceiptClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def payment_requests(self) -> PaymentRequestClient:
-        return PaymentRequestClient(self.base_api_url, self.api_key)
+        return self._create_client(PaymentRequestClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def payments(self) -> PaymentClient:
-        return PaymentClient(self.base_api_url, self.api_key)
+        return self._create_client(PaymentClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def invoice_collections(self) -> InvoiceCollectionClient:
-        return InvoiceCollectionClient(self.base_api_url, self.api_key)
+        return self._create_client(InvoiceCollectionClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def plans(self) -> PlanClient:
-        return PlanClient(self.base_api_url, self.api_key)
+        return self._create_client(PlanClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def plan_charges(self) -> PlanChargesClient:
-        return PlanChargesClient(self.base_api_url, self.api_key)
+        return self._create_client(PlanChargesClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def plan_fixed_charges(self) -> PlanFixedChargesClient:
-        return PlanFixedChargesClient(self.base_api_url, self.api_key)
+        return self._create_client(PlanFixedChargesClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def subscriptions(self) -> SubscriptionClient:
-        return SubscriptionClient(self.base_api_url, self.api_key)
+        return self._create_client(SubscriptionClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def subscription_charges(self) -> SubscriptionChargesClient:
-        return SubscriptionChargesClient(self.base_api_url, self.api_key)
+        return self._create_client(SubscriptionChargesClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def subscription_fixed_charges(self) -> SubscriptionFixedChargesClient:
-        return SubscriptionFixedChargesClient(self.base_api_url, self.api_key)
+        return self._create_client(SubscriptionFixedChargesClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def taxes(self) -> TaxClient:
-        return TaxClient(self.base_api_url, self.api_key)
+        return self._create_client(TaxClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def usages(self) -> UsageClient:
-        return UsageClient(self.base_api_url, self.api_key)
+        return self._create_client(UsageClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def wallets(self) -> WalletClient:
-        return WalletClient(self.base_api_url, self.api_key)
+        return self._create_client(WalletClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def wallet_transactions(self) -> WalletTransactionClient:
-        return WalletTransactionClient(self.base_api_url, self.api_key)
+        return self._create_client(WalletTransactionClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def webhooks(self) -> WebhookClient:
-        return WebhookClient(self.base_api_url, self.api_key)
+        return self._create_client(WebhookClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def webhook_endpoints(self) -> WebhookEndpointClient:
-        return WebhookEndpointClient(self.base_api_url, self.api_key)
+        return self._create_client(WebhookEndpointClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def activity_logs(self) -> ActivityLogClient:
-        return ActivityLogClient(self.base_api_url, self.api_key)
+        return self._create_client(ActivityLogClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def api_logs(self) -> ApiLogClient:
-        return ApiLogClient(self.base_api_url, self.api_key)
+        return self._create_client(ApiLogClient, self.base_api_url, self.api_key)

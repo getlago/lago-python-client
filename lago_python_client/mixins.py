@@ -10,6 +10,7 @@ except ImportError:  # Python 3.7
 from collections.abc import Mapping
 
 from lago_python_client.base_model import BaseModel
+from lago_python_client.services.rate_limit import RateLimitRetryConfig
 
 from .services.json import to_json
 from .services.request import (
@@ -47,6 +48,8 @@ class _ClientMixin(Protocol[_PM_co]):
     def api_key(self) -> str: ...
     @property
     def base_url(self) -> str: ...
+    @property
+    def rate_limit_retry_config(self) -> RateLimitRetryConfig: ...
 
 
 class CreateCommandMixin(Generic[_M]):
