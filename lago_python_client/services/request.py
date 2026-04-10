@@ -96,24 +96,18 @@ def _create_retry_wrapper(
 
         retry_attempt = 0
         while True:
-            # Remove our custom kwarg before passing to httpx
-            kwargs_for_httpx = {k: v for k, v in kwargs.items() if k != "rate_limit_retry_config"}
-            response = http_method(url, **kwargs_for_httpx)
+            response = http_method(url, **kwargs)
 
             # If not rate limited, return the response
             if not is_rate_limit_response(response):
                 return response
 
-            # Handle rate limit - may raise or return wait duration
-            try:
-                wait_duration = handle_rate_limit_response(
-                    response,
-                    rate_limit_retry_config,
-                    retry_attempt,
-                )
-            except Exception:
-                # Re-raise any exception from handle_rate_limit_response
-                raise
+            # Handle rate limit - may raise LagoRateLimitError or return wait duration
+            wait_duration = handle_rate_limit_response(
+                response,
+                rate_limit_retry_config,
+                retry_attempt,
+            )
 
             # Wait and retry
             wait_for_retry(wait_duration)

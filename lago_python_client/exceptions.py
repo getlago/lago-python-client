@@ -51,14 +51,16 @@ class LagoRateLimitError(LagoApiError):
 
         if headers:
             try:
-                if "x-ratelimit-limit" in headers:
-                    self.limit = int(headers["x-ratelimit-limit"])
-                if "x-ratelimit-remaining" in headers:
-                    self.remaining = int(headers["x-ratelimit-remaining"])
-                if "x-ratelimit-reset" in headers:
-                    self.reset = int(headers["x-ratelimit-reset"])
-            except (ValueError, TypeError):
-                # Silently ignore malformed headers
+                self.limit = int(headers["x-ratelimit-limit"])
+            except (KeyError, ValueError, TypeError):
+                pass
+            try:
+                self.remaining = int(headers["x-ratelimit-remaining"])
+            except (KeyError, ValueError, TypeError):
+                pass
+            try:
+                self.reset = int(headers["x-ratelimit-reset"])
+            except (KeyError, ValueError, TypeError):
                 pass
 
     def __repr__(self) -> str:
