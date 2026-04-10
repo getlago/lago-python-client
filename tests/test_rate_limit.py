@@ -230,6 +230,75 @@ class TestRateLimitResponses:
         assert error.remaining == 0
         assert error.reset == 1
 
+    def test_retry_disabled_raises_immediately(self, httpx_mock: HTTPXMock):
+        """Test that retry_on_rate_limit=False raises on first 429 without retrying."""
+        client = Client(api_key="test-key", retry_on_rate_limit=False)
+        request_id = "test-id"
+
+        httpx_mock.add_response(
+            method="GET",
+            url=ENDPOINT + f"/{request_id}",
+            status_code=429,
+            headers={
+                "x-ratelimit-limit": "100",
+                "x-ratelimit-remaining": "0",
+                "x-ratelimit-reset": "60",
+            },
+        )
+
+        with pytest.raises(LagoRateLimitError):
+            client.api_logs.find(request_id)
+
+        # Should have made exactly 1 request (no retries)
+        assert len(httpx_mock.get_requests()) == 1
+
+    def test_custom_max_retries_respected(self, httpx_mock: HTTPXMock, monkeypatch):
+        """Test that custom max_retries is propagated and respected."""
+        monkeypatch.setattr("lago_python_client.services.rate_limit.time.sleep", lambda _: None)
+
+        client = Client(api_key="test-key", max_retries=1)
+        request_id = "test-id"
+
+        # Queue 2 responses: initial 429 + 1 retry 429 = exhausted
+        for _ in range(2):
+            httpx_mock.add_response(
+                method="GET",
+                url=ENDPOINT + f"/{request_id}",
+                status_code=429,
+                headers={"x-ratelimit-reset": "1"},
+            )
+
+        with pytest.raises(LagoRateLimitError):
+            client.api_logs.find(request_id)
+
+        # Should have made exactly 2 requests (initial + 1 retry)
+        assert len(httpx_mock.get_requests()) == 2
+
+    def test_retry_then_success(self, httpx_mock: HTTPXMock, monkeypatch):
+        """Test that retry on 429 followed by 200 succeeds."""
+        monkeypatch.setattr("lago_python_client.services.rate_limit.time.sleep", lambda _: None)
+
+        client = Client(api_key="test-key")
+        request_id = "test-id"
+
+        # First request: 429, second: 200 with full fixture
+        httpx_mock.add_response(
+            method="GET",
+            url=ENDPOINT + f"/{request_id}",
+            status_code=429,
+            headers={"x-ratelimit-reset": "1"},
+        )
+        httpx_mock.add_response(
+            method="GET",
+            url=ENDPOINT + f"/{request_id}",
+            status_code=200,
+            content=mock_response("fixtures/api_log.json"),
+        )
+
+        result = client.api_logs.find(request_id)
+        assert result is not None
+        assert len(httpx_mock.get_requests()) == 2
+
     def test_other_errors_raise_api_error_not_rate_limit(self, httpx_mock: HTTPXMock):
         """Test that non-429 errors raise LagoApiError, not LagoRateLimitError."""
         client = Client(api_key="test-key")
