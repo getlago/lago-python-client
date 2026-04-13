@@ -1,7 +1,5 @@
 """Test request services."""
 
-import httpx
-
 from lago_python_client.services.request import (
     make_headers,
     make_url,

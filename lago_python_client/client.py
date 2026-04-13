@@ -1,6 +1,5 @@
 from urllib.parse import urljoin
 
-from .services.rate_limit import RateLimitRetryConfig
 from .activity_logs.clients import ActivityLogClient
 from .add_ons.clients import AddOnClient
 from .api_logs.clients import ApiLogClient
@@ -33,6 +32,7 @@ from .payments.clients import PaymentClient
 from .plans.charges_client import PlanChargesClient
 from .plans.clients import PlanClient
 from .plans.fixed_charges_client import PlanFixedChargesClient
+from .services.rate_limit import RateLimitRetryConfig
 from .subscriptions.charges_client import SubscriptionChargesClient
 from .subscriptions.clients import SubscriptionClient
 from .subscriptions.fixed_charges_client import SubscriptionFixedChargesClient
