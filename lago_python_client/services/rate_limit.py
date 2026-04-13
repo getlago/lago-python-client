@@ -16,6 +16,7 @@ class RateLimitRetryConfig:
         retry_on_rate_limit: bool = True,
         base_backoff_seconds: float = 1.0,
         backoff_multiplier: float = 2.0,
+        max_retry_delay: float = 20.0,
     ):
         """
         Initialize rate limit retry configuration.
@@ -25,11 +26,13 @@ class RateLimitRetryConfig:
             retry_on_rate_limit: Whether to automatically retry on 429 responses.
             base_backoff_seconds: Initial backoff duration in seconds for exponential backoff.
             backoff_multiplier: Multiplier for exponential backoff between retries.
+            max_retry_delay: Maximum delay in seconds before a retry (default: 20).
         """
         self.max_retries = max_retries
         self.retry_on_rate_limit = retry_on_rate_limit
         self.base_backoff_seconds = base_backoff_seconds
         self.backoff_multiplier = backoff_multiplier
+        self.max_retry_delay = max_retry_delay
 
     def calculate_backoff(self, retry_attempt: int) -> float:
         """
@@ -91,9 +94,12 @@ def handle_rate_limit_response(
 
     # Use header value if available, otherwise use exponential backoff
     if reset_seconds is not None:
-        return float(reset_seconds)
+        delay = float(reset_seconds)
     else:
-        return config.calculate_backoff(retry_attempt)
+        delay = config.calculate_backoff(retry_attempt)
+
+    # Cap at max_retry_delay
+    return min(delay, config.max_retry_delay)
 
 
 def is_rate_limit_response(response: "Response") -> bool:
