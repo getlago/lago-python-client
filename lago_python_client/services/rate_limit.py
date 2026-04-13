@@ -41,7 +41,7 @@ class RateLimitRetryConfig:
         Returns:
             Duration in seconds to wait before retrying.
         """
-        return self.base_backoff_seconds * (self.backoff_multiplier ** retry_attempt)
+        return self.base_backoff_seconds * (self.backoff_multiplier**retry_attempt)
 
 
 def handle_rate_limit_response(

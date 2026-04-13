@@ -1,9 +1,10 @@
 import os
+
 import pytest
 from pytest_httpx import HTTPXMock
 
 from lago_python_client.client import Client
-from lago_python_client.exceptions import LagoRateLimitError, LagoApiError
+from lago_python_client.exceptions import LagoApiError, LagoRateLimitError
 from lago_python_client.services.rate_limit import RateLimitRetryConfig
 
 ENDPOINT = "https://api.getlago.com/api/v1/api_logs"

@@ -65,6 +65,5 @@ class LagoRateLimitError(LagoApiError):
 
     def __repr__(self) -> str:
         return (
-            f"LagoRateLimitError(limit={self.limit}, remaining={self.remaining}, "
-            f"reset={self.reset}, url={self.url!r})"
+            f"LagoRateLimitError(limit={self.limit}, remaining={self.remaining}, reset={self.reset}, url={self.url!r})"
         )
