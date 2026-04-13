@@ -17,7 +17,7 @@ from typeguard import CollectionCheckStrategy, TypeCheckError, check_type
 
 from lago_python_client.base_model import BaseModel
 
-from ..exceptions import LagoApiError
+from ..exceptions import LagoApiError, LagoRateLimitError
 from ..services.json import DeserializedData, from_json
 
 _M = TypeVar("_M", bound=BaseModel)
@@ -45,6 +45,15 @@ def _is_content_exists(response: Response) -> bool:
 def verify_response(response: Response) -> Optional[Response]:
     """Verify response."""
     if not _is_status_code_successful(response):
+        # Handle rate limit responses with specific exception
+        if response.status_code == 429:
+            raise LagoRateLimitError(
+                status_code=response.status_code,
+                url=str(response.request.url),
+                response=None,
+                headers=response.headers,
+            )
+
         response_data: Any = from_json(response)  # type: ignore
         raise LagoApiError(
             status_code=response.status_code,

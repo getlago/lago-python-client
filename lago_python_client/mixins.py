@@ -10,6 +10,7 @@ except ImportError:  # Python 3.7
 from collections.abc import Mapping
 
 from lago_python_client.base_model import BaseModel
+from lago_python_client.services.rate_limit import RateLimitRetryConfig
 
 from .services.json import to_json
 from .services.request import (
@@ -47,6 +48,8 @@ class _ClientMixin(Protocol[_PM_co]):
     def api_key(self) -> str: ...
     @property
     def base_url(self) -> str: ...
+    @property
+    def rate_limit_retry_config(self) -> RateLimitRetryConfig: ...
 
 
 class CreateCommandMixin(Generic[_M]):
@@ -71,6 +74,7 @@ class CreateCommandMixin(Generic[_M]):
             ),
             headers=make_headers(api_key=self.api_key),
             timeout=timeout,
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         # Process response data
@@ -105,6 +109,7 @@ class DestroyCommandMixin(Generic[_M]):
             ),
             headers=make_headers(api_key=self.api_key),
             timeout=timeout,
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         # Process response data
@@ -134,6 +139,7 @@ class FindAllCommandMixin(Generic[_M]):
             ),
             headers=make_headers(api_key=self.api_key),
             timeout=timeout,
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         # Process response data
@@ -167,6 +173,7 @@ class FindAllChildrenCommandMixin(Generic[_M]):
                 ),
                 query_pairs=options,
             ),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_index_response(
@@ -200,6 +207,7 @@ class FindChildCommandMixin(Generic[_M]):
                 query_pairs=options,
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -232,6 +240,7 @@ class CreateChildCommandMixin(Generic[_M]):
             ),
             content=to_json({self.ROOT_NAME: input_object.dict(exclude_none=True)}),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -266,6 +275,7 @@ class UpdateChildCommandMixin(Generic[_M]):
             ),
             content=to_json({self.ROOT_NAME: input_object.dict(exclude_none=True)}),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -298,6 +308,7 @@ class DestroyChildCommandMixin(Generic[_M]):
                 query_pairs=options,
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -327,6 +338,7 @@ class FindCommandMixin(Generic[_M]):
             ),
             headers=make_headers(api_key=self.api_key),
             timeout=timeout,
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         # Process response data
@@ -359,6 +371,7 @@ class UpdateCommandMixin(Generic[_M]):
             ),
             headers=make_headers(api_key=self.api_key),
             timeout=timeout,
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         # Process response data
@@ -389,6 +402,7 @@ class NestedCreateCommandMixin(Generic[_M]):
             ),
             headers=make_headers(api_key=self.api_key),
             timeout=timeout,
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         # Process response data
@@ -426,6 +440,7 @@ class NestedUpdateCommandMixin(Generic[_M]):
             ),
             headers=make_headers(api_key=self.api_key),
             timeout=timeout,
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         # Process response data
@@ -454,6 +469,7 @@ class NestedDestroyCommandMixin(Generic[_M]):
             ),
             headers=make_headers(api_key=self.api_key),
             timeout=timeout,
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         # Process response data
@@ -482,6 +498,7 @@ class NestedFindCommandMixin(Generic[_M]):
             ),
             headers=make_headers(api_key=self.api_key),
             timeout=timeout,
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         # Process response data
@@ -510,6 +527,7 @@ class NestedFindAllCommandMixin(Generic[_M]):
             ),
             headers=make_headers(api_key=self.api_key),
             timeout=timeout,
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         # Process response data
