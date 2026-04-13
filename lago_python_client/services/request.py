@@ -1,4 +1,4 @@
-from typing import Any, Callable, Optional, TypeVar, Union
+from typing import Any, Callable, Optional, Union
 
 try:
     from typing import Final
@@ -16,8 +16,6 @@ from .rate_limit import (
     is_rate_limit_response,
     wait_for_retry,
 )
-
-T = TypeVar("T")
 
 URI_TEMPLATE: Final[str] = "{uri_path}{uri_query}"
 QUERY_TEMPLATE: Final[str] = "?{query}"
