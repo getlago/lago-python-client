@@ -244,6 +244,10 @@ def test_valid_create_wallet_transaction_with_invoice_custom_section(httpx_mock:
         == "section_tx_001"
     )
     assert (
+        response["wallet_transactions"][0].applied_invoice_custom_sections.__root__[0].invoice_custom_section.lago_id
+        == "section_tx_001"
+    )
+    assert (
         response["wallet_transactions"][0].applied_invoice_custom_sections.__root__[0].created_at
         == "2022-04-29T08:59:51Z"
     )
