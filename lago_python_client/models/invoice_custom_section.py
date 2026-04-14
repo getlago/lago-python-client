@@ -22,6 +22,7 @@ class InvoiceCustomSectionResponse(BaseResponseModel):
 
 class AppliedInvoiceCustomSection(BaseResponseModel):
     lago_id: Optional[str]
+    invoice_custom_section_id: Optional[str]
     created_at: Optional[str]
     invoice_custom_section: Optional[InvoiceCustomSectionResponse]
 
