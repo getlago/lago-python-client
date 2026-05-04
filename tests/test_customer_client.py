@@ -204,6 +204,36 @@ def test_valid_current_usage_with_filters(httpx_mock: HTTPXMock):
     assert len(response.charges_usage) == 1
 
 
+def test_valid_current_usage_with_new_filters(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    charge_id = "1a901a90-1a90-1a90-1a90-1a901a901a90"
+
+    httpx_mock.add_response(
+        method="GET",
+        url=(
+            "https://api.getlago.com/api/v1/customers/external_customer_id/current_usage"
+            f"?external_subscription_id=123&charge_id={charge_id}"
+            "&charge_code=storage"
+            "&billable_metric_code=storage"
+            "&group%5Bcloud%5D=aws"
+            "&full_usage=true"
+        ),
+        content=mock_response("customer_usage"),
+    )
+    response = client.customers.current_usage(
+        "external_customer_id",
+        "123",
+        charge_id=charge_id,
+        charge_code="storage",
+        billable_metric_code="storage",
+        group={"cloud": "aws"},
+        full_usage=True,
+    )
+
+    assert response.from_datetime == "2022-07-01T00:00:00Z"
+    assert len(response.charges_usage) == 1
+
+
 def test_invalid_current_usage(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
 

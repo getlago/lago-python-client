@@ -1,4 +1,5 @@
 import json
+import warnings
 from collections.abc import Mapping
 from typing import Any, ClassVar, Optional, Type, Union
 
@@ -47,15 +48,33 @@ class CustomerClient(
         filter_by_charge_code: Optional[str] = None,
         filter_by_group: Optional[dict] = None,
         full_usage: Optional[bool] = None,
+        charge_id: Optional[str] = None,
+        charge_code: Optional[str] = None,
+        billable_metric_code: Optional[str] = None,
+        group: Optional[dict] = None,
     ) -> CustomerUsageResponse:
         query_params: dict[str, Union[str, bool]] = {"external_subscription_id": external_subscription_id}
         if apply_taxes is not None:
             query_params["apply_taxes"] = apply_taxes
+        if charge_id is not None:
+            query_params["charge_id"] = charge_id
+        if charge_code is not None:
+            query_params["charge_code"] = charge_code
+        if billable_metric_code is not None:
+            query_params["billable_metric_code"] = billable_metric_code
+        if group is not None:
+            for k, v in group.items():
+                query_params[f"group[{k}]"] = v
         if filter_by_charge_id is not None:
+            warnings.warn("filter_by_charge_id is deprecated, use charge_id instead", DeprecationWarning, stacklevel=2)
             query_params["filter_by_charge_id"] = filter_by_charge_id
         if filter_by_charge_code is not None:
+            warnings.warn(
+                "filter_by_charge_code is deprecated, use charge_code instead", DeprecationWarning, stacklevel=2
+            )
             query_params["filter_by_charge_code"] = filter_by_charge_code
         if filter_by_group is not None:
+            warnings.warn("filter_by_group is deprecated, use group instead", DeprecationWarning, stacklevel=2)
             query_params["filter_by_group"] = json.dumps(filter_by_group)
         if full_usage is not None:
             query_params["full_usage"] = str(full_usage).lower()
