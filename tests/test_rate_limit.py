@@ -1,3 +1,4 @@
+import logging
 import os
 
 import pytest
@@ -5,7 +6,12 @@ from pytest_httpx import HTTPXMock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError, LagoRateLimitError
-from lago_python_client.services.rate_limit import RateLimitRetryConfig
+from lago_python_client.observability import LoggingRateLimitObserver
+from lago_python_client.services.rate_limit import (
+    RateLimitInfo,
+    RateLimitRetryConfig,
+    parse_rate_limit_info,
+)
 
 ENDPOINT = "https://api.getlago.com/api/v1/api_logs"
 
@@ -318,3 +324,279 @@ class TestRateLimitResponses:
         error = exc_info.value
         assert isinstance(error, LagoApiError)
         assert not isinstance(error, LagoRateLimitError)
+
+
+class TestRateLimitInfo:
+    def test_usage_pct_basic(self):
+        info = RateLimitInfo(
+            limit=100,
+            remaining=20,
+            reset=30,
+            url="u",
+            method="GET",
+        )
+        assert info.usage_pct == pytest.approx(0.80)
+
+    def test_usage_pct_full(self):
+        info = RateLimitInfo(
+            limit=100,
+            remaining=0,
+            reset=30,
+            url="u",
+            method="GET",
+        )
+        assert info.usage_pct == pytest.approx(1.0)
+
+    def test_usage_pct_none_when_limit_missing(self):
+        info = RateLimitInfo(
+            limit=None,
+            remaining=20,
+            reset=30,
+            url="u",
+            method="GET",
+        )
+        assert info.usage_pct is None
+
+    def test_usage_pct_none_when_remaining_missing(self):
+        info = RateLimitInfo(
+            limit=100,
+            remaining=None,
+            reset=30,
+            url="u",
+            method="GET",
+        )
+        assert info.usage_pct is None
+
+    def test_usage_pct_none_when_limit_zero(self):
+        info = RateLimitInfo(
+            limit=0,
+            remaining=0,
+            reset=30,
+            url="u",
+            method="GET",
+        )
+        assert info.usage_pct is None
+
+
+class TestParseRateLimitInfo:
+    def _make_response(self, headers):
+        class _R:
+            def __init__(self, h):
+                self.headers = h
+
+        return _R(headers)
+
+    def test_parse_full_headers(self):
+        resp = self._make_response(
+            {
+                "x-ratelimit-limit": "100",
+                "x-ratelimit-remaining": "42",
+                "x-ratelimit-reset": "5",
+            }
+        )
+
+        info = parse_rate_limit_info(resp, method="GET", url="https://x")
+
+        assert info is not None
+        assert info.limit == 100
+        assert info.remaining == 42
+        assert info.reset == 5
+        assert info.method == "GET"
+        assert info.url == "https://x"
+
+    def test_parse_returns_none_when_headers_absent(self):
+        resp = self._make_response({})
+        assert parse_rate_limit_info(resp, method="GET", url="https://x") is None
+
+    def test_parse_partial_headers(self):
+        resp = self._make_response({"x-ratelimit-limit": "100"})
+
+        info = parse_rate_limit_info(resp, method="GET", url="https://x")
+
+        assert info is not None
+        assert info.limit == 100
+        assert info.remaining is None
+        assert info.reset is None
+
+    def test_parse_invalid_headers(self):
+        resp = self._make_response(
+            {
+                "x-ratelimit-limit": "not-a-number",
+                "x-ratelimit-remaining": "nope",
+                "x-ratelimit-reset": "bad",
+            }
+        )
+
+        # All fields fail to parse -> all None -> treated as no rate limit info
+        assert parse_rate_limit_info(resp, method="GET", url="https://x") is None
+
+
+class TestRateLimitInfoCallback:
+    def test_callback_fires_on_success(self, httpx_mock: HTTPXMock):
+        """Callback receives rate limit info after a 2xx response."""
+        captured = []
+
+        client = Client(api_key="test-key", on_rate_limit_info=captured.append)
+        request_id = "test-id"
+
+        httpx_mock.add_response(
+            method="GET",
+            url=ENDPOINT + f"/{request_id}",
+            status_code=200,
+            headers={
+                "x-ratelimit-limit": "100",
+                "x-ratelimit-remaining": "20",
+                "x-ratelimit-reset": "5",
+            },
+            content=mock_response("fixtures/api_log.json"),
+        )
+
+        client.api_logs.find(request_id)
+
+        assert len(captured) == 1
+        info = captured[0]
+        assert info.limit == 100
+        assert info.remaining == 20
+        assert info.reset == 5
+        assert info.usage_pct == pytest.approx(0.80)
+        assert info.method == "GET"
+
+    def test_callback_not_called_when_headers_absent(self, httpx_mock: HTTPXMock):
+        """Self-hosted-style response with no rate limit headers must not call back."""
+        captured = []
+
+        client = Client(api_key="test-key", on_rate_limit_info=captured.append)
+        request_id = "test-id"
+
+        httpx_mock.add_response(
+            method="GET",
+            url=ENDPOINT + f"/{request_id}",
+            status_code=200,
+            content=mock_response("fixtures/api_log.json"),
+        )
+
+        client.api_logs.find(request_id)
+
+        assert captured == []
+
+    def test_callback_exception_is_swallowed(self, httpx_mock: HTTPXMock, caplog):
+        """A buggy callback must not break the request."""
+
+        def boom(info):
+            raise RuntimeError("intentional")
+
+        client = Client(api_key="test-key", on_rate_limit_info=boom)
+        request_id = "test-id"
+
+        httpx_mock.add_response(
+            method="GET",
+            url=ENDPOINT + f"/{request_id}",
+            status_code=200,
+            headers={
+                "x-ratelimit-limit": "100",
+                "x-ratelimit-remaining": "1",
+                "x-ratelimit-reset": "5",
+            },
+            content=mock_response("fixtures/api_log.json"),
+        )
+
+        with caplog.at_level(logging.ERROR, logger="lago_python_client.services.rate_limit"):
+            result = client.api_logs.find(request_id)
+
+        assert result is not None
+        assert any("on_rate_limit_info callback raised" in rec.message for rec in caplog.records)
+
+    def test_callback_fires_only_once_after_429_retry_resolves(
+        self,
+        httpx_mock: HTTPXMock,
+        monkeypatch,
+    ):
+        """After a 429 retry sequence resolves to 2xx, callback fires once for the success."""
+        monkeypatch.setattr("lago_python_client.services.rate_limit.time.sleep", lambda _: None)
+
+        captured = []
+        client = Client(api_key="test-key", on_rate_limit_info=captured.append)
+        request_id = "test-id"
+
+        httpx_mock.add_response(
+            method="GET",
+            url=ENDPOINT + f"/{request_id}",
+            status_code=429,
+            headers={"x-ratelimit-reset": "1"},
+        )
+        httpx_mock.add_response(
+            method="GET",
+            url=ENDPOINT + f"/{request_id}",
+            status_code=200,
+            headers={
+                "x-ratelimit-limit": "100",
+                "x-ratelimit-remaining": "50",
+                "x-ratelimit-reset": "5",
+            },
+            content=mock_response("fixtures/api_log.json"),
+        )
+
+        client.api_logs.find(request_id)
+
+        assert len(captured) == 1
+        assert captured[0].remaining == 50
+
+    def test_callback_not_called_when_429_exhausts(
+        self,
+        httpx_mock: HTTPXMock,
+        monkeypatch,
+    ):
+        """Exhausted 429 retries raise without ever invoking the success callback."""
+        monkeypatch.setattr("lago_python_client.services.rate_limit.time.sleep", lambda _: None)
+
+        captured = []
+        client = Client(api_key="test-key", on_rate_limit_info=captured.append)
+        request_id = "test-id"
+
+        for _ in range(4):
+            httpx_mock.add_response(
+                method="GET",
+                url=ENDPOINT + f"/{request_id}",
+                status_code=429,
+                headers={"x-ratelimit-reset": "1"},
+            )
+
+        with pytest.raises(LagoRateLimitError):
+            client.api_logs.find(request_id)
+
+        assert captured == []
+
+
+class TestLoggingRateLimitObserver:
+    def _info(self, *, limit, remaining):
+        return RateLimitInfo(
+            limit=limit,
+            remaining=remaining,
+            reset=10,
+            url="https://x",
+            method="GET",
+        )
+
+    def test_logs_above_threshold(self, caplog):
+        observer = LoggingRateLimitObserver(thresholds=(0.80, 0.90, 0.95))
+
+        with caplog.at_level(logging.WARNING, logger="lago_python_client.rate_limit"):
+            observer(self._info(limit=100, remaining=4))  # 96% used
+
+        assert any("96%" in rec.getMessage() for rec in caplog.records)
+
+    def test_silent_below_threshold(self, caplog):
+        observer = LoggingRateLimitObserver(thresholds=(0.80,))
+
+        with caplog.at_level(logging.WARNING, logger="lago_python_client.rate_limit"):
+            observer(self._info(limit=100, remaining=50))  # 50% used
+
+        assert caplog.records == []
+
+    def test_silent_when_usage_pct_unavailable(self, caplog):
+        observer = LoggingRateLimitObserver()
+
+        with caplog.at_level(logging.WARNING, logger="lago_python_client.rate_limit"):
+            observer(self._info(limit=None, remaining=None))
+
+        assert caplog.records == []

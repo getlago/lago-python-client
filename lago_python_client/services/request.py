@@ -12,6 +12,7 @@ import httpx
 from ..version import LAGO_VERSION
 from .rate_limit import (
     RateLimitRetryConfig,
+    emit_rate_limit_info,
     handle_rate_limit_response,
     is_rate_limit_response,
     wait_for_retry,
@@ -92,12 +93,20 @@ def _create_retry_wrapper(
         if rate_limit_retry_config is None:
             rate_limit_retry_config = RateLimitRetryConfig()
 
+        method_name = http_method.__name__.upper()
+
         retry_attempt = 0
         while True:
             response = http_method(url, **kwargs)
 
-            # If not rate limited, return the response
+            # If not rate limited, emit observability info and return the response
             if not is_rate_limit_response(response):
+                emit_rate_limit_info(
+                    response,
+                    rate_limit_retry_config,
+                    method=method_name,
+                    url=url,
+                )
                 return response
 
             # Handle rate limit - may raise LagoRateLimitError or return wait duration
