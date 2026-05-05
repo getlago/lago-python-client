@@ -1,3 +1,4 @@
+from typing import Optional
 from urllib.parse import urljoin
 
 from .activity_logs.clients import ActivityLogClient
@@ -32,7 +33,7 @@ from .payments.clients import PaymentClient
 from .plans.charges_client import PlanChargesClient
 from .plans.clients import PlanClient
 from .plans.fixed_charges_client import PlanFixedChargesClient
-from .services.rate_limit import RateLimitRetryConfig
+from .services.rate_limit import RateLimitCallback, RateLimitRetryConfig
 from .subscriptions.charges_client import SubscriptionChargesClient
 from .subscriptions.clients import SubscriptionClient
 from .subscriptions.fixed_charges_client import SubscriptionFixedChargesClient
@@ -61,6 +62,7 @@ class Client:
         ingest_api_url: str = "",
         max_retries: int = 3,
         retry_on_rate_limit: bool = True,
+        on_rate_limit_info: Optional[RateLimitCallback] = None,
     ) -> None:
         self.api_key: str = api_key
         self.api_url: str = api_url
@@ -69,6 +71,7 @@ class Client:
         self.rate_limit_retry_config: RateLimitRetryConfig = RateLimitRetryConfig(
             max_retries=max_retries,
             retry_on_rate_limit=retry_on_rate_limit,
+            on_rate_limit_info=on_rate_limit_info,
         )
 
     @property
