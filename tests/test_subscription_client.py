@@ -26,6 +26,7 @@ def create_subscription():
         billing_time="anniversary",
         subscription_at="2022-04-29T08:59:51Z",
         ending_at="2022-08-29T08:59:51Z",
+        consolidate_invoice=False,
     )
 
 
@@ -85,6 +86,7 @@ def test_valid_create_subscriptions_request(httpx_mock: HTTPXMock):
     assert response.billing_time == "anniversary"
     assert response.subscription_at == "2022-04-29T08:59:51Z"
     assert response.ending_at == "2022-08-29T08:59:51Z"
+    assert response.consolidate_invoice is False
 
 
 def test_valid_create_subscriptions_request_with_payment_method(httpx_mock: HTTPXMock):

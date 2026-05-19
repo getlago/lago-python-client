@@ -15,6 +15,7 @@
     "terminated_at": null,
     "on_termination_credit_note": "skip",
     "on_termination_invoice": "skip",
+    "consolidate_invoice": false,
     "subscription_at": "2022-04-29T08:59:51Z",
     "previous_plan_code": null,
     "next_plan_code": null,

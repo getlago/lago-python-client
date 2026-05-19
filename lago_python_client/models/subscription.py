@@ -19,6 +19,7 @@ class Subscription(BaseModel):
     plan_overrides: Optional[PlanOverrides]
     payment_method: Optional[PaymentMethod]
     invoice_custom_section: Optional[InvoiceCustomSectionInput]
+    consolidate_invoice: Optional[bool]
 
 
 class Subscriptions(BaseModel):
@@ -55,6 +56,7 @@ class SubscriptionResponse(BaseResponseModel):
     on_termination_invoice: Optional[str]
     payment_method: Optional[PaymentMethod]
     applied_invoice_custom_sections: Optional[AppliedInvoiceCustomSections]
+    consolidate_invoice: Optional[bool]
 
 
 class SubscriptionsResponse(BaseResponseModel):
