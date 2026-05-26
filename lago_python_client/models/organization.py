@@ -56,3 +56,4 @@ class OrganizationResponse(BaseResponseModel):
     email_settings: Optional[List[str]]
     finalize_zero_amount_invoice: Optional[bool]
     billing_configuration: Optional[OrganizationBillingConfiguration]
+    events_store: Optional[str]
