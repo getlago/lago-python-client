@@ -639,6 +639,9 @@ def test_valid_find_charge_request(httpx_mock: HTTPXMock):
     assert response.code == "charge_code"
     assert response.charge_model == "standard"
     assert response.invoice_display_name == "Setup"
+    presentation_group_key = response.properties["presentation_group_keys"][0]
+    assert presentation_group_key["value"] == "region"
+    assert presentation_group_key["options"]["display_in_invoice"] is True
 
 
 def test_valid_update_charge_request(httpx_mock: HTTPXMock):

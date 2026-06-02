@@ -27,7 +27,15 @@
         "min_amount_cents": 0,
         "properties": {
           "amount": "0.22",
-          "pricing_group_keys": ["agent_name"]
+          "pricing_group_keys": ["agent_name"],
+          "presentation_group_keys": [
+            {
+              "value": "region",
+              "options": {
+                "display_in_invoice": true
+              }
+            }
+          ]
         },
         "filters": [
           {

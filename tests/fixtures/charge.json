@@ -12,7 +12,15 @@
     "min_amount_cents": 0,
     "prorated": false,
     "properties": {
-      "amount": "0.22"
+      "amount": "0.22",
+      "presentation_group_keys": [
+        {
+          "value": "region",
+          "options": {
+            "display_in_invoice": true
+          }
+        }
+      ]
     },
     "filters": [],
     "taxes": [],

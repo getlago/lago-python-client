@@ -49,7 +49,23 @@
               "amount_cents": 123,
               "short_name": "CR",
               "conversion_rate": 1.0
-            }
+            },
+            "presentation_breakdowns": [
+              {
+                "presentation_by": {
+                  "team": "engineering"
+                },
+                "units": "2.0"
+              }
+            ],
+            "projected_presentation_breakdowns": [
+              {
+                "presentation_by": {
+                  "team": "engineering"
+                },
+                "units": "4.0"
+              }
+            ]
           }
         ],
         "grouped_usage": [
@@ -67,6 +83,22 @@
               "short_name": "CR",
               "conversion_rate": 1.2
             },
+            "presentation_breakdowns": [
+              {
+                "presentation_by": {
+                  "team": "operations"
+                },
+                "units": "1.0"
+              }
+            ],
+            "projected_presentation_breakdowns": [
+              {
+                "presentation_by": {
+                  "team": "operations"
+                },
+                "units": "2.0"
+              }
+            ],
             "filters": [
               {
                 "units": "3.0",
@@ -79,9 +111,41 @@
                     "france"
                   ]
                 },
-                "pricing_unit_details": null
+                "pricing_unit_details": null,
+                "presentation_breakdowns": [
+                  {
+                    "presentation_by": {
+                      "team": "support"
+                    },
+                    "units": "1.0"
+                  }
+                ],
+                "projected_presentation_breakdowns": [
+                  {
+                    "presentation_by": {
+                      "team": "support"
+                    },
+                    "units": "2.0"
+                  }
+                ]
               }
             ]
+          }
+        ],
+        "presentation_breakdowns": [
+          {
+            "presentation_by": {
+              "team": "engineering"
+            },
+            "units": "3.0"
+          }
+        ],
+        "projected_presentation_breakdowns": [
+          {
+            "presentation_by": {
+              "team": "engineering"
+            },
+            "units": "6.0"
           }
         ]
       }

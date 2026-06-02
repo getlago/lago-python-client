@@ -134,6 +134,11 @@ def test_valid_current_usage(httpx_mock: HTTPXMock):
     assert response.charges_usage[0].units == "1.0"
     assert len(response.charges_usage[0].filters) == 1
     assert response.charges_usage[0].filters[0].values["country"] == ["france"]
+    charge_usage = response.charges_usage[0]
+    assert charge_usage.presentation_breakdowns.__root__[0].presentation_by["team"] == "engineering"
+    assert charge_usage.presentation_breakdowns.__root__[0].units == "3.0"
+    assert charge_usage.filters[0].presentation_breakdowns.__root__[0].units == "2.0"
+    assert charge_usage.grouped_usage[0].presentation_breakdowns.__root__[0].units == "1.0"
 
 
 def test_valid_projected_usage(httpx_mock: HTTPXMock):
@@ -157,6 +162,11 @@ def test_valid_projected_usage(httpx_mock: HTTPXMock):
     assert response.charges_usage[0].charge.charge_model == "graduated"
     assert response.charges_usage[0].charge.invoice_display_name == "add_on_invoice_display_name"
     assert response.charges_usage[0].billable_metric.lago_id == "99a6094e-199b-4101-896a-54e927ce7bd7"
+    charge_usage = response.charges_usage[0]
+    assert charge_usage.presentation_breakdowns.__root__[0].units == "3.0"
+    assert charge_usage.projected_presentation_breakdowns.__root__[0].units == "6.0"
+    assert charge_usage.filters[0].projected_presentation_breakdowns.__root__[0].units == "4.0"
+    assert charge_usage.grouped_usage[0].projected_presentation_breakdowns.__root__[0].units == "2.0"
 
 
 def test_valid_current_usage_without_taxes(httpx_mock: HTTPXMock):
@@ -216,6 +226,7 @@ def test_valid_current_usage_with_new_filters(httpx_mock: HTTPXMock):
             "&charge_code=storage"
             "&billable_metric_code=storage"
             "&group%5Bcloud%5D=aws"
+            "&filter_by_presentation=%5B%22engineering%22%2C+%22operations%22%5D"
             "&full_usage=true"
         ),
         content=mock_response("customer_usage"),
@@ -227,6 +238,7 @@ def test_valid_current_usage_with_new_filters(httpx_mock: HTTPXMock):
         charge_code="storage",
         billable_metric_code="storage",
         group={"cloud": "aws"},
+        filter_by_presentation=["engineering", "operations"],
         full_usage=True,
     )
 
@@ -263,6 +275,8 @@ def test_valid_past_usage(httpx_mock: HTTPXMock):
     assert len(response["usage_periods"][0].charges_usage) == 1
     assert response["usage_periods"][0].charges_usage[0].units == "1.0"
     assert len(response["usage_periods"][0].charges_usage[0].filters) == 1
+    past_charge_usage = response["usage_periods"][0].charges_usage[0]
+    assert past_charge_usage.presentation_breakdowns.__root__[0].units == "3.0"
 
 
 def test_invalid_past_usage(httpx_mock: HTTPXMock):

@@ -47,6 +47,7 @@ class CustomerClient(
         filter_by_charge_id: Optional[str] = None,
         filter_by_charge_code: Optional[str] = None,
         filter_by_group: Optional[dict] = None,
+        filter_by_presentation: Optional[Union[str, list[str]]] = None,
         full_usage: Optional[bool] = None,
         charge_id: Optional[str] = None,
         charge_code: Optional[str] = None,
@@ -76,6 +77,12 @@ class CustomerClient(
         if filter_by_group is not None:
             warnings.warn("filter_by_group is deprecated, use group instead", DeprecationWarning, stacklevel=2)
             query_params["filter_by_group"] = json.dumps(filter_by_group)
+        if filter_by_presentation is not None:
+            query_params["filter_by_presentation"] = (
+                filter_by_presentation
+                if isinstance(filter_by_presentation, str)
+                else json.dumps(filter_by_presentation)
+            )
         if full_usage is not None:
             query_params["full_usage"] = str(full_usage).lower()
 

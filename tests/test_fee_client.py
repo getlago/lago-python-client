@@ -29,6 +29,8 @@ def test_valid_find_fee_request(httpx_mock: HTTPXMock):
     assert response.lago_id == identifier
     assert response.invoice_display_name == fee_invoice_display_name
     assert response.item.invoice_display_name == charge_invoice_display_name
+    assert response.presentation_breakdowns.__root__[0].presentation_by["team"] == "engineering"
+    assert response.presentation_breakdowns.__root__[0].units == "10.0"
 
 
 def test_fee_response_with_fixed_charge_id():

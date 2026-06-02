@@ -3,6 +3,7 @@ from typing import Dict, List, Optional
 from lago_python_client.base_model import BaseModel
 
 from ..base_model import BaseResponseModel
+from .customer_usage import PresentationBreakdowns
 
 
 class Metric(BaseModel):
@@ -27,6 +28,8 @@ class ProjectedChargeFilterUsage(BaseModel):
     projected_amount_cents: int
     events_count: int
     pricing_unit_details: Optional[PricingUnitDetails]
+    presentation_breakdowns: Optional[PresentationBreakdowns]
+    projected_presentation_breakdowns: Optional[PresentationBreakdowns]
 
 
 class ChargeObject(BaseModel):
@@ -44,6 +47,8 @@ class ProjectedGroupedUsage(BaseModel):
     grouped_by: Dict[str, Optional[str]]
     filters: List[ProjectedChargeFilterUsage]
     pricing_unit_details: Optional[PricingUnitDetails]
+    presentation_breakdowns: Optional[PresentationBreakdowns]
+    projected_presentation_breakdowns: Optional[PresentationBreakdowns]
 
 
 class ProjectedChargeUsage(BaseModel):
@@ -58,6 +63,8 @@ class ProjectedChargeUsage(BaseModel):
     filters: List[ProjectedChargeFilterUsage]
     grouped_usage: Optional[List[ProjectedGroupedUsage]]
     pricing_unit_details: Optional[PricingUnitDetails]
+    presentation_breakdowns: Optional[PresentationBreakdowns]
+    projected_presentation_breakdowns: Optional[PresentationBreakdowns]
 
 
 class CustomerProjectedUsageResponse(BaseResponseModel):
