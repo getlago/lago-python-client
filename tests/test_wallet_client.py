@@ -25,6 +25,7 @@ def wallet_object():
         target_ongoing_balance="105.0",
         transaction_name="Recurring Transaction Rule",
         ignore_paid_top_up_limits=True,
+        grants_target_top_up=True,
     )
     rules_list = RecurringTransactionRuleList(__root__=[rule])
     applies_to = AppliesTo(
@@ -92,6 +93,7 @@ def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
                         "target_ongoing_balance": "105.0",
                         "transaction_name": "Recurring Transaction Rule",
                         "ignore_paid_top_up_limits": True,
+                        "grants_target_top_up": True,
                     }
                 ],
                 "invoice_requires_successful_payment": False,
@@ -107,6 +109,7 @@ def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
     assert response.recurring_transaction_rules.__root__[0].trigger == "interval"
     assert response.recurring_transaction_rules.__root__[0].interval == "monthly"
     assert response.recurring_transaction_rules.__root__[0].ignore_paid_top_up_limits is True
+    assert response.recurring_transaction_rules.__root__[0].grants_target_top_up is True
     assert response.applies_to.fee_types[0] == "charge"
     assert response.applies_to.billable_metric_codes[0] == "usage"
     assert response.paid_top_up_max_amount_cents == 10000
@@ -594,3 +597,41 @@ def test_valid_update_wallet_with_invoice_custom_section_on_recurring_transactio
         .invoice_custom_section_id
         == "section_rule_001"
     )
+
+
+def test_valid_update_wallet_with_grants_target_top_up_on_recurring_transaction_rule(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    wallet_id = "b7ab2926-1de8-4428-9bcd-779314ac129b"
+    rule = RecurringTransactionRule(
+        trigger="interval",
+        interval="monthly",
+        method="target",
+        target_ongoing_balance="200.0",
+        grants_target_top_up=True,
+    )
+    rules_list = RecurringTransactionRuleList(__root__=[rule])
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/wallets/" + wallet_id,
+        content=mock_response(),
+        match_json={
+            "wallet": {
+                "name": "name",
+                "recurring_transaction_rules": [
+                    {
+                        "interval": "monthly",
+                        "trigger": "interval",
+                        "method": "target",
+                        "target_ongoing_balance": "200.0",
+                        "grants_target_top_up": True,
+                    }
+                ],
+            }
+        },
+    )
+    wallet = Wallet(name="name", recurring_transaction_rules=rules_list)
+    response = client.wallets.update(wallet, wallet_id)
+
+    assert response.lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
+    assert response.recurring_transaction_rules.__root__[0].grants_target_top_up is True
