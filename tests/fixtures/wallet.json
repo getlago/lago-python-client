@@ -28,6 +28,7 @@
         "target_ongoing_balance": "200.0",
         "transaction_name": "Recurring Transaction Rule",
         "ignore_paid_top_up_limits": true,
+        "grants_target_top_up": true,
         "payment_method": {
           "payment_method_type": "card",
           "payment_method_id": "pm_123"

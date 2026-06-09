@@ -21,6 +21,7 @@ class RecurringTransactionRule(BaseModel):
     transaction_metadata: Optional[List[Dict[str, str]]]
     transaction_name: Optional[str]
     ignore_paid_top_up_limits: Optional[bool]
+    grants_target_top_up: Optional[bool]
     payment_method: Optional[PaymentMethod]
     invoice_custom_section: Optional[InvoiceCustomSectionInput]
 
@@ -41,6 +42,7 @@ class RecurringTransactionRuleResponse(BaseModel):
     transaction_metadata: Optional[List[Dict[str, str]]]
     transaction_name: Optional[str]
     ignore_paid_top_up_limits: Optional[bool]
+    grants_target_top_up: Optional[bool]
     payment_method: Optional[PaymentMethod]
     applied_invoice_custom_sections: Optional[AppliedInvoiceCustomSections]
 
