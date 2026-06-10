@@ -46,7 +46,23 @@
                 "amount_cents": 123,
                 "short_name": "CR",
                 "conversion_rate": 1.0
-              }
+              },
+              "presentation_breakdowns": [
+                {
+                  "presentation_by": {
+                    "team": "engineering"
+                  },
+                  "units": "2.0"
+                }
+              ]
+            }
+          ],
+          "presentation_breakdowns": [
+            {
+              "presentation_by": {
+                "team": "engineering"
+              },
+              "units": "3.0"
             }
           ]
         }

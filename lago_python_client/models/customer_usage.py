@@ -18,6 +18,15 @@ class PricingUnitDetails(BaseModel):
     conversion_rate: float
 
 
+class PresentationBreakdown(BaseModel):
+    presentation_by: Dict[str, str]
+    units: str
+
+
+class PresentationBreakdowns(BaseModel):
+    __root__: List[PresentationBreakdown]
+
+
 class ChargeFilterUsage(BaseModel):
     invoice_display_name: Optional[str]
     values: Optional[Dict[str, List[str]]]
@@ -26,6 +35,7 @@ class ChargeFilterUsage(BaseModel):
     amount_cents: int
     events_count: int
     pricing_unit_details: Optional[PricingUnitDetails]
+    presentation_breakdowns: Optional[PresentationBreakdowns]
 
 
 class ChargeObject(BaseModel):
@@ -42,6 +52,7 @@ class GroupedUsage(BaseModel):
     grouped_by: Dict[str, Optional[str]]
     filters: List[ChargeFilterUsage]
     pricing_unit_details: Optional[PricingUnitDetails]
+    presentation_breakdowns: Optional[PresentationBreakdowns]
 
 
 class ChargeUsage(BaseModel):
@@ -55,6 +66,7 @@ class ChargeUsage(BaseModel):
     filters: List[ChargeFilterUsage]
     grouped_usage: Optional[List[GroupedUsage]]
     pricing_unit_details: Optional[PricingUnitDetails]
+    presentation_breakdowns: Optional[PresentationBreakdowns]
 
 
 class CustomerUsageResponse(BaseResponseModel):

@@ -138,6 +138,12 @@ from .customer_usage import (
 from .customer_usage import (
     Metric as Metric,
 )
+from .customer_usage import (
+    PresentationBreakdown as PresentationBreakdown,
+)
+from .customer_usage import (
+    PresentationBreakdowns as PresentationBreakdowns,
+)
 from .event import BatchEvent as BatchEvent
 from .event import Event as Event
 from .fee import Fee as Fee

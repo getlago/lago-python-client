@@ -24,6 +24,16 @@
           "charge_model": "standard",
           "pay_in_advance": true,
           "invoiceable": true,
+          "properties": {
+            "presentation_group_keys": [
+              {
+                "value": "region",
+                "options": {
+                  "display_in_invoice": true
+                }
+              }
+            ]
+          },
           "filters": [
             {
               "properties": {

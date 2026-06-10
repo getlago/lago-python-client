@@ -1,6 +1,7 @@
 from typing import Any, Dict, List, Optional
 
 from ..base_model import BaseModel, BaseResponseModel
+from .customer_usage import PresentationBreakdowns
 from .invoice_item import InvoiceItemResponse
 
 
@@ -75,6 +76,7 @@ class FeeResponse(BaseResponseModel):
     to_date: Optional[str]
     amount_details: Optional[Dict[str, Any]]
     pricing_unit_details: Optional[PricingUnitDetails]
+    presentation_breakdowns: Optional[PresentationBreakdowns]
     billing_entity_code: Optional[str]
 
     item: Optional[InvoiceItemResponse]

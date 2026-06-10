@@ -38,6 +38,14 @@
         "precise_unit_amount": "120.00",
         "conversion_rate": 1.0
       },
+      "presentation_breakdowns": [
+        {
+          "presentation_by": {
+            "team": "engineering"
+          },
+          "units": "1.0"
+        }
+      ],
       "applied_taxes": [
         {
           "lago_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",

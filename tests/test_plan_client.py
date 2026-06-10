@@ -25,7 +25,14 @@ def plan_object():
         id=None,
         invoice_display_name=None,
         regroup_paid_fees=None,
-        properties=None,
+        properties={
+            "presentation_group_keys": [
+                {
+                    "value": "region",
+                    "options": {"display_in_invoice": True},
+                }
+            ]
+        },
         tax_codes=None,
         billable_metric_id="id",
         charge_model="standard",
@@ -194,6 +201,8 @@ def test_valid_create_plan_request(httpx_mock: HTTPXMock):
     assert response.code == "plan_code"
     assert response.invoice_display_name == "test plan 1"
     assert response.charges.__root__[0].invoice_display_name == "Setup"
+    charge = response.charges.__root__[0]
+    assert charge.properties["presentation_group_keys"][0]["value"] == "region"
     assert response.minimum_commitment.invoice_display_name == "Minimum commitment (C1)"
     assert response.usage_thresholds.__root__[0].threshold_display_name == "Threshold 1"
     assert response.metadata == {"key1": "value1", "key2": None}
@@ -276,6 +285,8 @@ def test_valid_find_plan_request(httpx_mock: HTTPXMock):
     assert response.invoice_display_name == "test plan 1"
     assert response.charges.__root__[0].charge_model == "standard"
     assert response.charges.__root__[0].min_amount_cents == 0
+    charge = response.charges.__root__[0]
+    assert charge.properties["presentation_group_keys"][0]["value"] == "region"
     assert response.minimum_commitment.amount_cents == 1000
 
 
@@ -338,6 +349,8 @@ def test_valid_find_all_plan_request(httpx_mock: HTTPXMock):
     assert response["plans"][0].invoice_display_name == "test plan 1"
     assert response["plans"][0].minimum_commitment.invoice_display_name == "Minimum commitment (C2)"
     assert response["plans"][0].charges.__root__[0].lago_id == "51c1e851-5be6-4343-a0ee-39a81d8b4ee1"
+    plan_charge = response["plans"][0].charges.__root__[0]
+    assert plan_charge.properties["presentation_group_keys"][0]["value"] == "region"
     assert response["plans"][0].charges.__root__[0].filters.__root__[0].properties["amount"] == "0.22"
     assert response["plans"][0].charges.__root__[0].filters.__root__[0].invoice_display_name == "Europe"
     assert response["meta"]["current_page"] == 1
@@ -506,6 +519,9 @@ def test_valid_find_charge_request(httpx_mock: HTTPXMock):
     assert response.code == "charge_code"
     assert response.charge_model == "standard"
     assert response.invoice_display_name == "Setup"
+    presentation_group_key = response.properties["presentation_group_keys"][0]
+    assert presentation_group_key["value"] == "region"
+    assert presentation_group_key["options"]["display_in_invoice"] is True
 
 
 def test_valid_create_charge_request(httpx_mock: HTTPXMock):
@@ -522,12 +538,21 @@ def test_valid_create_charge_request(httpx_mock: HTTPXMock):
         charge_model="standard",
         pay_in_advance=True,
         invoiceable=True,
-        properties={"amount": "0.22"},
+        properties={
+            "amount": "0.22",
+            "presentation_group_keys": [
+                {
+                    "value": "region",
+                    "options": {"display_in_invoice": True},
+                }
+            ],
+        },
     )
     response = client.plan_charges.create(plan_code, charge)
 
     assert response.lago_id == "51c1e851-5be6-4343-a0ee-39a81d8b4ee1"
     assert response.charge_model == "standard"
+    assert charge.dict()["properties"]["presentation_group_keys"][0]["value"] == "region"
 
 
 def test_valid_update_charge_request(httpx_mock: HTTPXMock):
