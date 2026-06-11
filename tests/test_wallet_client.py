@@ -404,6 +404,20 @@ def test_valid_find_all_wallet_request_with_options(httpx_mock: HTTPXMock):
     assert response["meta"]["current_page"] == 1
 
 
+def test_valid_find_all_wallet_request_with_currency(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/wallets?currency=EUR",
+        content=mock_collection_response(),
+    )
+    response = client.wallets.find_all({"currency": "EUR"})
+
+    assert response["wallets"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
+    assert response["meta"]["current_page"] == 1
+
+
 def test_invalid_find_all_wallet_request(httpx_mock: HTTPXMock):
     client = Client(api_key="invalid")
 
