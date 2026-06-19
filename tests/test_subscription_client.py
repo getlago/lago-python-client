@@ -8,6 +8,7 @@ from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
 from lago_python_client.mixins import DEFAULT_TIMEOUT
 from lago_python_client.models import (
+    ActivationRuleInput,
     Charge,
     ChargeFilter,
     FixedCharge,
@@ -106,6 +107,26 @@ def test_valid_create_subscriptions_request_with_payment_method(httpx_mock: HTTP
     assert response.status == "active"
     assert response.payment_method.payment_method_type == "card"
     assert response.payment_method.payment_method_id == "pm_123"
+
+
+def test_valid_create_subscriptions_request_with_activation_rules(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/subscriptions",
+        content=mock_response(),
+    )
+    subscription = create_subscription()
+    subscription.activation_rules = [ActivationRuleInput(type="payment", timeout_hours=48)]
+    response = client.subscriptions.create(subscription)
+
+    assert response.external_customer_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+    assert response.cancellation_reason == "payment_failed"
+    assert response.activated_at == "2022-04-29T09:00:00Z"
+    assert response.activation_rules[0].type == "payment"
+    assert response.activation_rules[0].timeout_hours == 48
+    assert response.activation_rules[0].status == "pending"
 
 
 def test_invalid_create_subscriptions_request(httpx_mock: HTTPXMock):

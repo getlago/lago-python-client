@@ -234,7 +234,7 @@ from .payment_receipt import (
 from .payment_request import PaymentRequest as PaymentRequest
 from .payment_method import PaymentMethod as PaymentMethod, PaymentMethodResponse as PaymentMethodResponse
 from .plan import Plan as Plan
-from .subscription import Subscription as Subscription
+from .subscription import ActivationRuleInput as ActivationRuleInput, Subscription as Subscription
 from .tax import (
     Tax as Tax,
 )

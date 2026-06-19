@@ -8,6 +8,11 @@ from .payment_method import PaymentMethod
 from .plan import PlanOverrides
 
 
+class ActivationRuleInput(BaseModel):
+    type: Optional[str]
+    timeout_hours: Optional[int]
+
+
 class Subscription(BaseModel):
     plan_code: Optional[str]
     external_customer_id: Optional[str]
@@ -21,12 +26,23 @@ class Subscription(BaseModel):
     invoice_custom_section: Optional[InvoiceCustomSectionInput]
     consolidate_invoice: Optional[bool]
     billing_entity_code: Optional[str]
+    activation_rules: Optional[List[ActivationRuleInput]]
 
 
 class Subscriptions(BaseModel):
     external_ids: Optional[List[str]]
     plan_code: Optional[str]
     terminated_at: Optional[str]
+
+
+class ActivationRuleResponse(BaseResponseModel):
+    lago_id: Optional[str]
+    type: Optional[str]
+    timeout_hours: Optional[int]
+    status: Optional[str]
+    expires_at: Optional[str]
+    created_at: Optional[str]
+    updated_at: Optional[str]
 
 
 class SubscriptionResponse(BaseResponseModel):
@@ -59,6 +75,9 @@ class SubscriptionResponse(BaseResponseModel):
     applied_invoice_custom_sections: Optional[AppliedInvoiceCustomSections]
     consolidate_invoice: Optional[bool]
     billing_entity_code: Optional[str]
+    cancellation_reason: Optional[str]
+    activated_at: Optional[str]
+    activation_rules: Optional[List[ActivationRuleResponse]]
 
 
 class SubscriptionsResponse(BaseResponseModel):

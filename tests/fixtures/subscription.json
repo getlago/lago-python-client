@@ -37,6 +37,19 @@
           "name": "Section Name"
         }
       }
+    ],
+    "cancellation_reason": "payment_failed",
+    "activated_at": "2022-04-29T09:00:00Z",
+    "activation_rules": [
+      {
+        "lago_id": "ar_123",
+        "type": "payment",
+        "timeout_hours": 48,
+        "status": "pending",
+        "expires_at": "2022-04-29T10:59:51Z",
+        "created_at": "2022-04-29T08:59:51Z",
+        "updated_at": "2022-04-29T08:59:51Z"
+      }
     ]
   }
 }
