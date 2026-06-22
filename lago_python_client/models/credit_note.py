@@ -39,6 +39,7 @@ class CreditNoteAppliedTaxes(BaseResponseModel):
 class CreditNoteResponse(BaseResponseModel):
     lago_id: Optional[str]
     sequential_id: Optional[int]
+    billing_entity_code: Optional[str]
     number: Optional[str]
     lago_invoice_id: Optional[str]
     invoice_number: Optional[str]

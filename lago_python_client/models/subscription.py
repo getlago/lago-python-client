@@ -20,6 +20,7 @@ class Subscription(BaseModel):
     payment_method: Optional[PaymentMethod]
     invoice_custom_section: Optional[InvoiceCustomSectionInput]
     consolidate_invoice: Optional[bool]
+    billing_entity_code: Optional[str]
 
 
 class Subscriptions(BaseModel):
@@ -57,6 +58,7 @@ class SubscriptionResponse(BaseResponseModel):
     payment_method: Optional[PaymentMethod]
     applied_invoice_custom_sections: Optional[AppliedInvoiceCustomSections]
     consolidate_invoice: Optional[bool]
+    billing_entity_code: Optional[str]
 
 
 class SubscriptionsResponse(BaseResponseModel):

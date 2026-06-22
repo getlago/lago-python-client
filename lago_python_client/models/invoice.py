@@ -57,6 +57,7 @@ class OneOffInvoice(BaseModel):
     error_details: Optional[ErrorDetailsResponse]
     payment_method: Optional[PaymentMethod]
     invoice_custom_section: Optional[InvoiceCustomSectionInput]
+    billing_entity_code: Optional[str]
 
 
 class InvoicePreview(BaseModel):
@@ -66,6 +67,7 @@ class InvoicePreview(BaseModel):
     coupons: Optional[CouponsList]
     customer: Optional[Customer]
     subscriptions: Optional[Subscriptions]
+    billing_entity_code: Optional[str]
 
 
 class InvoiceAppliedTax(BaseResponseModel):

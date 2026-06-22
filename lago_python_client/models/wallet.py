@@ -79,6 +79,7 @@ class Wallet(BaseModel):
     metadata: Optional[Dict[str, Optional[str]]]
     payment_method: Optional[PaymentMethod]
     invoice_custom_section: Optional[InvoiceCustomSectionInput]
+    billing_entity_code: Optional[str]
 
 
 class WalletResponse(BaseResponseModel):
@@ -111,3 +112,4 @@ class WalletResponse(BaseResponseModel):
     metadata: Optional[Dict[str, Optional[str]]]
     payment_method: Optional[PaymentMethod]
     applied_invoice_custom_sections: Optional[AppliedInvoiceCustomSections]
+    billing_entity_code: Optional[str]
