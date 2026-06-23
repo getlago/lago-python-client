@@ -72,5 +72,7 @@ Untitled.ipynb
 *.iml
 # End of https://www.toptal.com/developers/gitignore/api/python
 
+# asdf / mise version managers (local dev only; supported versions live in setup.cfg + CI)
+.tool-versions
 mise.toml
 .claude
