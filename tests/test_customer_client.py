@@ -130,6 +130,7 @@ def test_valid_current_usage(httpx_mock: HTTPXMock):
     response = client.customers.current_usage("external_customer_id", "123")
 
     assert response.from_datetime == "2022-07-01T00:00:00Z"
+    assert response.lago_invoice_id is None
     assert len(response.charges_usage) == 1
     assert response.charges_usage[0].units == "1.0"
     assert len(response.charges_usage[0].filters) == 1
@@ -272,6 +273,7 @@ def test_valid_past_usage(httpx_mock: HTTPXMock):
 
     assert len(response["usage_periods"]) == 1
     assert response["usage_periods"][0].from_datetime == "2022-07-01T00:00:00Z"
+    assert response["usage_periods"][0].lago_invoice_id == "1a901a90-1a90-1a90-1a90-1a901a901a90"
     assert len(response["usage_periods"][0].charges_usage) == 1
     assert response["usage_periods"][0].charges_usage[0].units == "1.0"
     assert len(response["usage_periods"][0].charges_usage[0].filters) == 1

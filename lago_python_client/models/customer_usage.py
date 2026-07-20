@@ -73,7 +73,7 @@ class CustomerUsageResponse(BaseResponseModel):
     from_datetime: str
     to_datetime: str
     issuing_date: str
-    invoice_id: Optional[str]
+    lago_invoice_id: Optional[str]
     currency: str
     amount_cents: int
     total_amount_cents: int
