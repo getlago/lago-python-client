@@ -26,6 +26,7 @@ class Subscription(BaseModel):
     invoice_custom_section: Optional[InvoiceCustomSectionInput]
     consolidate_invoice: Optional[bool]
     billing_entity_code: Optional[str]
+    purchase_order_number: Optional[str]
     activation_rules: Optional[List[ActivationRuleInput]]
 
 
@@ -75,6 +76,7 @@ class SubscriptionResponse(BaseResponseModel):
     applied_invoice_custom_sections: Optional[AppliedInvoiceCustomSections]
     consolidate_invoice: Optional[bool]
     billing_entity_code: Optional[str]
+    purchase_order_number: Optional[str]
     cancellation_reason: Optional[str]
     activated_at: Optional[str]
     activation_rules: Optional[List[ActivationRuleResponse]]

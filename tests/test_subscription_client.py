@@ -88,6 +88,7 @@ def test_valid_create_subscriptions_request(httpx_mock: HTTPXMock):
     assert response.subscription_at == "2022-04-29T08:59:51Z"
     assert response.ending_at == "2022-08-29T08:59:51Z"
     assert response.consolidate_invoice is False
+    assert response.purchase_order_number == "PO-123"
 
 
 def test_valid_create_subscriptions_request_with_payment_method(httpx_mock: HTTPXMock):

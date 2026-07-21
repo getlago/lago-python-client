@@ -27,6 +27,7 @@
         "started_at": null,
         "target_ongoing_balance": "200.0",
         "transaction_name": "Recurring Transaction Rule",
+        "purchase_order_number": "PO-RULE-123",
         "ignore_paid_top_up_limits": true,
         "grants_target_top_up": true,
         "payment_method": {
@@ -53,6 +54,7 @@
     "credits_ongoing_usage_balance": "2.0",
     "paid_top_up_max_amount_cents": 10000,
     "paid_top_up_min_amount_cents": 500,
+    "purchase_order_number": "PO-123",
     "applies_to": {
       "fee_types": ["charge"],
       "billable_metric_codes": ["usage"]

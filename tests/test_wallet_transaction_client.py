@@ -15,6 +15,7 @@ def wallet_transaction_object():
         granted_credits="10",
         voided_credits="0",
         name="Transaction Name",
+        purchase_order_number="PO-123",
         invoice_requires_successful_payment=False,
     )
 
@@ -74,6 +75,7 @@ def test_valid_create_wallet_transaction_request(httpx_mock: HTTPXMock):
     assert response["wallet_transactions"][1].lago_credit_note_id == "credit-note-uuid-2222"
     assert response["wallet_transactions"][2].lago_credit_note_id is None
     assert response["wallet_transactions"][0].priority == 50
+    assert response["wallet_transactions"][0].purchase_order_number == "PO-123"
     assert response["wallet_transactions"][1].priority == 50
     assert response["wallet_transactions"][2].priority == 50
 

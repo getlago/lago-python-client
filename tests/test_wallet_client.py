@@ -24,6 +24,7 @@ def wallet_object():
         method="target",
         target_ongoing_balance="105.0",
         transaction_name="Recurring Transaction Rule",
+        purchase_order_number="PO-RULE-123",
         ignore_paid_top_up_limits=True,
         grants_target_top_up=True,
     )
@@ -46,6 +47,7 @@ def wallet_object():
         transaction_name="Transaction Name",
         paid_top_up_max_amount_cents=10000,
         paid_top_up_min_amount_cents=500,
+        purchase_order_number="PO-123",
     )
 
 
@@ -92,12 +94,14 @@ def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
                         "granted_credits": "105.0",
                         "target_ongoing_balance": "105.0",
                         "transaction_name": "Recurring Transaction Rule",
+                        "purchase_order_number": "PO-RULE-123",
                         "ignore_paid_top_up_limits": True,
                         "grants_target_top_up": True,
                     }
                 ],
                 "invoice_requires_successful_payment": False,
                 "transaction_name": "Transaction Name",
+                "purchase_order_number": "PO-123",
                 "applies_to": {"fee_types": ["charge"], "billable_metric_codes": ["usage"]},
             }
         },
@@ -114,6 +118,8 @@ def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
     assert response.applies_to.billable_metric_codes[0] == "usage"
     assert response.paid_top_up_max_amount_cents == 10000
     assert response.paid_top_up_min_amount_cents == 500
+    assert response.purchase_order_number == "PO-123"
+    assert response.recurring_transaction_rules.__root__[0].purchase_order_number == "PO-RULE-123"
 
 
 def test_valid_create_wallet_request_with_payment_method_on_wallet(httpx_mock: HTTPXMock):

@@ -16,6 +16,7 @@ class WalletTransaction(BaseModel):
     metadata: Optional[List[Dict[str, str]]]
     name: Optional[str]
     ignore_paid_top_up_limits: Optional[bool]
+    purchase_order_number: Optional[str]
     payment_method: Optional[PaymentMethod]
     invoice_custom_section: Optional[InvoiceCustomSectionInput]
 
@@ -41,6 +42,7 @@ class WalletTransactionResponse(BaseResponseModel):
     metadata: Optional[List[Dict[str, str]]]
     name: Optional[str]
     invoice_requires_successful_payment: Optional[bool]
+    purchase_order_number: Optional[str]
     payment_method: Optional[PaymentMethod]
     applied_invoice_custom_sections: Optional[AppliedInvoiceCustomSections]
 
