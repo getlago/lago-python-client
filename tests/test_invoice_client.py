@@ -307,6 +307,32 @@ def test_valid_void_invoice_request(httpx_mock: HTTPXMock):
     assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
 
 
+def test_valid_destroy_invoice_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="DELETE",
+        url="https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
+        content=mock_response(),
+    )
+    response = client.invoices.destroy("5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba")
+
+    assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+
+
+def test_invalid_destroy_invoice_request(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="DELETE",
+        url="https://api.getlago.com/api/v1/invoices/5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
+        status_code=422,
+        content=b"",
+    )
+    with pytest.raises(LagoApiError):
+        client.invoices.destroy("5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba")
+
+
 def test_valid_retry_payment_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
 

@@ -3,6 +3,7 @@ from typing import Any, ClassVar, Mapping, Optional, Type
 from ..base_client import BaseClient
 from ..mixins import (
     CreateCommandMixin,
+    DestroyCommandMixin,
     FindAllCommandMixin,
     FindCommandMixin,
     UpdateCommandMixin,
@@ -24,6 +25,7 @@ class InvoiceClient(
     FindAllCommandMixin[InvoiceResponse],
     UpdateCommandMixin[InvoiceResponse],
     CreateCommandMixin[InvoiceResponse],
+    DestroyCommandMixin[InvoiceResponse],
     BaseClient,
 ):
     API_RESOURCE: ClassVar[str] = "invoices"
