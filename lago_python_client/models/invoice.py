@@ -58,6 +58,7 @@ class OneOffInvoice(BaseModel):
     payment_method: Optional[PaymentMethod]
     invoice_custom_section: Optional[InvoiceCustomSectionInput]
     billing_entity_code: Optional[str]
+    purchase_order_number: Optional[str]
 
 
 class InvoicePreview(BaseModel):
@@ -115,6 +116,7 @@ class InvoiceResponse(BaseResponseModel):
     lago_id: str
     sequential_id: Optional[int]
     number: str
+    purchase_order_number: Optional[str]
     issuing_date: Optional[str]
     payment_dispute_lost_at: Optional[str]
     payment_due_date: Optional[str]

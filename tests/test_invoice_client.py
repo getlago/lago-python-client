@@ -170,6 +170,7 @@ def test_valid_find_invoice_request(httpx_mock: HTTPXMock):
     response = client.invoices.find(identifier)
 
     assert response.lago_id == identifier
+    assert response.purchase_order_number == "PO-123"
 
 
 def test_invalid_find_invoice_request(httpx_mock: HTTPXMock):

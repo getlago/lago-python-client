@@ -43,6 +43,7 @@ class CreditNoteResponse(BaseResponseModel):
     number: Optional[str]
     lago_invoice_id: Optional[str]
     invoice_number: Optional[str]
+    purchase_order_number: Optional[str]
     credit_status: Optional[str]
     refund_status: Optional[str]
     reason: Optional[str]
