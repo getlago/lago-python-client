@@ -33,6 +33,7 @@ class PaymentRequestInvoiceResponse(BaseResponseModel):
     total_amount_cents: int
     prepaid_credit_amount_cents: int
     file_url: Optional[str]
+    web_url: Optional[str]
 
 
 class PaymentRequestInvoicesResponse(BaseResponseModel):

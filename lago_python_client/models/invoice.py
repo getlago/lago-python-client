@@ -139,6 +139,7 @@ class InvoiceResponse(BaseResponseModel):
     prepaid_purchased_credit_amount_cents: Optional[int]
 
     file_url: Optional[str]
+    web_url: Optional[str]
     customer: Optional[CustomerResponse]
     billing_periods: Optional[BillingPeriodsResponse]
     subscriptions: Optional[SubscriptionsResponse]
