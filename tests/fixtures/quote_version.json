@@ -1,0 +1,60 @@
+{
+  "quote_version": {
+    "lago_id": "4d234d23-4d23-4d23-4d23-4d234d234d23",
+    "lago_quote_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
+    "lago_organization_id": "3c123c12-3c12-3c12-3c12-3c123c123c12",
+    "version": 1,
+    "status": "draft",
+    "currency": "EUR",
+    "billing_entity_code": "acme_corp",
+    "void_reason": null,
+    "approved_at": null,
+    "voided_at": null,
+    "created_at": "2026-04-29T08:59:51Z",
+    "updated_at": "2026-04-29T08:59:51Z",
+    "content": "<h1>Quote QT-2026-0001</h1><p>Prepared for Acme Corp.</p>",
+    "billing_items": {
+      "plans": [
+        {
+          "id": "7a567a56-7a56-7a56-7a56-7a567a567a56",
+          "localId": "b5c1e2a4-4e1e-4a7f-9f0e-9c1a0c7e1f2b",
+          "type": "plan",
+          "payload": {
+            "code": "premium_plan",
+            "subscriptionExternalId": "sub_1234567890",
+            "endDate": "2027-01-01T00:00:00Z"
+          },
+          "overrides": {
+            "amountCents": 50000,
+            "amountCurrency": "EUR"
+          }
+        }
+      ],
+      "coupons": [
+        {
+          "id": "8b678b67-8b67-8b67-8b67-8b678b678b67",
+          "localId": "c6d2f3b5-5f2f-5b8a-af1f-ad2b1d8f2a3c",
+          "type": "coupon",
+          "payload": {
+            "code": "welcome_offer",
+            "type": "fixed_amount",
+            "amountCents": 10000,
+            "currency": "EUR"
+          }
+        }
+      ],
+      "walletCredits": [
+        {
+          "localId": "d7e3a4c6-6a3a-6c9b-ba2a-be3c2e9a3b4d",
+          "type": "wallet_credit",
+          "payload": {
+            "paidCredits": "100.0",
+            "grantedCredits": "20.0",
+            "rateAmount": "1.0",
+            "currency": "EUR"
+          }
+        }
+      ]
+    }
+  }
+}
