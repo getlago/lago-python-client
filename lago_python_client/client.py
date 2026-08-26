@@ -26,6 +26,7 @@ from .invoiced_usages.clients import InvoicedUsageClient
 from .invoices.clients import InvoiceClient
 from .mrrs.clients import MrrClient
 from .order_forms.clients import OrderFormClient
+from .orders.clients import OrderClient
 from .organizations.clients import OrganizationClient
 from .overdue_balances.clients import OverdueBalanceClient
 from .payment_receipts.clients import PaymentReceiptClient
@@ -186,6 +187,10 @@ class Client:
     @callable_cached_property
     def order_forms(self) -> OrderFormClient:
         return self._create_client(OrderFormClient, self.base_api_url, self.api_key)
+
+    @callable_cached_property
+    def orders(self) -> OrderClient:
+        return self._create_client(OrderClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def organizations(self) -> OrganizationClient:
