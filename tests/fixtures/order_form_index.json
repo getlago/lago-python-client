@@ -1,0 +1,43 @@
+{
+  "order_forms": [
+    {
+      "lago_id": "aa11aa11-aa11-aa11-aa11-aa11aa11aa11",
+      "number": "OF-2026-0001",
+      "status": "generated",
+      "void_reason": null,
+      "expires_at": "2026-06-30T23:59:59Z",
+      "signed_at": null,
+      "voided_at": null,
+      "signed_document_url": null,
+      "lago_organization_id": "3c123c12-3c12-3c12-3c12-3c123c123c12",
+      "lago_customer_id": "2b012b01-2b01-2b01-2b01-2b012b012b01",
+      "lago_quote_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
+      "lago_quote_version_id": "4d234d23-4d23-4d23-4d23-4d234d234d23",
+      "created_at": "2026-04-29T08:59:51Z",
+      "updated_at": "2026-04-29T08:59:51Z"
+    },
+    {
+      "lago_id": "bb22bb22-bb22-bb22-bb22-bb22bb22bb22",
+      "number": "OF-2026-0002",
+      "status": "voided",
+      "void_reason": "manual",
+      "expires_at": null,
+      "signed_at": null,
+      "voided_at": "2026-05-01T09:00:00Z",
+      "signed_document_url": null,
+      "lago_organization_id": "3c123c12-3c12-3c12-3c12-3c123c123c12",
+      "lago_customer_id": "2b012b01-2b01-2b01-2b01-2b012b012b01",
+      "lago_quote_id": "6f456f45-6f45-6f45-6f45-6f456f456f45",
+      "lago_quote_version_id": "9c789c78-9c78-9c78-9c78-9c789c789c78",
+      "created_at": "2026-04-30T08:59:51Z",
+      "updated_at": "2026-05-01T09:00:00Z"
+    }
+  ],
+  "meta": {
+    "current_page": 1,
+    "next_page": null,
+    "prev_page": null,
+    "total_pages": 1,
+    "total_count": 2
+  }
+}
