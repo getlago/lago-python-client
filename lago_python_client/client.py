@@ -25,6 +25,8 @@ from .invoice_collections.clients import InvoiceCollectionClient
 from .invoiced_usages.clients import InvoicedUsageClient
 from .invoices.clients import InvoiceClient
 from .mrrs.clients import MrrClient
+from .order_forms.clients import OrderFormClient
+from .orders.clients import OrderClient
 from .organizations.clients import OrganizationClient
 from .overdue_balances.clients import OverdueBalanceClient
 from .payment_receipts.clients import PaymentReceiptClient
@@ -33,6 +35,8 @@ from .payments.clients import PaymentClient
 from .plans.charges_client import PlanChargesClient
 from .plans.clients import PlanClient
 from .plans.fixed_charges_client import PlanFixedChargesClient
+from .quote_versions.clients import QuoteVersionClient
+from .quotes.clients import QuoteClient
 from .services.rate_limit import RateLimitCallback, RateLimitRetryConfig
 from .subscriptions.charges_client import SubscriptionChargesClient
 from .subscriptions.clients import SubscriptionClient
@@ -181,6 +185,14 @@ class Client:
         return self._create_client(MrrClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
+    def order_forms(self) -> OrderFormClient:
+        return self._create_client(OrderFormClient, self.base_api_url, self.api_key)
+
+    @callable_cached_property
+    def orders(self) -> OrderClient:
+        return self._create_client(OrderClient, self.base_api_url, self.api_key)
+
+    @callable_cached_property
     def organizations(self) -> OrganizationClient:
         return self._create_client(OrganizationClient, self.base_api_url, self.api_key)
 
@@ -215,6 +227,14 @@ class Client:
     @callable_cached_property
     def plan_fixed_charges(self) -> PlanFixedChargesClient:
         return self._create_client(PlanFixedChargesClient, self.base_api_url, self.api_key)
+
+    @callable_cached_property
+    def quotes(self) -> QuoteClient:
+        return self._create_client(QuoteClient, self.base_api_url, self.api_key)
+
+    @callable_cached_property
+    def quote_versions(self) -> QuoteVersionClient:
+        return self._create_client(QuoteVersionClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def subscriptions(self) -> SubscriptionClient:
