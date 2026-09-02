@@ -46,6 +46,7 @@ def test_valid_create_tax_request(httpx_mock: HTTPXMock):
 
     assert response.lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
     assert response.code == "tax_code"
+    assert response.applied_to_billing_entities_codes == ["acme_corp", "foo_bar"]
 
 
 def test_invalid_create_tax_request(httpx_mock: HTTPXMock):

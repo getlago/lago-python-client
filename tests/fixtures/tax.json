@@ -6,6 +6,7 @@
     "rate": 15.0,
     "description": "tax_desc",
     "applied_to_organization": false,
+    "applied_to_billing_entities_codes": ["acme_corp", "foo_bar"],
     "created_at": "2022-04-29T08:59:51Z"
   }
 }

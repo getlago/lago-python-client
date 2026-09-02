@@ -24,6 +24,11 @@
     "prepaid_purchased_credit_amount_cents": 0,
     "total_amount_cents": 120,
     "total_due_amount_cents": 120,
+    "total_paid_amount_cents": 0,
+    "total_offsetted_credit_note_amount_cents": 0,
+    "self_billed": false,
+    "voided_at": null,
+    "xml_url": null,
     "metadata": [
       {
         "key": "key",
@@ -97,7 +102,6 @@
     "fees": [
       {
         "lago_id": "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
-        "invoice_display_name": "fee_invoice_display_name",
         "item": {
           "type": "one_off",
           "code": "one",

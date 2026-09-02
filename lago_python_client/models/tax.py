@@ -24,6 +24,7 @@ class TaxResponse(BaseResponseModel):
     rate: float
     description: Optional[str]
     applied_to_organization: Optional[bool]
+    applied_to_billing_entities_codes: Optional[List[str]]
     created_at: str
 
 

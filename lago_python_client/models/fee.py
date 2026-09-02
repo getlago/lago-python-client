@@ -7,7 +7,6 @@ from .invoice_item import InvoiceItemResponse
 
 class Fee(BaseModel):
     payment_status: Optional[str]
-    invoice_display_name: Optional[str]
 
 
 class FeeAppliedTax(BaseResponseModel):
@@ -46,18 +45,21 @@ class FeeResponse(BaseResponseModel):
     lago_invoice_id: Optional[str]
     lago_true_up_fee_id: Optional[str]
     lago_true_up_parent_fee_id: Optional[str]
+    lago_original_fee_id: Optional[str]
     external_subscription_id: Optional[str]
+    lago_customer_id: Optional[str]
+    external_customer_id: Optional[str]
     amount_cents: Optional[int]
     amount_currency: Optional[str]
     taxes_amount_cents: Optional[int]
     taxes_rate: Optional[float]
     total_amount_cents: Optional[int]
-    unit_amount_cents: Optional[int]  # deprecated
     precise_unit_amount: Optional[str]
     sub_total_excluding_taxes_amount_cents: Optional[int]
     sub_total_excluding_taxes_precise_amount_cents: Optional[str]
     precise_amount: Optional[str]
     precise_total_amount: Optional[str]
+    precise_coupons_amount_cents: Optional[str]
     taxes_precise_amount: Optional[str]
     total_amount_currency: Optional[str]
     units: Optional[str]
@@ -68,7 +70,8 @@ class FeeResponse(BaseResponseModel):
     description: Optional[str]
     pay_in_advance: Optional[bool]
     invoiceable: Optional[bool]
-    invoice_display_name: Optional[str]
+    self_billed: Optional[bool]
+    event_transaction_id: Optional[str]
     succeeded_at: Optional[str]
     failed_at: Optional[str]
     refunded_at: Optional[str]
@@ -77,7 +80,6 @@ class FeeResponse(BaseResponseModel):
     amount_details: Optional[Dict[str, Any]]
     pricing_unit_details: Optional[PricingUnitDetails]
     presentation_breakdowns: Optional[PresentationBreakdowns]
-    billing_entity_code: Optional[str]
 
     item: Optional[InvoiceItemResponse]
     applied_taxes: Optional[FeeAppliedTaxes]
