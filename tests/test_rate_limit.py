@@ -119,8 +119,8 @@ class TestRateLimitRetryConfig:
 
         assert config.max_retries == 3
         assert config.retry_on_rate_limit is True
-        assert config.base_backoff_seconds == 1.0
-        assert config.backoff_multiplier == 2.0
+        assert config.base_backoff_seconds == pytest.approx(1.0)
+        assert config.backoff_multiplier == pytest.approx(2.0)
 
     def test_custom_config(self):
         """Test custom rate limit retry config."""
@@ -133,8 +133,8 @@ class TestRateLimitRetryConfig:
 
         assert config.max_retries == 5
         assert config.retry_on_rate_limit is False
-        assert config.base_backoff_seconds == 2.0
-        assert config.backoff_multiplier == 3.0
+        assert config.base_backoff_seconds == pytest.approx(2.0)
+        assert config.backoff_multiplier == pytest.approx(3.0)
 
     def test_exponential_backoff_calculation(self):
         """Test exponential backoff duration calculation."""
@@ -144,11 +144,11 @@ class TestRateLimitRetryConfig:
         )
 
         # First retry: 1 * 2^0 = 1
-        assert config.calculate_backoff(0) == 1.0
+        assert config.calculate_backoff(0) == pytest.approx(1.0)
         # Second retry: 1 * 2^1 = 2
-        assert config.calculate_backoff(1) == 2.0
+        assert config.calculate_backoff(1) == pytest.approx(2.0)
         # Third retry: 1 * 2^2 = 4
-        assert config.calculate_backoff(2) == 4.0
+        assert config.calculate_backoff(2) == pytest.approx(4.0)
 
     def test_custom_exponential_backoff(self):
         """Test custom exponential backoff calculation."""
@@ -158,11 +158,11 @@ class TestRateLimitRetryConfig:
         )
 
         # 0.5 * 3^0 = 0.5
-        assert config.calculate_backoff(0) == 0.5
+        assert config.calculate_backoff(0) == pytest.approx(0.5)
         # 0.5 * 3^1 = 1.5
-        assert config.calculate_backoff(1) == 1.5
+        assert config.calculate_backoff(1) == pytest.approx(1.5)
         # 0.5 * 3^2 = 4.5
-        assert config.calculate_backoff(2) == 4.5
+        assert config.calculate_backoff(2) == pytest.approx(4.5)
 
 
 class TestClientRateLimitConfig:

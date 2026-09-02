@@ -403,7 +403,7 @@ def test_plan_with_fixed_charges_serialization():
     assert plan_dict["fixed_charges"][0]["add_on_id"] == "add_on_123"
     assert plan_dict["fixed_charges"][0]["charge_model"] == "standard"
     assert plan_dict["fixed_charges"][0]["invoice_display_name"] == "Setup Fee"
-    assert plan_dict["fixed_charges"][0]["units"] == 1.0
+    assert plan_dict["fixed_charges"][0]["units"] == pytest.approx(1.0)
     assert plan_dict["fixed_charges"][0]["pay_in_advance"] is True
     assert plan_dict["fixed_charges"][0]["prorated"] is False
     assert plan_dict["fixed_charges"][0]["properties"]["amount"] == "500"

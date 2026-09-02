@@ -80,7 +80,7 @@ class Client:
 
     @property
     def base_api_url(self) -> str:
-        return urljoin(self.api_url if self.api_url else Client.BASE_URL, Client.API_PATH)
+        return urljoin(self.api_url or Client.BASE_URL, Client.API_PATH)
 
     @property
     def base_ingest_api_url(self) -> str:

@@ -394,7 +394,7 @@ def test_valid_lifetime_usage_request(httpx_mock: HTTPXMock):
     assert response.usage_thresholds[0].amount_cents == 2000
     assert response.usage_thresholds[0].completion_ratio == 1
     assert response.usage_thresholds[1].amount_cents == 4000
-    assert response.usage_thresholds[1].completion_ratio == 0.5
+    assert response.usage_thresholds[1].completion_ratio == pytest.approx(0.5)
 
 
 def test_invalid_lifetime_usage_request(httpx_mock: HTTPXMock):
@@ -452,7 +452,7 @@ def test_valid_find_all_fixed_charges_request(httpx_mock: HTTPXMock):
     assert response["fixed_charges"][0].pay_in_advance is True
     assert response["fixed_charges"][0].prorated is False
     assert response["fixed_charges"][0].properties.amount == "500"
-    assert response["fixed_charges"][0].units == 1.0
+    assert response["fixed_charges"][0].units == pytest.approx(1.0)
     assert response["fixed_charges"][1].lago_id == "3c903c90-3c90-3c90-3c90-3c903c903c90"
     assert response["fixed_charges"][1].charge_model == "graduated"
     assert response["fixed_charges"][1].properties.graduated_ranges[0].from_value == 0
