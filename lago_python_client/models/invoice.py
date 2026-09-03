@@ -136,11 +136,16 @@ class InvoiceResponse(BaseResponseModel):
     sub_total_including_taxes_amount_cents: int
     total_amount_cents: int
     total_due_amount_cents: int
+    total_paid_amount_cents: Optional[int]
+    total_offsetted_credit_note_amount_cents: Optional[int]
     prepaid_credit_amount_cents: int
     prepaid_granted_credit_amount_cents: Optional[int]
     prepaid_purchased_credit_amount_cents: Optional[int]
+    self_billed: Optional[bool]
+    voided_at: Optional[str]
 
     file_url: Optional[str]
+    xml_url: Optional[str]
     web_url: Optional[str]
     customer: Optional[CustomerResponse]
     billing_periods: Optional[BillingPeriodsResponse]

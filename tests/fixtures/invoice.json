@@ -26,6 +26,11 @@
     "prepaid_purchased_credit_amount_cents": 0,
     "total_amount_cents": 120,
     "total_due_amount_cents": 120,
+    "total_paid_amount_cents": 60,
+    "total_offsetted_credit_note_amount_cents": 10,
+    "self_billed": false,
+    "voided_at": null,
+    "xml_url": "https://getlago.com/invoice/xml",
     "metadata": [
       {
         "key": "key",

@@ -84,7 +84,6 @@ def test_valid_create_invoice_request(httpx_mock: HTTPXMock):
 
     assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
     assert response.invoice_type == "one_off"
-    assert response.fees.__root__[0].invoice_display_name == "fee_invoice_display_name"
     assert response.fees.__root__[0].precise_unit_amount == "9.52"
     assert response.fees.__root__[0].item.invoice_display_name == "one_off_invoice_display_name"
     assert response.fees.__root__[0].amount_details == {}
@@ -171,6 +170,11 @@ def test_valid_find_invoice_request(httpx_mock: HTTPXMock):
 
     assert response.lago_id == identifier
     assert response.purchase_order_number == "PO-123"
+    assert response.total_paid_amount_cents == 60
+    assert response.total_offsetted_credit_note_amount_cents == 10
+    assert response.self_billed is False
+    assert response.xml_url == "https://getlago.com/invoice/xml"
+    assert response.voided_at is None
 
 
 def test_invalid_find_invoice_request(httpx_mock: HTTPXMock):

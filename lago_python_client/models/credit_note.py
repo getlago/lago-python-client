@@ -53,7 +53,7 @@ class CreditNoteResponse(BaseResponseModel):
     balance_amount_cents: int
     refund_amount_cents: int
     offset_amount_cents: int
-    taxes_amount_cents: str
+    taxes_amount_cents: int
     taxes_rate: float
     sub_total_excluding_taxes_amount_cents: int
     coupons_adjustment_amount_cents: int
@@ -76,7 +76,12 @@ class Items(BaseModel):
 
 
 class CreditNote(BaseModel):
+    invoice_id: Optional[str]
     reason: Optional[str]
+    description: Optional[str]
+    credit_amount_cents: Optional[int]
+    refund_amount_cents: Optional[int]
+    offset_amount_cents: Optional[int]
     items: Optional[Items]
     metadata: Optional[Dict[str, Optional[str]]]
 
@@ -117,7 +122,7 @@ class CreditNoteEstimatedResponse(BaseResponseModel):
     max_creditable_amount_cents: int
     max_refundable_amount_cents: int
     max_offsettable_amount_cents: int
-    taxes_amount_cents: str
+    taxes_amount_cents: int
     taxes_rate: float
     sub_total_excluding_taxes_amount_cents: int
     coupons_adjustment_amount_cents: int

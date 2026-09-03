@@ -25,6 +25,11 @@
       "prepaid_purchased_credit_amount_cents": 0,
       "total_amount_cents": 120,
       "total_due_amount_cents": 120,
+      "total_paid_amount_cents": 0,
+      "total_offsetted_credit_note_amount_cents": 0,
+      "self_billed": false,
+      "voided_at": null,
+      "xml_url": null,
       "applied_taxes": [
         {
           "lago_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
@@ -65,6 +70,11 @@
       "prepaid_purchased_credit_amount_cents": 0,
       "total_amount_cents": 120,
       "total_due_amount_cents": 120,
+      "total_paid_amount_cents": 0,
+      "total_offsetted_credit_note_amount_cents": 0,
+      "self_billed": false,
+      "voided_at": null,
+      "xml_url": null,
       "applied_taxes": [
         {
           "lago_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",

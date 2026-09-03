@@ -16,7 +16,6 @@ def mock_response():
 def test_valid_find_fee_request(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
     identifier = "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
-    fee_invoice_display_name = "fee_invoice_display_name"
     charge_invoice_display_name = "charge_invoice_display_name"
 
     httpx_mock.add_response(
@@ -27,7 +26,11 @@ def test_valid_find_fee_request(httpx_mock: HTTPXMock):
     response = client.fees.find(identifier)
 
     assert response.lago_id == identifier
-    assert response.invoice_display_name == fee_invoice_display_name
+    assert response.lago_customer_id == "1a901a90-1a90-1a90-1a90-1a901a901a90"
+    assert response.external_customer_id == "external_customer_id"
+    assert response.self_billed is False
+    assert response.event_transaction_id == "transaction_1234567890"
+    assert response.precise_coupons_amount_cents == "0.0"
     assert response.item.invoice_display_name == charge_invoice_display_name
     assert response.presentation_breakdowns.__root__[0].presentation_by["team"] == "engineering"
     assert response.presentation_breakdowns.__root__[0].units == "10.0"
