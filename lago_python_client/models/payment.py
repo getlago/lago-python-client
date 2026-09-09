@@ -4,9 +4,6 @@ from ..base_model import BaseModel, BaseResponseModel
 
 PaymentStatusFilter = Literal["pending", "processing", "succeeded", "failed"]
 PaymentProviderFilter = Literal["stripe", "gocardless", "cashfree", "adyen", "flutterwave", "moneyhash"]
-PaymentMethodFilter = Literal[
-    "card", "sepa_debit", "us_bank_account", "bacs_debit", "link", "boleto", "crypto", "customer_balance"
-]
 PaymentTypeFilter = Literal["manual", "provider"]
 PayableTypeFilter = Literal["Invoice", "PaymentRequest"]
 
@@ -26,7 +23,6 @@ class PaymentFilters(TypedDict, total=False):
     created_at_from: str
     created_at_to: str
     payment_provider_type: Union[PaymentProviderFilter, List[PaymentProviderFilter]]
-    payment_method_type: Union[PaymentMethodFilter, List[PaymentMethodFilter]]
     currency: str
     invoice_number: str
     payment_type: Union[PaymentTypeFilter, List[PaymentTypeFilter]]

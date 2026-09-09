@@ -6,7 +6,6 @@ PAYMENT_ARRAY_FILTERS = {
     "payment_status",
     "payment_statuses",
     "payment_provider_type",
-    "payment_method_type",
     "payment_type",
     "payable_type",
 }

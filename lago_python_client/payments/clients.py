@@ -26,8 +26,8 @@ class PaymentClient(
 
         Accepted keys: page, per_page, external_customer_id, invoice_id, payment_status
         (or payment_statuses), amount_from, amount_to, receipt_number, created_at_from,
-        created_at_to, payment_provider_type, payment_method_type, currency,
-        invoice_number, payment_type, payable_type and search_term.
+        created_at_to, payment_provider_type, currency, invoice_number, payment_type,
+        payable_type and search_term.
         Enum filters accept a string or list; lists use repeated bracketed query keys.
         Amount bounds are inclusive integer cents (0 through 9223372036854775807).
         """
