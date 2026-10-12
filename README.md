@@ -94,3 +94,27 @@ The contribution documentation is available [here](https://github.com/getlago/la
 ## License
 
 Lago Python client is distributed under [MIT license](LICENSE).
+
+### Payment list filters
+
+```python
+from lago_python_client.models import PaymentFilters
+
+filters: PaymentFilters = {
+    "payment_status": ["succeeded", "failed"],
+    "currency": "EUR",
+    "amount_from": 0,
+    "amount_to": 9223372036854775807,
+    "created_at_from": "2026-09-01",
+    "created_at_to": "2026-09-07",
+}
+client.payments.find_all(filters)
+client.customer_payments.find_all("cust_1", filters)
+```
+
+The `PaymentFilters` type documents every accepted option. Enum filters accept a
+single string or a list; lists use repeated bracketed query keys. All filters
+combine with AND, while values in one list combine with OR. Amount bounds are
+inclusive integer cents. Receipt and invoice numbers match exactly, ignoring case.
+Date boundaries include the entire day in the organization's timezone. Keep the
+same filters when requesting the page number returned in `meta.next_page`.

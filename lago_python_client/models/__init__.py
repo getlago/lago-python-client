@@ -239,7 +239,7 @@ from .organization import (
 from .organization import (
     OrganizationBillingConfiguration as OrganizationBillingConfiguration,
 )
-from .payment import Payment as Payment
+from .payment import Payment as Payment, PaymentFilters as PaymentFilters
 from .payment_receipt import (
     PaymentReceiptResponse as PaymentReceiptResponse,
 )
