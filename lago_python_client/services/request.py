@@ -1,4 +1,5 @@
 from typing import Any, Callable, Optional, Union
+import time
 
 try:
     from typing import Final
@@ -59,13 +60,8 @@ def _create_retry_wrapper(
     http_method: Callable[..., httpx.Response],
 ) -> Callable[..., httpx.Response]:
     """
-    Create a wrapper around an httpx HTTP method that retries on rate limit (429).
-
-    Args:
-        http_method: The httpx HTTP method to wrap (e.g., httpx.get, httpx.post).
-
-    Returns:
-        A wrapped version of the HTTP method that handles rate limit retries.
+    Create a wrapper around an httpx HTTP method that retries on rate limit (429)
+    AND transient network/server errors (Exponential Backoff).
     """
 
     def retry_wrapper(
@@ -74,30 +70,44 @@ def _create_retry_wrapper(
         rate_limit_retry_config: Optional[RateLimitRetryConfig] = None,
         **kwargs: Any,
     ) -> httpx.Response:
-        """
-        Execute HTTP request with automatic retry on rate limit (429) responses.
-
-        Args:
-            url: The request URL.
-            rate_limit_retry_config: Configuration for rate limit retry behavior.
-                Defaults to a configuration with max_retries=3.
-            **kwargs: Additional arguments to pass to the underlying httpx method.
-
-        Returns:
-            The HTTP response.
-
-        Raises:
-            LagoRateLimitError: If rate limit is exceeded and retries exhausted.
-            httpx.RequestError: For other HTTP errors.
-        """
         if rate_limit_retry_config is None:
             rate_limit_retry_config = RateLimitRetryConfig()
 
         method_name = http_method.__name__.upper()
-
         retry_attempt = 0
+
+        # --- ASHFIR V3 INSPIRED NETWORK RETRY CONFIG ---
+        network_retry_attempt = 0
+        max_network_retries = 3
+        network_delay = 1.0  # İlk hata sonrası 1 saniye bekle
+        # -----------------------------------------------
+
         while True:
-            response = http_method(url, **kwargs)
+            try:
+                response = http_method(url, **kwargs)
+
+                # Sunucu geçici hata verdiyse (502, 503, 504), manuel olarak HTTPStatusError fırlat
+                if response.status_code in [502, 503, 504]:
+                    raise httpx.HTTPStatusError(
+                        message=f"Server error: {response.status_code}",
+                        request=response.request,
+                        response=response,
+                    )
+
+            except (httpx.RequestError, httpx.TimeoutException, httpx.HTTPStatusError) as e:
+                # Eğer hata bir HTTPStatusError ise ve 429 (Rate Limit) ise üstteki mantığı bozma, aşağı pasla
+                if isinstance(e, httpx.HTTPStatusError) and e.response.status_code == 429:
+                    response = e.response
+                else:
+                    # Genel ağ hatası veya sunucu çökmesi durumu: Exponential Backoff'u tetikle!
+                    if network_retry_attempt < max_network_retries:
+                        time.sleep(network_delay)
+                        network_delay *= 2  # Üstel geri çekilme (1s -> 2s -> 4s)
+                        network_retry_attempt += 1
+                        retry_attempt += 1  # Rate limit takibi istatistiklerini yanıltmamak için senkronize et
+                        continue
+                    else:
+                        raise e  # Denemeler tükendiyse hatayı fırlat
 
             # If not rate limited, emit observability info and return the response
             if not is_rate_limit_response(response):
@@ -116,7 +126,7 @@ def _create_retry_wrapper(
                 retry_attempt,
             )
 
-            # Wait and retry
+            # Wait and retry (Rate limit için)
             wait_for_retry(wait_duration)
             retry_attempt += 1
 
