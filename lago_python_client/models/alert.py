@@ -8,6 +8,7 @@ class AlertThreshold(BaseModel):
     code: Optional[str]
     value: str
     recurring: Optional[bool]
+    notify_on: Optional[List[str]]
 
 
 class AlertThresholdList(BaseModel):
@@ -30,6 +31,7 @@ class AlertThresholdResponse(BaseResponseModel):
     code: Optional[str]
     value: str
     recurring: bool
+    notify_on: Optional[List[str]]
 
 
 class AlertThresholdResponseList(BaseResponseModel):
