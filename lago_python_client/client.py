@@ -42,6 +42,7 @@ from .subscriptions.charges_client import SubscriptionChargesClient
 from .subscriptions.clients import SubscriptionClient
 from .subscriptions.fixed_charges_client import SubscriptionFixedChargesClient
 from .taxes.clients import TaxClient
+from .usage_attribution_types.clients import UsageAttributionTypeClient
 from .usages.clients import UsageClient
 from .wallets.clients import WalletClient, WalletTransactionClient
 from .webhook_endpoints.clients import WebhookEndpointClient
@@ -251,6 +252,10 @@ class Client:
     @callable_cached_property
     def taxes(self) -> TaxClient:
         return self._create_client(TaxClient, self.base_api_url, self.api_key)
+
+    @callable_cached_property
+    def usage_attribution_types(self) -> UsageAttributionTypeClient:
+        return self._create_client(UsageAttributionTypeClient, self.base_api_url, self.api_key)
 
     @callable_cached_property
     def usages(self) -> UsageClient:

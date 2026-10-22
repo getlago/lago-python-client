@@ -11,6 +11,7 @@ from ..mixins import (
     FindAllCommandMixin,
     FindCommandMixin,
 )
+from ..models.attributed_usage import AttributedUsageResponse
 from ..models.customer import CustomerResponse
 from ..models.customer_projected_usage import CustomerProjectedUsageResponse
 from ..models.customer_usage import CustomerUsageResponse
@@ -146,6 +147,47 @@ class CustomerClient(
             response_model=CustomerUsageResponse,
             data=get_response_data(response=api_response),
         )
+
+    def attributed_usage(
+        self,
+        resource_id: str,
+        external_subscription_id: str,
+        group_by: Optional[str] = None,
+        filters: Optional[Mapping[str, Union[str, list[str]]]] = None,
+        options: QueryPairs = None,
+    ) -> Mapping[str, Any]:
+        query_params: dict[str, Union[int, str, list[str]]] = {"external_subscription_id": external_subscription_id}
+        if group_by is not None:
+            query_params["group_by"] = group_by
+        if filters is not None:
+            for k, v in filters.items():
+                if isinstance(v, str):
+                    query_params[f"filters[{k}]"] = v
+                else:
+                    query_params[f"filters[{k}][]"] = list(v)
+        if options is not None:
+            query_params.update(options)
+
+        api_response: Response = send_get_request(
+            url=make_url(
+                origin=self.base_url,
+                path_parts=(self.API_RESOURCE, resource_id, "attributed_usage"),
+                query_pairs=query_params,
+            ),
+            headers=make_headers(api_key=self.api_key),
+        )
+
+        response_data = get_response_data(response=api_response)
+        if not isinstance(response_data, Mapping):
+            response_data = {}
+
+        return {
+            "attributed_usage": prepare_object_response(
+                response_model=AttributedUsageResponse,
+                data=response_data.get("attributed_usage"),
+            ),
+            "meta": response_data.get("meta"),
+        }
 
     def portal_url(self, resource_id: str) -> str:
         api_response: Response = send_get_request(
