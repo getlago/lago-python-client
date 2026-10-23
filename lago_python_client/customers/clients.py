@@ -152,19 +152,29 @@ class CustomerClient(
         self,
         resource_id: str,
         external_subscription_id: str,
-        group_by: Optional[str] = None,
+        group_by: str,
         filters: Optional[Mapping[str, Union[str, list[str]]]] = None,
+        charge_codes: Optional[list[str]] = None,
         options: QueryPairs = None,
     ) -> Mapping[str, Any]:
-        query_params: dict[str, Union[int, str, list[str]]] = {"external_subscription_id": external_subscription_id}
-        if group_by is not None:
-            query_params["group_by"] = group_by
+        query_params: dict[str, Union[int, str, list[str]]] = {
+            "external_subscription_id": external_subscription_id,
+            "group_by": group_by,
+        }
         if filters is not None:
             for k, v in filters.items():
                 if isinstance(v, str):
                     query_params[f"filters[{k}]"] = v
+                elif not v:
+                    # An empty list would send no param and silently drop the filter
+                    raise ValueError(f"filters[{k}] must not be empty")
                 else:
                     query_params[f"filters[{k}][]"] = list(v)
+        if charge_codes is not None:
+            if not charge_codes:
+                # An empty list would send no param, which the API reads as all charges
+                raise ValueError("charge_codes must not be empty")
+            query_params["charge_codes[]"] = list(charge_codes)
         if options is not None:
             query_params.update(options)
 

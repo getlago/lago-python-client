@@ -300,10 +300,10 @@ def test_valid_attributed_usage(httpx_mock: HTTPXMock):
 
     httpx_mock.add_response(
         method="GET",
-        url="https://api.getlago.com/api/v1/customers/external_customer_id/attributed_usage?external_subscription_id=sub_123",
+        url="https://api.getlago.com/api/v1/customers/external_customer_id/attributed_usage?external_subscription_id=sub_123&group_by=team",
         content=mock_response("customer_attributed_usage"),
     )
-    response = client.customers.attributed_usage("external_customer_id", "sub_123")
+    response = client.customers.attributed_usage("external_customer_id", "sub_123", "team")
 
     attributed_usage = response["attributed_usage"]
     assert attributed_usage.external_subscription_id == "sub_123"
@@ -329,7 +329,8 @@ def test_valid_attributed_usage_with_filters_and_options(httpx_mock: HTTPXMock):
             "https://api.getlago.com/api/v1/customers/external_customer_id/attributed_usage"
             "?external_subscription_id=sub_123&group_by=team"
             "&filters%5Bdepartment%5D=rnd&filters%5Bmodel%5D%5B%5D=opus&filters%5Bmodel%5D%5B%5D=haiku"
-            "&basis=amount&charge_codes%5B%5D=tokens&page=2&per_page=10"
+            "&charge_codes%5B%5D=tokens&charge_codes%5B%5D=requests"
+            "&basis=amount&page=2&per_page=10"
         ),
         content=mock_response("customer_attributed_usage"),
     )
@@ -338,10 +339,25 @@ def test_valid_attributed_usage_with_filters_and_options(httpx_mock: HTTPXMock):
         "sub_123",
         group_by="team",
         filters={"department": "rnd", "model": ["opus", "haiku"]},
-        options={"basis": "amount", "charge_codes[]": ["tokens"], "page": 2, "per_page": 10},
+        charge_codes=["tokens", "requests"],
+        options={"basis": "amount", "page": 2, "per_page": 10},
     )
 
     assert response["attributed_usage"].rows[0].value == "eng"
+
+
+def test_attributed_usage_with_empty_filter_values():
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    with pytest.raises(ValueError):
+        client.customers.attributed_usage("external_customer_id", "sub_123", "team", filters={"department": []})
+
+
+def test_attributed_usage_with_empty_charge_codes():
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    with pytest.raises(ValueError):
+        client.customers.attributed_usage("external_customer_id", "sub_123", "team", charge_codes=[])
 
 
 def test_invalid_attributed_usage(httpx_mock: HTTPXMock):
@@ -349,13 +365,13 @@ def test_invalid_attributed_usage(httpx_mock: HTTPXMock):
 
     httpx_mock.add_response(
         method="GET",
-        url="https://api.getlago.com/api/v1/customers/invalid_customer/attributed_usage?external_subscription_id=sub_123",
+        url="https://api.getlago.com/api/v1/customers/invalid_customer/attributed_usage?external_subscription_id=sub_123&group_by=team",
         status_code=404,
         content=b"",
     )
 
     with pytest.raises(LagoApiError):
-        client.customers.attributed_usage("invalid_customer", "sub_123")
+        client.customers.attributed_usage("invalid_customer", "sub_123", "team")
 
 
 def test_valid_portal_url(httpx_mock: HTTPXMock):
