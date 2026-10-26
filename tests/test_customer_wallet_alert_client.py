@@ -14,7 +14,7 @@ from .utils.mixin import mock_response
 
 
 def alert_object():
-    threshold = AlertThreshold(code="warn", value=10000)
+    threshold = AlertThreshold(code="warn", value=10000, notify_on=["triggered", "resolved"])
 
     return Alert(
         alert_type="wallet_balance_amount",
@@ -45,7 +45,7 @@ def test_valid_create_customer_wallet_alert_request(httpx_mock: HTTPXMock):
     assert response.direction == "increasing"
     assert response.previous_value == "1000"
     assert response.thresholds == AlertThresholdList(
-        __root__=[AlertThreshold(code="warn", value=10000, recurring=False)]
+        __root__=[AlertThreshold(code="warn", value=10000, recurring=False, notify_on=["triggered", "resolved"])]
     )
     assert response.billable_metric is None
 
