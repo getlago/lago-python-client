@@ -1,3 +1,4 @@
+import warnings
 from typing import Any, Generic, Optional, Type, TypeVar, Union
 
 import httpx
@@ -157,9 +158,14 @@ class FindAllChildrenCommandMixin(Generic[_M]):
         self: _ClientMixin[_M],
         resource_id: str,
         options: QueryPairs = None,
+        timeout: Optional[httpx.Timeout] = DEFAULT_TIMEOUT,
+        *,
         timetour: Optional[httpx.Timeout] = None,
     ) -> Mapping[str, Any]:
         """Execute `find_all` child command."""
+        if timetour is not None:
+            warnings.warn("timetour is deprecated, use timeout instead", DeprecationWarning, stacklevel=2)
+            timeout = timetour
         # Send request and save response
         if options is None:
             options = {}
@@ -174,6 +180,7 @@ class FindAllChildrenCommandMixin(Generic[_M]):
                 query_pairs=options,
             ),
             headers=make_headers(api_key=self.api_key),
+            timeout=timeout,
             rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
