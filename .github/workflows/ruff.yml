@@ -14,7 +14,10 @@ jobs:
           python -m pip install .[test]
       - name: Validate linter rules with Ruff
         uses: chartboost/ruff-action@v1
+        with:
+          version: 0.17.2
       - name: Validate formatting with Ruff
         uses: chartboost/ruff-action@v1
         with:
+          version: 0.17.2
           args: "format --check"
