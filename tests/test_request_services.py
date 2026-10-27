@@ -1,5 +1,7 @@
 """Test request services."""
 
+import pytest
+
 from lago_python_client.services.request import (
     make_headers,
     make_url,
@@ -9,6 +11,27 @@ from lago_python_client.services.request import (
     send_put_request,
 )
 from lago_python_client.version import LAGO_VERSION
+
+
+@pytest.mark.parametrize(
+    "identifier,encoded",
+    [
+        ("customer#billing", "customer%23billing"),
+        ("customer?expand=all", "customer%3Fexpand%3Dall"),
+        ("tenant/customer", "tenant%2Fcustomer"),
+        ("customer%2Fbilling", "customer%252Fbilling"),
+        ("customer name", "customer%20name"),
+        ("客戶", "%E5%AE%A2%E6%88%B6"),
+        ("..", "%2E%2E"),
+        (".", "%2E"),
+    ],
+)
+def test_make_url_treats_identifiers_as_path_segments(identifier, encoded):
+    assert make_url(
+        origin="https://api.getlago.com/api/v1/",
+        path_parts=("customers", identifier, "current_usage"),
+        query_pairs={"external_subscription_id": "sub#1"},
+    ) == (f"https://api.getlago.com/api/v1/customers/{encoded}/current_usage?external_subscription_id=sub%231")
 
 
 def test_make_headers():

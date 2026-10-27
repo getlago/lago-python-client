@@ -5,7 +5,7 @@ try:
 except ImportError:  # Python 3.7
     from typing_extensions import Final  # type: ignore
 from collections.abc import Mapping, Sequence
-from urllib.parse import urlencode, urljoin
+from urllib.parse import quote, urlencode, urljoin
 
 import httpx
 
@@ -24,19 +24,25 @@ QUERY_TEMPLATE: Final[str] = "?{query}"
 QueryPairs = Union[Mapping[str, Union[int, str, list[str]]], Sequence[tuple[str, Union[int, str]]]]
 
 
+def _quote_path_part(part: str) -> str:
+    # quote() leaves dots unescaped; standalone dot segments are normalized by
+    # urljoin and HTTP clients, so preserve them as literal identifiers too.
+    return part.replace(".", "%2E") if part in (".", "..") else quote(part, safe="")
+
+
 def make_url(
     *,
     origin: str,
     path_parts: Sequence[str],
     query_pairs: QueryPairs = None,
 ) -> str:
-    """Return url."""
+    """Return a URL, treating each path part as an unencoded segment."""
     if query_pairs is None:
         query_pairs = {}
     return urljoin(
         origin,
         URI_TEMPLATE.format(
-            uri_path="/".join(path_parts),
+            uri_path="/".join(_quote_path_part(part) for part in path_parts),
             uri_query=QUERY_TEMPLATE.format(
                 query=urlencode(query_pairs, doseq=True),
             )

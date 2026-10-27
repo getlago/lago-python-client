@@ -66,6 +66,32 @@ def mock_response(mock="customer"):
         return customer_response.read()
 
 
+@pytest.mark.parametrize(
+    "external_id,encoded",
+    [
+        ("customer#billing", "customer%23billing"),
+        ("customer?active=true", "customer%3Factive%3Dtrue"),
+        ("tenant/customer", "tenant%2Fcustomer"),
+        ("customer%2Fbilling", "customer%252Fbilling"),
+        (".", "%2E"),
+        ("..", "%2E%2E"),
+    ],
+)
+def test_find_preserves_reserved_characters_in_external_id(httpx_mock: HTTPXMock, external_id, encoded):
+    client = Client(api_key="test-key")
+    httpx_mock.add_response(
+        method="GET",
+        url=f"https://api.getlago.com/api/v1/customers/{encoded}",
+        content=mock_response(),
+    )
+
+    client.customers.find(external_id)
+
+    request = httpx_mock.get_request()
+    assert request.headers["Authorization"] == "Bearer test-key"
+    assert request.url.raw_path == f"/api/v1/customers/{encoded}".encode()
+
+
 def test_valid_create_customers_request(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
 
