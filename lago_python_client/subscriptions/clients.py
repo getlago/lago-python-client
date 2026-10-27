@@ -47,7 +47,9 @@ class SubscriptionClient(
 
     @callable_cached_property
     def alerts(self) -> SubscriptionAlertClient:
-        return SubscriptionAlertClient(self.base_url, self.api_key)
+        return SubscriptionAlertClient(
+            self.base_url, self.api_key, rate_limit_retry_config=self.rate_limit_retry_config
+        )
 
     def lifetime_usage(self, resource_id: str) -> LifetimeUsageResponse:
         api_response: Response = send_get_request(

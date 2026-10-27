@@ -395,6 +395,7 @@ class NestedCreateCommandMixin(Generic[_M]):
     def create(
         self: _ClientMixin[_M],
         *args: Union[str, BaseModel],
+        options: QueryPairs = None,
         timeout: Optional[httpx.Timeout] = None,
     ) -> Optional[_M]:
         """Execute `create` command."""
@@ -402,7 +403,7 @@ class NestedCreateCommandMixin(Generic[_M]):
 
         # Send request and save response
         api_response: Response = send_post_request(
-            url=make_url(origin=self.base_url, path_parts=self.api_resource(*parent_ids)),
+            url=make_url(origin=self.base_url, path_parts=self.api_resource(*parent_ids), query_pairs=options),
             content=to_json(
                 {
                     self.ROOT_NAME: input_object.dict(exclude_none=True),
@@ -430,6 +431,7 @@ class NestedUpdateCommandMixin(Generic[_M]):
     def update(
         self: _ClientMixin[_M],
         *args: Union[str, BaseModel],
+        options: QueryPairs = None,
         timeout: Optional[httpx.Timeout] = None,
     ) -> _M:
         """Execute `update` command."""
@@ -440,6 +442,7 @@ class NestedUpdateCommandMixin(Generic[_M]):
             url=make_url(
                 origin=self.base_url,
                 path_parts=self.api_resource(*parent_ids) + (resource_id,),
+                query_pairs=options,
             ),
             content=to_json(
                 {
@@ -464,6 +467,7 @@ class NestedDestroyCommandMixin(Generic[_M]):
     def destroy(
         self: _ClientMixin[_M],
         *args: str,
+        options: QueryPairs = None,
         timeout: Optional[httpx.Timeout] = None,
     ) -> BaseModel:
         """Execute `destroy` command."""
@@ -474,6 +478,7 @@ class NestedDestroyCommandMixin(Generic[_M]):
             url=make_url(
                 origin=self.base_url,
                 path_parts=self.api_resource(*parent_ids) + (resource_id,),
+                query_pairs=options,
             ),
             headers=make_headers(api_key=self.api_key),
             timeout=timeout,
@@ -493,6 +498,7 @@ class NestedFindCommandMixin(Generic[_M]):
     def find(
         self: _ClientMixin[_M],
         *args: str,
+        options: QueryPairs = None,
         timeout: Optional[httpx.Timeout] = None,
     ) -> _M:
         """Execute `find` command."""
@@ -503,6 +509,7 @@ class NestedFindCommandMixin(Generic[_M]):
             url=make_url(
                 origin=self.base_url,
                 path_parts=self.api_resource(*parent_ids) + (resource_id,),
+                query_pairs=options,
             ),
             headers=make_headers(api_key=self.api_key),
             timeout=timeout,
