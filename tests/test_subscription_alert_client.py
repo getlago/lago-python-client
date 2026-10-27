@@ -13,7 +13,7 @@ from .utils.mixin import mock_response
 
 
 def alert_object():
-    threshold = AlertThreshold(code="warn", value=10000, recurring=False)
+    threshold = AlertThreshold(code="warn", value=10000, recurring=False, notify_on=["triggered", "resolved"])
 
     return Alert(
         alert_type="billable_metric_current_usage_amount",
@@ -45,7 +45,7 @@ def test_valid_create_subscription_alert_request(httpx_mock: HTTPXMock):
     assert response.previous_value == "1000"
     assert response.billable_metric.code == "storage"
     assert response.thresholds == AlertThresholdList(
-        __root__=[AlertThreshold(code="warn", value=99.0, recurring=False)]
+        __root__=[AlertThreshold(code="warn", value=99.0, recurring=False, notify_on=["triggered", "resolved"])]
     )
 
 
