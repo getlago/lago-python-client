@@ -1,3 +1,4 @@
+import json
 import os
 
 import pytest
@@ -317,6 +318,7 @@ def test_valid_attributed_usage(httpx_mock: HTTPXMock):
     assert attributed_usage.unattributed.amount_cents == 100
     assert attributed_usage.unattributed.charges_usage[0].lago_charge_filter_id is None
     assert attributed_usage.totals.events_count == 13
+    assert attributed_usage.split_filters_count is None
     assert response["meta"]["total_count"] == 1
 
 
@@ -344,6 +346,31 @@ def test_valid_attributed_usage_with_filters_and_options(httpx_mock: HTTPXMock):
     )
 
     assert response["attributed_usage"].rows[0].value == "eng"
+
+
+def test_valid_attributed_usage_with_split_charge(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    response_data = json.loads(mock_response("customer_attributed_usage"))
+    response_data["attributed_usage"]["split_filters_count"] = 25
+
+    httpx_mock.add_response(
+        method="GET",
+        url=(
+            "https://api.getlago.com/api/v1/customers/external_customer_id/attributed_usage"
+            "?external_subscription_id=sub_123&group_by=team"
+            "&split_charge_code=tokens&split_filters_offset=10"
+        ),
+        json=response_data,
+    )
+    response = client.customers.attributed_usage(
+        "external_customer_id",
+        "sub_123",
+        group_by="team",
+        options={"split_charge_code": "tokens", "split_filters_offset": 10},
+    )
+
+    assert response["attributed_usage"].split_filters_count == 25
 
 
 def test_attributed_usage_with_empty_filter_values():

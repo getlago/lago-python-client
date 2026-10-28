@@ -36,6 +36,7 @@ class AttributedUsageResponse(BaseResponseModel):
     from_datetime: str
     to_datetime: str
     currency: str
+    split_filters_count: Optional[int]
     rows: List[AttributedUsageRow]
     unattributed: AttributedUsageAggregate
     totals: AttributedUsageAggregate
