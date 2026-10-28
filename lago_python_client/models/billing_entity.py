@@ -38,6 +38,7 @@ class BillingEntity(BaseModel):
     tax_identification_number: Optional[str]
     email_settings: Optional[List[str]]
     billing_configuration: Optional[BillingEntityBillingConfiguration]
+    einvoicing: Optional[bool]
 
 
 class BillingEntityUpdate(BaseModel):
@@ -65,6 +66,7 @@ class BillingEntityUpdate(BaseModel):
     email_settings: Optional[List[str]]
     billing_configuration: Optional[BillingEntityBillingConfiguration]
     invoice_custom_section_codes: Optional[List[str]]
+    einvoicing: Optional[bool]
 
 
 class BillingEntityResponse(BaseResponseModel):
@@ -99,5 +101,6 @@ class BillingEntityResponse(BaseResponseModel):
     email_settings: Optional[List[str]]
     taxes: Optional[TaxesResponse]
     selected_invoice_custom_sections: Optional[InvoiceCustomSectionsResponseList]
+    einvoicing: Optional[bool]
     created_at: datetime
     updated_at: datetime

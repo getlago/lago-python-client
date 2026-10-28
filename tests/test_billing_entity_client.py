@@ -1,3 +1,4 @@
+import json
 import os
 
 import pytest
@@ -98,6 +99,24 @@ def test_valid_create_billing_entity_request(httpx_mock: HTTPXMock):
     assert response is not None
     assert response.lago_id == "123e4567-e89b-12d3-a456-426614174000"
     assert response.code == "test-company"
+    assert response.einvoicing is False
+    assert "einvoicing" not in json.loads(httpx_mock.get_request().content)["billing_entity"]
+
+
+def test_valid_create_billing_entity_request_with_einvoicing(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    billing_entity_input = create_billing_entity_input()
+    billing_entity_input.einvoicing = True
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/billing_entities",
+        content=mock_response(),
+    )
+    client.billing_entities.create(billing_entity_input)
+
+    body = json.loads(httpx_mock.get_request().content)
+    assert body["billing_entity"]["einvoicing"] is True
 
 
 def test_invalid_create_billing_entity_request(httpx_mock: HTTPXMock):
@@ -160,6 +179,7 @@ def test_valid_find_all_billing_entities_request(httpx_mock: HTTPXMock):
     assert response["billing_entities"][0].code == "test-company-1"
     assert response["billing_entities"][1].lago_id == "123e4567-e89b-12d3-a456-426614174001"
     assert response["billing_entities"][1].code == "test-company-2"
+    assert response["billing_entities"][1].einvoicing is False
 
 
 def test_invalid_find_all_billing_entities_request(httpx_mock: HTTPXMock):
@@ -189,6 +209,25 @@ def test_valid_update_billing_entity_request(httpx_mock: HTTPXMock):
 
     assert response.lago_id == "123e4567-e89b-12d3-a456-426614174000"
     assert response.code == "test-company"
+    assert response.einvoicing is False
+    assert "einvoicing" not in json.loads(httpx_mock.get_request().content)["billing_entity"]
+
+
+def test_valid_update_billing_entity_request_with_einvoicing(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    billing_entity_code = "test-company"
+    billing_entity_input = update_billing_entity_input()
+    billing_entity_input.einvoicing = False
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/billing_entities/" + billing_entity_code,
+        content=mock_response(),
+    )
+    client.billing_entities.update(billing_entity_input, billing_entity_code)
+
+    body = json.loads(httpx_mock.get_request().content)
+    assert body["billing_entity"]["einvoicing"] is False
 
 
 def test_invalid_update_billing_entity_request(httpx_mock: HTTPXMock):

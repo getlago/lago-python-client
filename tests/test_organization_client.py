@@ -1,3 +1,4 @@
+import json
 import os
 
 import pytest
@@ -44,6 +45,26 @@ def test_valid_update_organization_request(httpx_mock: HTTPXMock):
     assert response.tax_identification_number == "EU123456789"
     assert response.document_number_prefix == "ORG-1234"
     assert response.net_payment_term == 0
+    assert "slug" not in json.loads(httpx_mock.get_request().content)["organization"]
+
+
+def test_valid_update_organization_request_with_slug(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    organization = organization_object()
+    organization.slug = "acme-corp"
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/organizations",
+        content=mock_response(),
+    )
+    response = client.organizations.update(organization)
+
+    body = json.loads(httpx_mock.get_request().content)
+    assert body["organization"]["slug"] == "acme-corp"
+    assert body["organization"]["default_currency"] == "EUR"
+    assert response.lago_id == "1a901a90-1a90-1a90-1a90-1a901a901a90"
+    assert response.slug == "hooli"
 
 
 def test_invalid_update_organization_request(httpx_mock: HTTPXMock):
