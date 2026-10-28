@@ -15,10 +15,10 @@ from lago_python_client.models import (
     FixedCharges,
     MinimumCommitment,
     Plan,
+    PlanEntitlementPrivilegeResponse,
     UsageThreshold,
     UsageThresholds,
 )
-from lago_python_client.models.entitlement import PlanEntitlementPrivilegeResponse
 
 
 def plan_object():

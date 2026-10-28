@@ -156,6 +156,18 @@ from .customer_usage import (
 from .customer_usage import (
     PresentationBreakdowns as PresentationBreakdowns,
 )
+from .entitlement import (
+    PlanEntitlementPrivilegeResponse as PlanEntitlementPrivilegeResponse,
+)
+from .entitlement import (
+    PlanEntitlementPrivilegesResponse as PlanEntitlementPrivilegesResponse,
+)
+from .entitlement import (
+    PlanEntitlementResponse as PlanEntitlementResponse,
+)
+from .entitlement import (
+    PlanEntitlementsResponse as PlanEntitlementsResponse,
+)
 from .event import BatchEvent as BatchEvent
 from .event import Event as Event
 from .fee import Fee as Fee
@@ -300,6 +312,12 @@ from .tax import (
 )
 from .tax import (
     TaxResponse as TaxResponse,
+)
+from .usage_threshold import (
+    ApplicableUsageThresholdResponse as ApplicableUsageThresholdResponse,
+)
+from .usage_threshold import (
+    ApplicableUsageThresholdsResponse as ApplicableUsageThresholdsResponse,
 )
 from .usage_threshold import (
     UsageThreshold as UsageThreshold,
