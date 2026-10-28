@@ -101,6 +101,21 @@ def test_valid_create_wallet_transaction_request_with_priority_and_voided_transa
     assert response["wallet_transactions"][0].priority == 50
 
 
+def test_valid_create_wallet_transaction_request_without_priority_and_voided_transaction_id(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/wallet_transactions",
+        content=mock_response(),
+    )
+    client.wallet_transactions.create(wallet_transaction_object())
+
+    body = json.loads(httpx_mock.get_request().content)
+    assert body["wallet_transaction"]["priority"] is None
+    assert body["wallet_transaction"]["voided_transaction_id"] is None
+
+
 def test_valid_create_wallet_transaction_request_with_payment_method(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
     payment_method = PaymentMethod(payment_method_type="card", payment_method_id="pm_123")
