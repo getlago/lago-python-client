@@ -2,18 +2,59 @@
   "payments": [
     {
       "lago_id": "8e5d5ec2-bdc7-4c43-a944-5ababae775d4",
+      "lago_customer_id": "99a6094e-199b-4101-896a-54e927ce7bd7",
+      "external_customer_id": "customer_external_id",
       "invoice_ids": [
         "ed267c66-8170-4d23-83e8-6d6e4fc735ef"
       ],
       "invoice_numbers": [
         "LAG-1234-567-891"
       ],
+      "lago_payable_id": "ed267c66-8170-4d23-83e8-6d6e4fc735ef",
+      "payable_type": "Invoice",
       "amount_cents": 100,
       "amount_currency": "USD",
+      "status": "succeeded",
+      "payment_status": "succeeded",
+      "type": "provider",
+      "reference": "123",
+      "payment_provider_code": "stripe_prod",
+      "payment_provider_type": "stripe",
+      "external_payment_id": "pi_123",
+      "provider_payment_id": "pi_123",
+      "provider_customer_id": "cus_123",
+      "next_action": {
+        "type": "redirect_to_url",
+        "redirect_to_url": {
+          "url": "https://example.com"
+        }
+      },
+      "created_at": "2025-02-18T18:31:13Z"
+    },
+    {
+      "lago_id": "5b3a2c1d-7e8f-4a9b-8c7d-6e5f4a3b2c1d",
+      "lago_customer_id": "99a6094e-199b-4101-896a-54e927ce7bd7",
+      "external_customer_id": "customer_external_id",
+      "invoice_ids": [
+        "ed267c66-8170-4d23-83e8-6d6e4fc735ef"
+      ],
+      "invoice_numbers": [
+        "LAG-1234-567-891"
+      ],
+      "lago_payable_id": "ed267c66-8170-4d23-83e8-6d6e4fc735ef",
+      "payable_type": "Invoice",
+      "amount_cents": 100,
+      "amount_currency": "USD",
+      "status": "succeeded",
       "payment_status": "succeeded",
       "type": "manual",
-      "reference": "123",
+      "reference": "456",
+      "payment_provider_code": null,
+      "payment_provider_type": null,
       "external_payment_id": null,
+      "provider_payment_id": null,
+      "provider_customer_id": null,
+      "next_action": {},
       "created_at": "2025-02-18T18:31:13Z"
     }
   ],
