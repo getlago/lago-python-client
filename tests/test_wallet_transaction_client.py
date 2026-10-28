@@ -133,13 +133,39 @@ def test_valid_create_wallet_transaction_request_without_priority_and_voided_tra
                 "purchase_order_number": "PO-123",
                 "payment_method": None,
                 "invoice_custom_section": None,
-                "priority": None,
-                "voided_transaction_id": None,
             }
         },
         content=mock_response(),
     )
     response = client.wallet_transactions.create(wallet_transaction_object())
+
+    assert response["wallet_transactions"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac1111"
+
+
+def test_valid_create_wallet_transaction_request_voiding_credits_without_priority(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/wallet_transactions",
+        match_json={
+            "wallet_transaction": {
+                "wallet_id": "123",
+                "paid_credits": None,
+                "granted_credits": None,
+                "voided_credits": "5",
+                "invoice_requires_successful_payment": None,
+                "metadata": None,
+                "name": None,
+                "ignore_paid_top_up_limits": None,
+                "purchase_order_number": None,
+                "payment_method": None,
+                "invoice_custom_section": None,
+            }
+        },
+        content=mock_response(),
+    )
+    response = client.wallet_transactions.create(WalletTransaction(wallet_id="123", voided_credits="5"))
 
     assert response["wallet_transactions"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac1111"
 
