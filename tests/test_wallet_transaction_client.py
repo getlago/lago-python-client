@@ -1,4 +1,3 @@
-import json
 import os
 
 import pytest
@@ -87,6 +86,23 @@ def test_valid_create_wallet_transaction_request_with_priority_and_voided_transa
     httpx_mock.add_response(
         method="POST",
         url="https://api.getlago.com/api/v1/wallet_transactions",
+        match_json={
+            "wallet_transaction": {
+                "wallet_id": "123",
+                "paid_credits": "10",
+                "granted_credits": "10",
+                "voided_credits": "0",
+                "invoice_requires_successful_payment": False,
+                "metadata": None,
+                "name": "Transaction Name",
+                "ignore_paid_top_up_limits": None,
+                "purchase_order_number": "PO-123",
+                "payment_method": None,
+                "invoice_custom_section": None,
+                "priority": 25,
+                "voided_transaction_id": "b7ab2926-1de8-4428-9bcd-779314ac1111",
+            }
+        },
         content=mock_response(),
     )
     transaction = wallet_transaction_object()
@@ -94,9 +110,6 @@ def test_valid_create_wallet_transaction_request_with_priority_and_voided_transa
     transaction.voided_transaction_id = "b7ab2926-1de8-4428-9bcd-779314ac1111"
     response = client.wallet_transactions.create(transaction)
 
-    body = json.loads(httpx_mock.get_request().content)
-    assert body["wallet_transaction"]["priority"] == 25
-    assert body["wallet_transaction"]["voided_transaction_id"] == "b7ab2926-1de8-4428-9bcd-779314ac1111"
     assert response["wallet_transactions"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac1111"
     assert response["wallet_transactions"][0].priority == 50
 
@@ -107,13 +120,28 @@ def test_valid_create_wallet_transaction_request_without_priority_and_voided_tra
     httpx_mock.add_response(
         method="POST",
         url="https://api.getlago.com/api/v1/wallet_transactions",
+        match_json={
+            "wallet_transaction": {
+                "wallet_id": "123",
+                "paid_credits": "10",
+                "granted_credits": "10",
+                "voided_credits": "0",
+                "invoice_requires_successful_payment": False,
+                "metadata": None,
+                "name": "Transaction Name",
+                "ignore_paid_top_up_limits": None,
+                "purchase_order_number": "PO-123",
+                "payment_method": None,
+                "invoice_custom_section": None,
+                "priority": None,
+                "voided_transaction_id": None,
+            }
+        },
         content=mock_response(),
     )
-    client.wallet_transactions.create(wallet_transaction_object())
+    response = client.wallet_transactions.create(wallet_transaction_object())
 
-    body = json.loads(httpx_mock.get_request().content)
-    assert body["wallet_transaction"]["priority"] is None
-    assert body["wallet_transaction"]["voided_transaction_id"] is None
+    assert response["wallet_transactions"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac1111"
 
 
 def test_valid_create_wallet_transaction_request_with_payment_method(httpx_mock: HTTPXMock):
