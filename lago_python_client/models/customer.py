@@ -35,6 +35,7 @@ class IntegrationCustomer(BaseModel):
     external_customer_id: Optional[str]
     integration_type: Optional[str]
     integration_code: Optional[str]
+    code: Optional[str]
     subsidiary_id: Optional[str]
     sync_with_provider: Optional[bool]
 
@@ -44,6 +45,9 @@ class IntegrationCustomerResponse(BaseModel):
     external_customer_id: Optional[str]
     type: Optional[str]
     integration_code: Optional[str]
+    code: Optional[str]
+    is_default: Optional[bool]
+    category: Optional[str]
     subsidiary_id: Optional[str]
     sync_with_provider: Optional[bool]
 
@@ -80,6 +84,7 @@ class MetadataResponseList(BaseModel):
 
 class Customer(BaseModel):
     external_id: str
+    account_type: Optional[str]
     address_line1: Optional[str]
     address_line2: Optional[str]
     city: Optional[str]
@@ -89,6 +94,7 @@ class Customer(BaseModel):
     legal_name: Optional[str]
     legal_number: Optional[str]
     net_payment_term: Optional[int]
+    external_salesforce_id: Optional[str]
     tax_identification_number: Optional[str]
     logo_url: Optional[str]
     name: Optional[str]
@@ -114,6 +120,9 @@ class Customer(BaseModel):
 class CustomerResponse(BaseResponseModel):
     lago_id: str
     external_id: str
+    account_type: Optional[str]
+    sequential_id: Optional[int]
+    slug: Optional[str]
     address_line1: Optional[str]
     address_line2: Optional[str]
     city: Optional[str]
@@ -125,6 +134,7 @@ class CustomerResponse(BaseResponseModel):
     legal_name: Optional[str]
     legal_number: Optional[str]
     net_payment_term: Optional[int]
+    external_salesforce_id: Optional[str]
     tax_identification_number: Optional[str]
     logo_url: Optional[str]
     name: Optional[str]

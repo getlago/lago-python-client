@@ -2,6 +2,7 @@
   "customer": {
     "lago_id": "99a6094e-199b-4101-896a-54e927ce7bd7",
     "external_id": "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
+    "account_type": "customer",
     "billing_entity_code": "test-company",
     "address_line1": "5230 Penfield Ave",
     "address_line2": null,
@@ -18,6 +19,8 @@
     "firstname": "Gavin",
     "lastname": "Belson",
     "customer_type": "individual",
+    "sequential_id": 42,
+    "slug": "LAG-1234-042",
     "phone": "1-171-883-3711 x245",
     "state": "CA",
     "url": "http://hooli.com",
@@ -26,6 +29,7 @@
     "timezone": "Europe/Paris",
     "applicable_timezone": "Europe/Paris",
     "net_payment_term": null,
+    "external_salesforce_id": "sf_001",
     "finalize_zero_amount_invoice": "inherit",
     "billing_configuration": {
       "invoice_grace_period": 3,
@@ -52,6 +56,9 @@
         "external_customer_id": "test-12345",
         "type": "netsuite",
         "integration_code": "test",
+        "code": "netsuite-main",
+        "is_default": true,
+        "category": "accounting",
         "subsidiary_id": "2",
         "sync_with_provider": true
       }
