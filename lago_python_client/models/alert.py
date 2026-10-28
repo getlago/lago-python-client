@@ -57,3 +57,56 @@ class AlertResponse(BaseResponseModel):
 
 class AlertsResponseList(BaseResponseModel):
     alerts: List[AlertResponse]
+
+
+class AlertCrossedThreshold(BaseResponseModel):
+    code: Optional[str]
+    value: str
+    recurring: Optional[bool]
+
+
+class AlertCrossedThresholdList(BaseResponseModel):
+    __root__: List[AlertCrossedThreshold]
+
+
+class TriggeredAlert(BaseResponseModel):
+    lago_id: str
+    lago_organization_id: str
+    lago_alert_id: str
+    lago_subscription_id: Optional[str]
+    external_subscription_id: Optional[str]
+    lago_wallet_id: Optional[str]
+    external_customer_id: Optional[str]
+    billable_metric_code: Optional[str]
+    alert_name: Optional[str]
+    alert_code: str
+    alert_type: str
+    current_value: Optional[str]
+    previous_value: Optional[str]
+    crossed_thresholds: AlertCrossedThresholdList
+    triggered_at: str
+    # Deprecated
+    subscription_external_id: Optional[str]
+    # Deprecated
+    customer_external_id: Optional[str]
+
+
+class ResolvedAlert(BaseResponseModel):
+    lago_id: str
+    lago_organization_id: str
+    lago_alert_id: str
+    lago_subscription_id: Optional[str]
+    external_subscription_id: Optional[str]
+    lago_wallet_id: Optional[str]
+    external_customer_id: Optional[str]
+    billable_metric_code: Optional[str]
+    alert_name: Optional[str]
+    alert_code: str
+    alert_type: str
+    current_value: Optional[str]
+    previous_value: Optional[str]
+    recovered_thresholds: AlertCrossedThresholdList
+    in_alarm_thresholds: List[str]
+    fully_resolved: bool
+    reason: Optional[str]
+    resolved_at: str
