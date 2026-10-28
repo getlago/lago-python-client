@@ -92,3 +92,33 @@ def test_resolved_alert_parsing_without_previous_value():
 
     assert alert.previous_value is None
     assert alert.fully_resolved is False
+
+
+def wallet_alert_payload(payload):
+    payload["lago_subscription_id"] = None
+    payload["external_subscription_id"] = None
+    payload["billable_metric_code"] = None
+    payload["lago_wallet_id"] = "1a901a90-1a90-1a90-1a90-1a901a901a95"
+    payload.pop("subscription_external_id", None)
+    payload.pop("customer_external_id", None)
+    return payload
+
+
+def test_triggered_alert_parsing_for_wallet_alert():
+    alert = TriggeredAlert.parse_obj(wallet_alert_payload(triggered_alert_payload()))
+
+    assert alert.lago_wallet_id == "1a901a90-1a90-1a90-1a90-1a901a901a95"
+    assert alert.lago_subscription_id is None
+    assert alert.external_subscription_id is None
+    assert alert.billable_metric_code is None
+    assert alert.subscription_external_id is None
+    assert alert.customer_external_id is None
+
+
+def test_resolved_alert_parsing_for_wallet_alert():
+    alert = ResolvedAlert.parse_obj(wallet_alert_payload(resolved_alert_payload()))
+
+    assert alert.lago_wallet_id == "1a901a90-1a90-1a90-1a90-1a901a901a95"
+    assert alert.lago_subscription_id is None
+    assert alert.external_subscription_id is None
+    assert alert.billable_metric_code is None
