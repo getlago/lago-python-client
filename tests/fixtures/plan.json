@@ -90,6 +90,46 @@
     "metadata": {
       "key1": "value1",
       "key2": null
-    }
+    },
+    "pending_deletion": false,
+    "entitlements": [
+      {
+        "code": "seats",
+        "name": "Seats",
+        "description": "Number of seats",
+        "privileges": [
+          {
+            "code": "max",
+            "name": "Maximum",
+            "value_type": "integer",
+            "config": {},
+            "value": 10
+          },
+          {
+            "code": "sso",
+            "name": "SSO",
+            "value_type": "boolean",
+            "config": {},
+            "value": true
+          },
+          {
+            "code": "tier",
+            "name": "Tier",
+            "value_type": "select",
+            "config": {
+              "select_options": ["5", "10"]
+            },
+            "value": "10"
+          }
+        ]
+      }
+    ],
+    "applicable_usage_thresholds": [
+      {
+        "amount_cents": 20,
+        "threshold_display_name": "Applicable threshold",
+        "recurring": false
+      }
+    ]
   }
 }

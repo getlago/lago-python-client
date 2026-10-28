@@ -29,6 +29,16 @@ class UsageThresholdsResponse(BaseResponseModel):
     __root__: List[UsageThresholdResponse]
 
 
+class ApplicableUsageThresholdResponse(BaseResponseModel):
+    threshold_display_name: Optional[str]
+    amount_cents: Optional[int]
+    recurring: Optional[bool]
+
+
+class ApplicableUsageThresholdsResponse(BaseResponseModel):
+    __root__: List[ApplicableUsageThresholdResponse]
+
+
 class UsageThresholdOverrides(BaseModel):
     amount_cents: Optional[int]
     threshold_display_name: Optional[str]
