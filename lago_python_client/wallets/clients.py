@@ -104,17 +104,12 @@ class WalletTransactionClient(BaseClient):
     ROOT_NAME: ClassVar[str] = "wallet_transactions"
 
     def create(self, input_object: BaseModel) -> Mapping[str, Any]:
-        payload = input_object.dict()
-        for key in ("priority", "voided_transaction_id"):
-            if payload.get(key) is None:
-                payload.pop(key, None)
-
         api_response: Response = send_post_request(
             url=make_url(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE,),
             ),
-            content=to_json({"wallet_transaction": payload}),
+            content=to_json({"wallet_transaction": input_object.dict(exclude_none=True)}),
             headers=make_headers(api_key=self.api_key),
         )
 
