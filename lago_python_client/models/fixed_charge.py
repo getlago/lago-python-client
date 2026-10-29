@@ -52,7 +52,7 @@ class FixedChargePropertiesResponse(BaseResponseModel):
 class FixedChargeResponse(BaseResponseModel):
     lago_id: str
     lago_add_on_id: str
-    invoice_display_name: str
+    invoice_display_name: Optional[str]
     add_on_code: str
     created_at: str
     code: Optional[str]
