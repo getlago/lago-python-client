@@ -1,3 +1,4 @@
+import json
 import os
 
 import pytest
@@ -288,6 +289,26 @@ def test_valid_find_plan_request(httpx_mock: HTTPXMock):
     charge = response.charges.__root__[0]
     assert charge.properties["presentation_group_keys"][0]["value"] == "region"
     assert response.minimum_commitment.amount_cents == 1000
+
+
+def test_valid_find_plan_request_with_fixed_charge_without_invoice_display_name(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    code = "plan_code"
+    plan_body = json.loads(mock_response())
+    fixed_charge = json.loads(mock_plan_fixed_charge_response())["fixed_charge"]
+    fixed_charge["invoice_display_name"] = None
+    plan_body["plan"]["fixed_charges"] = [fixed_charge]
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/plans/" + code,
+        json=plan_body,
+    )
+    response = client.plans.find(code)
+
+    assert response.invoice_display_name == "test plan 1"
+    assert response.fixed_charges.__root__[0].lago_id == "fc901a90-1a90-1a90-1a90-1a901a901a90"
+    assert response.fixed_charges.__root__[0].invoice_display_name is None
 
 
 def test_invalid_find_plan_request(httpx_mock: HTTPXMock):
@@ -641,6 +662,24 @@ def test_valid_find_fixed_charge_request(httpx_mock: HTTPXMock):
     assert response.add_on_code == "setup_fee"
     assert response.charge_model == "standard"
     assert response.properties.amount == "500"
+
+
+def test_valid_find_fixed_charge_request_without_invoice_display_name(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    plan_code = "plan_code"
+    fixed_charge_code = "fixed_setup"
+    body = json.loads(mock_plan_fixed_charge_response())
+    body["fixed_charge"]["invoice_display_name"] = None
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/plans/" + plan_code + "/fixed_charges/" + fixed_charge_code,
+        json=body,
+    )
+    response = client.plan_fixed_charges.find(plan_code, fixed_charge_code)
+
+    assert response.lago_id == "fc901a90-1a90-1a90-1a90-1a901a901a90"
+    assert response.invoice_display_name is None
 
 
 def test_valid_create_fixed_charge_request(httpx_mock: HTTPXMock):

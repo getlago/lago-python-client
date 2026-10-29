@@ -1,3 +1,4 @@
+import json
 import os
 
 import httpx
@@ -460,6 +461,25 @@ def test_valid_find_all_fixed_charges_request(httpx_mock: HTTPXMock):
     assert response["meta"]["current_page"] == 1
 
 
+def test_valid_find_all_fixed_charges_request_without_invoice_display_name(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_external_123"
+    body = json.loads(mock_fixed_charges_response())
+    body["fixed_charges"][0]["invoice_display_name"] = None
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/fixed_charges",
+        json=body,
+    )
+    response = client.subscription_fixed_charges.find_all(external_id)
+
+    assert len(response["fixed_charges"]) == 2
+    assert response["fixed_charges"][0].lago_id == "1a901a90-1a90-1a90-1a90-1a901a901a90"
+    assert response["fixed_charges"][0].invoice_display_name is None
+    assert response["meta"]["current_page"] == 1
+
+
 def test_invalid_find_all_fixed_charges_request(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
     external_id = "invalid_sub"
@@ -739,6 +759,25 @@ def test_valid_update_fixed_charge_request(httpx_mock: HTTPXMock):
     response = client.subscription_fixed_charges.update(external_id, fixed_charge_code, fixed_charge)
 
     assert response.lago_id == "fc901a90-1a90-1a90-1a90-1a901a901a90"
+
+
+def test_valid_update_fixed_charge_request_without_invoice_display_name(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    external_id = "sub_external_123"
+    fixed_charge_code = "fixed_setup"
+    response_body = json.loads(mock_subscription_fixed_charge_response())
+    response_body["fixed_charge"]["invoice_display_name"] = None
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/subscriptions/" + external_id + "/fixed_charges/" + fixed_charge_code,
+        json=response_body,
+    )
+    fixed_charge = FixedCharge(units=20, apply_units_immediately=True)
+    response = client.subscription_fixed_charges.update(external_id, fixed_charge_code, fixed_charge)
+
+    assert response.lago_id == "fc901a90-1a90-1a90-1a90-1a901a901a90"
+    assert response.invoice_display_name is None
 
 
 # --- Charge Filters ---
