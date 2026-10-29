@@ -1,0 +1,37 @@
+{
+  "usage_attribution_types": [
+    {
+      "lago_id": "1a901a90-1a90-1a90-1a90-1a901a901a92",
+      "lago_organization_id": "1a901a90-1a90-1a90-1a90-1a901a901a91",
+      "code": "department",
+      "name": "Department",
+      "description": null,
+      "attribution_keys": ["department_id"],
+      "role": "hierarchical",
+      "lago_parent_id": null,
+      "parent_code": null,
+      "created_at": "2026-10-01T08:59:51Z",
+      "updated_at": "2026-10-01T08:59:51Z"
+    },
+    {
+      "lago_id": "1a901a90-1a90-1a90-1a90-1a901a901a93",
+      "lago_organization_id": "1a901a90-1a90-1a90-1a90-1a901a901a91",
+      "code": "model",
+      "name": "Model",
+      "description": "LLM model",
+      "attribution_keys": ["model", "model_name"],
+      "role": "flat",
+      "lago_parent_id": null,
+      "parent_code": null,
+      "created_at": "2026-10-01T08:59:51Z",
+      "updated_at": "2026-10-01T08:59:51Z"
+    }
+  ],
+  "meta": {
+    "current_page": 1,
+    "next_page": null,
+    "prev_page": null,
+    "total_pages": 1,
+    "total_count": 2
+  }
+}

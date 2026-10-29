@@ -34,6 +34,18 @@ from .alert import (
 from .api_log import ApiLog as ApiLog
 from .api_log import ApiLogResponse as ApiLogResponse
 from .applied_coupon import AppliedCoupon as AppliedCoupon
+from .attributed_usage import (
+    AttributedChargeUsage as AttributedChargeUsage,
+)
+from .attributed_usage import (
+    AttributedUsageAggregate as AttributedUsageAggregate,
+)
+from .attributed_usage import (
+    AttributedUsageResponse as AttributedUsageResponse,
+)
+from .attributed_usage import (
+    AttributedUsageRow as AttributedUsageRow,
+)
 from .billable_metric import (
     BillableMetric as BillableMetric,
 )
@@ -318,6 +330,15 @@ from .tax import (
 )
 from .tax import (
     TaxResponse as TaxResponse,
+)
+from .usage_attribution_type import (
+    UsageAttributionType as UsageAttributionType,
+)
+from .usage_attribution_type import (
+    UsageAttributionTypeResponse as UsageAttributionTypeResponse,
+)
+from .usage_attribution_type import (
+    UsageAttributionTypesResponse as UsageAttributionTypesResponse,
 )
 from .usage_threshold import (
     ApplicableUsageThresholdResponse as ApplicableUsageThresholdResponse,
