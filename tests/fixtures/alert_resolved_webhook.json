@@ -26,8 +26,6 @@
     "in_alarm_thresholds": ["20000.0"],
     "fully_resolved": false,
     "reason": "recovered",
-    "resolved_at": "2026-10-28T13:00:00Z",
-    "subscription_external_id": "sub_1234",
-    "customer_external_id": "cust_1234"
+    "resolved_at": "2026-10-28T13:00:00Z"
   }
 }

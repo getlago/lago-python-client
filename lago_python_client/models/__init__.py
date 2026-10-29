@@ -26,12 +26,6 @@ from .alert import (
     AlertThresholdResponseList as AlertThresholdResponseList,
 )
 from .alert import (
-    AlertCrossedThreshold as AlertCrossedThreshold,
-)
-from .alert import (
-    AlertCrossedThresholdList as AlertCrossedThresholdList,
-)
-from .alert import (
     TriggeredAlert as TriggeredAlert,
 )
 from .alert import (
