@@ -24,3 +24,29 @@ class PlanEntitlementResponse(BaseResponseModel):
 
 class PlanEntitlementsResponse(BaseResponseModel):
     __root__: List[PlanEntitlementResponse]
+
+
+class SubscriptionEntitlementPrivilegeResponse(BaseResponseModel):
+    code: Optional[str]
+    name: Optional[str]
+    value_type: Optional[str]
+    config: Optional[Dict[str, Any]]
+    value: Any
+    plan_value: Any
+    override_value: Any
+
+
+class SubscriptionEntitlementPrivilegesResponse(BaseResponseModel):
+    __root__: List[SubscriptionEntitlementPrivilegeResponse]
+
+
+class SubscriptionEntitlementResponse(BaseResponseModel):
+    code: Optional[str]
+    name: Optional[str]
+    description: Optional[str]
+    privileges: Optional[SubscriptionEntitlementPrivilegesResponse]
+    overrides: Optional[Dict[str, Any]]
+
+
+class SubscriptionEntitlementsResponse(BaseResponseModel):
+    __root__: List[SubscriptionEntitlementResponse]

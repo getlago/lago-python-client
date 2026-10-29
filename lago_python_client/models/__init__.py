@@ -162,6 +162,18 @@ from .entitlement import (
 from .entitlement import (
     PlanEntitlementsResponse as PlanEntitlementsResponse,
 )
+from .entitlement import (
+    SubscriptionEntitlementPrivilegeResponse as SubscriptionEntitlementPrivilegeResponse,
+)
+from .entitlement import (
+    SubscriptionEntitlementPrivilegesResponse as SubscriptionEntitlementPrivilegesResponse,
+)
+from .entitlement import (
+    SubscriptionEntitlementResponse as SubscriptionEntitlementResponse,
+)
+from .entitlement import (
+    SubscriptionEntitlementsResponse as SubscriptionEntitlementsResponse,
+)
 from .event import BatchEvent as BatchEvent
 from .event import Event as Event
 from .fee import Fee as Fee

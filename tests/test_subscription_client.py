@@ -93,6 +93,19 @@ def test_valid_create_subscriptions_request(httpx_mock: HTTPXMock):
     assert response.consolidate_invoice is False
     assert response.purchase_order_number == "PO-123"
 
+    entitlement = response.entitlements.__root__[0]
+    assert entitlement.code == "seats"
+    assert entitlement.overrides == {"max": 20}
+    privilege = entitlement.privileges.__root__[0]
+    assert privilege.value == 20
+    assert privilege.plan_value == 10
+    assert privilege.override_value == 20
+
+    applicable_threshold = response.applicable_usage_thresholds.__root__[0]
+    assert applicable_threshold.threshold_display_name == "Applicable threshold"
+    assert applicable_threshold.amount_cents == 20
+    assert applicable_threshold.recurring is False
+
 
 def test_valid_create_subscriptions_request_with_payment_method(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
