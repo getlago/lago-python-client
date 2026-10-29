@@ -32,9 +32,11 @@ class Organization(BaseModel):
     email_settings: Optional[List[str]]
     finalize_zero_amount_invoice: Optional[bool]
     billing_configuration: Optional[OrganizationBillingConfiguration]
+    slug: Optional[str]
 
 
 class OrganizationResponse(BaseResponseModel):
+    lago_id: Optional[str]
     name: str
     created_at: str
     webhook_url: Optional[str]
@@ -57,3 +59,4 @@ class OrganizationResponse(BaseResponseModel):
     finalize_zero_amount_invoice: Optional[bool]
     billing_configuration: Optional[OrganizationBillingConfiguration]
     events_store: Optional[str]
+    slug: Optional[str]

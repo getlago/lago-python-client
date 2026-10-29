@@ -25,6 +25,12 @@ from .alert import (
 from .alert import (
     AlertThresholdResponseList as AlertThresholdResponseList,
 )
+from .alert import (
+    TriggeredAlert as TriggeredAlert,
+)
+from .alert import (
+    ResolvedAlert as ResolvedAlert,
+)
 from .api_log import ApiLog as ApiLog
 from .api_log import ApiLogResponse as ApiLogResponse
 from .applied_coupon import AppliedCoupon as AppliedCoupon
@@ -143,6 +149,30 @@ from .customer_usage import (
 )
 from .customer_usage import (
     PresentationBreakdowns as PresentationBreakdowns,
+)
+from .entitlement import (
+    PlanEntitlementPrivilegeResponse as PlanEntitlementPrivilegeResponse,
+)
+from .entitlement import (
+    PlanEntitlementPrivilegesResponse as PlanEntitlementPrivilegesResponse,
+)
+from .entitlement import (
+    PlanEntitlementResponse as PlanEntitlementResponse,
+)
+from .entitlement import (
+    PlanEntitlementsResponse as PlanEntitlementsResponse,
+)
+from .entitlement import (
+    SubscriptionEntitlementPrivilegeResponse as SubscriptionEntitlementPrivilegeResponse,
+)
+from .entitlement import (
+    SubscriptionEntitlementPrivilegesResponse as SubscriptionEntitlementPrivilegesResponse,
+)
+from .entitlement import (
+    SubscriptionEntitlementResponse as SubscriptionEntitlementResponse,
+)
+from .entitlement import (
+    SubscriptionEntitlementsResponse as SubscriptionEntitlementsResponse,
 )
 from .event import BatchEvent as BatchEvent
 from .event import Event as Event
@@ -288,6 +318,12 @@ from .tax import (
 )
 from .tax import (
     TaxResponse as TaxResponse,
+)
+from .usage_threshold import (
+    ApplicableUsageThresholdResponse as ApplicableUsageThresholdResponse,
+)
+from .usage_threshold import (
+    ApplicableUsageThresholdsResponse as ApplicableUsageThresholdsResponse,
 )
 from .usage_threshold import (
     UsageThreshold as UsageThreshold,

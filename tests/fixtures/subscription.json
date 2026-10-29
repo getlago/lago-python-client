@@ -17,6 +17,7 @@
     "on_termination_invoice": "skip",
     "consolidate_invoice": false,
     "purchase_order_number": "PO-123",
+    "progressive_billing_disabled": false,
     "subscription_at": "2022-04-29T08:59:51Z",
     "previous_plan_code": null,
     "next_plan_code": null,
@@ -50,6 +51,34 @@
         "expires_at": "2022-04-29T10:59:51Z",
         "created_at": "2022-04-29T08:59:51Z",
         "updated_at": "2022-04-29T08:59:51Z"
+      }
+    ],
+    "entitlements": [
+      {
+        "code": "seats",
+        "name": "Seats",
+        "description": "Number of seats",
+        "privileges": [
+          {
+            "code": "max",
+            "name": "Maximum",
+            "value_type": "integer",
+            "value": 20,
+            "plan_value": 10,
+            "override_value": 20,
+            "config": {}
+          }
+        ],
+        "overrides": {
+          "max": 20
+        }
+      }
+    ],
+    "applicable_usage_thresholds": [
+      {
+        "threshold_display_name": "Applicable threshold",
+        "amount_cents": 20,
+        "recurring": false
       }
     ]
   }

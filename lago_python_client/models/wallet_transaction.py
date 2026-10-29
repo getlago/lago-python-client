@@ -19,6 +19,8 @@ class WalletTransaction(BaseModel):
     purchase_order_number: Optional[str]
     payment_method: Optional[PaymentMethod]
     invoice_custom_section: Optional[InvoiceCustomSectionInput]
+    priority: Optional[int]
+    voided_transaction_id: Optional[str]
 
 
 class WalletTransactionResponse(BaseResponseModel):

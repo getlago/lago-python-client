@@ -18,6 +18,8 @@ from lago_python_client.models import (
     Subscription,
 )
 from lago_python_client.models.alert import Alert, AlertsList, AlertThreshold
+from lago_python_client.models.subscription import SubscriptionResponse
+from lago_python_client.models.usage_threshold import UsageThresholdOverrides, UsageThresholdsOverrides
 
 
 def create_subscription():
@@ -91,6 +93,19 @@ def test_valid_create_subscriptions_request(httpx_mock: HTTPXMock):
     assert response.consolidate_invoice is False
     assert response.purchase_order_number == "PO-123"
 
+    entitlement = response.entitlements.__root__[0]
+    assert entitlement.code == "seats"
+    assert entitlement.overrides == {"max": 20}
+    privilege = entitlement.privileges.__root__[0]
+    assert privilege.value == 20
+    assert privilege.plan_value == 10
+    assert privilege.override_value == 20
+
+    applicable_threshold = response.applicable_usage_thresholds.__root__[0]
+    assert applicable_threshold.threshold_display_name == "Applicable threshold"
+    assert applicable_threshold.amount_cents == 20
+    assert applicable_threshold.recurring is False
+
 
 def test_valid_create_subscriptions_request_with_payment_method(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
@@ -129,6 +144,54 @@ def test_valid_create_subscriptions_request_with_activation_rules(httpx_mock: HT
     assert response.activation_rules[0].type == "payment"
     assert response.activation_rules[0].timeout_hours == 48
     assert response.activation_rules[0].status == "pending"
+
+
+def test_valid_create_subscriptions_request_with_progressive_billing(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/subscriptions",
+        match_json={
+            "subscription": {
+                "external_customer_id": "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
+                "plan_code": "eartha lynch",
+                "external_id": "code",
+                "billing_time": "anniversary",
+                "subscription_at": "2022-04-29T08:59:51Z",
+                "ending_at": "2022-08-29T08:59:51Z",
+                "consolidate_invoice": False,
+                "progressive_billing_disabled": True,
+                "usage_thresholds": [
+                    {"amount_cents": 10000, "threshold_display_name": "Alert", "recurring": False},
+                ],
+            }
+        },
+        content=mock_response(),
+    )
+    subscription = create_subscription()
+    subscription.progressive_billing_disabled = True
+    subscription.usage_thresholds = UsageThresholdsOverrides(
+        __root__=[UsageThresholdOverrides(amount_cents=10000, threshold_display_name="Alert", recurring=False)]
+    )
+    response = client.subscriptions.create(subscription)
+
+    assert response.progressive_billing_disabled is False
+
+
+def test_valid_create_subscriptions_request_without_progressive_billing(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/subscriptions",
+        content=mock_response(),
+    )
+    client.subscriptions.create(create_subscription())
+
+    body = json.loads(httpx_mock.get_request().content)["subscription"]
+    assert "progressive_billing_disabled" not in body
+    assert "usage_thresholds" not in body
 
 
 def test_invalid_create_subscriptions_request(httpx_mock: HTTPXMock):
@@ -183,6 +246,34 @@ def test_valid_update_subscription_request(httpx_mock: HTTPXMock):
     assert response.plan_code == "eartha lynch"
     assert response.billing_time == "anniversary"
     assert response.subscription_at == "2022-04-29T08:59:51Z"
+
+
+def test_valid_update_subscription_request_with_progressive_billing(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    identifier = "sub_id"
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/subscriptions/" + identifier,
+        match_json={
+            "subscription": {
+                "progressive_billing_disabled": False,
+                "usage_thresholds": [
+                    {"amount_cents": 5000, "threshold_display_name": "Recurring", "recurring": True},
+                ],
+            }
+        },
+        content=mock_response(),
+    )
+    subscription = Subscription(
+        progressive_billing_disabled=False,
+        usage_thresholds=UsageThresholdsOverrides(
+            __root__=[UsageThresholdOverrides(amount_cents=5000, threshold_display_name="Recurring", recurring=True)]
+        ),
+    )
+    response = client.subscriptions.update(subscription, identifier)
+
+    assert response.progressive_billing_disabled is False
 
 
 def test_valid_update_subscription_request_with_payment_method(httpx_mock: HTTPXMock):
@@ -556,6 +647,16 @@ def mock_subscription_alerts_response():
 
     with open(my_data_path, "rb") as alerts_response:
         return alerts_response.read()
+
+
+def test_subscription_response_has_no_subscription_date():
+    assert "subscription_date" not in SubscriptionResponse.__fields__
+
+    response = SubscriptionResponse.parse_obj(json.loads(mock_response())["subscription"])
+
+    assert not hasattr(response, "subscription_date")
+    assert response.subscription_at == "2022-04-29T08:59:51Z"
+    assert response.progressive_billing_disabled is False
 
 
 def test_valid_create_alerts_request(httpx_mock: HTTPXMock):

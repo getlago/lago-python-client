@@ -1,3 +1,4 @@
+import json
 import os
 
 import pytest
@@ -125,10 +126,62 @@ def test_valid_create_customers_request(httpx_mock: HTTPXMock):
     assert response.shipping_address.state == "XZ"
     assert response.integration_customers.__root__[0].external_customer_id == "test-12345"
     assert response.integration_customers.__root__[0].type == "netsuite"
+    assert response.integration_customers.__root__[0].code == "netsuite-main"
+    assert response.integration_customers.__root__[0].is_default is True
+    assert response.integration_customers.__root__[0].category == "accounting"
+    assert response.account_type == "customer"
+    assert response.external_salesforce_id == "sf_001"
+    assert response.sequential_id == 42
+    assert response.slug == "LAG-1234-042"
     assert response.applicable_invoice_custom_sections.__root__[0].code == "custom_section_code"
     assert response.metadata.__root__[0].lago_id == "12345"
     assert response.metadata.__root__[0].key == "key"
     assert response.metadata.__root__[0].value == "value"
+
+
+def test_valid_create_customers_request_with_account_type_and_salesforce_id(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/customers",
+        content=mock_response(),
+    )
+    customer = Customer(
+        external_id="5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
+        account_type="partner",
+        external_salesforce_id="sf_123",
+        integration_customers=IntegrationCustomersList(
+            __root__=[
+                IntegrationCustomer(
+                    integration_type="anrok",
+                    integration_code="anrok-1",
+                    code="anrok",
+                )
+            ]
+        ),
+    )
+    client.customers.create(customer)
+
+    body = json.loads(httpx_mock.get_request().content)
+    assert body["customer"]["account_type"] == "partner"
+    assert body["customer"]["external_salesforce_id"] == "sf_123"
+    assert body["customer"]["integration_customers"][0]["code"] == "anrok"
+
+
+def test_create_customers_request_without_account_type_and_salesforce_id(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/customers",
+        content=mock_response(),
+    )
+    client.customers.create(Customer(external_id="5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"))
+
+    body = json.loads(httpx_mock.get_request().content)
+    assert "account_type" not in body["customer"]
+    assert "external_salesforce_id" not in body["customer"]
 
 
 def test_invalid_create_customers_request(httpx_mock: HTTPXMock):

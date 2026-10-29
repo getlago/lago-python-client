@@ -16,6 +16,7 @@ from lago_python_client.models import (
     FixedCharges,
     MinimumCommitment,
     Plan,
+    PlanEntitlementPrivilegeResponse,
     UsageThreshold,
     UsageThresholds,
 )
@@ -207,6 +208,9 @@ def test_valid_create_plan_request(httpx_mock: HTTPXMock):
     assert response.minimum_commitment.invoice_display_name == "Minimum commitment (C1)"
     assert response.usage_thresholds.__root__[0].threshold_display_name == "Threshold 1"
     assert response.metadata == {"key1": "value1", "key2": None}
+    assert response.pending_deletion is False
+    assert response.entitlements.__root__[0].code == "seats"
+    assert response.applicable_usage_thresholds.__root__[0].amount_cents == 20
 
 
 def test_valid_create_graduated_plan_request(httpx_mock: HTTPXMock):
@@ -289,6 +293,38 @@ def test_valid_find_plan_request(httpx_mock: HTTPXMock):
     charge = response.charges.__root__[0]
     assert charge.properties["presentation_group_keys"][0]["value"] == "region"
     assert response.minimum_commitment.amount_cents == 1000
+    assert response.pending_deletion is False
+
+    entitlement = response.entitlements.__root__[0]
+    assert entitlement.code == "seats"
+    assert entitlement.name == "Seats"
+    assert entitlement.description == "Number of seats"
+
+    integer_privilege, boolean_privilege, select_privilege = entitlement.privileges.__root__
+    assert integer_privilege.code == "max"
+    assert integer_privilege.name == "Maximum"
+    assert integer_privilege.value_type == "integer"
+    assert type(integer_privilege.value) is int
+    assert integer_privilege.value == 10
+    assert boolean_privilege.value_type == "boolean"
+    assert boolean_privilege.value is True
+    assert select_privilege.value_type == "select"
+    assert type(select_privilege.value) is str
+    assert select_privilege.value == "10"
+    assert isinstance(select_privilege.config, dict)
+    assert select_privilege.config == {"select_options": ["5", "10"]}
+
+    applicable_threshold = response.applicable_usage_thresholds.__root__[0]
+    assert applicable_threshold.threshold_display_name == "Applicable threshold"
+    assert applicable_threshold.amount_cents == 20
+    assert applicable_threshold.recurring is False
+
+
+def test_plan_entitlement_privilege_keeps_string_value():
+    privilege = PlanEntitlementPrivilegeResponse.parse_obj({"code": "x", "value": "10"})
+
+    assert type(privilege.value) is str
+    assert privilege.value == "10"
 
 
 def test_valid_find_plan_request_with_fixed_charge_without_invoice_display_name(httpx_mock: HTTPXMock):

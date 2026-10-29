@@ -33,6 +33,7 @@
                 "payment_receipt.created"
             ],
             "is_default": true,
+            "einvoicing": false,
             "created_at": "2024-03-20T10:00:00Z",
             "updated_at": "2024-03-20T10:00:00Z"
         },
@@ -66,6 +67,7 @@
                 "invoice.finalized"
             ],
             "is_default": false,
+            "einvoicing": false,
             "created_at": "2024-03-20T10:00:00Z",
             "updated_at": "2024-03-20T10:00:00Z"
         }

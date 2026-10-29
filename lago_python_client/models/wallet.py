@@ -68,6 +68,7 @@ class Wallet(BaseModel):
     name: Optional[str]
     code: Optional[str]
     priority: Optional[int]
+    transaction_priority: Optional[int]
     paid_credits: Optional[str]
     granted_credits: Optional[str]
     expiration_at: Optional[str]

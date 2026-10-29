@@ -122,6 +122,53 @@ def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
     assert response.recurring_transaction_rules.__root__[0].purchase_order_number == "PO-RULE-123"
 
 
+def test_valid_create_wallet_request_with_transaction_priority(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/wallets",
+        content=mock_response(),
+        match_json={
+            "wallet": {
+                "external_customer_id": "12345",
+                "rate_amount": "1",
+                "name": "name",
+                "code": "wallet_code",
+                "priority": 30,
+                "transaction_priority": 10,
+                "paid_credits": "10",
+                "granted_credits": "10",
+                "paid_top_up_max_amount_cents": 10000,
+                "paid_top_up_min_amount_cents": 500,
+                "recurring_transaction_rules": [
+                    {
+                        "interval": "monthly",
+                        "trigger": "interval",
+                        "method": "target",
+                        "paid_credits": "105.0",
+                        "granted_credits": "105.0",
+                        "target_ongoing_balance": "105.0",
+                        "transaction_name": "Recurring Transaction Rule",
+                        "purchase_order_number": "PO-RULE-123",
+                        "ignore_paid_top_up_limits": True,
+                        "grants_target_top_up": True,
+                    }
+                ],
+                "invoice_requires_successful_payment": False,
+                "transaction_name": "Transaction Name",
+                "purchase_order_number": "PO-123",
+                "applies_to": {"fee_types": ["charge"], "billable_metric_codes": ["usage"]},
+            }
+        },
+    )
+    wallet = wallet_object()
+    wallet.transaction_priority = 10
+    response = client.wallets.create(wallet)
+
+    assert response.lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
+
+
 def test_valid_create_wallet_request_with_payment_method_on_wallet(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
     payment_method = PaymentMethod(payment_method_type="card", payment_method_id="pm_123")

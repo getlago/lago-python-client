@@ -80,6 +80,107 @@ def test_valid_create_wallet_transaction_request(httpx_mock: HTTPXMock):
     assert response["wallet_transactions"][2].priority == 50
 
 
+def test_valid_create_wallet_transaction_request_with_priority_and_voided_transaction_id(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/wallet_transactions",
+        match_json={
+            "wallet_transaction": {
+                "wallet_id": "123",
+                "paid_credits": "10",
+                "granted_credits": "10",
+                "voided_credits": "0",
+                "invoice_requires_successful_payment": False,
+                "name": "Transaction Name",
+                "purchase_order_number": "PO-123",
+                "priority": 25,
+                "voided_transaction_id": "b7ab2926-1de8-4428-9bcd-779314ac1111",
+            }
+        },
+        content=mock_response(),
+    )
+    transaction = wallet_transaction_object()
+    transaction.priority = 25
+    transaction.voided_transaction_id = "b7ab2926-1de8-4428-9bcd-779314ac1111"
+    response = client.wallet_transactions.create(transaction)
+
+    assert response["wallet_transactions"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac1111"
+    assert response["wallet_transactions"][0].priority == 50
+
+
+def test_valid_create_wallet_transaction_request_with_zero_priority(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/wallet_transactions",
+        match_json={
+            "wallet_transaction": {
+                "wallet_id": "123",
+                "paid_credits": "10",
+                "granted_credits": "10",
+                "voided_credits": "0",
+                "invoice_requires_successful_payment": False,
+                "name": "Transaction Name",
+                "purchase_order_number": "PO-123",
+                "priority": 0,
+            }
+        },
+        content=mock_response(),
+    )
+    transaction = wallet_transaction_object()
+    transaction.priority = 0
+    response = client.wallet_transactions.create(transaction)
+
+    assert response["wallet_transactions"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac1111"
+    assert response["wallet_transactions"][0].priority == 50
+
+
+def test_valid_create_wallet_transaction_request_without_priority_and_voided_transaction_id(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/wallet_transactions",
+        match_json={
+            "wallet_transaction": {
+                "wallet_id": "123",
+                "paid_credits": "10",
+                "granted_credits": "10",
+                "voided_credits": "0",
+                "invoice_requires_successful_payment": False,
+                "name": "Transaction Name",
+                "purchase_order_number": "PO-123",
+            }
+        },
+        content=mock_response(),
+    )
+    response = client.wallet_transactions.create(wallet_transaction_object())
+
+    assert response["wallet_transactions"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac1111"
+
+
+def test_valid_create_wallet_transaction_request_voiding_credits_without_priority(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/wallet_transactions",
+        match_json={
+            "wallet_transaction": {
+                "wallet_id": "123",
+                "voided_credits": "5",
+            }
+        },
+        content=mock_response(),
+    )
+    response = client.wallet_transactions.create(WalletTransaction(wallet_id="123", voided_credits="5"))
+
+    assert response["wallet_transactions"][0].lago_id == "b7ab2926-1de8-4428-9bcd-779314ac1111"
+
+
 def test_valid_create_wallet_transaction_request_with_payment_method(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
     payment_method = PaymentMethod(payment_method_type="card", payment_method_id="pm_123")

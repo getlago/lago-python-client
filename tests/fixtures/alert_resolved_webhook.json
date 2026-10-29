@@ -1,0 +1,31 @@
+{
+  "webhook_type": "alert.resolved",
+  "object_type": "resolved_alert",
+  "organization_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
+  "resolved_alert": {
+    "lago_id": "1a901a90-1a90-1a90-1a90-1a901a901a94",
+    "lago_organization_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
+    "lago_alert_id": "1a901a90-1a90-1a90-1a90-1a901a901a92",
+    "lago_subscription_id": "1a901a90-1a90-1a90-1a90-1a901a901a93",
+    "external_subscription_id": "sub_1234",
+    "lago_wallet_id": null,
+    "external_customer_id": "cust_1234",
+    "billable_metric_code": "storage",
+    "alert_name": "Storage usage",
+    "alert_code": "storage_alert",
+    "alert_type": "billable_metric_current_usage_amount",
+    "current_value": "15000.0",
+    "previous_value": "25000.0",
+    "recovered_thresholds": [
+      {
+        "code": null,
+        "value": "10000.0",
+        "recurring": false
+      }
+    ],
+    "in_alarm_thresholds": ["20000.0"],
+    "fully_resolved": false,
+    "reason": "recovered",
+    "resolved_at": "2026-10-28T13:00:00Z"
+  }
+}

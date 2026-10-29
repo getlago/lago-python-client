@@ -4,6 +4,7 @@ from lago_python_client.base_model import BaseModel
 
 from ..base_model import BaseResponseModel
 from .charge import Charges, ChargesOverrides, ChargesResponse
+from .entitlement import PlanEntitlementsResponse
 from .fixed_charge import (
     FixedCharges,
     FixedChargesOverrides,
@@ -16,6 +17,7 @@ from .minimum_commitment import (
 )
 from .tax import TaxesResponse
 from .usage_threshold import (
+    ApplicableUsageThresholdsResponse,
     UsageThresholds,
     UsageThresholdsOverrides,
     UsageThresholdsResponse,
@@ -63,6 +65,9 @@ class PlanResponse(BaseResponseModel):
     usage_thresholds: Optional[UsageThresholdsResponse]
     taxes: Optional[TaxesResponse]
     metadata: Optional[Dict[str, Optional[str]]]
+    pending_deletion: Optional[bool]
+    entitlements: Optional[PlanEntitlementsResponse]
+    applicable_usage_thresholds: Optional[ApplicableUsageThresholdsResponse]
 
 
 class PlanOverrides(BaseModel):

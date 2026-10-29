@@ -3,9 +3,11 @@ from typing import List, Optional
 from lago_python_client.base_model import BaseModel
 
 from ..base_model import BaseResponseModel
+from .entitlement import SubscriptionEntitlementsResponse
 from .invoice_custom_section import AppliedInvoiceCustomSections, InvoiceCustomSectionInput
 from .payment_method import PaymentMethod
 from .plan import PlanOverrides
+from .usage_threshold import ApplicableUsageThresholdsResponse, UsageThresholdsOverrides
 
 
 class ActivationRuleInput(BaseModel):
@@ -28,6 +30,8 @@ class Subscription(BaseModel):
     billing_entity_code: Optional[str]
     purchase_order_number: Optional[str]
     activation_rules: Optional[List[ActivationRuleInput]]
+    progressive_billing_disabled: Optional[bool]
+    usage_thresholds: Optional[UsageThresholdsOverrides]
 
 
 class Subscriptions(BaseModel):
@@ -63,7 +67,6 @@ class SubscriptionResponse(BaseResponseModel):
     terminated_at: Optional[str]
     ending_at: Optional[str]
     trial_ended_at: Optional[str]
-    subscription_date: Optional[str]
     subscription_at: Optional[str]
     previous_plan_code: Optional[str]
     next_plan_code: Optional[str]
@@ -80,6 +83,9 @@ class SubscriptionResponse(BaseResponseModel):
     cancellation_reason: Optional[str]
     activated_at: Optional[str]
     activation_rules: Optional[List[ActivationRuleResponse]]
+    progressive_billing_disabled: Optional[bool]
+    entitlements: Optional[SubscriptionEntitlementsResponse]
+    applicable_usage_thresholds: Optional[ApplicableUsageThresholdsResponse]
 
 
 class SubscriptionsResponse(BaseResponseModel):
