@@ -1,5 +1,5 @@
 import warnings
-from typing import Any, Generic, Optional, Type, TypeVar, Union
+from typing import Any, Callable, ClassVar, Generic, Optional, Tuple, Type, TypeVar, Union
 
 import httpx
 
@@ -37,20 +37,25 @@ DEFAULT_TIMEOUT = httpx.Timeout(10.0)
 
 
 class _ClientMixin(Protocol[_PM_co]):
-    @property
-    def PARENT_API_RESOURCE(self) -> str: ...
-    @property
-    def API_RESOURCE(self) -> str: ...
-    @property
-    def RESPONSE_MODEL(self) -> Type[_PM_co]: ...
-    @property
-    def ROOT_NAME(self) -> str: ...
+    API_RESOURCE: ClassVar[str]
+    RESPONSE_MODEL: ClassVar[Type[_PM_co]]  # type: ignore[misc]
+    ROOT_NAME: ClassVar[str]
+
     @property
     def api_key(self) -> str: ...
     @property
     def base_url(self) -> str: ...
     @property
     def rate_limit_retry_config(self) -> RateLimitRetryConfig: ...
+
+
+class _ChildClientMixin(_ClientMixin[_PM_co], Protocol[_PM_co]):
+    PARENT_API_RESOURCE: ClassVar[str]
+
+
+class _NestedClientMixin(_ClientMixin[_PM_co], Protocol[_PM_co]):
+    @property
+    def api_resource(self) -> Callable[..., Tuple[str, ...]]: ...
 
 
 class CreateCommandMixin(Generic[_M]):
@@ -155,7 +160,7 @@ class FindAllChildrenCommandMixin(Generic[_M]):
     """Client mixin with `find_all` command scoped to a parent resource."""
 
     def find_all(
-        self: _ClientMixin[_M],
+        self: _ChildClientMixin[_M],
         resource_id: str,
         options: QueryPairs = None,
         timeout: Optional[httpx.Timeout] = DEFAULT_TIMEOUT,
@@ -195,7 +200,7 @@ class FindChildCommandMixin(Generic[_M]):
     """Client mixin with `find` command scoped to a parent resource."""
 
     def find(
-        self: _ClientMixin[_M],
+        self: _ChildClientMixin[_M],
         parent_id: str,
         child_id: str,
         options: QueryPairs = None,
@@ -228,7 +233,7 @@ class CreateChildCommandMixin(Generic[_M]):
     """Client mixin with `create` command scoped to a parent resource."""
 
     def create(
-        self: _ClientMixin[_M],
+        self: _ChildClientMixin[_M],
         parent_id: str,
         input_object: BaseModel,
         options: QueryPairs = None,
@@ -261,7 +266,7 @@ class UpdateChildCommandMixin(Generic[_M]):
     """Client mixin with `update` command scoped to a parent resource."""
 
     def update(
-        self: _ClientMixin[_M],
+        self: _ChildClientMixin[_M],
         parent_id: str,
         child_id: str,
         input_object: BaseModel,
@@ -296,7 +301,7 @@ class DestroyChildCommandMixin(Generic[_M]):
     """Client mixin with `destroy` command scoped to a parent resource."""
 
     def destroy(
-        self: _ClientMixin[_M],
+        self: _ChildClientMixin[_M],
         parent_id: str,
         child_id: str,
         options: QueryPairs = None,
@@ -393,7 +398,7 @@ class NestedCreateCommandMixin(Generic[_M]):
     """Client mixin with `create` command."""
 
     def create(
-        self: _ClientMixin[_M],
+        self: _NestedClientMixin[_M],
         *args: Union[str, BaseModel],
         options: QueryPairs = None,
         timeout: Optional[httpx.Timeout] = None,
@@ -429,7 +434,7 @@ class NestedUpdateCommandMixin(Generic[_M]):
     """Client mixin with `update` command."""
 
     def update(
-        self: _ClientMixin[_M],
+        self: _NestedClientMixin[_M],
         *args: Union[str, BaseModel],
         options: QueryPairs = None,
         timeout: Optional[httpx.Timeout] = None,
@@ -465,7 +470,7 @@ class NestedDestroyCommandMixin(Generic[_M]):
     """Client mixin with `destroy` command."""
 
     def destroy(
-        self: _ClientMixin[_M],
+        self: _NestedClientMixin[_M],
         *args: str,
         options: QueryPairs = None,
         timeout: Optional[httpx.Timeout] = None,
@@ -496,7 +501,7 @@ class NestedFindCommandMixin(Generic[_M]):
     """Client mixin with `find` command."""
 
     def find(
-        self: _ClientMixin[_M],
+        self: _NestedClientMixin[_M],
         *args: str,
         options: QueryPairs = None,
         timeout: Optional[httpx.Timeout] = None,
@@ -527,7 +532,7 @@ class NestedFindAllCommandMixin(Generic[_M]):
     """Client mixin with `find_all` command."""
 
     def find_all(
-        self: _ClientMixin[_M],
+        self: _NestedClientMixin[_M],
         *parent_ids: str,
         options: QueryPairs = None,
         timeout: Optional[httpx.Timeout] = None,
