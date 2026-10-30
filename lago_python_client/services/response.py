@@ -54,7 +54,13 @@ def verify_response(response: Response) -> Optional[Response]:
                 headers=response.headers,
             )
 
-        response_data: Any = from_json(response)  # type: ignore
+        response_data: Any
+        try:
+            response_data = from_json(response)  # type: ignore
+        except LagoApiError:
+            # The error body is not JSON, e.g. an HTML 502 page from a proxy or an
+            # empty body: keep the raw body and still report the real status code.
+            response_data = response.text or None
         raise LagoApiError(
             status_code=response.status_code,
             url=str(response.request.url),
