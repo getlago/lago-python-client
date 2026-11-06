@@ -1,0 +1,80 @@
+{
+  "attributed_usage": {
+    "lago_subscription_id": "1a901a90-1a90-1a90-1a90-1a901a901a90",
+    "external_subscription_id": "sub_123",
+    "group_by": "team",
+    "basis": "units",
+    "from_datetime": "2026-10-01T00:00:00Z",
+    "to_datetime": "2026-10-31T23:59:59Z",
+    "currency": "EUR",
+    "split_filters_count": null,
+    "rows": [
+      {
+        "value": "eng",
+        "rank": 1,
+        "amount_cents": 1200,
+        "precise_amount_cents": "1200.4",
+        "events_count": 12,
+        "charges_usage": [
+          {
+            "lago_charge_id": "1a901a90-1a90-1a90-1a90-1a901a901a94",
+            "charge_code": "tokens",
+            "billable_metric_code": "tokens",
+            "lago_charge_filter_id": "1a901a90-1a90-1a90-1a90-1a901a901a95",
+            "charge_filter_values": {"model": ["opus"]},
+            "charge_filter_invoice_display_name": "Opus tokens",
+            "units": "120.0",
+            "amount_cents": 1200,
+            "precise_amount_cents": "1200.4",
+            "events_count": 12
+          }
+        ]
+      }
+    ],
+    "unattributed": {
+      "amount_cents": 100,
+      "precise_amount_cents": "100.0",
+      "events_count": 1,
+      "charges_usage": [
+        {
+          "lago_charge_id": "1a901a90-1a90-1a90-1a90-1a901a901a94",
+          "charge_code": "tokens",
+          "billable_metric_code": "tokens",
+          "lago_charge_filter_id": null,
+          "charge_filter_values": null,
+          "charge_filter_invoice_display_name": null,
+          "units": "10.0",
+          "amount_cents": 100,
+          "precise_amount_cents": "100.0",
+          "events_count": 1
+        }
+      ]
+    },
+    "totals": {
+      "amount_cents": 1300,
+      "precise_amount_cents": "1300.4",
+      "events_count": 13,
+      "charges_usage": [
+        {
+          "lago_charge_id": "1a901a90-1a90-1a90-1a90-1a901a901a94",
+          "charge_code": "tokens",
+          "billable_metric_code": "tokens",
+          "lago_charge_filter_id": null,
+          "charge_filter_values": null,
+          "charge_filter_invoice_display_name": null,
+          "units": "130.0",
+          "amount_cents": 1300,
+          "precise_amount_cents": "1300.4",
+          "events_count": 13
+        }
+      ]
+    }
+  },
+  "meta": {
+    "current_page": 1,
+    "next_page": null,
+    "prev_page": null,
+    "total_pages": 1,
+    "total_count": 1
+  }
+}
