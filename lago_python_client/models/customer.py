@@ -5,6 +5,7 @@ from lago_python_client.base_model import BaseModel
 from ..base_model import BaseResponseModel
 from .error_detail import ErrorDetailsResponse
 from .invoice_custom_section import InvoiceCustomSectionsResponseList
+from .payment_term import PaymentTerm
 from .tax import TaxesResponse
 
 
@@ -94,6 +95,7 @@ class Customer(BaseModel):
     legal_name: Optional[str]
     legal_number: Optional[str]
     net_payment_term: Optional[int]
+    payment_term: Optional[PaymentTerm]
     external_salesforce_id: Optional[str]
     tax_identification_number: Optional[str]
     logo_url: Optional[str]
@@ -134,6 +136,7 @@ class CustomerResponse(BaseResponseModel):
     legal_name: Optional[str]
     legal_number: Optional[str]
     net_payment_term: Optional[int]
+    payment_term: Optional[PaymentTerm]
     external_salesforce_id: Optional[str]
     tax_identification_number: Optional[str]
     logo_url: Optional[str]

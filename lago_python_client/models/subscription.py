@@ -6,6 +6,7 @@ from ..base_model import BaseResponseModel
 from .entitlement import SubscriptionEntitlementsResponse
 from .invoice_custom_section import AppliedInvoiceCustomSections, InvoiceCustomSectionInput
 from .payment_method import PaymentMethod
+from .payment_term import PaymentTerm
 from .plan import PlanOverrides
 from .usage_threshold import ApplicableUsageThresholdsResponse, UsageThresholdsOverrides
 
@@ -25,6 +26,7 @@ class Subscription(BaseModel):
     ending_at: Optional[str]
     plan_overrides: Optional[PlanOverrides]
     payment_method: Optional[PaymentMethod]
+    payment_term: Optional[PaymentTerm]
     invoice_custom_section: Optional[InvoiceCustomSectionInput]
     consolidate_invoice: Optional[bool]
     billing_entity_code: Optional[str]
@@ -76,6 +78,7 @@ class SubscriptionResponse(BaseResponseModel):
     on_termination_credit_note: Optional[str]
     on_termination_invoice: Optional[str]
     payment_method: Optional[PaymentMethod]
+    payment_term: Optional[PaymentTerm]
     applied_invoice_custom_sections: Optional[AppliedInvoiceCustomSections]
     consolidate_invoice: Optional[bool]
     billing_entity_code: Optional[str]

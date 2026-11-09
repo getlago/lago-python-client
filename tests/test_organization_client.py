@@ -45,6 +45,8 @@ def test_valid_update_organization_request(httpx_mock: HTTPXMock):
     assert response.tax_identification_number == "EU123456789"
     assert response.document_number_prefix == "ORG-1234"
     assert response.net_payment_term == 0
+    assert response.payment_term.term_type == "due_on_receipt"
+    assert "payment_term" not in json.loads(httpx_mock.get_request().content)["organization"]
     assert "slug" not in json.loads(httpx_mock.get_request().content)["organization"]
 
 

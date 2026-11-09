@@ -3,6 +3,7 @@ from typing import List, Optional
 
 from ..base_model import BaseModel, BaseResponseModel
 from .invoice_custom_section import InvoiceCustomSectionsResponseList
+from .payment_term import PaymentTerm
 from .tax import TaxesResponse
 
 
@@ -31,6 +32,7 @@ class BillingEntity(BaseModel):
     document_number_prefix: Optional[str]
     finalize_zero_amount_invoice: Optional[bool]
     net_payment_term: Optional[int]
+    payment_term: Optional[PaymentTerm]
     eu_tax_management: Optional[bool]
     logo_url: Optional[str]
     legal_name: Optional[str]
@@ -57,6 +59,7 @@ class BillingEntityUpdate(BaseModel):
     document_number_prefix: Optional[str]
     finalize_zero_amount_invoice: Optional[bool]
     net_payment_term: Optional[int]
+    payment_term: Optional[PaymentTerm]
     eu_tax_management: Optional[bool]
     logo_url: Optional[str]
     legal_name: Optional[str]
@@ -87,6 +90,7 @@ class BillingEntityResponse(BaseResponseModel):
     document_number_prefix: Optional[str]
     finalize_zero_amount_invoice: Optional[bool]
     net_payment_term: Optional[int]
+    payment_term: Optional[PaymentTerm]
     eu_tax_management: Optional[bool]
     logo_url: Optional[str]
     legal_name: Optional[str]
