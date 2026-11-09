@@ -2,6 +2,7 @@ from typing import List, Optional
 
 from ..base_model import BaseModel, BaseResponseModel
 from .customer import CustomerResponse
+from .payment_term import PaymentTerm
 
 
 class PaymentRequest(BaseModel):
@@ -18,7 +19,8 @@ class PaymentRequestInvoiceResponse(BaseResponseModel):
     payment_dispute_lost_at: Optional[str]
     payment_due_date: Optional[str]
     payment_overdue: bool
-    net_payment_term: int
+    net_payment_term: Optional[int]
+    payment_term: Optional[PaymentTerm]
     invoice_type: str
     version_number: int
     status: str

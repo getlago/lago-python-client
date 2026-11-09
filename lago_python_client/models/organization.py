@@ -3,6 +3,7 @@ from typing import List, Optional
 from lago_python_client.base_model import BaseModel
 
 from ..base_model import BaseResponseModel
+from .payment_term import PaymentTerm
 
 
 class OrganizationBillingConfiguration(BaseModel):
@@ -51,6 +52,7 @@ class OrganizationResponse(BaseResponseModel):
     legal_name: Optional[str]
     legal_number: Optional[str]
     net_payment_term: Optional[int]
+    payment_term: Optional[PaymentTerm]
     document_numbering: Optional[str]
     document_number_prefix: Optional[str]
     tax_identification_number: Optional[str]

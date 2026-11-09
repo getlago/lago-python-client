@@ -14,6 +14,7 @@ from lago_python_client.models import (
     IntegrationCustomersList,
     Metadata,
     MetadataList,
+    PaymentTerm,
 )
 
 
@@ -110,6 +111,7 @@ def test_valid_create_customers_request(httpx_mock: HTTPXMock):
     assert response.currency == "EUR"
     assert response.tax_identification_number == "EU123456789"
     assert response.net_payment_term is None
+    assert response.payment_term is None
     assert response.billing_configuration.invoice_grace_period == 3
     assert response.billing_configuration.subscription_invoice_issuing_date_anchor == "current_period_end"
     assert response.billing_configuration.subscription_invoice_issuing_date_adjustment == "keep_anchor"
@@ -432,3 +434,56 @@ def test_invalid_destroy_customer_request(httpx_mock: HTTPXMock):
 
     with pytest.raises(LagoApiError):
         client.customers.destroy(external_id)
+
+
+def test_create_customers_request_with_payment_term(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/customers",
+        content=mock_response(),
+    )
+    customer = Customer(
+        external_id="5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba",
+        payment_term=PaymentTerm(term_type="day_of_month", day_of_month=15, month_offset=1),
+    )
+    client.customers.create(customer)
+
+    body = json.loads(httpx_mock.get_request().content)
+    assert body["customer"]["payment_term"] == {
+        "term_type": "day_of_month",
+        "day_of_month": 15,
+        "month_offset": 1,
+    }
+    assert "net_payment_term" not in body["customer"]
+
+
+def test_create_customers_request_with_only_net_payment_term(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/customers",
+        content=mock_response(),
+    )
+    client.customers.create(Customer(external_id="5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba", net_payment_term=15))
+
+    body = json.loads(httpx_mock.get_request().content)
+    assert body["customer"]["net_payment_term"] == 15
+    assert "payment_term" not in body["customer"]
+
+
+def test_create_customers_request_without_payment_term(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/customers",
+        content=mock_response(),
+    )
+    client.customers.create(Customer(external_id="5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"))
+
+    body = json.loads(httpx_mock.get_request().content)
+    assert "payment_term" not in body["customer"]
+    assert "net_payment_term" not in body["customer"]
