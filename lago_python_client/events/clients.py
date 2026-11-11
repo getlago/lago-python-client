@@ -39,6 +39,7 @@ class EventClient(FindCommandMixin[EventResponse], BaseClient):
             ),
             headers=make_headers(api_key=self.api_key),
             timeout=timeout,
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         # Process response data
@@ -59,6 +60,7 @@ class EventClient(FindCommandMixin[EventResponse], BaseClient):
             ),
             content=to_json(input_object.dict()),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
         verify_response(api_response)
 
@@ -74,6 +76,7 @@ class EventClient(FindCommandMixin[EventResponse], BaseClient):
                 }
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_list_response(
