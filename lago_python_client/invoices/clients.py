@@ -39,6 +39,7 @@ class InvoiceClient(
                 path_parts=(self.API_RESOURCE, resource_id, "download"),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         response_data = get_response_data(response=api_response, key=self.ROOT_NAME)
@@ -64,6 +65,7 @@ class InvoiceClient(
             ),
             content=to_json(payload) if payload else None,
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         response_data = get_response_data(response=api_response, key=self.ROOT_NAME)
@@ -82,6 +84,7 @@ class InvoiceClient(
                 path_parts=(self.API_RESOURCE, resource_id, "refresh"),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -96,6 +99,7 @@ class InvoiceClient(
                 path_parts=(self.API_RESOURCE, resource_id, "retry"),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -110,6 +114,7 @@ class InvoiceClient(
                 path_parts=(self.API_RESOURCE, resource_id, "finalize"),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -124,6 +129,7 @@ class InvoiceClient(
                 path_parts=(self.API_RESOURCE, resource_id, "void"),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -138,6 +144,7 @@ class InvoiceClient(
                 path_parts=(self.API_RESOURCE, resource_id, "lose_dispute"),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -152,6 +159,7 @@ class InvoiceClient(
                 path_parts=(self.API_RESOURCE, resource_id, "payment_url"),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         response_data = get_response_data(response=api_response, key="invoice_payment_details")
@@ -165,6 +173,7 @@ class InvoiceClient(
             ),
             content=to_json(input_object.dict()),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -180,6 +189,7 @@ class InvoiceClient(
             ),
             content=to_json(options) if options else None,
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(

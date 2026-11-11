@@ -93,6 +93,7 @@ class CustomerClient(
                 query_pairs=query_params,
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -114,6 +115,7 @@ class CustomerClient(
                 query_pairs=query_params,
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -139,6 +141,7 @@ class CustomerClient(
                 },
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_index_response(
@@ -154,6 +157,7 @@ class CustomerClient(
                 path_parts=(self.API_RESOURCE, resource_id, "portal_url"),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         response_data = get_response_data(response=api_response, key=self.ROOT_NAME)
@@ -166,6 +170,7 @@ class CustomerClient(
                 path_parts=(self.API_RESOURCE, resource_id, "checkout_url"),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         response_data = get_response_data(response=api_response, key=self.ROOT_NAME)

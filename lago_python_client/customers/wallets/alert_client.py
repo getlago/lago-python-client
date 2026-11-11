@@ -44,6 +44,7 @@ class CustomerWalletAlertClient(
             url=make_url(origin=self.base_url, path_parts=self.api_resource(customer_id, wallet_code)),
             content=to_json(input_object.dict()),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_index_response(
@@ -59,6 +60,7 @@ class CustomerWalletAlertClient(
                 path_parts=self.api_resource(customer_id, wallet_code),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         verify_response(api_response)

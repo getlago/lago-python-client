@@ -58,6 +58,7 @@ class SubscriptionClient(
                 path_parts=(self.API_RESOURCE, resource_id, "lifetime_usage"),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -77,6 +78,7 @@ class SubscriptionClient(
                 {"lifetime_usage": {"external_historical_usage_amount_cents": external_historical_usage_amount_cents}}
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -98,6 +100,7 @@ class SubscriptionClient(
             ),
             content=to_json(input_object.dict()),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_index_response(
@@ -117,6 +120,7 @@ class SubscriptionClient(
                 query_pairs=query_params,
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
         verify_response(api_response)
 
@@ -134,6 +138,7 @@ class SubscriptionClient(
                 query_pairs=options,
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_index_response(
@@ -155,6 +160,7 @@ class SubscriptionClient(
                 query_pairs=query_params,
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -176,6 +182,7 @@ class SubscriptionClient(
             ),
             content=to_json({"filter": input_object.dict(exclude_none=True)}),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -202,6 +209,7 @@ class SubscriptionClient(
             ),
             content=to_json({"filter": input_object.dict(exclude_none=True)}),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -222,6 +230,7 @@ class SubscriptionClient(
                 query_pairs=query_params,
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
