@@ -1,0 +1,42 @@
+{
+  "webhook_endpoints": [
+    {
+      "lago_id": "b7ab2926-1de8-4428-9bcd-779314ac129b",
+      "lago_organization_id": "b7ab2926-1de8-4428-9bcd-779314ac129b",
+      "webhook_url": "https://foo.bar",
+      "signature_algo": "standard_webhooks",
+      "name": "My Webhook Endpoint",
+      "event_types": ["customer.created"],
+      "created_at": "2022-04-29T08:59:51Z",
+      "signing_keys": [
+        {
+          "lago_id": "5f0b0a8e-3c39-4a2f-9a8d-1d0c6b1e2a01",
+          "secret_key": "whsec_fake_test_secret_1",
+          "created_at": "2022-04-29T08:59:51Z"
+        },
+        {
+          "lago_id": "9c4e7d21-6b8f-4e0a-b5d3-2f1a7c9e3b02",
+          "secret_key": "whsec_fake_test_secret_2",
+          "created_at": "2022-05-03T10:15:00Z"
+        }
+      ]
+    },
+    {
+      "lago_id": "3d6f1a2b-8c4e-4f7a-9b1d-5e2c7a9f0b13",
+      "lago_organization_id": "b7ab2926-1de8-4428-9bcd-779314ac129b",
+      "webhook_url": "https://bar.foo",
+      "signature_algo": "hmac",
+      "name": null,
+      "event_types": null,
+      "created_at": "2022-04-29T08:59:51Z",
+      "signing_keys": []
+    }
+  ],
+  "meta": {
+    "current_page": 1,
+    "next_page": null,
+    "prev_page": null,
+    "total_pages": 1,
+    "total_count": 2
+  }
+}

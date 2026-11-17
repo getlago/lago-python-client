@@ -12,6 +12,12 @@ class WebhookEndpoint(BaseModel):
     event_types: Optional[List[str]]
 
 
+class WebhookEndpointSigningKeyResponse(BaseModel):
+    lago_id: str
+    secret_key: str
+    created_at: str
+
+
 class WebhookEndpointResponse(BaseResponseModel):
     lago_id: str
     lago_organization_id: str
@@ -20,3 +26,4 @@ class WebhookEndpointResponse(BaseResponseModel):
     name: Optional[str]
     event_types: Optional[List[str]]
     created_at: str
+    signing_keys: Optional[List[WebhookEndpointSigningKeyResponse]]

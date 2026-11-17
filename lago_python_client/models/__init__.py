@@ -354,3 +354,5 @@ from .wallet import (
 )
 from .wallet_transaction import WalletTransaction as WalletTransaction
 from .webhook_endpoint import WebhookEndpoint as WebhookEndpoint
+from .webhook_endpoint import WebhookEndpointResponse as WebhookEndpointResponse
+from .webhook_endpoint import WebhookEndpointSigningKeyResponse as WebhookEndpointSigningKeyResponse
