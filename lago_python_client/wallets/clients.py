@@ -57,6 +57,7 @@ class WalletClient(
             ),
             content=to_json({"metadata": metadata}),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return get_response_data(response=api_response, key="metadata")
@@ -71,6 +72,7 @@ class WalletClient(
             ),
             content=to_json({"metadata": metadata}),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return get_response_data(response=api_response, key="metadata")
@@ -82,6 +84,7 @@ class WalletClient(
                 path_parts=(self.API_RESOURCE, resource_id, "metadata"),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return get_response_data(response=api_response, key="metadata")
@@ -93,6 +96,7 @@ class WalletClient(
                 path_parts=(self.API_RESOURCE, resource_id, "metadata", key),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return get_response_data(response=api_response, key="metadata")
@@ -111,6 +115,7 @@ class WalletTransactionClient(BaseClient):
             ),
             content=to_json({"wallet_transaction": input_object.dict(exclude_none=True)}),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_list_response(
@@ -129,6 +134,7 @@ class WalletTransactionClient(BaseClient):
                 query_pairs=options,
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_index_response(
@@ -144,6 +150,7 @@ class WalletTransactionClient(BaseClient):
                 path_parts=(self.API_RESOURCE, resource_id, "payment_url"),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         response_data = get_response_data(response=api_response, key="wallet_transaction_payment_details")
@@ -159,6 +166,7 @@ class WalletTransactionClient(BaseClient):
                 query_pairs=options,
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_index_response(
@@ -177,6 +185,7 @@ class WalletTransactionClient(BaseClient):
                 query_pairs=options,
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_index_response(

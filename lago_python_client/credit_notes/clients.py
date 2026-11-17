@@ -43,6 +43,7 @@ class CreditNoteClient(
                 path_parts=(self.API_RESOURCE, resource_id, "download"),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         response_data = get_response_data(response=api_response, key=self.ROOT_NAME)
@@ -61,6 +62,7 @@ class CreditNoteClient(
                 path_parts=(self.API_RESOURCE, resource_id, "void"),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -80,6 +82,7 @@ class CreditNoteClient(
                 }
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -97,6 +100,7 @@ class CreditNoteClient(
             ),
             content=to_json({"metadata": metadata}),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return get_response_data(response=api_response, key="metadata")
@@ -111,6 +115,7 @@ class CreditNoteClient(
             ),
             content=to_json({"metadata": metadata}),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return get_response_data(response=api_response, key="metadata")
@@ -122,6 +127,7 @@ class CreditNoteClient(
                 path_parts=(self.API_RESOURCE, resource_id, "metadata"),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return get_response_data(response=api_response, key="metadata")
@@ -133,6 +139,7 @@ class CreditNoteClient(
                 path_parts=(self.API_RESOURCE, resource_id, "metadata", key),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return get_response_data(response=api_response, key="metadata")
