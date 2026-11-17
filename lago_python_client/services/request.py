@@ -34,7 +34,7 @@ def make_url(
     *,
     origin: str,
     path_parts: Sequence[str],
-    query_pairs: QueryPairs = None,
+    query_pairs: Optional[QueryPairs] = None,
 ) -> str:
     """Return a URL, treating each path part as an unencoded segment."""
     if query_pairs is None:
