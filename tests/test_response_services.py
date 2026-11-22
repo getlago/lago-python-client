@@ -85,6 +85,43 @@ def test_verify_response():
         verify_response(response404)
 
 
+@pytest.mark.parametrize(
+    ("status_code", "content"),
+    [
+        (502, b"<html><body><h1>502 Bad Gateway</h1></body></html>"),
+        (503, b"upstream connect error"),
+        (404, b""),
+    ],
+)
+def test_verify_response_with_non_json_error_body(status_code, content):
+    """Keep the real status code and url when an error body is not JSON."""
+    # Given an error response whose body is not JSON (e.g. from a proxy)
+    url = "https://api.getlago.com/api/v1/customers/123"
+    response = Response(content=content, status_code=status_code, request=Request(method="GET", url=url))
+
+    # When service is applied
+    # Then the raised error carries the response status, url and raw body
+    with pytest.raises(LagoApiError) as exc_info:
+        verify_response(response)
+    assert exc_info.value.status_code == status_code
+    assert exc_info.value.url == url
+    assert exc_info.value.response == (content.decode() or None)
+
+
+def test_verify_response_with_json_error_body():
+    """Keep the decoded body of a JSON error response."""
+    # Given an error response with a JSON body
+    content = b'{"status":422,"error":"Unprocessable Entity","code":"validation_errors"}'
+    response = Response(content=content, status_code=422, request=Request(method="POST", url=""))
+
+    # When service is applied
+    # Then the raised error carries the decoded body
+    with pytest.raises(LagoApiError) as exc_info:
+        verify_response(response)
+    assert exc_info.value.status_code == 422
+    assert exc_info.value.response == {"status": 422, "error": "Unprocessable Entity", "code": "validation_errors"}
+
+
 def test_get_response_data():
     """Get response data."""
     # Given instanse of ``httpx.Response`` class with successful status code and content
