@@ -1,6 +1,7 @@
 import logging
 import os
 
+import httpx
 import pytest
 from pytest_httpx import HTTPXMock
 
@@ -600,3 +601,78 @@ class TestLoggingRateLimitObserver:
             observer(self._info(limit=None, remaining=None))
 
         assert caplog.records == []
+
+
+class TestNetworkRetryResiliency:
+    def test_network_error_retries_and_exhausts(self, httpx_mock: HTTPXMock, monkeypatch):
+        slept_durations = []
+        monkeypatch.setattr("lago_python_client.services.request.time.sleep", slept_durations.append)
+
+        client = Client(api_key="test-key")
+        request_id = "test-id"
+
+        # Queue 4 errors (1 initial + 3 retries) so it raises on exhaustion
+        for _ in range(4):
+            httpx_mock.add_exception(
+                httpx.ConnectError("Connection refused"),
+                method="GET",
+                url=ENDPOINT + f"/{request_id}",
+            )
+
+        with pytest.raises(httpx.ConnectError):
+            client.api_logs.find(request_id)
+
+        # 4 attempts total = 1 initial + 3 retries
+        assert len(httpx_mock.get_requests()) == 4
+        assert slept_durations == [1.0, 2.0, 4.0]
+
+    def test_network_error_recovers(self, httpx_mock: HTTPXMock, monkeypatch):
+        slept_durations = []
+        monkeypatch.setattr("lago_python_client.services.request.time.sleep", slept_durations.append)
+
+        client = Client(api_key="test-key")
+        request_id = "test-id"
+
+        # 2 failures followed by 1 success
+        httpx_mock.add_exception(
+            httpx.ConnectError("Connection failed"),
+            method="GET",
+            url=ENDPOINT + f"/{request_id}",
+        )
+        httpx_mock.add_exception(
+            httpx.ConnectError("Connection failed again"),
+            method="GET",
+            url=ENDPOINT + f"/{request_id}",
+        )
+        httpx_mock.add_response(
+            method="GET",
+            url=ENDPOINT + f"/{request_id}",
+            status_code=200,
+            content=mock_response("fixtures/api_log.json"),
+        )
+
+        result = client.api_logs.find(request_id)
+        assert result is not None
+        assert len(httpx_mock.get_requests()) == 3
+        assert slept_durations == [1.0, 2.0]
+
+    def test_server_error_502_503_504_retries_and_exhausts(self, httpx_mock: HTTPXMock, monkeypatch):
+        slept_durations = []
+        monkeypatch.setattr("lago_python_client.services.request.time.sleep", slept_durations.append)
+
+        client = Client(api_key="test-key")
+        request_id = "test-id"
+
+        # Queue 4 server error responses
+        for status_code in [502, 503, 504, 502]:
+            httpx_mock.add_response(
+                method="GET",
+                url=ENDPOINT + f"/{request_id}",
+                status_code=status_code,
+            )
+
+        with pytest.raises(httpx.HTTPStatusError):
+            client.api_logs.find(request_id)
+
+        assert len(httpx_mock.get_requests()) == 4
+        assert slept_durations == [1.0, 2.0, 4.0]
