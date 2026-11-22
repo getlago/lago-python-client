@@ -5,6 +5,7 @@ from lago_python_client.base_model import BaseModel
 from ..base_model import BaseResponseModel
 from .invoice_custom_section import AppliedInvoiceCustomSections, InvoiceCustomSectionInput
 from .payment_method import PaymentMethod
+from .payment_term import PaymentTerm
 
 
 class RecurringTransactionRule(BaseModel):
@@ -83,6 +84,7 @@ class Wallet(BaseModel):
     ignore_paid_top_up_limits_on_creation: Optional[bool]
     metadata: Optional[Dict[str, Optional[str]]]
     payment_method: Optional[PaymentMethod]
+    payment_term: Optional[PaymentTerm]
     invoice_custom_section: Optional[InvoiceCustomSectionInput]
     billing_entity_code: Optional[str]
     purchase_order_number: Optional[str]
@@ -117,6 +119,7 @@ class WalletResponse(BaseResponseModel):
     paid_top_up_min_amount_cents: Optional[int]
     metadata: Optional[Dict[str, Optional[str]]]
     payment_method: Optional[PaymentMethod]
+    payment_term: Optional[PaymentTerm]
     applied_invoice_custom_sections: Optional[AppliedInvoiceCustomSections]
     billing_entity_code: Optional[str]
     purchase_order_number: Optional[str]

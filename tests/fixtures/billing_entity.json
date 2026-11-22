@@ -17,6 +17,7 @@
         "document_number_prefix": "TEST-",
         "finalize_zero_amount_invoice": true,
         "net_payment_term": 30,
+        "payment_term": {"term_type": "net", "days": 30},
         "eu_tax_management": false,
         "logo_url": "https://example.com/logo.png",
         "legal_name": "Test Company Legal Name",

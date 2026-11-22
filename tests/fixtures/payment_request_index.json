@@ -50,6 +50,7 @@
           "payment_status": "pending",
           "currency": "EUR",
           "net_payment_term": 0,
+          "payment_term": {"term_type": "due_on_receipt"},
           "fees_amount_cents": 100,
           "taxes_amount_cents": 20,
           "coupons_amount_cents": 0,

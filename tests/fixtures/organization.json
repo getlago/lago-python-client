@@ -19,6 +19,7 @@
     "document_numbering": "per_customer",
     "document_number_prefix": "ORG-1234",
     "net_payment_term": 0,
+    "payment_term": {"term_type": "due_on_receipt"},
     "tax_identification_number": "EU123456789",
     "timezone": "America/New_York",
     "finalize_zero_amount_invoice": true,

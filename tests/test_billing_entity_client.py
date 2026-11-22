@@ -6,7 +6,7 @@ from pytest_httpx import HTTPXMock
 
 from lago_python_client.client import Client
 from lago_python_client.exceptions import LagoApiError
-from lago_python_client.models import BillingEntity, BillingEntityBillingConfiguration, BillingEntityUpdate
+from lago_python_client.models import BillingEntity, BillingEntityBillingConfiguration, BillingEntityUpdate, PaymentTerm
 
 
 def mock_response(mock="billing_entity"):
@@ -243,3 +243,58 @@ def test_invalid_update_billing_entity_request(httpx_mock: HTTPXMock):
 
     with pytest.raises(LagoApiError):
         client.billing_entities.update(update_billing_entity_input(), billing_entity_code)
+
+
+def test_valid_create_billing_entity_request_with_payment_term(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    billing_entity_input = create_billing_entity_input()
+    billing_entity_input.net_payment_term = None
+    billing_entity_input.payment_term = PaymentTerm(term_type="net", days=30)
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/billing_entities",
+        content=mock_response(),
+    )
+    response = client.billing_entities.create(billing_entity_input)
+
+    body = json.loads(httpx_mock.get_request().content)
+    assert body["billing_entity"]["payment_term"] == {"term_type": "net", "days": 30}
+    assert "net_payment_term" not in body["billing_entity"]
+    assert response.payment_term.term_type == "net"
+    assert response.payment_term.days == 30
+    assert response.payment_term.day_of_month is None
+    assert response.net_payment_term == 30
+
+
+def test_valid_update_billing_entity_request_with_payment_term(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    billing_entity_code = "test-company"
+    billing_entity_input = update_billing_entity_input()
+    billing_entity_input.payment_term = PaymentTerm(term_type="end_of_month")
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/billing_entities/" + billing_entity_code,
+        content=mock_response(),
+    )
+    client.billing_entities.update(billing_entity_input, billing_entity_code)
+
+    body = json.loads(httpx_mock.get_request().content)
+    assert body["billing_entity"]["payment_term"] == {"term_type": "end_of_month"}
+
+
+def test_valid_update_billing_entity_request_without_payment_term(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    billing_entity_code = "test-company"
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/billing_entities/" + billing_entity_code,
+        content=mock_response(),
+    )
+    client.billing_entities.update(update_billing_entity_input(), billing_entity_code)
+
+    body = json.loads(httpx_mock.get_request().content)
+    assert body["billing_entity"]["net_payment_term"] == 15
+    assert "payment_term" not in body["billing_entity"]

@@ -29,6 +29,7 @@
     "timezone": "Europe/Paris",
     "applicable_timezone": "Europe/Paris",
     "net_payment_term": null,
+    "payment_term": null,
     "external_salesforce_id": "sf_001",
     "finalize_zero_amount_invoice": "inherit",
     "billing_configuration": {

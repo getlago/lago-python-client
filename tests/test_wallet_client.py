@@ -1,3 +1,4 @@
+import json
 import os
 
 import pytest
@@ -9,6 +10,7 @@ from lago_python_client.models import (
     AppliesTo,
     InvoiceCustomSectionInput,
     PaymentMethod,
+    PaymentTerm,
     RecurringTransactionRule,
     RecurringTransactionRuleList,
     Wallet,
@@ -702,3 +704,53 @@ def test_valid_update_wallet_with_grants_target_top_up_on_recurring_transaction_
 
     assert response.lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
     assert response.recurring_transaction_rules.__root__[0].grants_target_top_up is True
+
+
+def test_valid_create_wallet_request_with_payment_term(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/wallets",
+        content=mock_response(),
+    )
+    wallet = wallet_object()
+    wallet.payment_term = PaymentTerm(term_type="net_end_of_month", days=10)
+    response = client.wallets.create(wallet)
+
+    body = json.loads(httpx_mock.get_request().content)
+    assert body["wallet"]["payment_term"] == {"term_type": "net_end_of_month", "days": 10}
+    assert response.payment_term.term_type == "net_end_of_month"
+    assert response.payment_term.days == 10
+
+
+def test_valid_update_wallet_request_with_payment_term(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    wallet_id = "b7ab2926-1de8-4428-9bcd-779314ac129b"
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/wallets/" + wallet_id,
+        content=mock_response(),
+    )
+    wallet = wallet_object()
+    wallet.payment_term = PaymentTerm(term_type="due_on_receipt")
+    client.wallets.update(wallet, wallet_id)
+
+    body = json.loads(httpx_mock.get_request().content)
+    assert body["wallet"]["payment_term"] == {"term_type": "due_on_receipt"}
+
+
+def test_valid_update_wallet_request_without_payment_term(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    wallet_id = "b7ab2926-1de8-4428-9bcd-779314ac129b"
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/wallets/" + wallet_id,
+        content=mock_response(),
+    )
+    client.wallets.update(wallet_object(), wallet_id)
+
+    body = json.loads(httpx_mock.get_request().content)
+    assert "payment_term" not in body["wallet"]

@@ -11,6 +11,7 @@ from .error_detail import ErrorDetailsResponse
 from .fee import FeesResponse
 from .invoice_custom_section import InvoiceCustomSectionInput
 from .payment_method import PaymentMethod
+from .payment_term import PaymentTerm
 from .subscription import Subscriptions, SubscriptionsResponse
 from .usage_threshold import UsageThreshold
 
@@ -56,6 +57,7 @@ class OneOffInvoice(BaseModel):
     fees: Optional[InvoiceFeesList]
     error_details: Optional[ErrorDetailsResponse]
     payment_method: Optional[PaymentMethod]
+    payment_term: Optional[PaymentTerm]
     invoice_custom_section: Optional[InvoiceCustomSectionInput]
     billing_entity_code: Optional[str]
     purchase_order_number: Optional[str]
@@ -69,6 +71,7 @@ class InvoicePreview(BaseModel):
     customer: Optional[Customer]
     subscriptions: Optional[Subscriptions]
     billing_entity_code: Optional[str]
+    payment_term: Optional[PaymentTerm]
 
 
 class InvoiceAppliedTax(BaseResponseModel):
@@ -121,7 +124,8 @@ class InvoiceResponse(BaseResponseModel):
     payment_dispute_lost_at: Optional[str]
     payment_due_date: Optional[str]
     payment_overdue: bool
-    net_payment_term: int
+    net_payment_term: Optional[int]
+    payment_term: Optional[PaymentTerm]
     invoice_type: str
     version_number: int
     status: str

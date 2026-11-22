@@ -1,3 +1,4 @@
+import json
 import os
 
 import pytest
@@ -16,6 +17,7 @@ from lago_python_client.models import (
     InvoicePreview,
     OneOffInvoice,
     PaymentMethod,
+    PaymentTerm,
 )
 
 
@@ -392,6 +394,9 @@ def test_valid_preview_request(httpx_mock: HTTPXMock):
     assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
     assert response.status == "finalized"
     assert response.payment_status == "failed"
+    assert response.net_payment_term == 0
+    assert response.payment_term.term_type == "due_on_receipt"
+    assert "payment_term" not in json.loads(httpx_mock.get_request().content)
 
 
 def test_valid_void_invoice_request_no_options(httpx_mock: HTTPXMock):
@@ -445,3 +450,69 @@ def test_valid_create_one_off_invoice_with_invoice_custom_section(httpx_mock: HT
 
     assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
     assert response.invoice_type == "one_off"
+
+
+def test_valid_create_one_off_invoice_with_payment_term(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/invoices",
+        content=mock_response(mock="one_off_invoice"),
+    )
+    invoice = one_off_invoice_object()
+    invoice.payment_term = PaymentTerm(term_type="net_end_of_month", days=10)
+    response = client.invoices.create(invoice)
+
+    body = json.loads(httpx_mock.get_request().content)
+    assert body["invoice"]["payment_term"] == {"term_type": "net_end_of_month", "days": 10}
+    assert response.payment_term.term_type == "due_on_receipt"
+
+
+def test_create_one_off_invoice_without_payment_term(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/invoices",
+        content=mock_response(mock="one_off_invoice"),
+    )
+    client.invoices.create(one_off_invoice_object())
+
+    body = json.loads(httpx_mock.get_request().content)
+    assert "payment_term" not in body["invoice"]
+
+
+def test_valid_preview_request_with_payment_term(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/invoices/preview",
+        content=mock_response(),
+    )
+    preview = invoice_preview()
+    preview.payment_term = PaymentTerm(term_type="days_end_of_month", days=15)
+    client.invoices.preview(preview)
+
+    body = json.loads(httpx_mock.get_request().content)
+    assert body["payment_term"] == {"term_type": "days_end_of_month", "days": 15}
+    assert "payment_term" not in body["customer"]
+
+
+def test_valid_find_invoice_request_with_null_net_payment_term(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    invoice_id = "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+    payload = json.loads(mock_response())
+    payload["invoice"]["net_payment_term"] = None
+    payload["invoice"]["payment_term"] = {"term_type": "end_of_month"}
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/invoices/" + invoice_id,
+        content=json.dumps(payload).encode(),
+    )
+    response = client.invoices.find(invoice_id)
+
+    assert response.net_payment_term is None
+    assert response.payment_term.term_type == "end_of_month"

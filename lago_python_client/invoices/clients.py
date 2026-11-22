@@ -163,7 +163,7 @@ class InvoiceClient(
                 origin=self.base_url,
                 path_parts=(self.API_RESOURCE, "preview"),
             ),
-            content=to_json(input_object.dict()),
+            content=to_json(input_object.dict(exclude_none=True)),
             headers=make_headers(api_key=self.api_key),
         )
 

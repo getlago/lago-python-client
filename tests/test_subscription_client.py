@@ -15,6 +15,7 @@ from lago_python_client.models import (
     FixedCharge,
     InvoiceCustomSectionInput,
     PaymentMethod,
+    PaymentTerm,
     Subscription,
 )
 from lago_python_client.models.alert import Alert, AlertsList, AlertThreshold
@@ -92,6 +93,10 @@ def test_valid_create_subscriptions_request(httpx_mock: HTTPXMock):
     assert response.ending_at == "2022-08-29T08:59:51Z"
     assert response.consolidate_invoice is False
     assert response.purchase_order_number == "PO-123"
+    assert response.payment_term.term_type == "day_of_month"
+    assert response.payment_term.day_of_month == 15
+    assert response.payment_term.month_offset == 1
+    assert response.payment_term.days is None
 
     entitlement = response.entitlements.__root__[0]
     assert entitlement.code == "seats"
@@ -1320,3 +1325,52 @@ def test_update_subscription_with_custom_timeout(httpx_mock: HTTPXMock):
     response = client.subscriptions.update(Subscription(name="name"), identifier, timeout=httpx.Timeout(30.0))
 
     assert response.external_customer_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+
+
+def test_valid_create_subscriptions_request_with_payment_term(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+
+    httpx_mock.add_response(
+        method="POST",
+        url="https://api.getlago.com/api/v1/subscriptions",
+        content=mock_response(),
+    )
+    subscription = create_subscription()
+    subscription.payment_term = PaymentTerm(term_type="net", days=45)
+    client.subscriptions.create(subscription)
+
+    body = json.loads(httpx_mock.get_request().content)
+    assert body["subscription"]["payment_term"] == {"term_type": "net", "days": 45}
+
+
+def test_valid_update_subscription_request_with_payment_term(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    identifier = "sub_id"
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/subscriptions/" + identifier,
+        content=mock_response(),
+    )
+    client.subscriptions.update(
+        Subscription(payment_term=PaymentTerm(term_type="due_on_receipt")),
+        identifier,
+    )
+
+    body = json.loads(httpx_mock.get_request().content)
+    assert body == {"subscription": {"payment_term": {"term_type": "due_on_receipt"}}}
+
+
+def test_valid_update_subscription_request_without_payment_term(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    identifier = "sub_id"
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/subscriptions/" + identifier,
+        content=mock_response(),
+    )
+    client.subscriptions.update(Subscription(name="name"), identifier)
+
+    body = json.loads(httpx_mock.get_request().content)
+    assert body == {"subscription": {"name": "name"}}
