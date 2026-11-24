@@ -21,6 +21,7 @@ class CustomerPaymentMethodsClient(FindAllChildrenCommandMixin[PaymentMethodResp
                 path_parts=(self.PARENT_API_RESOURCE, customer_external_id, self.API_RESOURCE, payment_method_id),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -41,6 +42,7 @@ class CustomerPaymentMethodsClient(FindAllChildrenCommandMixin[PaymentMethodResp
                 ),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(

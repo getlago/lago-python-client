@@ -33,6 +33,7 @@ class CustomerWalletMetadataClient(BaseClient):
             ),
             content=to_json({"metadata": metadata}),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return get_response_data(response=api_response, key="metadata")
@@ -47,6 +48,7 @@ class CustomerWalletMetadataClient(BaseClient):
             ),
             content=to_json({"metadata": metadata}),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return get_response_data(response=api_response, key="metadata")
@@ -58,6 +60,7 @@ class CustomerWalletMetadataClient(BaseClient):
                 path_parts=self.api_resource(customer_id, wallet_code),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return get_response_data(response=api_response, key="metadata")
@@ -69,6 +72,7 @@ class CustomerWalletMetadataClient(BaseClient):
                 path_parts=self.api_resource(customer_id, wallet_code) + (key,),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return get_response_data(response=api_response, key="metadata")

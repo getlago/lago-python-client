@@ -48,6 +48,7 @@ class AppliedCouponClient(
                 ),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(

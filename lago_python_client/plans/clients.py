@@ -51,6 +51,7 @@ class PlanClient(
             ),
             content=to_json({"metadata": metadata}),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return get_response_data(response=api_response, key="metadata")
@@ -65,6 +66,7 @@ class PlanClient(
             ),
             content=to_json({"metadata": metadata}),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return get_response_data(response=api_response, key="metadata")
@@ -76,6 +78,7 @@ class PlanClient(
                 path_parts=(self.API_RESOURCE, resource_id, "metadata"),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return get_response_data(response=api_response, key="metadata")
@@ -87,6 +90,7 @@ class PlanClient(
                 path_parts=(self.API_RESOURCE, resource_id, "metadata", key),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return get_response_data(response=api_response, key="metadata")
@@ -105,6 +109,7 @@ class PlanClient(
                 query_pairs=options,
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_index_response(
@@ -120,6 +125,7 @@ class PlanClient(
                 path_parts=(self.API_RESOURCE, plan_code, "charges", charge_code, "filters", filter_id),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -135,6 +141,7 @@ class PlanClient(
             ),
             content=to_json({"filter": input_object.dict(exclude_none=True)}),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -152,6 +159,7 @@ class PlanClient(
             ),
             content=to_json({"filter": input_object.dict(exclude_none=True)}),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(
@@ -166,6 +174,7 @@ class PlanClient(
                 path_parts=(self.API_RESOURCE, plan_code, "charges", charge_code, "filters", filter_id),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
 
         return prepare_object_response(

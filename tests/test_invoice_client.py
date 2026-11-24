@@ -4,7 +4,7 @@ import pytest
 from pytest_httpx import HTTPXMock
 
 from lago_python_client.client import Client
-from lago_python_client.exceptions import LagoApiError
+from lago_python_client.exceptions import LagoApiError, LagoRateLimitError
 from lago_python_client.models import (
     Customer,
     Invoice,
@@ -445,3 +445,60 @@ def test_valid_create_one_off_invoice_with_invoice_custom_section(httpx_mock: HT
 
     assert response.lago_id == "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
     assert response.invoice_type == "one_off"
+
+
+@pytest.mark.parametrize(
+    "action",
+    [
+        "download",
+        "retry_payment",
+        "refresh",
+        "retry",
+        "finalize",
+        "void",
+        "lose_dispute",
+        "payment_url",
+        "preview",
+        "void_invoice",
+    ],
+)
+@pytest.mark.parametrize("policy", [{"retry_on_rate_limit": False}, {"max_retries": 0}, {"max_retries": 1}])
+def test_invoice_action_rate_limit_policy(action, policy, httpx_mock: HTTPXMock, monkeypatch):
+    monkeypatch.setattr("lago_python_client.services.rate_limit.time.sleep", lambda _: None)
+    client = Client(api_key="test-key", **policy)
+    httpx_mock.add_response(status_code=429, headers={"x-ratelimit-reset": "0"}, is_reusable=True)
+
+    with pytest.raises(LagoRateLimitError):
+        getattr(client.invoices, action)(invoice_preview() if action == "preview" else "invoice-id")
+
+    expected_requests = 2 if policy.get("max_retries") == 1 else 1
+    assert len(httpx_mock.get_requests()) == expected_requests
+
+
+@pytest.mark.parametrize(
+    "action",
+    [
+        "download",
+        "retry_payment",
+        "refresh",
+        "retry",
+        "finalize",
+        "void",
+        "lose_dispute",
+        "payment_url",
+        "preview",
+        "void_invoice",
+    ],
+)
+def test_invoice_action_rate_limit_callback(action, httpx_mock: HTTPXMock):
+    captured = []
+    client = Client(api_key="test-key", on_rate_limit_info=captured.append)
+    httpx_mock.add_response(
+        content=mock_payment_url_response() if action == "payment_url" else mock_response(),
+        headers={"x-ratelimit-limit": "100", "x-ratelimit-remaining": "42"},
+    )
+
+    getattr(client.invoices, action)(invoice_preview() if action == "preview" else "invoice-id")
+
+    assert len(captured) == 1
+    assert captured[0].remaining == 42

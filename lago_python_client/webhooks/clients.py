@@ -35,6 +35,7 @@ class WebhookClient(BaseClient):
                 path_parts=(self.API_RESOURCE, "json_public_key"),
             ),
             headers=make_headers(api_key=self.api_key),
+            rate_limit_retry_config=self.rate_limit_retry_config,
         )
         response_data: Optional[Union[Mapping[str, Any], Sequence[Any]]] = get_response_data(
             response=api_response, key=self.ROOT_NAME
