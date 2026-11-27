@@ -132,6 +132,7 @@ class InvoiceResponse(BaseResponseModel):
     taxes_amount_cents: int
     credit_notes_amount_cents: int
     progressive_billing_credit_amount_cents: int
+    progressive_billing_trigger: Optional[str]
     sub_total_excluding_taxes_amount_cents: int
     sub_total_including_taxes_amount_cents: int
     total_amount_cents: int
