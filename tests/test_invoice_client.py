@@ -172,6 +172,7 @@ def test_valid_find_invoice_request(httpx_mock: HTTPXMock):
     assert response.purchase_order_number == "PO-123"
     assert response.total_paid_amount_cents == 60
     assert response.total_offsetted_credit_note_amount_cents == 10
+    assert response.progressive_billing_trigger is None
     assert response.self_billed is False
     assert response.xml_url == "https://getlago.com/invoice/xml"
     assert response.voided_at is None

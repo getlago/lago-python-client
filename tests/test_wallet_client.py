@@ -44,6 +44,7 @@ def wallet_object():
         recurring_transaction_rules=rules_list,
         applies_to=applies_to,
         invoice_requires_successful_payment=False,
+        invoice_usage_on_expiration=True,
         transaction_name="Transaction Name",
         paid_top_up_max_amount_cents=10000,
         paid_top_up_min_amount_cents=500,
@@ -100,6 +101,7 @@ def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
                     }
                 ],
                 "invoice_requires_successful_payment": False,
+                "invoice_usage_on_expiration": True,
                 "transaction_name": "Transaction Name",
                 "purchase_order_number": "PO-123",
                 "applies_to": {"fee_types": ["charge"], "billable_metric_codes": ["usage"]},
@@ -119,6 +121,7 @@ def test_valid_create_wallet_request(httpx_mock: HTTPXMock):
     assert response.paid_top_up_max_amount_cents == 10000
     assert response.paid_top_up_min_amount_cents == 500
     assert response.purchase_order_number == "PO-123"
+    assert response.invoice_usage_on_expiration is True
     assert response.recurring_transaction_rules.__root__[0].purchase_order_number == "PO-RULE-123"
 
 
@@ -156,6 +159,7 @@ def test_valid_create_wallet_request_with_transaction_priority(httpx_mock: HTTPX
                     }
                 ],
                 "invoice_requires_successful_payment": False,
+                "invoice_usage_on_expiration": True,
                 "transaction_name": "Transaction Name",
                 "purchase_order_number": "PO-123",
                 "applies_to": {"fee_types": ["charge"], "billable_metric_codes": ["usage"]},
