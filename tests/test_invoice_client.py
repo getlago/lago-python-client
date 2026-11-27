@@ -178,6 +178,24 @@ def test_valid_find_invoice_request(httpx_mock: HTTPXMock):
     assert response.voided_at is None
 
 
+def test_valid_find_invoice_request_with_progressive_billing_trigger(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    identifier = "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"
+    content = mock_response().replace(
+        b'"progressive_billing_trigger": null',
+        b'"progressive_billing_trigger": "wallet_expiration"',
+    )
+
+    httpx_mock.add_response(
+        method="GET",
+        url="https://api.getlago.com/api/v1/invoices/" + identifier,
+        content=content,
+    )
+    response = client.invoices.find(identifier)
+
+    assert response.progressive_billing_trigger == "wallet_expiration"
+
+
 def test_invalid_find_invoice_request(httpx_mock: HTTPXMock):
     client = Client(api_key="invalid")
     identifier = "5eb02857-a71e-4ea2-bcf9-57d3a41bc6ba"

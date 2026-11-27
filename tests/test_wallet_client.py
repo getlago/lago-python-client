@@ -280,6 +280,36 @@ def test_valid_update_wallet_request(httpx_mock: HTTPXMock):
     assert response.lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
 
 
+def test_valid_update_wallet_request_turning_off_invoice_usage_on_expiration(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    wallet_id = "b7ab2926-1de8-4428-9bcd-779314ac129b"
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/wallets/" + wallet_id,
+        match_json={"wallet": {"name": "name", "invoice_usage_on_expiration": False}},
+        content=mock_response(),
+    )
+    response = client.wallets.update(Wallet(name="name", invoice_usage_on_expiration=False), wallet_id)
+
+    assert response.lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
+
+
+def test_valid_update_wallet_request_without_invoice_usage_on_expiration(httpx_mock: HTTPXMock):
+    client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
+    wallet_id = "b7ab2926-1de8-4428-9bcd-779314ac129b"
+
+    httpx_mock.add_response(
+        method="PUT",
+        url="https://api.getlago.com/api/v1/wallets/" + wallet_id,
+        match_json={"wallet": {"name": "name"}},
+        content=mock_response(),
+    )
+    response = client.wallets.update(Wallet(name="name"), wallet_id)
+
+    assert response.lago_id == "b7ab2926-1de8-4428-9bcd-779314ac129b"
+
+
 def test_valid_update_wallet_request_with_payment_method_on_wallet(httpx_mock: HTTPXMock):
     client = Client(api_key="886fe239-927d-4072-ab72-6dd345e8dd0d")
     wallet_id = "b7ab2926-1de8-4428-9bcd-779314ac129b"
